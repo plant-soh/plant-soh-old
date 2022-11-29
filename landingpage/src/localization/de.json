@@ -1,0 +1,26 @@
+{
+  "landing.introduction.title": "Senior und Junior zusammen",
+  "landing.introduction.subtitle": "Let's get stuff done with fun!",
+  "landing.introduction.description": [
+    "Senioren in den Bereichen IT und Entwicklung sind weniger verfügbar und teurer. Dieser Trend scheint sich überhaupt nicht zu ändern. Lassen Sie uns diesen Wahnsinn stoppen und Senioren und Junioren in Senjun Teams zusammenbringen. Senjun Teams sind begierig darauf, zu lernen und Ihnen bei Ihren komplexen IT-Problemen zu helfen."
+  ],
+
+  "landing.benefits.card.together.title": "Zusammen",
+  "landing.benefits.card.together.content": "Senjun teams bestehen aus Senioren und Junioren",
+  "landing.benefits.card.learning.title": "Learning",
+  "landing.benefits.card.learning.content": "Nützliche Fähigkeiten",
+  "landing.benefits.card.fair.title": "Fair",
+  "landing.benefits.card.fair.content": "Fair und transparent",
+  "landing.benefits.card.grow.title": "Wachsen",
+  "landing.benefits.card.grow.content": "Junior und Senior",
+  "landing.benefits.card.simple.title": "Einfach",
+  "landing.benefits.card.simple.content": "...",
+
+  "landing.menu.about_us": "Über uns",
+  "landing.menu.careers": "Karriere",
+  "landing.menu.contact": "Kontaktiere uns",
+  "landing.menu.privacy": "Privacy",
+  "landing.footer.copyright": "Alle Rechte reserviert.",
+  "landing.footer.company": "Firma",
+  "landing.footer.legal": "Legal"
+}

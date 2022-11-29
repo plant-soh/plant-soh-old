@@ -1,0 +1,347 @@
+{
+  "dependencies": [
+    {
+      "name": "@graphql-codegen/cli",
+      "type": "build"
+    },
+    {
+      "name": "@graphql-codegen/typescript",
+      "type": "build"
+    },
+    {
+      "name": "@graphql-codegen/typescript-operations",
+      "type": "build"
+    },
+    {
+      "name": "@graphql-codegen/typescript-react-apollo",
+      "type": "build"
+    },
+    {
+      "name": "@graphql-codegen/typescript-react-query",
+      "type": "build"
+    },
+    {
+      "name": "@testing-library/jest-dom",
+      "type": "build"
+    },
+    {
+      "name": "@testing-library/react",
+      "type": "build"
+    },
+    {
+      "name": "@testing-library/user-event",
+      "type": "build"
+    },
+    {
+      "name": "@types/jest",
+      "type": "build"
+    },
+    {
+      "name": "@types/js-cookie",
+      "type": "build"
+    },
+    {
+      "name": "@types/lodash",
+      "type": "build"
+    },
+    {
+      "name": "@types/node",
+      "version": "^14",
+      "type": "build"
+    },
+    {
+      "name": "@types/react",
+      "type": "build"
+    },
+    {
+      "name": "@types/react-color",
+      "type": "build"
+    },
+    {
+      "name": "@types/react-dom",
+      "type": "build"
+    },
+    {
+      "name": "@types/react-plotly.js",
+      "type": "build"
+    },
+    {
+      "name": "@types/react-responsive",
+      "type": "build"
+    },
+    {
+      "name": "@types/react-router-dom",
+      "version": "^5.1.7",
+      "type": "build"
+    },
+    {
+      "name": "@types/react-test-renderer",
+      "type": "build"
+    },
+    {
+      "name": "@types/selenium-webdriver",
+      "type": "build"
+    },
+    {
+      "name": "@types/styled-components",
+      "type": "build"
+    },
+    {
+      "name": "@typescript-eslint/eslint-plugin",
+      "version": "^5",
+      "type": "build"
+    },
+    {
+      "name": "@typescript-eslint/parser",
+      "version": "^5",
+      "type": "build"
+    },
+    {
+      "name": "amplify-graphql-docs-generator",
+      "version": "",
+      "type": "build"
+    },
+    {
+      "name": "assert",
+      "type": "build"
+    },
+    {
+      "name": "eslint-config-prettier",
+      "type": "build"
+    },
+    {
+      "name": "eslint-import-resolver-node",
+      "type": "build"
+    },
+    {
+      "name": "eslint-import-resolver-typescript",
+      "type": "build"
+    },
+    {
+      "name": "eslint-plugin-import",
+      "type": "build"
+    },
+    {
+      "name": "eslint-plugin-prettier",
+      "type": "build"
+    },
+    {
+      "name": "eslint",
+      "version": "^8",
+      "type": "build"
+    },
+    {
+      "name": "json-schema",
+      "type": "build"
+    },
+    {
+      "name": "npm-check-updates",
+      "version": "^16",
+      "type": "build"
+    },
+    {
+      "name": "prettier",
+      "type": "build"
+    },
+    {
+      "name": "projen",
+      "type": "build"
+    },
+    {
+      "name": "react-test-renderer",
+      "type": "build"
+    },
+    {
+      "name": "typescript",
+      "version": "^4.0.3",
+      "type": "build"
+    },
+    {
+      "name": "@types/express-serve-static-core",
+      "version": "4.17.30",
+      "type": "override"
+    },
+    {
+      "name": "@types/express",
+      "version": "4.17.13",
+      "type": "override"
+    },
+    {
+      "name": "@apollo/client",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-amplify/api",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-amplify/auth",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-amplify/ui-components",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-amplify/ui-react",
+      "type": "runtime"
+    },
+    {
+      "name": "@date-io/date-fns",
+      "type": "runtime"
+    },
+    {
+      "name": "@date-io/moment",
+      "type": "runtime"
+    },
+    {
+      "name": "@emotion/react",
+      "type": "runtime"
+    },
+    {
+      "name": "@emotion/styled",
+      "type": "runtime"
+    },
+    {
+      "name": "@mui/icons-material",
+      "type": "runtime"
+    },
+    {
+      "name": "@mui/material",
+      "type": "runtime"
+    },
+    {
+      "name": "@tanstack/react-query",
+      "type": "runtime"
+    },
+    {
+      "name": "apollo-boost",
+      "type": "runtime"
+    },
+    {
+      "name": "aws-amplify",
+      "type": "runtime"
+    },
+    {
+      "name": "aws-amplify-react",
+      "type": "runtime"
+    },
+    {
+      "name": "aws-appsync",
+      "type": "runtime"
+    },
+    {
+      "name": "clsx",
+      "type": "runtime"
+    },
+    {
+      "name": "date-fns",
+      "type": "runtime"
+    },
+    {
+      "name": "js-cookie",
+      "type": "runtime"
+    },
+    {
+      "name": "konva",
+      "type": "runtime"
+    },
+    {
+      "name": "lodash",
+      "type": "runtime"
+    },
+    {
+      "name": "material-ui-confirm",
+      "type": "runtime"
+    },
+    {
+      "name": "moment",
+      "type": "runtime"
+    },
+    {
+      "name": "plotly.js",
+      "type": "runtime"
+    },
+    {
+      "name": "react",
+      "type": "runtime"
+    },
+    {
+      "name": "react-apollo",
+      "type": "runtime"
+    },
+    {
+      "name": "react-color",
+      "type": "runtime"
+    },
+    {
+      "name": "react-dom",
+      "type": "runtime"
+    },
+    {
+      "name": "react-hook-form",
+      "type": "runtime"
+    },
+    {
+      "name": "react-konva",
+      "type": "runtime"
+    },
+    {
+      "name": "react-plotly.js",
+      "type": "runtime"
+    },
+    {
+      "name": "react-responsive",
+      "type": "runtime"
+    },
+    {
+      "name": "react-router-dom",
+      "version": "^5.2.0",
+      "type": "runtime"
+    },
+    {
+      "name": "react-scripts",
+      "version": "^5",
+      "type": "runtime"
+    },
+    {
+      "name": "react-swipeable",
+      "type": "runtime"
+    },
+    {
+      "name": "react-tooltip",
+      "type": "runtime"
+    },
+    {
+      "name": "react-zoom-pan-pinch",
+      "type": "runtime"
+    },
+    {
+      "name": "selenium-webdriver",
+      "version": "^4.1.1",
+      "type": "runtime"
+    },
+    {
+      "name": "stream",
+      "type": "runtime"
+    },
+    {
+      "name": "styled-components",
+      "type": "runtime"
+    },
+    {
+      "name": "use-debounce",
+      "type": "runtime"
+    },
+    {
+      "name": "use-image",
+      "version": "",
+      "type": "runtime"
+    },
+    {
+      "name": "web-vitals",
+      "type": "runtime"
+    }
+  ],
+  "//": "~~ Generated by projen. To modify, edit .projenrc.js and run \"npx projen\"."
+}
