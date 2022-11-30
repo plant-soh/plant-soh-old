@@ -179,11 +179,19 @@
       "type": "runtime"
     },
     {
-      "name": "@aws-amplify/ui-components",
+      "name": "@aws-amplify/core",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-amplify/storage",
       "type": "runtime"
     },
     {
       "name": "@aws-amplify/ui-react",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-sdk/types",
       "type": "runtime"
     },
     {
@@ -192,22 +200,6 @@
     },
     {
       "name": "@date-io/moment",
-      "type": "runtime"
-    },
-    {
-      "name": "@emotion/react",
-      "type": "runtime"
-    },
-    {
-      "name": "@emotion/styled",
-      "type": "runtime"
-    },
-    {
-      "name": "@mui/icons-material",
-      "type": "runtime"
-    },
-    {
-      "name": "@mui/material",
       "type": "runtime"
     },
     {
@@ -248,10 +240,6 @@
     },
     {
       "name": "lodash",
-      "type": "runtime"
-    },
-    {
-      "name": "material-ui-confirm",
       "type": "runtime"
     },
     {

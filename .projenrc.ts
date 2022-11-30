@@ -38,7 +38,7 @@ project.setScript(
 
 project.setScript(
   'dev',
-  'curl https://d3oyzoc11xndeg.cloudfront.net/runtime-config.json > frontend/public/runtime-config.json && cd frontend && yarn start',
+  'URL=$(aws cloudformation describe-stacks --stack-name ${STAGE:-dev}-BackendStack --output text --query "Stacks[0].Outputs[?OutputKey==\'CatalogWebsiteCloudfrontDomainName\'].OutputValue") && curl https://$URL/runtime-config.json > catalog/public/runtime-config.json && cd catalog && yarn dev',
 );
 
 project.setScript('lan-dev', 'cd landingpage && yarn dev');
@@ -135,14 +135,16 @@ const catalog = new pj.web.ReactTypeScriptProject({
   name: 'catalog',
   deps: [
     ...[
-      '@aws-amplify/api',
       '@aws-amplify/auth',
-      '@aws-amplify/ui-components',
+      '@aws-amplify/core',
+      '@aws-amplify/storage',
       '@aws-amplify/ui-react',
+      '@aws-amplify/api',
       'aws-appsync',
       'aws-amplify',
       'aws-amplify-react',
     ],
+    ...['@aws-sdk/types'],
     'react-apollo',
     'react-color',
     'react-hook-form',
@@ -155,17 +157,6 @@ const catalog = new pj.web.ReactTypeScriptProject({
     'react-tooltip',
     '@apollo/client',
     'apollo-boost',
-    ...[
-      '@mui/icons-material',
-      '@mui/material',
-      '@emotion/react',
-      '@emotion/styled',
-      // '@material-ui/lab@^4.0.0-alpha.61',
-      // '@material-ui/pickers',
-    ],
-    // https://www.npmjs.com/package/material-ui-confirm
-    'material-ui-confirm',
-    // 'react-ga@^3.3.0',
     'styled-components',
     'use-debounce',
     '@date-io/date-fns',

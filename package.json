@@ -20,7 +20,7 @@
     "watch": "npx projen watch",
     "projen": "npx projen",
     "deploy": "cd landingpage && yarn build && cd ../catalog && yarn build && cd ../backend && yarn deploy:no-approval ",
-    "dev": "curl https://d3oyzoc11xndeg.cloudfront.net/runtime-config.json > frontend/public/runtime-config.json && cd frontend && yarn start",
+    "dev": "URL=$(aws cloudformation describe-stacks --stack-name ${STAGE:-dev}-BackendStack --output text --query \"Stacks[0].Outputs[?OutputKey=='CatalogWebsiteCloudfrontDomainName'].OutputValue\") && curl https://$URL/runtime-config.json > catalog/public/runtime-config.json && cd catalog && yarn dev",
     "lan-dev": "cd landingpage && yarn dev",
     "destroy": "cd backend && yarn destroy",
     "codegen": "cd catalog && yarn codegen",

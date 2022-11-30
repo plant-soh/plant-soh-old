@@ -197,7 +197,10 @@ export class StaticWebsite extends constructs.Construct {
               s3deploy.Source.jsonData(
                 props.runtimeOptions?.jsonFileName ||
                   DEFAULT_RUNTIME_CONFIG_FILENAME,
-                props.runtimeOptions?.jsonPayload,
+                {
+                  ...props.runtimeOptions?.jsonPayload,
+                  distributionDomainName: this.distributionDomainName,
+                },
               ),
             ]
           : []),
