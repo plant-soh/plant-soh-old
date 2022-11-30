@@ -9,6 +9,10 @@ const devEnv = {
 
 const app = new App();
 
-new BackendStack(app, 'BackendStack', { env: devEnv, stage: 'dev' });
+new BackendStack(app, 'dev-BackendStack', {
+  env: devEnv,
+  stage: 'dev',
+  domainName: 'kommt-noch.de',
+});
 
 app.synth();

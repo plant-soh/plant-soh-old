@@ -205,5 +205,21 @@ export class StaticWebsite extends constructs.Construct {
       distribution,
       destinationBucket: siteBucket,
     });
+
+    new core.CfnOutput(scope, id + 'BucketWebsiteUrl', {
+      value: this.bucketWebsiteUrl,
+    });
+
+    // new core.CfnOutput(this, 'CustomDomainWebsiteUrl', {
+    //   value: landingPage.recordDomainName,
+    // });
+
+    new core.CfnOutput(scope, id + 'WebsiteCloudfrontDomainName', {
+      value: this.distributionDomainName,
+    });
+
+    new core.CfnOutput(scope, id + 'AlternativeWebsiteCloudfrontDomainName', {
+      value: this.alternativeRecordDomainName || '',
+    });
   }
 }
