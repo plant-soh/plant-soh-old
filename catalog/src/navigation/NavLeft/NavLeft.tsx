@@ -1,8 +1,9 @@
 import { ReactComponent as UphealthLogo } from '../../assets/UpHealth_logo_white.svg';
-// import NavLeftLink from './Link';
+import { useAuth } from '../../providers/AuthProvider';
+import NavLeftLink from './Link';
 
 const NavLeft = ({ className }: { className: string }) => {
-  // const { signOut } = useAuth();
+  const { signOut } = useAuth();
 
   return (
     <nav
@@ -11,7 +12,7 @@ const NavLeft = ({ className }: { className: string }) => {
       role="navigation"
       id="navigation"
     >
-      {/* <NavLeftLink name={'home'} to="/" icon="IoHomeOutline">
+      <NavLeftLink name={'home'} to="/" icon="IoHomeOutline">
         Home
       </NavLeftLink>
 
@@ -26,10 +27,10 @@ const NavLeft = ({ className }: { className: string }) => {
           signOut();
         }}
         icon="IoLogOutOutline"
-        noTransition={true}
+        // noTransition={true}
       >
         Log Out
-      </NavLeftLink> */}
+      </NavLeftLink>
       <div>
         <UphealthLogo className="h-6 mx-auto py-1" />
         <p className="text-bblue-450 text-center text-min pb-4">

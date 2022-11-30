@@ -1,7 +1,7 @@
 import cs from 'classnames';
 import { ReactNode, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import Link from '../Link';
+import Link from '../../../components/Link';
 // import './Link.scss';
 
 const baseLeftNavIconStyles = [
@@ -19,7 +19,6 @@ const NavLeftLinkChildren = ({
   to: string;
   icon: string;
   children: ReactNode;
-  noTransition: boolean;
 }) => {
   const activeRoute = useLocation().pathname.split('/')[1] === to.split('/')[1];
   const textColor = activeRoute ? 'text-bblue-440' : 'text-[#605F5E]';
@@ -46,6 +45,7 @@ const NavLeftLinkChildren = ({
     </div>
   );
 };
+NavLeftLinkChildren;
 
 const NavLeftLink = ({
   name,
@@ -53,14 +53,12 @@ const NavLeftLink = ({
   icon,
   children,
   onClick = null,
-  noTransition = false,
 }: {
   name: string;
   to: string;
   icon: string;
   children: ReactNode;
   onClick?: any;
-  noTransition?: boolean;
 }) => {
   const _onClick = useCallback(
     (event: any) => {
@@ -75,10 +73,8 @@ const NavLeftLink = ({
       name={`nav-left-${name}`}
       onClick={onClick ? _onClick : null}
       to={onClick ? '#' : to}
-      noTransition={true}
-      icon={''}
     >
-      <NavLeftLinkChildren icon={icon} to={to} noTransition={noTransition}>
+      <NavLeftLinkChildren icon={icon} to={to}>
         {children}
       </NavLeftLinkChildren>
     </Link>

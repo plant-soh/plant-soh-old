@@ -194,6 +194,7 @@ const catalog = new pj.web.ReactTypeScriptProject({
     '@types/js-cookie',
     '@types/selenium-webdriver',
     'assert',
+    'sass',
     ...['tailwindcss', 'postcss', 'autoprefixer'],
   ],
   gitignore: ['runtime-config.json'],

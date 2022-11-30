@@ -1,7 +1,7 @@
 import cs from 'classnames';
 import { useEffect, useState } from 'react';
 import { ReactComponent as MarttiLogo } from '../../assets/martti_logo_white.svg';
-// import './NavTop.scss';
+import './NavTop.scss';
 import Profile from './Profile';
 
 const NavTop = ({ className }: { className: string }) => {

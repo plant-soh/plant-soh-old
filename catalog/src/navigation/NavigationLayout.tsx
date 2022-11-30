@@ -29,7 +29,7 @@ const NavigationLayout = () => {
           >
             <Container
               name="content-container"
-              className={['w-full', 'h-0', 'flex-grow']}
+              className="w-full h-0 flex-grow"
             >
               <Outlet />
             </Container>

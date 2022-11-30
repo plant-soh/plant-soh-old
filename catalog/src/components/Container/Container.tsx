@@ -3,12 +3,12 @@ import { ReactNode } from 'react';
 const Container = ({
   name,
   children,
-  className = [],
+  className,
 }: // ...rest
 {
   name: string;
   children: ReactNode;
-  className: string[];
+  className: string;
 }) => {
   return (
     <div
