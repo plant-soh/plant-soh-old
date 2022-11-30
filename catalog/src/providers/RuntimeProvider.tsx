@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useEffect, useState } from 'react';
+import React, { ReactNode, useContext } from 'react';
 
 interface RuntimeValue {
   stage: string;
@@ -20,39 +20,13 @@ export function useRuntime(): RuntimeValue {
 }
 
 export default function RuntimeProvider({
+  runtimeContext,
   children,
 }: {
+  runtimeContext: RuntimeValue;
   children: ReactNode;
 }): JSX.Element {
-  const [runtimeContext, setRuntimeContext] = useState<any>(undefined);
-
-  useEffect(() => {
-    // console.debug('feth runtime');
-    fetch('/runtime-config.json')
-      .then((response) => {
-        return response.json();
-      })
-      .then((runtimeCtx) => {
-        // console.log(`cleanRuntimeContext=${JSON.stringify(runtimeCtx)}`);
-        if (
-          runtimeCtx.stage &&
-          runtimeCtx.region &&
-          runtimeCtx.identityPoolId &&
-          runtimeCtx.userPoolId &&
-          runtimeCtx.userPoolWebClientId &&
-          runtimeCtx.appSyncGraphqlEndpoint
-        ) {
-          console.debug('setRuntimeContext');
-          setRuntimeContext(runtimeCtx);
-        } else {
-          console.warn('runtime-config.json misses property');
-        }
-      })
-      .catch(() => {
-        console.log('No runtime-config.json detected');
-        setRuntimeContext({});
-      });
-  }, []);
+  // const [runtimeContext, setRuntimeContext] = useState<any>(undefined);
 
   if (runtimeContext) {
     const value: RuntimeValue = {

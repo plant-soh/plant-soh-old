@@ -70,11 +70,6 @@
       "type": "build"
     },
     {
-      "name": "@types/react-router-dom",
-      "version": "^5.1.7",
-      "type": "build"
-    },
-    {
       "name": "@types/react-test-renderer",
       "type": "build"
     },
@@ -103,6 +98,10 @@
     },
     {
       "name": "assert",
+      "type": "build"
+    },
+    {
+      "name": "autoprefixer",
       "type": "build"
     },
     {
@@ -140,6 +139,10 @@
       "type": "build"
     },
     {
+      "name": "postcss",
+      "type": "build"
+    },
+    {
       "name": "prettier",
       "type": "build"
     },
@@ -149,6 +152,10 @@
     },
     {
       "name": "react-test-renderer",
+      "type": "build"
+    },
+    {
+      "name": "tailwindcss",
       "type": "build"
     },
     {
@@ -223,6 +230,10 @@
       "type": "runtime"
     },
     {
+      "name": "classnames",
+      "type": "runtime"
+    },
+    {
       "name": "clsx",
       "type": "runtime"
     },
@@ -284,7 +295,6 @@
     },
     {
       "name": "react-router-dom",
-      "version": "^5.2.0",
       "type": "runtime"
     },
     {
@@ -302,11 +312,6 @@
     },
     {
       "name": "react-zoom-pan-pinch",
-      "type": "runtime"
-    },
-    {
-      "name": "selenium-webdriver",
-      "version": "^4.1.1",
       "type": "runtime"
     },
     {
