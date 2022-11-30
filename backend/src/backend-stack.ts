@@ -35,8 +35,11 @@ export class BackendStack extends core.Stack {
     if (!props.userPoolId) {
       userPool = new cognito.UserPool(this, `${props.stage}CatalogUserPool`, {
         removalPolicy: core.RemovalPolicy.DESTROY,
-        signInAliases: { username: false, email: true },
-        selfSignUpEnabled: true,
+        signInAliases: { username: false, email: true, phone: false },
+        customAttributes: {
+          // Supported types: DOCTOR, PATIENT
+          accountType: new cognito.StringAttribute({ mutable: true }),
+        },
         passwordPolicy: {
           minLength: 6,
           requireDigits: true,

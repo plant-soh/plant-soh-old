@@ -50,7 +50,7 @@ export default function SignInSignUp(): JSX.Element {
       components={components}
       loginMechanisms={['email']}
       services={services}
-      signUpAttributes={['email', 'name', 'phone_number']}
+      signUpAttributes={['email', 'name']}
     />
   );
 }
