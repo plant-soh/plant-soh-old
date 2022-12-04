@@ -11,16 +11,16 @@ const Landing: FC = () => {
   const { isMobile } = useScreenSize();
 
   return (
-    <div className="flex flex-row">
+    <div className="block">
       <Header color="white" />
       <div
         className={`${
-          isMobile ? 'md:px-20' : 'px-0'
-        } flex bg-black justify-center`}
+          isMobile ? 'pt-26' : 'pt-32'
+        } flex flex-row bg-black justify-center`}
       >
         <Introduction />
       </div>
-      <div className={`${isMobile ? 'md:px-20' : 'px-134'} bg-white`}>
+      <div className={`${isMobile ? 'pt-2' : 'pt-4'} bg-white`}>
         <Benefits benefits={BENEFITS} />
       </div>
       <Footer />
