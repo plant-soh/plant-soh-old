@@ -36,10 +36,7 @@ project.setScript(
   'cd landingpage && yarn build && cd ../catalog && yarn build && cd ../backend && yarn deploy:no-approval ',
 );
 
-project.setScript(
-  'dev',
-  'URL=$(aws cloudformation describe-stacks --stack-name ${STAGE:-dev}-BackendStack --output text --query "Stacks[0].Outputs[?OutputKey==\'CatalogWebsiteCloudfrontDomainName\'].OutputValue") && curl https://$URL/runtime-config.json > catalog/public/runtime-config.json && cd catalog && yarn dev',
-);
+project.setScript('dev', 'cd catalog && yarn dev');
 
 project.setScript('lan-dev', 'cd landingpage && yarn dev');
 
@@ -121,6 +118,7 @@ const landingpage = new pj.web.ReactTypeScriptProject({
     '@types/react-responsive',
     '@types/react-router-dom',
     '@types/js-cookie@^3.0.1',
+    ...['tailwindcss', 'postcss', 'autoprefixer'],
   ],
   release: false,
   ...prettierAndLintOptions,
@@ -227,5 +225,10 @@ catalog.addTask('codegen', {
   description: 'Generates frontend GraphQL wrapper API code',
   exec: 'yarn run copy-schema && yarn run generate-statements && graphql-codegen --config codegen.yml && rm schema.graphql',
 });
+
+catalog.setScript(
+  'dev',
+  'URL=$(aws cloudformation describe-stacks --stack-name ${STAGE:-dev}-BackendStack --output text --query "Stacks[0].Outputs[?OutputKey==\'CatalogWebsiteCloudfrontDomainName\'].OutputValue") && curl https://$URL/runtime-config.json > public/runtime-config.json && react-scripts start',
+);
 
 catalog.synth();

@@ -1,13 +1,13 @@
-import { FC } from 'react';
+/* istanbul ignore file */
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import AboutUs from './containers/AboutUs/AboutUs';
-import Careers from './containers/Careers/Careers';
-import ContactUs from './containers/ContactUs/ContactUs';
-import Landing from './containers/Landing/Landing';
-import Privacy from './containers/Privacy/Privacy';
-import { ROUTES } from './shared/constants';
+import AboutUs from '../containers/AboutUs/AboutUs';
+import Careers from '../containers/Careers/Careers';
+import ContactUs from '../containers/ContactUs/ContactUs';
+import Landing from '../containers/Landing/Landing';
+import Privacy from '../containers/Privacy/Privacy';
+import { ROUTES } from '../shared/constants';
 
-const Routess: FC = () => {
+const MainRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -23,4 +23,4 @@ const Routess: FC = () => {
   );
 };
 
-export default Routess;
+export default MainRouter;
