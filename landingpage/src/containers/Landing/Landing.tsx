@@ -11,7 +11,7 @@ const Landing: FC = () => {
   const { isMobile } = useScreenSize();
 
   return (
-    <div>
+    <div className="flex flex-row">
       <Header color="white" />
       <div
         className={`${
