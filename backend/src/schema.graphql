@@ -1,35 +1,50 @@
-# input AMPLIFY {
-#   globalAuthRule: AuthRule = { allow: public }
-# }
-
-type TranslationMessage
+type SupplierItemList
   @model
-  @key(fields: ["translationQueue", "createdAt"])
   @auth(
     rules: [
       { allow: private, provider: iam }
-      { allow: owner, ownerField: "username" }
-      { allow: groups, groups: ["DoctorUserPoolGroup"] }
+      { allow: owner, ownerField: "supplier" }
       { allow: public }
     ]
   ) {
   id: ID!
-  # TranslationQueue#timestamp
-  # sortKey: String!
-  translationQueue: TranslationQueue!
-  createdAt: AWSDateTime!
-  # Cognito username of the interpreter
-  client: Client!
-  username: String!
+  shortSpecification: String! # Kurzspezifikation
+  diameter: String # NW/P
+  supplier: String! # Lieferant
+  detailedSpecification: String! # Feinspezifikation
 }
 
-enum TranslationQueue {
-  EngGer
-  EngPt
-}
-
-type Client {
+type EngineerItemList
+  @model
+  @key(fields: ["email", "id"])
+  @auth(
+    rules: [
+      { allow: private, provider: iam }
+      { allow: owner, ownerField: "email" }
+      { allow: public }
+    ]
+  ) {
+  id: ID!
   name: String
-  email: String
-  phone: String
+  email: String!
+
+  items: [Item] @connection(fields: ["id"])
+}
+
+type Item
+  @model
+  @key(fields: ["email", "id"])
+  @auth(
+    rules: [
+      { allow: private, provider: iam }
+      { allow: owner, ownerField: "email" }
+      { allow: public }
+    ]
+  ) {
+  id: ID!
+  email: String! # email from engineer
+  shortSpecification: String # Kurzspezifikation
+  diameter: String # NW/P
+  supplier: String # Lieferant
+  detailedSpecification: String # Feinspezifikation
 }
