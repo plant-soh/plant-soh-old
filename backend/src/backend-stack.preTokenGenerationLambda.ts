@@ -42,8 +42,7 @@ export async function handler(event: lambda.PreTokenGenerationTriggerEvent) {
     });
 
     console.debug(`createUserData=${JSON.stringify(createUserData)}`);
-    return;
   }
 
-  return;
+  return event;
 }
