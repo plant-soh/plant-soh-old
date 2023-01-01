@@ -33,7 +33,7 @@ export class BackendStack extends core.Stack {
     // if (!props.userPoolId) {
     const userPool = new cognito.UserPool(
       this,
-      `${props.stage}CatalogUserPool`,
+      `${props.stage}StueliUserPool`,
       {
         removalPolicy: core.RemovalPolicy.DESTROY,
         signInAliases: { username: false, email: true, phone: false },
@@ -255,9 +255,9 @@ export class BackendStack extends core.Stack {
       );
     });
 
-    new StaticWebsite(this, 'Catalog', {
-      build: '../catalog/build',
-      // recordName: 'catalog',
+    new StaticWebsite(this, 'Stueli', {
+      build: '../stueli/build',
+      // recordName: 'stueli',
       // domainName: props.domainName,
       runtimeOptions: {
         jsonPayload: {

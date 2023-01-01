@@ -19,11 +19,11 @@
     "upgrade": "npx projen upgrade",
     "watch": "npx projen watch",
     "projen": "npx projen",
-    "deploy": "cd landingpage && yarn build && cd ../catalog && yarn build && cd ../backend && yarn deploy:no-approval ",
-    "dev": "cd catalog && yarn dev",
+    "deploy": "cd landingpage && yarn build && cd ../stueli && yarn build && cd ../backend && yarn deploy:no-approval ",
+    "dev": "cd stueli && yarn dev",
     "lan-dev": "cd landingpage && yarn dev",
     "destroy": "cd backend && yarn destroy",
-    "codegen": "cd backend && yarn synth && cd ../catalog && yarn codegen",
+    "codegen": "cd backend && yarn synth && cd ../stueli && yarn codegen",
     "lint:staged": "lint-staged"
   },
   "devDependencies": {

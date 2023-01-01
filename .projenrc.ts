@@ -33,17 +33,17 @@ project.prettier?.addIgnorePattern('backend/cdk.json');
 
 project.setScript(
   'deploy',
-  'cd landingpage && yarn build && cd ../catalog && yarn build && cd ../backend && yarn deploy:no-approval ',
+  'cd landingpage && yarn build && cd ../stueli && yarn build && cd ../backend && yarn deploy:no-approval ',
 );
 
-project.setScript('dev', 'cd catalog && yarn dev');
+project.setScript('dev', 'cd stueli && yarn dev');
 
 project.setScript('lan-dev', 'cd landingpage && yarn dev');
 
 project.setScript('destroy', 'cd backend && yarn destroy');
 project.setScript(
   'codegen',
-  'cd backend && yarn synth && cd ../catalog && yarn codegen',
+  'cd backend && yarn synth && cd ../stueli && yarn codegen',
 );
 
 project.package.addField('lint-staged', {
@@ -130,11 +130,11 @@ const landingpage = new pj.web.ReactTypeScriptProject({
 
 landingpage.synth();
 
-const catalog = new pj.web.ReactTypeScriptProject({
+const stueli = new pj.web.ReactTypeScriptProject({
   defaultReleaseBranch: 'main',
-  outdir: 'catalog',
+  outdir: 'stueli',
   parent: project,
-  name: 'catalog',
+  name: 'stueli',
   deps: [
     ...[
       '@aws-amplify/auth',
@@ -217,22 +217,22 @@ const catalog = new pj.web.ReactTypeScriptProject({
   ...prettierAndLintOptions,
 });
 
-catalog.addTask('copy-schema', {
+stueli.addTask('copy-schema', {
   exec: 'cp ../backend/appsync/schema.graphql ./schema.graphql',
 });
 
-catalog.addTask('generate-statements', {
+stueli.addTask('generate-statements', {
   exec: 'node bin/generateStatements.js',
 });
 
-catalog.addTask('codegen', {
+stueli.addTask('codegen', {
   description: 'Generates frontend GraphQL wrapper API code',
   exec: 'yarn run copy-schema && yarn run generate-statements && graphql-codegen --config codegen.yml && rm schema.graphql',
 });
 
-catalog.setScript(
+stueli.setScript(
   'dev',
   'URL=$(aws cloudformation describe-stacks --stack-name ${STAGE:-dev}-BackendStack --output text --query "Stacks[0].Outputs[?OutputKey==\'CatalogWebsiteCloudfrontDomainName\'].OutputValue") && curl https://$URL/runtime-config.json > public/runtime-config.json && react-scripts start',
 );
 
-catalog.synth();
+stueli.synth();

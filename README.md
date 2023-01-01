@@ -12,11 +12,9 @@ The monorepo is managed using [projen](https://github.com/projen/projen).
 
 [Landingpage](landingpage/README.md)
 
-## Catalog
+## Stueli (Stueckliste)
 
-TODO discuss if change to Stueli or something else.
-
-[Catalog](catalog/README.md)
+[Stueli](stueli/README.md)
 
 ## Ninox
 
