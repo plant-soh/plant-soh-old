@@ -23,7 +23,7 @@
     "dev": "cd catalog && yarn dev",
     "lan-dev": "cd landingpage && yarn dev",
     "destroy": "cd backend && yarn destroy",
-    "codegen": "cd catalog && yarn codegen",
+    "codegen": "cd backend && yarn synth && cd ../catalog && yarn codegen",
     "lint:staged": "lint-staged"
   },
   "devDependencies": {

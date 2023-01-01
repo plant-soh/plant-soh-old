@@ -41,7 +41,10 @@ project.setScript('dev', 'cd catalog && yarn dev');
 project.setScript('lan-dev', 'cd landingpage && yarn dev');
 
 project.setScript('destroy', 'cd backend && yarn destroy');
-project.setScript('codegen', 'cd catalog && yarn codegen');
+project.setScript(
+  'codegen',
+  'cd backend && yarn synth && cd ../catalog && yarn codegen',
+);
 
 project.package.addField('lint-staged', {
   '*.(ts|tsx)': ['eslint --fix'],
@@ -82,6 +85,7 @@ const backend = new pj.awscdk.AwsCdkTypeScriptApp({
   // release: true,
   tsconfig: {
     compilerOptions: {
+      rootDir: undefined,
       skipLibCheck: true,
     },
   },

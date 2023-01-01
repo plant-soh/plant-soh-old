@@ -1,50 +1,53 @@
-type SupplierItemList
+type Anlage
   @model
   @auth(
     rules: [
       { allow: private, provider: iam }
-      { allow: owner, ownerField: "supplier" }
+      { allow: owner, ownerField: "users", identityClaim: "email" }
       { allow: public }
     ]
   ) {
   id: ID!
-  shortSpecification: String! # Kurzspezifikation
-  diameter: String # NW/P
-  supplier: String! # Lieferant
-  detailedSpecification: String! # Feinspezifikation
+  firma: String!
+  standort: String!
+  anschrift: String
+  users: [AnlagenUser] @connection(keyName: "byAnlage", fields: ["id"])
 }
 
-type EngineerItemList
+type AnlagenUser
   @model
-  @key(fields: ["email", "id"])
   @auth(
     rules: [
       { allow: private, provider: iam }
-      { allow: owner, ownerField: "email" }
+      { allow: owner, ownerField: "userEmail", identityClaim: "email" }
+      { allow: public }
+    ]
+  )
+  @key(name: "byUser", fields: ["userEmail", "anlageId"])
+  @key(name: "byAnlage", fields: ["anlageId", "userEmail"]) {
+  anlageId: ID!
+  userEmail: String!
+  anlage: Anlage! @connection(fields: ["anlageId"])
+  user: User! @connection(fields: ["userEmail"])
+}
+
+type User
+  @model
+  @key(fields: ["email"])
+  @auth(
+    rules: [
+      { allow: private, provider: iam }
+      { allow: owner, ownerField: "email", identityClaim: "email" }
       { allow: public }
     ]
   ) {
-  id: ID!
-  name: String
   email: String!
-
-  items: [Item] @connection(fields: ["id"])
+  role: String
+  anlagen: [AnlagenUser] @connection(keyName: "byUser", fields: ["email"])
 }
 
-type Item
-  @model
-  @key(fields: ["email", "id"])
-  @auth(
-    rules: [
-      { allow: private, provider: iam }
-      { allow: owner, ownerField: "email" }
-      { allow: public }
-    ]
-  ) {
-  id: ID!
-  email: String! # email from engineer
-  shortSpecification: String # Kurzspezifikation
-  diameter: String # NW/P
-  supplier: String # Lieferant
-  detailedSpecification: String # Feinspezifikation
+enum Role {
+  Anlagenbauer
+  Anlagenbetreiber
+  Admin
 }

@@ -18,6 +18,13 @@ TODO discuss if change to Stueli or something else.
 
 [Catalog](catalog/README.md)
 
+## Ninox
+
+### Useful Resources
+
+- [Ninox global functions and code snippets](https://github.com/rmcilmoyle/ninox)
+- [NinoxJS wrapper](https://github.com/AxelRothe/ninox) [npmjs](https://www.npmjs.com/package/ninoxjs)
+
 ## Thanks to
 
 - To the maintainer of this repo <3.

@@ -2,7 +2,8 @@ import * as appsync from '@aws-cdk/aws-appsync-alpha';
 import * as core from 'aws-cdk-lib';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as iam from 'aws-cdk-lib/aws-iam';
-// import * as lambdajs from 'aws-cdk-lib/aws-lambda-nodejs';
+// import * as ddb from 'aws-cdk-lib/aws-dynamodb';
+import * as lambdajs from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 import { AppSyncTransformer } from 'cdk-appsync-transformer';
 import * as constructs from 'constructs';
@@ -10,8 +11,6 @@ import { StaticWebsite } from './constructs/static-website';
 
 export interface BackendStackProps extends core.StackProps {
   stage: string;
-
-  userPoolId?: string;
 
   domainName: string;
 }
@@ -31,9 +30,11 @@ export class BackendStack extends core.Stack {
       // alternativeRecordName: 'www',
     });
 
-    let userPool;
-    if (!props.userPoolId) {
-      userPool = new cognito.UserPool(this, `${props.stage}CatalogUserPool`, {
+    // if (!props.userPoolId) {
+    const userPool = new cognito.UserPool(
+      this,
+      `${props.stage}CatalogUserPool`,
+      {
         removalPolicy: core.RemovalPolicy.DESTROY,
         signInAliases: { username: false, email: true, phone: false },
         selfSignUpEnabled: true,
@@ -47,14 +48,8 @@ export class BackendStack extends core.Stack {
           requireLowercase: true,
           requireUppercase: true,
         },
-      });
-    } else {
-      userPool = cognito.UserPool.fromUserPoolId(
-        this,
-        `${props.stage}CatalogUserPool`,
-        props.userPoolId,
-      );
-    }
+      },
+    );
 
     new core.CfnOutput(this, 'UserPoolId', {
       value: userPool.userPoolId,
@@ -181,7 +176,7 @@ export class BackendStack extends core.Stack {
       },
     });
 
-    const appSyncTransformer = new AppSyncTransformer(this, 'senjun-graphql', {
+    const api = new AppSyncTransformer(this, 'plant-soh-graphql', {
       schemaPath: 'src/schema.graphql',
       authorizationConfig: {
         defaultAuthorization: {
@@ -205,28 +200,60 @@ export class BackendStack extends core.Stack {
       },
     });
 
+    Object.entries(api.tableMap).forEach((table) => {
+      // const cfnTable = table[1].node.defaultChild as ddb.CfnTable;
+      table[1].applyRemovalPolicy(core.RemovalPolicy.DESTROY);
+      // var tableName = table[0];
+      // switch (table[0]) {
+      //   case 'DeviceTokenTable':
+      //     tableName = 'DeviceTokenTableNew';
+      //     break;
+      //   case 'TelemetryTable':
+      //     tableName = 'TelemetryTableNew';
+      //     break;
+      // }
+      // cfnTable.tableName = tableName;
+    });
+
     const graphqlUrl = new ssm.StringParameter(this, 'PlantSohGraphqlUrl', {
       // parameterName: 'PlantSohGraphqlUrl',
-      stringValue: appSyncTransformer.appsyncAPI.graphqlUrl,
+      stringValue: api.appsyncAPI.graphqlUrl,
     });
-    // const publicRole = new iam.Role(this, 'public-role', {
-    //   assumedBy: new iam.WebIdentityPrincipal(
-    //     'cognito-identity.amazonaws.com',
-    //   ).withConditions({
-    //     // eslint-disable-next-line quote-props
-    //     StringEquals: {
-    //       'cognito-identity.amazonaws.com:aud': `${identityPool.ref}`,
-    //     },
-    //     'ForAnyValue:StringLike': {
-    //       'cognito-identity.amazonaws.com:amr': 'unauthenticated',
-    //     },
-    //   }),
-    // });
-    // publicRole;
-    // appSyncTransformer.grantPublic(publicRole);
 
-    // const nestedStack = new core.NestedStack(this, 'appsync-nested-stack');
-    // const app = new appsync.GraphqlApi(nestedStack, 'api', { name: 'blub' });
+    const appSyncCustomDomainUrl =
+      'https://db7leufwkvhorossyn66xnrmgi.appsync-api.eu-central-1.amazonaws.com/graphql';
+    new core.CfnOutput(this, 'AppSyncCustomDomainUrl', {
+      value: appSyncCustomDomainUrl,
+    });
+
+    /**
+     * Creates user in table if not exist.
+     * Assigns the correct user user organization role.
+     */
+    const preTokenGenerationLambda = new lambdajs.NodejsFunction(
+      this,
+      'preTokenGenerationLambda',
+      {
+        environment: {
+          APPSYNC_URL: appSyncCustomDomainUrl,
+        },
+      },
+    );
+
+    userPool.addTrigger(
+      cognito.UserPoolOperation.PRE_TOKEN_GENERATION,
+      preTokenGenerationLambda,
+    );
+
+    // add AppSync access to all lambda which need it
+    [preTokenGenerationLambda].map((lambda) => {
+      lambda.addToRolePolicy(
+        new iam.PolicyStatement({
+          actions: ['appsync:*'],
+          resources: ['*'],
+        }),
+      );
+    });
 
     new StaticWebsite(this, 'Catalog', {
       build: '../catalog/build',
@@ -251,7 +278,7 @@ export class BackendStack extends core.Stack {
         actions: ['appsync:GraphQL'],
         resources: [
           // Queries
-          `arn:aws:appsync:${this.region}:${this.account}:apis/${appSyncTransformer.appsyncAPI.apiId}/types/*`,
+          `arn:aws:appsync:${this.region}:${this.account}:apis/${api.appsyncAPI.apiId}/types/*`,
         ],
       }),
     );
@@ -262,7 +289,7 @@ export class BackendStack extends core.Stack {
         actions: ['appsync:GraphQL'],
         resources: [
           // Queries
-          `arn:aws:appsync:${this.region}:${this.account}:apis/${appSyncTransformer.appsyncAPI.apiId}/types/*`,
+          `arn:aws:appsync:${this.region}:${this.account}:apis/${api.appsyncAPI.apiId}/types/*`,
         ],
       }),
     );
