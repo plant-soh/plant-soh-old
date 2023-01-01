@@ -6,6 +6,16 @@ generates:
     plugins:
       - "typescript"
       - "typescript-operations"
+      - "typed-document-node"
+    config:
+      maybeValue: 'T | null | undefined'
+  src/lib/react-api.ts:
+    # hooks:
+    #   afterOneFileWrite:
+    #     - node bin/replaceCodegenOperationsDocumentNaming
+    plugins:
+      - "typescript"
+      - "typescript-operations"
       - "typescript-react-query"
     config:
       maybeValue: 'T | null | undefined'
@@ -13,3 +23,5 @@ generates:
 hooks:
   afterAllFileWrite:
     - prettier --write
+  # afterOneFileWrite:
+  #   - node bin/replaceCodegenOperationsDocumentNaming

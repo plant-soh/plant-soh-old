@@ -1,26 +1,6 @@
 {
   "dependencies": [
     {
-      "name": "@graphql-codegen/cli",
-      "type": "build"
-    },
-    {
-      "name": "@graphql-codegen/typescript",
-      "type": "build"
-    },
-    {
-      "name": "@graphql-codegen/typescript-operations",
-      "type": "build"
-    },
-    {
-      "name": "@graphql-codegen/typescript-react-apollo",
-      "type": "build"
-    },
-    {
-      "name": "@graphql-codegen/typescript-react-query",
-      "type": "build"
-    },
-    {
       "name": "@testing-library/jest-dom",
       "type": "build"
     },
@@ -89,11 +69,6 @@
     {
       "name": "@typescript-eslint/parser",
       "version": "^5",
-      "type": "build"
-    },
-    {
-      "name": "amplify-graphql-docs-generator",
-      "version": "",
       "type": "build"
     },
     {
@@ -214,7 +189,44 @@
       "type": "runtime"
     },
     {
+      "name": "@graphql-codegen/add",
+      "type": "runtime"
+    },
+    {
+      "name": "@graphql-codegen/cli",
+      "type": "runtime"
+    },
+    {
+      "name": "@graphql-codegen/typed-document-node",
+      "type": "runtime"
+    },
+    {
+      "name": "@graphql-codegen/typescript",
+      "type": "runtime"
+    },
+    {
+      "name": "@graphql-codegen/typescript-operations",
+      "type": "runtime"
+    },
+    {
+      "name": "@graphql-codegen/typescript-react-apollo",
+      "type": "runtime"
+    },
+    {
+      "name": "@graphql-codegen/typescript-react-query",
+      "type": "runtime"
+    },
+    {
+      "name": "@graphql-typed-document-node/core",
+      "type": "runtime"
+    },
+    {
       "name": "@tanstack/react-query",
+      "type": "runtime"
+    },
+    {
+      "name": "amplify-graphql-docs-generator",
+      "version": "",
       "type": "runtime"
     },
     {

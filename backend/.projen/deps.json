@@ -101,6 +101,39 @@
       "type": "runtime"
     },
     {
+      "name": "@graphql-codegen/add",
+      "type": "runtime"
+    },
+    {
+      "name": "@graphql-codegen/cli",
+      "type": "runtime"
+    },
+    {
+      "name": "@graphql-codegen/typed-document-node",
+      "type": "runtime"
+    },
+    {
+      "name": "@graphql-codegen/typescript",
+      "type": "runtime"
+    },
+    {
+      "name": "@graphql-codegen/typescript-operations",
+      "type": "runtime"
+    },
+    {
+      "name": "@graphql-codegen/typescript-react-apollo",
+      "type": "runtime"
+    },
+    {
+      "name": "@graphql-codegen/typescript-react-query",
+      "type": "runtime"
+    },
+    {
+      "name": "amplify-graphql-docs-generator",
+      "version": "",
+      "type": "runtime"
+    },
+    {
       "name": "appsync-client",
       "type": "runtime"
     },

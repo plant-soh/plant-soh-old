@@ -1,10 +1,4 @@
-import {
-  useMutation,
-  useQuery,
-  UseMutationOptions,
-  UseQueryOptions,
-} from '@tanstack/react-query';
-import { amplifyFetcher } from '../lib/fetcher';
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null | undefined;
 export type InputMaybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -60,7 +54,6 @@ export type AnlagenUser = {
   anlage: Anlage;
   anlageId: Scalars['ID'];
   createdAt: Scalars['AWSDateTime'];
-  id: Scalars['ID'];
   updatedAt: Scalars['AWSDateTime'];
   user: User;
   userEmail: Scalars['String'];
@@ -75,13 +68,12 @@ export type CreateAnlageInput = {
 
 export type CreateAnlagenUserInput = {
   anlageId: Scalars['ID'];
-  id?: InputMaybe<Scalars['ID']>;
   userEmail: Scalars['String'];
 };
 
 export type CreateUserInput = {
   email: Scalars['String'];
-  role?: InputMaybe<Scalars['String']>;
+  role: Role;
 };
 
 export type DeleteAnlageInput = {
@@ -89,7 +81,8 @@ export type DeleteAnlageInput = {
 };
 
 export type DeleteAnlagenUserInput = {
-  id: Scalars['ID'];
+  anlageId: Scalars['ID'];
+  userEmail: Scalars['String'];
 };
 
 export type DeleteUserInput = {
@@ -174,6 +167,11 @@ export type ModelIntFilterInput = {
   ne?: InputMaybe<Scalars['Int']>;
 };
 
+export type ModelRoleFilterInput = {
+  eq?: InputMaybe<Role>;
+  ne?: InputMaybe<Role>;
+};
+
 export enum ModelSortDirection {
   Asc = 'ASC',
   Desc = 'DESC',
@@ -213,7 +211,7 @@ export type ModelUserFilterInput = {
   email?: InputMaybe<ModelStringFilterInput>;
   not?: InputMaybe<ModelUserFilterInput>;
   or?: InputMaybe<Array<InputMaybe<ModelUserFilterInput>>>;
-  role?: InputMaybe<ModelStringFilterInput>;
+  role?: InputMaybe<ModelRoleFilterInput>;
 };
 
 export type Mutation = {
@@ -280,7 +278,8 @@ export type QueryGetAnlageArgs = {
 };
 
 export type QueryGetAnlagenUserArgs = {
-  id: Scalars['ID'];
+  anlageId: Scalars['ID'];
+  userEmail: Scalars['String'];
 };
 
 export type QueryGetUserArgs = {
@@ -288,9 +287,12 @@ export type QueryGetUserArgs = {
 };
 
 export type QueryListAnlagenUsersArgs = {
+  anlageId?: InputMaybe<ModelIdKeyConditionInput>;
   filter?: InputMaybe<ModelAnlagenUserFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+  userEmail?: InputMaybe<Scalars['String']>;
 };
 
 export type QueryListAnlagesArgs = {
@@ -370,13 +372,13 @@ export type UpdateAnlageInput = {
 };
 
 export type UpdateAnlagenUserInput = {
-  anlageId?: InputMaybe<Scalars['ID']>;
-  userEmail?: InputMaybe<Scalars['String']>;
+  anlageId: Scalars['ID'];
+  userEmail: Scalars['String'];
 };
 
 export type UpdateUserInput = {
   email: Scalars['String'];
-  role?: InputMaybe<Scalars['String']>;
+  role?: InputMaybe<Role>;
 };
 
 export type User = {
@@ -384,7 +386,7 @@ export type User = {
   anlagen?: Maybe<ModelAnlagenUserConnection>;
   createdAt: Scalars['AWSDateTime'];
   email: Scalars['String'];
-  role?: Maybe<Scalars['String']>;
+  role: Role;
   updatedAt: Scalars['AWSDateTime'];
 };
 
@@ -419,7 +421,6 @@ export type CreateAnlageMutation = {
                 | Array<
                     | {
                         __typename?: 'AnlagenUser';
-                        id: string;
                         anlageId: string;
                         userEmail: string;
                         createdAt: any;
@@ -443,7 +444,7 @@ export type CreateAnlageMutation = {
                         user: {
                           __typename?: 'User';
                           email: string;
-                          role?: string | null | undefined;
+                          role: Role;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -491,7 +492,6 @@ export type UpdateAnlageMutation = {
                 | Array<
                     | {
                         __typename?: 'AnlagenUser';
-                        id: string;
                         anlageId: string;
                         userEmail: string;
                         createdAt: any;
@@ -515,7 +515,7 @@ export type UpdateAnlageMutation = {
                         user: {
                           __typename?: 'User';
                           email: string;
-                          role?: string | null | undefined;
+                          role: Role;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -563,7 +563,6 @@ export type DeleteAnlageMutation = {
                 | Array<
                     | {
                         __typename?: 'AnlagenUser';
-                        id: string;
                         anlageId: string;
                         userEmail: string;
                         createdAt: any;
@@ -587,7 +586,7 @@ export type DeleteAnlageMutation = {
                         user: {
                           __typename?: 'User';
                           email: string;
-                          role?: string | null | undefined;
+                          role: Role;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -621,7 +620,6 @@ export type CreateAnlagenUserMutation = {
   createAnlagenUser?:
     | {
         __typename?: 'AnlagenUser';
-        id: string;
         anlageId: string;
         userEmail: string;
         createdAt: any;
@@ -642,7 +640,6 @@ export type CreateAnlagenUserMutation = {
                   | Array<
                       | {
                           __typename?: 'AnlagenUser';
-                          id: string;
                           anlageId: string;
                           userEmail: string;
                           createdAt: any;
@@ -659,7 +656,7 @@ export type CreateAnlagenUserMutation = {
                           user: {
                             __typename?: 'User';
                             email: string;
-                            role?: string | null | undefined;
+                            role: Role;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -676,7 +673,7 @@ export type CreateAnlagenUserMutation = {
         user: {
           __typename?: 'User';
           email: string;
-          role?: string | null | undefined;
+          role: Role;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -687,7 +684,6 @@ export type CreateAnlagenUserMutation = {
                   | Array<
                       | {
                           __typename?: 'AnlagenUser';
-                          id: string;
                           anlageId: string;
                           userEmail: string;
                           createdAt: any;
@@ -704,7 +700,7 @@ export type CreateAnlagenUserMutation = {
                           user: {
                             __typename?: 'User';
                             email: string;
-                            role?: string | null | undefined;
+                            role: Role;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -732,7 +728,6 @@ export type UpdateAnlagenUserMutation = {
   updateAnlagenUser?:
     | {
         __typename?: 'AnlagenUser';
-        id: string;
         anlageId: string;
         userEmail: string;
         createdAt: any;
@@ -753,7 +748,6 @@ export type UpdateAnlagenUserMutation = {
                   | Array<
                       | {
                           __typename?: 'AnlagenUser';
-                          id: string;
                           anlageId: string;
                           userEmail: string;
                           createdAt: any;
@@ -770,7 +764,7 @@ export type UpdateAnlagenUserMutation = {
                           user: {
                             __typename?: 'User';
                             email: string;
-                            role?: string | null | undefined;
+                            role: Role;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -787,7 +781,7 @@ export type UpdateAnlagenUserMutation = {
         user: {
           __typename?: 'User';
           email: string;
-          role?: string | null | undefined;
+          role: Role;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -798,7 +792,6 @@ export type UpdateAnlagenUserMutation = {
                   | Array<
                       | {
                           __typename?: 'AnlagenUser';
-                          id: string;
                           anlageId: string;
                           userEmail: string;
                           createdAt: any;
@@ -815,7 +808,7 @@ export type UpdateAnlagenUserMutation = {
                           user: {
                             __typename?: 'User';
                             email: string;
-                            role?: string | null | undefined;
+                            role: Role;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -843,7 +836,6 @@ export type DeleteAnlagenUserMutation = {
   deleteAnlagenUser?:
     | {
         __typename?: 'AnlagenUser';
-        id: string;
         anlageId: string;
         userEmail: string;
         createdAt: any;
@@ -864,7 +856,6 @@ export type DeleteAnlagenUserMutation = {
                   | Array<
                       | {
                           __typename?: 'AnlagenUser';
-                          id: string;
                           anlageId: string;
                           userEmail: string;
                           createdAt: any;
@@ -881,7 +872,7 @@ export type DeleteAnlagenUserMutation = {
                           user: {
                             __typename?: 'User';
                             email: string;
-                            role?: string | null | undefined;
+                            role: Role;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -898,7 +889,7 @@ export type DeleteAnlagenUserMutation = {
         user: {
           __typename?: 'User';
           email: string;
-          role?: string | null | undefined;
+          role: Role;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -909,7 +900,6 @@ export type DeleteAnlagenUserMutation = {
                   | Array<
                       | {
                           __typename?: 'AnlagenUser';
-                          id: string;
                           anlageId: string;
                           userEmail: string;
                           createdAt: any;
@@ -926,7 +916,7 @@ export type DeleteAnlagenUserMutation = {
                           user: {
                             __typename?: 'User';
                             email: string;
-                            role?: string | null | undefined;
+                            role: Role;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -955,7 +945,7 @@ export type CreateUserMutation = {
     | {
         __typename?: 'User';
         email: string;
-        role?: string | null | undefined;
+        role: Role;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -966,7 +956,6 @@ export type CreateUserMutation = {
                 | Array<
                     | {
                         __typename?: 'AnlagenUser';
-                        id: string;
                         anlageId: string;
                         userEmail: string;
                         createdAt: any;
@@ -990,7 +979,7 @@ export type CreateUserMutation = {
                         user: {
                           __typename?: 'User';
                           email: string;
-                          role?: string | null | undefined;
+                          role: Role;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -1025,7 +1014,7 @@ export type UpdateUserMutation = {
     | {
         __typename?: 'User';
         email: string;
-        role?: string | null | undefined;
+        role: Role;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -1036,7 +1025,6 @@ export type UpdateUserMutation = {
                 | Array<
                     | {
                         __typename?: 'AnlagenUser';
-                        id: string;
                         anlageId: string;
                         userEmail: string;
                         createdAt: any;
@@ -1060,7 +1048,7 @@ export type UpdateUserMutation = {
                         user: {
                           __typename?: 'User';
                           email: string;
-                          role?: string | null | undefined;
+                          role: Role;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -1095,7 +1083,7 @@ export type DeleteUserMutation = {
     | {
         __typename?: 'User';
         email: string;
-        role?: string | null | undefined;
+        role: Role;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -1106,7 +1094,6 @@ export type DeleteUserMutation = {
                 | Array<
                     | {
                         __typename?: 'AnlagenUser';
-                        id: string;
                         anlageId: string;
                         userEmail: string;
                         createdAt: any;
@@ -1130,7 +1117,7 @@ export type DeleteUserMutation = {
                         user: {
                           __typename?: 'User';
                           email: string;
-                          role?: string | null | undefined;
+                          role: Role;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -1178,7 +1165,6 @@ export type GetAnlageQuery = {
                 | Array<
                     | {
                         __typename?: 'AnlagenUser';
-                        id: string;
                         anlageId: string;
                         userEmail: string;
                         createdAt: any;
@@ -1202,7 +1188,7 @@ export type GetAnlageQuery = {
                         user: {
                           __typename?: 'User';
                           email: string;
-                          role?: string | null | undefined;
+                          role: Role;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -1257,7 +1243,6 @@ export type ListAnlagesQuery = {
                           | Array<
                               | {
                                   __typename?: 'AnlagenUser';
-                                  id: string;
                                   anlageId: string;
                                   userEmail: string;
                                   createdAt: any;
@@ -1274,7 +1259,7 @@ export type ListAnlagesQuery = {
                                   user: {
                                     __typename?: 'User';
                                     email: string;
-                                    role?: string | null | undefined;
+                                    role: Role;
                                     createdAt: any;
                                     updatedAt: any;
                                   };
@@ -1299,7 +1284,8 @@ export type ListAnlagesQuery = {
 };
 
 export type GetAnlagenUserQueryVariables = Exact<{
-  id: Scalars['ID'];
+  userEmail: Scalars['String'];
+  anlageId: Scalars['ID'];
 }>;
 
 export type GetAnlagenUserQuery = {
@@ -1307,7 +1293,6 @@ export type GetAnlagenUserQuery = {
   getAnlagenUser?:
     | {
         __typename?: 'AnlagenUser';
-        id: string;
         anlageId: string;
         userEmail: string;
         createdAt: any;
@@ -1328,7 +1313,6 @@ export type GetAnlagenUserQuery = {
                   | Array<
                       | {
                           __typename?: 'AnlagenUser';
-                          id: string;
                           anlageId: string;
                           userEmail: string;
                           createdAt: any;
@@ -1345,7 +1329,7 @@ export type GetAnlagenUserQuery = {
                           user: {
                             __typename?: 'User';
                             email: string;
-                            role?: string | null | undefined;
+                            role: Role;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1362,7 +1346,7 @@ export type GetAnlagenUserQuery = {
         user: {
           __typename?: 'User';
           email: string;
-          role?: string | null | undefined;
+          role: Role;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -1373,7 +1357,6 @@ export type GetAnlagenUserQuery = {
                   | Array<
                       | {
                           __typename?: 'AnlagenUser';
-                          id: string;
                           anlageId: string;
                           userEmail: string;
                           createdAt: any;
@@ -1390,7 +1373,7 @@ export type GetAnlagenUserQuery = {
                           user: {
                             __typename?: 'User';
                             email: string;
-                            role?: string | null | undefined;
+                            role: Role;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1410,9 +1393,12 @@ export type GetAnlagenUserQuery = {
 };
 
 export type ListAnlagenUsersQueryVariables = Exact<{
+  userEmail?: InputMaybe<Scalars['String']>;
+  anlageId?: InputMaybe<ModelIdKeyConditionInput>;
   filter?: InputMaybe<ModelAnlagenUserFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
 }>;
 
 export type ListAnlagenUsersQuery = {
@@ -1425,7 +1411,6 @@ export type ListAnlagenUsersQuery = {
           | Array<
               | {
                   __typename?: 'AnlagenUser';
-                  id: string;
                   anlageId: string;
                   userEmail: string;
                   createdAt: any;
@@ -1446,7 +1431,6 @@ export type ListAnlagenUsersQuery = {
                             | Array<
                                 | {
                                     __typename?: 'AnlagenUser';
-                                    id: string;
                                     anlageId: string;
                                     userEmail: string;
                                     createdAt: any;
@@ -1464,7 +1448,7 @@ export type ListAnlagenUsersQuery = {
                   user: {
                     __typename?: 'User';
                     email: string;
-                    role?: string | null | undefined;
+                    role: Role;
                     createdAt: any;
                     updatedAt: any;
                     anlagen?:
@@ -1475,7 +1459,6 @@ export type ListAnlagenUsersQuery = {
                             | Array<
                                 | {
                                     __typename?: 'AnlagenUser';
-                                    id: string;
                                     anlageId: string;
                                     userEmail: string;
                                     createdAt: any;
@@ -1511,7 +1494,7 @@ export type GetUserQuery = {
     | {
         __typename?: 'User';
         email: string;
-        role?: string | null | undefined;
+        role: Role;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -1522,7 +1505,6 @@ export type GetUserQuery = {
                 | Array<
                     | {
                         __typename?: 'AnlagenUser';
-                        id: string;
                         anlageId: string;
                         userEmail: string;
                         createdAt: any;
@@ -1546,7 +1528,7 @@ export type GetUserQuery = {
                         user: {
                           __typename?: 'User';
                           email: string;
-                          role?: string | null | undefined;
+                          role: Role;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -1590,7 +1572,7 @@ export type ListUsersQuery = {
               | {
                   __typename?: 'User';
                   email: string;
-                  role?: string | null | undefined;
+                  role: Role;
                   createdAt: any;
                   updatedAt: any;
                   anlagen?:
@@ -1601,7 +1583,6 @@ export type ListUsersQuery = {
                           | Array<
                               | {
                                   __typename?: 'AnlagenUser';
-                                  id: string;
                                   anlageId: string;
                                   userEmail: string;
                                   createdAt: any;
@@ -1618,7 +1599,7 @@ export type ListUsersQuery = {
                                   user: {
                                     __typename?: 'User';
                                     email: string;
-                                    role?: string | null | undefined;
+                                    role: Role;
                                     createdAt: any;
                                     updatedAt: any;
                                   };
@@ -1665,7 +1646,6 @@ export type OnCreateAnlageSubscription = {
                 | Array<
                     | {
                         __typename?: 'AnlagenUser';
-                        id: string;
                         anlageId: string;
                         userEmail: string;
                         createdAt: any;
@@ -1689,7 +1669,7 @@ export type OnCreateAnlageSubscription = {
                         user: {
                           __typename?: 'User';
                           email: string;
-                          role?: string | null | undefined;
+                          role: Role;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -1737,7 +1717,6 @@ export type OnUpdateAnlageSubscription = {
                 | Array<
                     | {
                         __typename?: 'AnlagenUser';
-                        id: string;
                         anlageId: string;
                         userEmail: string;
                         createdAt: any;
@@ -1761,7 +1740,7 @@ export type OnUpdateAnlageSubscription = {
                         user: {
                           __typename?: 'User';
                           email: string;
-                          role?: string | null | undefined;
+                          role: Role;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -1809,7 +1788,6 @@ export type OnDeleteAnlageSubscription = {
                 | Array<
                     | {
                         __typename?: 'AnlagenUser';
-                        id: string;
                         anlageId: string;
                         userEmail: string;
                         createdAt: any;
@@ -1833,7 +1811,7 @@ export type OnDeleteAnlageSubscription = {
                         user: {
                           __typename?: 'User';
                           email: string;
-                          role?: string | null | undefined;
+                          role: Role;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -1867,7 +1845,6 @@ export type OnCreateAnlagenUserSubscription = {
   onCreateAnlagenUser?:
     | {
         __typename?: 'AnlagenUser';
-        id: string;
         anlageId: string;
         userEmail: string;
         createdAt: any;
@@ -1888,7 +1865,6 @@ export type OnCreateAnlagenUserSubscription = {
                   | Array<
                       | {
                           __typename?: 'AnlagenUser';
-                          id: string;
                           anlageId: string;
                           userEmail: string;
                           createdAt: any;
@@ -1905,7 +1881,7 @@ export type OnCreateAnlagenUserSubscription = {
                           user: {
                             __typename?: 'User';
                             email: string;
-                            role?: string | null | undefined;
+                            role: Role;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1922,7 +1898,7 @@ export type OnCreateAnlagenUserSubscription = {
         user: {
           __typename?: 'User';
           email: string;
-          role?: string | null | undefined;
+          role: Role;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -1933,7 +1909,6 @@ export type OnCreateAnlagenUserSubscription = {
                   | Array<
                       | {
                           __typename?: 'AnlagenUser';
-                          id: string;
                           anlageId: string;
                           userEmail: string;
                           createdAt: any;
@@ -1950,7 +1925,7 @@ export type OnCreateAnlagenUserSubscription = {
                           user: {
                             __typename?: 'User';
                             email: string;
-                            role?: string | null | undefined;
+                            role: Role;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1978,7 +1953,6 @@ export type OnUpdateAnlagenUserSubscription = {
   onUpdateAnlagenUser?:
     | {
         __typename?: 'AnlagenUser';
-        id: string;
         anlageId: string;
         userEmail: string;
         createdAt: any;
@@ -1999,7 +1973,6 @@ export type OnUpdateAnlagenUserSubscription = {
                   | Array<
                       | {
                           __typename?: 'AnlagenUser';
-                          id: string;
                           anlageId: string;
                           userEmail: string;
                           createdAt: any;
@@ -2016,7 +1989,7 @@ export type OnUpdateAnlagenUserSubscription = {
                           user: {
                             __typename?: 'User';
                             email: string;
-                            role?: string | null | undefined;
+                            role: Role;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -2033,7 +2006,7 @@ export type OnUpdateAnlagenUserSubscription = {
         user: {
           __typename?: 'User';
           email: string;
-          role?: string | null | undefined;
+          role: Role;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -2044,7 +2017,6 @@ export type OnUpdateAnlagenUserSubscription = {
                   | Array<
                       | {
                           __typename?: 'AnlagenUser';
-                          id: string;
                           anlageId: string;
                           userEmail: string;
                           createdAt: any;
@@ -2061,7 +2033,7 @@ export type OnUpdateAnlagenUserSubscription = {
                           user: {
                             __typename?: 'User';
                             email: string;
-                            role?: string | null | undefined;
+                            role: Role;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -2089,7 +2061,6 @@ export type OnDeleteAnlagenUserSubscription = {
   onDeleteAnlagenUser?:
     | {
         __typename?: 'AnlagenUser';
-        id: string;
         anlageId: string;
         userEmail: string;
         createdAt: any;
@@ -2110,7 +2081,6 @@ export type OnDeleteAnlagenUserSubscription = {
                   | Array<
                       | {
                           __typename?: 'AnlagenUser';
-                          id: string;
                           anlageId: string;
                           userEmail: string;
                           createdAt: any;
@@ -2127,7 +2097,7 @@ export type OnDeleteAnlagenUserSubscription = {
                           user: {
                             __typename?: 'User';
                             email: string;
-                            role?: string | null | undefined;
+                            role: Role;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -2144,7 +2114,7 @@ export type OnDeleteAnlagenUserSubscription = {
         user: {
           __typename?: 'User';
           email: string;
-          role?: string | null | undefined;
+          role: Role;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -2155,7 +2125,6 @@ export type OnDeleteAnlagenUserSubscription = {
                   | Array<
                       | {
                           __typename?: 'AnlagenUser';
-                          id: string;
                           anlageId: string;
                           userEmail: string;
                           createdAt: any;
@@ -2172,7 +2141,7 @@ export type OnDeleteAnlagenUserSubscription = {
                           user: {
                             __typename?: 'User';
                             email: string;
-                            role?: string | null | undefined;
+                            role: Role;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -2201,7 +2170,7 @@ export type OnCreateUserSubscription = {
     | {
         __typename?: 'User';
         email: string;
-        role?: string | null | undefined;
+        role: Role;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -2212,7 +2181,6 @@ export type OnCreateUserSubscription = {
                 | Array<
                     | {
                         __typename?: 'AnlagenUser';
-                        id: string;
                         anlageId: string;
                         userEmail: string;
                         createdAt: any;
@@ -2236,7 +2204,7 @@ export type OnCreateUserSubscription = {
                         user: {
                           __typename?: 'User';
                           email: string;
-                          role?: string | null | undefined;
+                          role: Role;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -2271,7 +2239,7 @@ export type OnUpdateUserSubscription = {
     | {
         __typename?: 'User';
         email: string;
-        role?: string | null | undefined;
+        role: Role;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -2282,7 +2250,6 @@ export type OnUpdateUserSubscription = {
                 | Array<
                     | {
                         __typename?: 'AnlagenUser';
-                        id: string;
                         anlageId: string;
                         userEmail: string;
                         createdAt: any;
@@ -2306,7 +2273,7 @@ export type OnUpdateUserSubscription = {
                         user: {
                           __typename?: 'User';
                           email: string;
-                          role?: string | null | undefined;
+                          role: Role;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -2341,7 +2308,7 @@ export type OnDeleteUserSubscription = {
     | {
         __typename?: 'User';
         email: string;
-        role?: string | null | undefined;
+        role: Role;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -2352,7 +2319,6 @@ export type OnDeleteUserSubscription = {
                 | Array<
                     | {
                         __typename?: 'AnlagenUser';
-                        id: string;
                         anlageId: string;
                         userEmail: string;
                         createdAt: any;
@@ -2376,7 +2342,7 @@ export type OnDeleteUserSubscription = {
                         user: {
                           __typename?: 'User';
                           email: string;
-                          role?: string | null | undefined;
+                          role: Role;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -2401,1505 +2367,5750 @@ export type OnDeleteUserSubscription = {
     | undefined;
 };
 
-export const CreateAnlageDocument = `
-    mutation CreateAnlage($input: CreateAnlageInput!) {
-  createAnlage(input: $input) {
-    id
-    firma
-    standort
-    anschrift
-    createdAt
-    updatedAt
-    users {
-      items {
-        id
-        anlageId
-        userEmail
-        createdAt
-        updatedAt
-        anlage {
-          id
-          firma
-          standort
-          anschrift
-          createdAt
-          updatedAt
-          users {
-            nextToken
-          }
-        }
-        user {
-          email
-          role
-          createdAt
-          updatedAt
-          anlagen {
-            nextToken
-          }
-        }
-      }
-      nextToken
-    }
-  }
-}
-    `;
-export const useCreateAnlageMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    CreateAnlageMutation,
-    TError,
-    CreateAnlageMutationVariables,
-    TContext
-  >,
-) =>
-  useMutation<
-    CreateAnlageMutation,
-    TError,
-    CreateAnlageMutationVariables,
-    TContext
-  >(
-    ['CreateAnlage'],
-    (variables?: CreateAnlageMutationVariables) =>
-      amplifyFetcher<CreateAnlageMutation, CreateAnlageMutationVariables>(
-        CreateAnlageDocument,
-        variables,
-      )(),
-    options,
-  );
-export const UpdateAnlageDocument = `
-    mutation UpdateAnlage($input: UpdateAnlageInput!) {
-  updateAnlage(input: $input) {
-    id
-    firma
-    standort
-    anschrift
-    createdAt
-    updatedAt
-    users {
-      items {
-        id
-        anlageId
-        userEmail
-        createdAt
-        updatedAt
-        anlage {
-          id
-          firma
-          standort
-          anschrift
-          createdAt
-          updatedAt
-          users {
-            nextToken
-          }
-        }
-        user {
-          email
-          role
-          createdAt
-          updatedAt
-          anlagen {
-            nextToken
-          }
-        }
-      }
-      nextToken
-    }
-  }
-}
-    `;
-export const useUpdateAnlageMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    UpdateAnlageMutation,
-    TError,
-    UpdateAnlageMutationVariables,
-    TContext
-  >,
-) =>
-  useMutation<
-    UpdateAnlageMutation,
-    TError,
-    UpdateAnlageMutationVariables,
-    TContext
-  >(
-    ['UpdateAnlage'],
-    (variables?: UpdateAnlageMutationVariables) =>
-      amplifyFetcher<UpdateAnlageMutation, UpdateAnlageMutationVariables>(
-        UpdateAnlageDocument,
-        variables,
-      )(),
-    options,
-  );
-export const DeleteAnlageDocument = `
-    mutation DeleteAnlage($input: DeleteAnlageInput!) {
-  deleteAnlage(input: $input) {
-    id
-    firma
-    standort
-    anschrift
-    createdAt
-    updatedAt
-    users {
-      items {
-        id
-        anlageId
-        userEmail
-        createdAt
-        updatedAt
-        anlage {
-          id
-          firma
-          standort
-          anschrift
-          createdAt
-          updatedAt
-          users {
-            nextToken
-          }
-        }
-        user {
-          email
-          role
-          createdAt
-          updatedAt
-          anlagen {
-            nextToken
-          }
-        }
-      }
-      nextToken
-    }
-  }
-}
-    `;
-export const useDeleteAnlageMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    DeleteAnlageMutation,
-    TError,
-    DeleteAnlageMutationVariables,
-    TContext
-  >,
-) =>
-  useMutation<
-    DeleteAnlageMutation,
-    TError,
-    DeleteAnlageMutationVariables,
-    TContext
-  >(
-    ['DeleteAnlage'],
-    (variables?: DeleteAnlageMutationVariables) =>
-      amplifyFetcher<DeleteAnlageMutation, DeleteAnlageMutationVariables>(
-        DeleteAnlageDocument,
-        variables,
-      )(),
-    options,
-  );
-export const CreateAnlagenUserDocument = `
-    mutation CreateAnlagenUser($input: CreateAnlagenUserInput!) {
-  createAnlagenUser(input: $input) {
-    id
-    anlageId
-    userEmail
-    createdAt
-    updatedAt
-    anlage {
-      id
-      firma
-      standort
-      anschrift
-      createdAt
-      updatedAt
-      users {
-        items {
-          id
-          anlageId
-          userEmail
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            createdAt
-            updatedAt
-          }
-          user {
-            email
-            role
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-    }
-    user {
-      email
-      role
-      createdAt
-      updatedAt
-      anlagen {
-        items {
-          id
-          anlageId
-          userEmail
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            createdAt
-            updatedAt
-          }
-          user {
-            email
-            role
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-    }
-  }
-}
-    `;
-export const useCreateAnlagenUserMutation = <
-  TError = unknown,
-  TContext = unknown,
->(
-  options?: UseMutationOptions<
-    CreateAnlagenUserMutation,
-    TError,
-    CreateAnlagenUserMutationVariables,
-    TContext
-  >,
-) =>
-  useMutation<
-    CreateAnlagenUserMutation,
-    TError,
-    CreateAnlagenUserMutationVariables,
-    TContext
-  >(
-    ['CreateAnlagenUser'],
-    (variables?: CreateAnlagenUserMutationVariables) =>
-      amplifyFetcher<
-        CreateAnlagenUserMutation,
-        CreateAnlagenUserMutationVariables
-      >(CreateAnlagenUserDocument, variables)(),
-    options,
-  );
-export const UpdateAnlagenUserDocument = `
-    mutation UpdateAnlagenUser($input: UpdateAnlagenUserInput!) {
-  updateAnlagenUser(input: $input) {
-    id
-    anlageId
-    userEmail
-    createdAt
-    updatedAt
-    anlage {
-      id
-      firma
-      standort
-      anschrift
-      createdAt
-      updatedAt
-      users {
-        items {
-          id
-          anlageId
-          userEmail
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            createdAt
-            updatedAt
-          }
-          user {
-            email
-            role
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-    }
-    user {
-      email
-      role
-      createdAt
-      updatedAt
-      anlagen {
-        items {
-          id
-          anlageId
-          userEmail
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            createdAt
-            updatedAt
-          }
-          user {
-            email
-            role
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-    }
-  }
-}
-    `;
-export const useUpdateAnlagenUserMutation = <
-  TError = unknown,
-  TContext = unknown,
->(
-  options?: UseMutationOptions<
-    UpdateAnlagenUserMutation,
-    TError,
-    UpdateAnlagenUserMutationVariables,
-    TContext
-  >,
-) =>
-  useMutation<
-    UpdateAnlagenUserMutation,
-    TError,
-    UpdateAnlagenUserMutationVariables,
-    TContext
-  >(
-    ['UpdateAnlagenUser'],
-    (variables?: UpdateAnlagenUserMutationVariables) =>
-      amplifyFetcher<
-        UpdateAnlagenUserMutation,
-        UpdateAnlagenUserMutationVariables
-      >(UpdateAnlagenUserDocument, variables)(),
-    options,
-  );
-export const DeleteAnlagenUserDocument = `
-    mutation DeleteAnlagenUser($input: DeleteAnlagenUserInput!) {
-  deleteAnlagenUser(input: $input) {
-    id
-    anlageId
-    userEmail
-    createdAt
-    updatedAt
-    anlage {
-      id
-      firma
-      standort
-      anschrift
-      createdAt
-      updatedAt
-      users {
-        items {
-          id
-          anlageId
-          userEmail
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            createdAt
-            updatedAt
-          }
-          user {
-            email
-            role
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-    }
-    user {
-      email
-      role
-      createdAt
-      updatedAt
-      anlagen {
-        items {
-          id
-          anlageId
-          userEmail
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            createdAt
-            updatedAt
-          }
-          user {
-            email
-            role
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-    }
-  }
-}
-    `;
-export const useDeleteAnlagenUserMutation = <
-  TError = unknown,
-  TContext = unknown,
->(
-  options?: UseMutationOptions<
-    DeleteAnlagenUserMutation,
-    TError,
-    DeleteAnlagenUserMutationVariables,
-    TContext
-  >,
-) =>
-  useMutation<
-    DeleteAnlagenUserMutation,
-    TError,
-    DeleteAnlagenUserMutationVariables,
-    TContext
-  >(
-    ['DeleteAnlagenUser'],
-    (variables?: DeleteAnlagenUserMutationVariables) =>
-      amplifyFetcher<
-        DeleteAnlagenUserMutation,
-        DeleteAnlagenUserMutationVariables
-      >(DeleteAnlagenUserDocument, variables)(),
-    options,
-  );
-export const CreateUserDocument = `
-    mutation CreateUser($input: CreateUserInput!) {
-  createUser(input: $input) {
-    email
-    role
-    createdAt
-    updatedAt
-    anlagen {
-      items {
-        id
-        anlageId
-        userEmail
-        createdAt
-        updatedAt
-        anlage {
-          id
-          firma
-          standort
-          anschrift
-          createdAt
-          updatedAt
-          users {
-            nextToken
-          }
-        }
-        user {
-          email
-          role
-          createdAt
-          updatedAt
-          anlagen {
-            nextToken
-          }
-        }
-      }
-      nextToken
-    }
-  }
-}
-    `;
-export const useCreateUserMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    CreateUserMutation,
-    TError,
-    CreateUserMutationVariables,
-    TContext
-  >,
-) =>
-  useMutation<
-    CreateUserMutation,
-    TError,
-    CreateUserMutationVariables,
-    TContext
-  >(
-    ['CreateUser'],
-    (variables?: CreateUserMutationVariables) =>
-      amplifyFetcher<CreateUserMutation, CreateUserMutationVariables>(
-        CreateUserDocument,
-        variables,
-      )(),
-    options,
-  );
-export const UpdateUserDocument = `
-    mutation UpdateUser($input: UpdateUserInput!) {
-  updateUser(input: $input) {
-    email
-    role
-    createdAt
-    updatedAt
-    anlagen {
-      items {
-        id
-        anlageId
-        userEmail
-        createdAt
-        updatedAt
-        anlage {
-          id
-          firma
-          standort
-          anschrift
-          createdAt
-          updatedAt
-          users {
-            nextToken
-          }
-        }
-        user {
-          email
-          role
-          createdAt
-          updatedAt
-          anlagen {
-            nextToken
-          }
-        }
-      }
-      nextToken
-    }
-  }
-}
-    `;
-export const useUpdateUserMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    UpdateUserMutation,
-    TError,
-    UpdateUserMutationVariables,
-    TContext
-  >,
-) =>
-  useMutation<
-    UpdateUserMutation,
-    TError,
-    UpdateUserMutationVariables,
-    TContext
-  >(
-    ['UpdateUser'],
-    (variables?: UpdateUserMutationVariables) =>
-      amplifyFetcher<UpdateUserMutation, UpdateUserMutationVariables>(
-        UpdateUserDocument,
-        variables,
-      )(),
-    options,
-  );
-export const DeleteUserDocument = `
-    mutation DeleteUser($input: DeleteUserInput!) {
-  deleteUser(input: $input) {
-    email
-    role
-    createdAt
-    updatedAt
-    anlagen {
-      items {
-        id
-        anlageId
-        userEmail
-        createdAt
-        updatedAt
-        anlage {
-          id
-          firma
-          standort
-          anschrift
-          createdAt
-          updatedAt
-          users {
-            nextToken
-          }
-        }
-        user {
-          email
-          role
-          createdAt
-          updatedAt
-          anlagen {
-            nextToken
-          }
-        }
-      }
-      nextToken
-    }
-  }
-}
-    `;
-export const useDeleteUserMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    DeleteUserMutation,
-    TError,
-    DeleteUserMutationVariables,
-    TContext
-  >,
-) =>
-  useMutation<
-    DeleteUserMutation,
-    TError,
-    DeleteUserMutationVariables,
-    TContext
-  >(
-    ['DeleteUser'],
-    (variables?: DeleteUserMutationVariables) =>
-      amplifyFetcher<DeleteUserMutation, DeleteUserMutationVariables>(
-        DeleteUserDocument,
-        variables,
-      )(),
-    options,
-  );
-export const GetAnlageDocument = `
-    query GetAnlage($id: ID!) {
-  getAnlage(id: $id) {
-    id
-    firma
-    standort
-    anschrift
-    createdAt
-    updatedAt
-    users {
-      items {
-        id
-        anlageId
-        userEmail
-        createdAt
-        updatedAt
-        anlage {
-          id
-          firma
-          standort
-          anschrift
-          createdAt
-          updatedAt
-          users {
-            nextToken
-          }
-        }
-        user {
-          email
-          role
-          createdAt
-          updatedAt
-          anlagen {
-            nextToken
-          }
-        }
-      }
-      nextToken
-    }
-  }
-}
-    `;
-export const useGetAnlageQuery = <TData = GetAnlageQuery, TError = unknown>(
-  variables: GetAnlageQueryVariables,
-  options?: UseQueryOptions<GetAnlageQuery, TError, TData>,
-) =>
-  useQuery<GetAnlageQuery, TError, TData>(
-    ['GetAnlage', variables],
-    amplifyFetcher<GetAnlageQuery, GetAnlageQueryVariables>(
-      GetAnlageDocument,
-      variables,
-    ),
-    options,
-  );
-export const ListAnlagesDocument = `
-    query ListAnlages($filter: ModelAnlageFilterInput, $limit: Int, $nextToken: String) {
-  listAnlages(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      firma
-      standort
-      anschrift
-      createdAt
-      updatedAt
-      users {
-        items {
-          id
-          anlageId
-          userEmail
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            createdAt
-            updatedAt
-          }
-          user {
-            email
-            role
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-    }
-    nextToken
-  }
-}
-    `;
-export const useListAnlagesQuery = <TData = ListAnlagesQuery, TError = unknown>(
-  variables?: ListAnlagesQueryVariables,
-  options?: UseQueryOptions<ListAnlagesQuery, TError, TData>,
-) =>
-  useQuery<ListAnlagesQuery, TError, TData>(
-    variables === undefined ? ['ListAnlages'] : ['ListAnlages', variables],
-    amplifyFetcher<ListAnlagesQuery, ListAnlagesQueryVariables>(
-      ListAnlagesDocument,
-      variables,
-    ),
-    options,
-  );
-export const GetAnlagenUserDocument = `
-    query GetAnlagenUser($id: ID!) {
-  getAnlagenUser(id: $id) {
-    id
-    anlageId
-    userEmail
-    createdAt
-    updatedAt
-    anlage {
-      id
-      firma
-      standort
-      anschrift
-      createdAt
-      updatedAt
-      users {
-        items {
-          id
-          anlageId
-          userEmail
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            createdAt
-            updatedAt
-          }
-          user {
-            email
-            role
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-    }
-    user {
-      email
-      role
-      createdAt
-      updatedAt
-      anlagen {
-        items {
-          id
-          anlageId
-          userEmail
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            createdAt
-            updatedAt
-          }
-          user {
-            email
-            role
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-    }
-  }
-}
-    `;
-export const useGetAnlagenUserQuery = <
-  TData = GetAnlagenUserQuery,
-  TError = unknown,
->(
-  variables: GetAnlagenUserQueryVariables,
-  options?: UseQueryOptions<GetAnlagenUserQuery, TError, TData>,
-) =>
-  useQuery<GetAnlagenUserQuery, TError, TData>(
-    ['GetAnlagenUser', variables],
-    amplifyFetcher<GetAnlagenUserQuery, GetAnlagenUserQueryVariables>(
-      GetAnlagenUserDocument,
-      variables,
-    ),
-    options,
-  );
-export const ListAnlagenUsersDocument = `
-    query ListAnlagenUsers($filter: ModelAnlagenUserFilterInput, $limit: Int, $nextToken: String) {
-  listAnlagenUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      anlageId
-      userEmail
-      createdAt
-      updatedAt
-      anlage {
-        id
-        firma
-        standort
-        anschrift
-        createdAt
-        updatedAt
-        users {
-          items {
-            id
-            anlageId
-            userEmail
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-      }
-      user {
-        email
-        role
-        createdAt
-        updatedAt
-        anlagen {
-          items {
-            id
-            anlageId
-            userEmail
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-      }
-    }
-    nextToken
-  }
-}
-    `;
-export const useListAnlagenUsersQuery = <
-  TData = ListAnlagenUsersQuery,
-  TError = unknown,
->(
-  variables?: ListAnlagenUsersQueryVariables,
-  options?: UseQueryOptions<ListAnlagenUsersQuery, TError, TData>,
-) =>
-  useQuery<ListAnlagenUsersQuery, TError, TData>(
-    variables === undefined
-      ? ['ListAnlagenUsers']
-      : ['ListAnlagenUsers', variables],
-    amplifyFetcher<ListAnlagenUsersQuery, ListAnlagenUsersQueryVariables>(
-      ListAnlagenUsersDocument,
-      variables,
-    ),
-    options,
-  );
-export const GetUserDocument = `
-    query GetUser($email: String!) {
-  getUser(email: $email) {
-    email
-    role
-    createdAt
-    updatedAt
-    anlagen {
-      items {
-        id
-        anlageId
-        userEmail
-        createdAt
-        updatedAt
-        anlage {
-          id
-          firma
-          standort
-          anschrift
-          createdAt
-          updatedAt
-          users {
-            nextToken
-          }
-        }
-        user {
-          email
-          role
-          createdAt
-          updatedAt
-          anlagen {
-            nextToken
-          }
-        }
-      }
-      nextToken
-    }
-  }
-}
-    `;
-export const useGetUserQuery = <TData = GetUserQuery, TError = unknown>(
-  variables: GetUserQueryVariables,
-  options?: UseQueryOptions<GetUserQuery, TError, TData>,
-) =>
-  useQuery<GetUserQuery, TError, TData>(
-    ['GetUser', variables],
-    amplifyFetcher<GetUserQuery, GetUserQueryVariables>(
-      GetUserDocument,
-      variables,
-    ),
-    options,
-  );
-export const ListUsersDocument = `
-    query ListUsers($email: String, $filter: ModelUserFilterInput, $limit: Int, $nextToken: String, $sortDirection: ModelSortDirection) {
-  listUsers(
-    email: $email
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-    sortDirection: $sortDirection
-  ) {
-    items {
-      email
-      role
-      createdAt
-      updatedAt
-      anlagen {
-        items {
-          id
-          anlageId
-          userEmail
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            createdAt
-            updatedAt
-          }
-          user {
-            email
-            role
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-    }
-    nextToken
-  }
-}
-    `;
-export const useListUsersQuery = <TData = ListUsersQuery, TError = unknown>(
-  variables?: ListUsersQueryVariables,
-  options?: UseQueryOptions<ListUsersQuery, TError, TData>,
-) =>
-  useQuery<ListUsersQuery, TError, TData>(
-    variables === undefined ? ['ListUsers'] : ['ListUsers', variables],
-    amplifyFetcher<ListUsersQuery, ListUsersQueryVariables>(
-      ListUsersDocument,
-      variables,
-    ),
-    options,
-  );
-export const OnCreateAnlageDocument = `
-    subscription OnCreateAnlage($users: String) {
-  onCreateAnlage(users: $users) {
-    id
-    firma
-    standort
-    anschrift
-    createdAt
-    updatedAt
-    users {
-      items {
-        id
-        anlageId
-        userEmail
-        createdAt
-        updatedAt
-        anlage {
-          id
-          firma
-          standort
-          anschrift
-          createdAt
-          updatedAt
-          users {
-            nextToken
-          }
-        }
-        user {
-          email
-          role
-          createdAt
-          updatedAt
-          anlagen {
-            nextToken
-          }
-        }
-      }
-      nextToken
-    }
-  }
-}
-    `;
-export const OnUpdateAnlageDocument = `
-    subscription OnUpdateAnlage($users: String) {
-  onUpdateAnlage(users: $users) {
-    id
-    firma
-    standort
-    anschrift
-    createdAt
-    updatedAt
-    users {
-      items {
-        id
-        anlageId
-        userEmail
-        createdAt
-        updatedAt
-        anlage {
-          id
-          firma
-          standort
-          anschrift
-          createdAt
-          updatedAt
-          users {
-            nextToken
-          }
-        }
-        user {
-          email
-          role
-          createdAt
-          updatedAt
-          anlagen {
-            nextToken
-          }
-        }
-      }
-      nextToken
-    }
-  }
-}
-    `;
-export const OnDeleteAnlageDocument = `
-    subscription OnDeleteAnlage($users: String) {
-  onDeleteAnlage(users: $users) {
-    id
-    firma
-    standort
-    anschrift
-    createdAt
-    updatedAt
-    users {
-      items {
-        id
-        anlageId
-        userEmail
-        createdAt
-        updatedAt
-        anlage {
-          id
-          firma
-          standort
-          anschrift
-          createdAt
-          updatedAt
-          users {
-            nextToken
-          }
-        }
-        user {
-          email
-          role
-          createdAt
-          updatedAt
-          anlagen {
-            nextToken
-          }
-        }
-      }
-      nextToken
-    }
-  }
-}
-    `;
-export const OnCreateAnlagenUserDocument = `
-    subscription OnCreateAnlagenUser($userEmail: String) {
-  onCreateAnlagenUser(userEmail: $userEmail) {
-    id
-    anlageId
-    userEmail
-    createdAt
-    updatedAt
-    anlage {
-      id
-      firma
-      standort
-      anschrift
-      createdAt
-      updatedAt
-      users {
-        items {
-          id
-          anlageId
-          userEmail
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            createdAt
-            updatedAt
-          }
-          user {
-            email
-            role
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-    }
-    user {
-      email
-      role
-      createdAt
-      updatedAt
-      anlagen {
-        items {
-          id
-          anlageId
-          userEmail
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            createdAt
-            updatedAt
-          }
-          user {
-            email
-            role
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-    }
-  }
-}
-    `;
-export const OnUpdateAnlagenUserDocument = `
-    subscription OnUpdateAnlagenUser($userEmail: String) {
-  onUpdateAnlagenUser(userEmail: $userEmail) {
-    id
-    anlageId
-    userEmail
-    createdAt
-    updatedAt
-    anlage {
-      id
-      firma
-      standort
-      anschrift
-      createdAt
-      updatedAt
-      users {
-        items {
-          id
-          anlageId
-          userEmail
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            createdAt
-            updatedAt
-          }
-          user {
-            email
-            role
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-    }
-    user {
-      email
-      role
-      createdAt
-      updatedAt
-      anlagen {
-        items {
-          id
-          anlageId
-          userEmail
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            createdAt
-            updatedAt
-          }
-          user {
-            email
-            role
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-    }
-  }
-}
-    `;
-export const OnDeleteAnlagenUserDocument = `
-    subscription OnDeleteAnlagenUser($userEmail: String) {
-  onDeleteAnlagenUser(userEmail: $userEmail) {
-    id
-    anlageId
-    userEmail
-    createdAt
-    updatedAt
-    anlage {
-      id
-      firma
-      standort
-      anschrift
-      createdAt
-      updatedAt
-      users {
-        items {
-          id
-          anlageId
-          userEmail
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            createdAt
-            updatedAt
-          }
-          user {
-            email
-            role
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-    }
-    user {
-      email
-      role
-      createdAt
-      updatedAt
-      anlagen {
-        items {
-          id
-          anlageId
-          userEmail
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            createdAt
-            updatedAt
-          }
-          user {
-            email
-            role
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-    }
-  }
-}
-    `;
-export const OnCreateUserDocument = `
-    subscription OnCreateUser($email: String) {
-  onCreateUser(email: $email) {
-    email
-    role
-    createdAt
-    updatedAt
-    anlagen {
-      items {
-        id
-        anlageId
-        userEmail
-        createdAt
-        updatedAt
-        anlage {
-          id
-          firma
-          standort
-          anschrift
-          createdAt
-          updatedAt
-          users {
-            nextToken
-          }
-        }
-        user {
-          email
-          role
-          createdAt
-          updatedAt
-          anlagen {
-            nextToken
-          }
-        }
-      }
-      nextToken
-    }
-  }
-}
-    `;
-export const OnUpdateUserDocument = `
-    subscription OnUpdateUser($email: String) {
-  onUpdateUser(email: $email) {
-    email
-    role
-    createdAt
-    updatedAt
-    anlagen {
-      items {
-        id
-        anlageId
-        userEmail
-        createdAt
-        updatedAt
-        anlage {
-          id
-          firma
-          standort
-          anschrift
-          createdAt
-          updatedAt
-          users {
-            nextToken
-          }
-        }
-        user {
-          email
-          role
-          createdAt
-          updatedAt
-          anlagen {
-            nextToken
-          }
-        }
-      }
-      nextToken
-    }
-  }
-}
-    `;
-export const OnDeleteUserDocument = `
-    subscription OnDeleteUser($email: String) {
-  onDeleteUser(email: $email) {
-    email
-    role
-    createdAt
-    updatedAt
-    anlagen {
-      items {
-        id
-        anlageId
-        userEmail
-        createdAt
-        updatedAt
-        anlage {
-          id
-          firma
-          standort
-          anschrift
-          createdAt
-          updatedAt
-          users {
-            nextToken
-          }
-        }
-        user {
-          email
-          role
-          createdAt
-          updatedAt
-          anlagen {
-            nextToken
-          }
-        }
-      }
-      nextToken
-    }
-  }
-}
-    `;
+export const CreateAnlageDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateAnlage' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateAnlageInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createAnlage' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firma' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'standort' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'anschrift' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'users' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'userEmail' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlage' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'firma' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'standort' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anschrift' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'user' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'email' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateAnlageMutation,
+  CreateAnlageMutationVariables
+>;
+export const UpdateAnlageDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateAnlage' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'UpdateAnlageInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateAnlage' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firma' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'standort' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'anschrift' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'users' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'userEmail' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlage' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'firma' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'standort' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anschrift' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'user' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'email' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateAnlageMutation,
+  UpdateAnlageMutationVariables
+>;
+export const DeleteAnlageDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteAnlage' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteAnlageInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteAnlage' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firma' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'standort' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'anschrift' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'users' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'userEmail' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlage' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'firma' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'standort' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anschrift' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'user' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'email' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteAnlageMutation,
+  DeleteAnlageMutationVariables
+>;
+export const CreateAnlagenUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateAnlagenUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateAnlagenUserInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createAnlagenUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'userEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlage' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'firma' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'standort' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anschrift' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'userEmail' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlage' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'email',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anlagen' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'userEmail' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlage' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'email',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateAnlagenUserMutation,
+  CreateAnlagenUserMutationVariables
+>;
+export const UpdateAnlagenUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateAnlagenUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'UpdateAnlagenUserInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateAnlagenUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'userEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlage' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'firma' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'standort' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anschrift' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'userEmail' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlage' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'email',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anlagen' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'userEmail' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlage' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'email',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateAnlagenUserMutation,
+  UpdateAnlagenUserMutationVariables
+>;
+export const DeleteAnlagenUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteAnlagenUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteAnlagenUserInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteAnlagenUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'userEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlage' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'firma' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'standort' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anschrift' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'userEmail' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlage' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'email',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anlagen' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'userEmail' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlage' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'email',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteAnlagenUserMutation,
+  DeleteAnlagenUserMutationVariables
+>;
+export const CreateUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateUserInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlagen' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'userEmail' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlage' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'firma' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'standort' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anschrift' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'user' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'email' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<CreateUserMutation, CreateUserMutationVariables>;
+export const UpdateUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'UpdateUserInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlagen' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'userEmail' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlage' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'firma' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'standort' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anschrift' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'user' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'email' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<UpdateUserMutation, UpdateUserMutationVariables>;
+export const DeleteUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteUserInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlagen' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'userEmail' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlage' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'firma' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'standort' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anschrift' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'user' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'email' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<DeleteUserMutation, DeleteUserMutationVariables>;
+export const GetAnlageDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAnlage' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getAnlage' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firma' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'standort' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'anschrift' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'users' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'userEmail' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlage' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'firma' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'standort' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anschrift' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'user' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'email' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAnlageQuery, GetAnlageQueryVariables>;
+export const ListAnlagesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'ListAnlages' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'filter' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelAnlageFilterInput' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'limit' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'nextToken' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listAnlages' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'filter' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'limit' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'nextToken' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'nextToken' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'items' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'firma' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'standort' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anschrift' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'userEmail' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlage' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'email',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'nextToken' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<ListAnlagesQuery, ListAnlagesQueryVariables>;
+export const GetAnlagenUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAnlagenUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'userEmail' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'anlageId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getAnlagenUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'userEmail' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'userEmail' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'anlageId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'anlageId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'userEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlage' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'firma' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'standort' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anschrift' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'userEmail' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlage' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'email',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anlagen' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'userEmail' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlage' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'email',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAnlagenUserQuery, GetAnlagenUserQueryVariables>;
+export const ListAnlagenUsersDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'ListAnlagenUsers' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'userEmail' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'anlageId' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelIDKeyConditionInput' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'filter' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelAnlagenUserFilterInput' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'limit' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'nextToken' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'sortDirection' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelSortDirection' },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listAnlagenUsers' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'userEmail' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'userEmail' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'anlageId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'anlageId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'filter' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'limit' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'nextToken' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'nextToken' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sortDirection' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'sortDirection' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'items' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anlageId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'userEmail' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anlage' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'firma' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'standort' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anschrift' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'users' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'userEmail',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'user' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'email' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'role' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlagen' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'userEmail',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'nextToken' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  ListAnlagenUsersQuery,
+  ListAnlagenUsersQueryVariables
+>;
+export const GetUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'email' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'email' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'email' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlagen' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'userEmail' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlage' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'firma' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'standort' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anschrift' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'user' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'email' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetUserQuery, GetUserQueryVariables>;
+export const ListUsersDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'ListUsers' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'email' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'filter' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelUserFilterInput' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'limit' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'nextToken' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'sortDirection' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelSortDirection' },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listUsers' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'email' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'email' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'filter' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'limit' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'nextToken' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'nextToken' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sortDirection' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'sortDirection' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'items' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anlagen' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'userEmail' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlage' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'email',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'nextToken' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<ListUsersQuery, ListUsersQueryVariables>;
+export const OnCreateAnlageDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'subscription',
+      name: { kind: 'Name', value: 'OnCreateAnlage' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'users' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'onCreateAnlage' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'users' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'users' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firma' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'standort' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'anschrift' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'users' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'userEmail' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlage' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'firma' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'standort' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anschrift' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'user' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'email' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  OnCreateAnlageSubscription,
+  OnCreateAnlageSubscriptionVariables
+>;
+export const OnUpdateAnlageDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'subscription',
+      name: { kind: 'Name', value: 'OnUpdateAnlage' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'users' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'onUpdateAnlage' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'users' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'users' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firma' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'standort' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'anschrift' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'users' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'userEmail' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlage' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'firma' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'standort' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anschrift' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'user' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'email' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  OnUpdateAnlageSubscription,
+  OnUpdateAnlageSubscriptionVariables
+>;
+export const OnDeleteAnlageDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'subscription',
+      name: { kind: 'Name', value: 'OnDeleteAnlage' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'users' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'onDeleteAnlage' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'users' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'users' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firma' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'standort' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'anschrift' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'users' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'userEmail' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlage' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'firma' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'standort' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anschrift' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'user' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'email' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  OnDeleteAnlageSubscription,
+  OnDeleteAnlageSubscriptionVariables
+>;
+export const OnCreateAnlagenUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'subscription',
+      name: { kind: 'Name', value: 'OnCreateAnlagenUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'userEmail' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'onCreateAnlagenUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'userEmail' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'userEmail' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'userEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlage' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'firma' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'standort' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anschrift' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'userEmail' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlage' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'email',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anlagen' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'userEmail' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlage' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'email',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  OnCreateAnlagenUserSubscription,
+  OnCreateAnlagenUserSubscriptionVariables
+>;
+export const OnUpdateAnlagenUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'subscription',
+      name: { kind: 'Name', value: 'OnUpdateAnlagenUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'userEmail' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'onUpdateAnlagenUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'userEmail' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'userEmail' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'userEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlage' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'firma' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'standort' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anschrift' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'userEmail' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlage' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'email',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anlagen' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'userEmail' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlage' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'email',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  OnUpdateAnlagenUserSubscription,
+  OnUpdateAnlagenUserSubscriptionVariables
+>;
+export const OnDeleteAnlagenUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'subscription',
+      name: { kind: 'Name', value: 'OnDeleteAnlagenUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'userEmail' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'onDeleteAnlagenUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'userEmail' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'userEmail' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'userEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlage' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'firma' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'standort' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anschrift' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'userEmail' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlage' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'email',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anlagen' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'userEmail' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlage' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'email',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  OnDeleteAnlagenUserSubscription,
+  OnDeleteAnlagenUserSubscriptionVariables
+>;
+export const OnCreateUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'subscription',
+      name: { kind: 'Name', value: 'OnCreateUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'email' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'onCreateUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'email' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'email' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlagen' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'userEmail' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlage' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'firma' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'standort' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anschrift' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'user' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'email' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  OnCreateUserSubscription,
+  OnCreateUserSubscriptionVariables
+>;
+export const OnUpdateUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'subscription',
+      name: { kind: 'Name', value: 'OnUpdateUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'email' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'onUpdateUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'email' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'email' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlagen' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'userEmail' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlage' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'firma' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'standort' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anschrift' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'user' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'email' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  OnUpdateUserSubscription,
+  OnUpdateUserSubscriptionVariables
+>;
+export const OnDeleteUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'subscription',
+      name: { kind: 'Name', value: 'OnDeleteUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'email' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'onDeleteUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'email' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'email' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlagen' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'userEmail' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlage' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'firma' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'standort' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anschrift' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'user' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'email' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  OnDeleteUserSubscription,
+  OnDeleteUserSubscriptionVariables
+>;

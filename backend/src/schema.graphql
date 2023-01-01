@@ -4,7 +4,6 @@ type Anlage
     rules: [
       { allow: private, provider: iam }
       { allow: owner, ownerField: "users", identityClaim: "email" }
-      { allow: public }
     ]
   ) {
   id: ID!
@@ -16,11 +15,11 @@ type Anlage
 
 type AnlagenUser
   @model
+  @key(fields: ["userEmail", "anlageId"])
   @auth(
     rules: [
       { allow: private, provider: iam }
       { allow: owner, ownerField: "userEmail", identityClaim: "email" }
-      { allow: public }
     ]
   )
   @key(name: "byUser", fields: ["userEmail", "anlageId"])
@@ -38,11 +37,10 @@ type User
     rules: [
       { allow: private, provider: iam }
       { allow: owner, ownerField: "email", identityClaim: "email" }
-      { allow: public }
     ]
   ) {
   email: String!
-  role: String
+  role: Role!
   anlagen: [AnlagenUser] @connection(keyName: "byUser", fields: ["email"])
 }
 

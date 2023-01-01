@@ -13,7 +13,6 @@ export const createAnlage = /* GraphQL */ `
       updatedAt
       users {
         items {
-          id
           anlageId
           userEmail
           createdAt
@@ -55,7 +54,6 @@ export const updateAnlage = /* GraphQL */ `
       updatedAt
       users {
         items {
-          id
           anlageId
           userEmail
           createdAt
@@ -97,7 +95,6 @@ export const deleteAnlage = /* GraphQL */ `
       updatedAt
       users {
         items {
-          id
           anlageId
           userEmail
           createdAt
@@ -131,7 +128,6 @@ export const deleteAnlage = /* GraphQL */ `
 export const createAnlagenUser = /* GraphQL */ `
   mutation CreateAnlagenUser($input: CreateAnlagenUserInput!) {
     createAnlagenUser(input: $input) {
-      id
       anlageId
       userEmail
       createdAt
@@ -145,7 +141,6 @@ export const createAnlagenUser = /* GraphQL */ `
         updatedAt
         users {
           items {
-            id
             anlageId
             userEmail
             createdAt
@@ -175,7 +170,6 @@ export const createAnlagenUser = /* GraphQL */ `
         updatedAt
         anlagen {
           items {
-            id
             anlageId
             userEmail
             createdAt
@@ -204,7 +198,6 @@ export const createAnlagenUser = /* GraphQL */ `
 export const updateAnlagenUser = /* GraphQL */ `
   mutation UpdateAnlagenUser($input: UpdateAnlagenUserInput!) {
     updateAnlagenUser(input: $input) {
-      id
       anlageId
       userEmail
       createdAt
@@ -218,7 +211,6 @@ export const updateAnlagenUser = /* GraphQL */ `
         updatedAt
         users {
           items {
-            id
             anlageId
             userEmail
             createdAt
@@ -248,7 +240,6 @@ export const updateAnlagenUser = /* GraphQL */ `
         updatedAt
         anlagen {
           items {
-            id
             anlageId
             userEmail
             createdAt
@@ -277,7 +268,6 @@ export const updateAnlagenUser = /* GraphQL */ `
 export const deleteAnlagenUser = /* GraphQL */ `
   mutation DeleteAnlagenUser($input: DeleteAnlagenUserInput!) {
     deleteAnlagenUser(input: $input) {
-      id
       anlageId
       userEmail
       createdAt
@@ -291,7 +281,6 @@ export const deleteAnlagenUser = /* GraphQL */ `
         updatedAt
         users {
           items {
-            id
             anlageId
             userEmail
             createdAt
@@ -321,7 +310,6 @@ export const deleteAnlagenUser = /* GraphQL */ `
         updatedAt
         anlagen {
           items {
-            id
             anlageId
             userEmail
             createdAt
@@ -356,7 +344,6 @@ export const createUser = /* GraphQL */ `
       updatedAt
       anlagen {
         items {
-          id
           anlageId
           userEmail
           createdAt
@@ -396,7 +383,6 @@ export const updateUser = /* GraphQL */ `
       updatedAt
       anlagen {
         items {
-          id
           anlageId
           userEmail
           createdAt
@@ -436,7 +422,6 @@ export const deleteUser = /* GraphQL */ `
       updatedAt
       anlagen {
         items {
-          id
           anlageId
           userEmail
           createdAt

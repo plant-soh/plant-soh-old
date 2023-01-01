@@ -1,0 +1,56 @@
+mutation CreateUsers {
+  u1: createUser(
+    input: { email: "damadden88@googlemail.com", role: Anlagenbauer }
+  ) {
+    email
+    role
+  }
+  u2: createUser(input: { email: "alice@plantsoh.de", role: Anlagenbauer }) {
+    email
+    role
+  }
+}
+
+mutation CreateAnlage {
+  a1: createAnlage(input: { firma: "Mueller", standort: "Berlin", id: "m1" }) {
+    id
+    firma
+  }
+  a2: createAnlage(
+    input: { firma: "AliceAg", standort: "Lulu", id: "aliceAnlage" }
+  ) {
+    id
+    firma
+  }
+}
+
+mutation CreateAnlagenUser {
+  au1: createAnlagenUser(
+    input: { anlageId: "m1", userEmail: "damadden88@googlemail.com" }
+  ) {
+    anlageId
+    userEmail
+  }
+  au2: createAnlagenUser(
+    input: { anlageId: "aliceAnlage", userEmail: "alice@plantsoh.de" }
+  ) {
+    anlageId
+    userEmail
+  }
+}
+
+query ListAnlagen {
+  listAnlages {
+    items {
+      firma
+      users {
+        items {
+          user {
+            email
+          }
+        }
+      }
+      id
+    }
+  }
+}

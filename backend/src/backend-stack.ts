@@ -221,7 +221,7 @@ export class BackendStack extends core.Stack {
     });
 
     const appSyncCustomDomainUrl =
-      'https://db7leufwkvhorossyn66xnrmgi.appsync-api.eu-central-1.amazonaws.com/graphql';
+      'https://x4hydovt5ncqtfdy6owen6mmga.appsync-api.eu-central-1.amazonaws.com/graphql';
     new core.CfnOutput(this, 'AppSyncCustomDomainUrl', {
       value: appSyncCustomDomainUrl,
     });
