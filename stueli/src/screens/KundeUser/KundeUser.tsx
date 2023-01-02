@@ -1,4 +1,7 @@
-import { useListAnlagenUsersQuery } from '../../lib/react-api';
+import {
+  useDeleteAnlagenUserMutation,
+  useListAnlagenUsersQuery,
+} from '../../lib/react-api';
 
 const columns: { [key: string]: string } = {
   firma: 'Firma',
@@ -13,7 +16,9 @@ const KundeUser = () => {
     refetchOnWindowFocus: false,
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  const deleteAnlagenUser = useDeleteAnlagenUserMutation();
+
+  if (isLoading || !data?.listAnlagenUsers?.items) return <div>Loading...</div>;
 
   return (
     <div
@@ -36,24 +41,45 @@ const KundeUser = () => {
           </tr>
         </thead>
         <tbody className="bg-gray-50" data-testid="recent-calls-table-body">
-          {data?.listAnlagenUsers?.items?.map((user, row_index) => (
-            <tr key={row_index} className="border-b border-gray-400">
-              {Object.keys(columns)
-                .slice(0, -1)
-                .map((col, index) => (
-                  <td key={index} className="p-3 text-left whitespace-pre-line">
-                    {col === 'firma'
-                      ? user?.anlage.firma
-                      : col === 'standort'
-                      ? user?.anlage.standort
-                      : user?.userEmail}
+          {data.listAnlagenUsers.items.map(
+            (anlagenuser, row_index) =>
+              anlagenuser && (
+                <tr key={row_index} className="border-b border-gray-400">
+                  {Object.keys(columns)
+                    .slice(0, -1)
+                    .map((col, index) => (
+                      <td
+                        key={index}
+                        className="p-3 text-left whitespace-pre-line"
+                      >
+                        {col === 'firma'
+                          ? anlagenuser.anlage.firma
+                          : col === 'standort'
+                          ? anlagenuser.anlage.standort
+                          : anlagenuser.userEmail}
+                      </td>
+                    ))}
+                  <td
+                    key="action"
+                    className="p-3 text-left whitespace-pre-line"
+                  >
+                    <button
+                      className="cursor-pointer"
+                      onClick={() =>
+                        deleteAnlagenUser.mutateAsync({
+                          input: {
+                            anlageId: anlagenuser.anlageId,
+                            userEmail: anlagenuser.userEmail,
+                          },
+                        })
+                      }
+                    >
+                      <span>Delete</span>
+                    </button>
                   </td>
-                ))}
-              <td key="action" className="p-3 text-left whitespace-pre-line">
-                Delete!
-              </td>
-            </tr>
-          ))}
+                </tr>
+              ),
+          )}
         </tbody>
       </table>
     </div>
