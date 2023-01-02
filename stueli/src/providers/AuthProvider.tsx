@@ -38,6 +38,7 @@ export default function AuthProvider({
   const [credentials, setCredentials] = useState<{
     credentials: ICredentials;
     getIdToken: Provider<string>;
+    authToken: string;
   }>();
 
   useEffect(() => {
@@ -51,6 +52,7 @@ export default function AuthProvider({
           getIdToken: async (): Promise<string> => {
             return (await Auth.currentSession()).getIdToken().getJwtToken();
           },
+          authToken: (await Auth.currentSession()).getIdToken().getJwtToken(),
         });
       })();
     } else if (route === 'signOut') {
@@ -60,6 +62,7 @@ export default function AuthProvider({
 
   if (route === 'authenticated' && credentials) {
     API.updateIsSignedIn(true);
+    API.updateAuthToken(credentials.authToken);
     const value: AuthValue = {
       accountType: user.attributes?.['custom:accountType'] as AccountType,
       credentials: credentials.credentials,

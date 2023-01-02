@@ -18,20 +18,18 @@ const client = new AppsyncClient({ apiUrl: APPSYNC_URL });
 export async function handler(event: lambda.PreTokenGenerationTriggerEvent) {
   console.debug(`event: ${JSON.stringify(event)}`);
 
-  const getUserData = await client.request({
+  const { getUser } = await client.request({
     query: GetUserDocument,
     variables: {
       email: event.request.userAttributes.email,
     },
   });
 
-  console.debug(`getUserData=${JSON.stringify(getUserData ?? {})}`);
+  console.debug(`getUser=${JSON.stringify(getUser ?? {})}`);
 
-  const user = getUserData.getUser;
-
-  if (!user) {
+  if (!getUser) {
     console.log('User does not exist in table so will create one');
-    const createUserData = await client.request({
+    const { createUser } = await client.request({
       query: CreateUserDocument,
       variables: {
         input: {
@@ -41,7 +39,7 @@ export async function handler(event: lambda.PreTokenGenerationTriggerEvent) {
       },
     });
 
-    console.debug(`createUserData=${JSON.stringify(createUserData)}`);
+    console.debug(`createUser=${JSON.stringify(createUser)}`);
   }
 
   return event;

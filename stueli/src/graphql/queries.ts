@@ -13,7 +13,6 @@ export const getAnlage = /* GraphQL */ `
       updatedAt
       users {
         items {
-          id
           anlageId
           userEmail
           createdAt
@@ -60,7 +59,6 @@ export const listAnlages = /* GraphQL */ `
         updatedAt
         users {
           items {
-            id
             anlageId
             userEmail
             createdAt
@@ -88,9 +86,8 @@ export const listAnlages = /* GraphQL */ `
   }
 `;
 export const getAnlagenUser = /* GraphQL */ `
-  query GetAnlagenUser($id: ID!) {
-    getAnlagenUser(id: $id) {
-      id
+  query GetAnlagenUser($userEmail: String!, $anlageId: ID!) {
+    getAnlagenUser(userEmail: $userEmail, anlageId: $anlageId) {
       anlageId
       userEmail
       createdAt
@@ -104,7 +101,6 @@ export const getAnlagenUser = /* GraphQL */ `
         updatedAt
         users {
           items {
-            id
             anlageId
             userEmail
             createdAt
@@ -134,7 +130,6 @@ export const getAnlagenUser = /* GraphQL */ `
         updatedAt
         anlagen {
           items {
-            id
             anlageId
             userEmail
             createdAt
@@ -162,13 +157,22 @@ export const getAnlagenUser = /* GraphQL */ `
 `;
 export const listAnlagenUsers = /* GraphQL */ `
   query ListAnlagenUsers(
+    $userEmail: String
+    $anlageId: ModelIDKeyConditionInput
     $filter: ModelAnlagenUserFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listAnlagenUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listAnlagenUsers(
+      userEmail: $userEmail
+      anlageId: $anlageId
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
-        id
         anlageId
         userEmail
         createdAt
@@ -182,7 +186,6 @@ export const listAnlagenUsers = /* GraphQL */ `
           updatedAt
           users {
             items {
-              id
               anlageId
               userEmail
               createdAt
@@ -198,7 +201,6 @@ export const listAnlagenUsers = /* GraphQL */ `
           updatedAt
           anlagen {
             items {
-              id
               anlageId
               userEmail
               createdAt
@@ -221,7 +223,6 @@ export const getUser = /* GraphQL */ `
       updatedAt
       anlagen {
         items {
-          id
           anlageId
           userEmail
           createdAt
@@ -274,7 +275,6 @@ export const listUsers = /* GraphQL */ `
         updatedAt
         anlagen {
           items {
-            id
             anlageId
             userEmail
             createdAt

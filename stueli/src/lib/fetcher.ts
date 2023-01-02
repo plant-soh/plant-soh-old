@@ -32,7 +32,13 @@ export class API {
     instance.isSignedIn = signedIn;
   }
 
+  static updateAuthToken(authToken: string): void {
+    if (!instance) instance = new API();
+    instance.authToken = authToken;
+  }
+
   protected isSignedIn: boolean = false;
+  protected authToken?: string;
   protected apiKey: string;
 
   constructor() {
@@ -49,7 +55,7 @@ export class API {
       authMode: this.isSignedIn
         ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
         : GRAPHQL_AUTH_MODE.AWS_IAM,
-      ...graphqlOperation(query, variables),
+      ...graphqlOperation(query, variables, this.authToken),
     };
 
     // console.log(`operation=${JSON.stringify(operation)}`);

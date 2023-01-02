@@ -13,7 +13,6 @@ export const onCreateAnlage = /* GraphQL */ `
       updatedAt
       users {
         items {
-          id
           anlageId
           userEmail
           createdAt
@@ -55,7 +54,6 @@ export const onUpdateAnlage = /* GraphQL */ `
       updatedAt
       users {
         items {
-          id
           anlageId
           userEmail
           createdAt
@@ -97,7 +95,6 @@ export const onDeleteAnlage = /* GraphQL */ `
       updatedAt
       users {
         items {
-          id
           anlageId
           userEmail
           createdAt
@@ -131,7 +128,6 @@ export const onDeleteAnlage = /* GraphQL */ `
 export const onCreateAnlagenUser = /* GraphQL */ `
   subscription OnCreateAnlagenUser($userEmail: String) {
     onCreateAnlagenUser(userEmail: $userEmail) {
-      id
       anlageId
       userEmail
       createdAt
@@ -145,7 +141,6 @@ export const onCreateAnlagenUser = /* GraphQL */ `
         updatedAt
         users {
           items {
-            id
             anlageId
             userEmail
             createdAt
@@ -175,7 +170,6 @@ export const onCreateAnlagenUser = /* GraphQL */ `
         updatedAt
         anlagen {
           items {
-            id
             anlageId
             userEmail
             createdAt
@@ -204,7 +198,6 @@ export const onCreateAnlagenUser = /* GraphQL */ `
 export const onUpdateAnlagenUser = /* GraphQL */ `
   subscription OnUpdateAnlagenUser($userEmail: String) {
     onUpdateAnlagenUser(userEmail: $userEmail) {
-      id
       anlageId
       userEmail
       createdAt
@@ -218,7 +211,6 @@ export const onUpdateAnlagenUser = /* GraphQL */ `
         updatedAt
         users {
           items {
-            id
             anlageId
             userEmail
             createdAt
@@ -248,7 +240,6 @@ export const onUpdateAnlagenUser = /* GraphQL */ `
         updatedAt
         anlagen {
           items {
-            id
             anlageId
             userEmail
             createdAt
@@ -277,7 +268,6 @@ export const onUpdateAnlagenUser = /* GraphQL */ `
 export const onDeleteAnlagenUser = /* GraphQL */ `
   subscription OnDeleteAnlagenUser($userEmail: String) {
     onDeleteAnlagenUser(userEmail: $userEmail) {
-      id
       anlageId
       userEmail
       createdAt
@@ -291,7 +281,6 @@ export const onDeleteAnlagenUser = /* GraphQL */ `
         updatedAt
         users {
           items {
-            id
             anlageId
             userEmail
             createdAt
@@ -321,7 +310,6 @@ export const onDeleteAnlagenUser = /* GraphQL */ `
         updatedAt
         anlagen {
           items {
-            id
             anlageId
             userEmail
             createdAt
@@ -356,7 +344,6 @@ export const onCreateUser = /* GraphQL */ `
       updatedAt
       anlagen {
         items {
-          id
           anlageId
           userEmail
           createdAt
@@ -396,7 +383,6 @@ export const onUpdateUser = /* GraphQL */ `
       updatedAt
       anlagen {
         items {
-          id
           anlageId
           userEmail
           createdAt
@@ -436,7 +422,6 @@ export const onDeleteUser = /* GraphQL */ `
       updatedAt
       anlagen {
         items {
-          id
           anlageId
           userEmail
           createdAt
