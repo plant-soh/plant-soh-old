@@ -42,5 +42,17 @@ export async function handler(event: lambda.PreTokenGenerationTriggerEvent) {
     console.debug(`createUser=${JSON.stringify(createUser)}`);
   }
 
+  event.response.claimsOverrideDetails = {
+    groupOverrideDetails: {
+      groupsToOverride: [getUser?.role ?? Role.Anlagenbauer],
+    },
+  };
+
+  console.debug(
+    `event.response.claimsOverrideDetails=${JSON.stringify(
+      event.response.claimsOverrideDetails,
+    )}`,
+  );
+
   return event;
 }

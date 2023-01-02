@@ -1,7 +1,7 @@
 import {
   useMutation,
-  useQuery,
   UseMutationOptions,
+  useQuery,
   UseQueryOptions,
 } from '@tanstack/react-query';
 import { amplifyFetcher } from '../lib/fetcher';
