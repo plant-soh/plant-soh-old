@@ -4,6 +4,7 @@ const columns: { [key: string]: string } = {
   firma: 'Firma',
   standort: 'Standort',
   email: 'User Email',
+  actions: 'Aktionen',
   // bemerkung: 'Bemerkung',
 };
 
@@ -16,7 +17,7 @@ const KundeUser = () => {
 
   return (
     <div
-      className="relative flex flex-col w-full h-full gap-6 pb-10 m-6 -mb-6 2xl:flex-row"
+      className="relative flex flex-col w-full h-full gap-6 pb-10 m-6 -mb-6"
       data-testid="kundeuser"
     >
       <h1 className="flex text-xl font-semibold">Kunde User</h1>
@@ -37,15 +38,20 @@ const KundeUser = () => {
         <tbody className="bg-gray-50" data-testid="recent-calls-table-body">
           {data?.listAnlagenUsers?.items?.map((user, row_index) => (
             <tr key={row_index} className="border-b border-gray-400">
-              {Object.keys(columns).map((col, index) => (
-                <td key={index} className="p-3 text-left whitespace-pre-line">
-                  {col === 'firma'
-                    ? user?.anlage.firma
-                    : col === 'standort'
-                    ? user?.anlage.standort
-                    : user?.userEmail}
-                </td>
-              ))}
+              {Object.keys(columns)
+                .slice(0, -1)
+                .map((col, index) => (
+                  <td key={index} className="p-3 text-left whitespace-pre-line">
+                    {col === 'firma'
+                      ? user?.anlage.firma
+                      : col === 'standort'
+                      ? user?.anlage.standort
+                      : user?.userEmail}
+                  </td>
+                ))}
+              <td key="action" className="p-3 text-left whitespace-pre-line">
+                Delete!
+              </td>
             </tr>
           ))}
         </tbody>
