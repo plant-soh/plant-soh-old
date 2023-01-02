@@ -16,8 +16,12 @@ const NavLeft = ({ className }: { className: string }) => {
         Home
       </NavLeftLink>
 
-      <NavLeftLink name={'home'} to="/kunde" icon="IoHomeOutline">
+      <NavLeftLink name={'kunde'} to="/kunde" icon="IoHomeOutline">
         Kunde
+      </NavLeftLink>
+
+      <NavLeftLink name={'kundeuser'} to="/kundeuser" icon="IoHomeOutline">
+        Kunde User
       </NavLeftLink>
 
       <NavLeftLink name={'settings'} to="/settings" icon="IoSettingsOutline">
