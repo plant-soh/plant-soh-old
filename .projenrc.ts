@@ -237,7 +237,7 @@ stueli.addTask('codegen', {
 
 stueli.setScript(
   'dev',
-  'URL=$(aws cloudformation describe-stacks --stack-name ${STAGE:-dev}-BackendStack --output text --query "Stacks[0].Outputs[?OutputKey==\'CatalogWebsiteCloudfrontDomainName\'].OutputValue") && curl https://$URL/runtime-config.json > public/runtime-config.json && react-scripts start',
+  'URL=$(aws cloudformation describe-stacks --stack-name ${STAGE:-dev}-BackendStack --output text --query "Stacks[0].Outputs[?OutputKey==\'StueliWebsiteCloudfrontDomainName\'].OutputValue") && curl https://$URL/runtime-config.json > public/runtime-config.json && react-scripts start',
 );
 
 stueli.synth();
