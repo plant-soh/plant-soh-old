@@ -6,11 +6,13 @@ import { Provider } from '@aws-sdk/types';
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
 
 import SignInSignUp from '../components/SignInSignUp';
-import { AccountType } from '../constants';
+// import { AccountType } from '../constants';
+import { Role } from '../lib/api';
 import { API } from '../lib/fetcher';
 
 interface AuthValue {
-  accountType: AccountType;
+  // accountType: AccountType;
+  role: Role;
   credentials: ICredentials;
   getIdToken: Provider<string>;
   signOut: (data?: Record<string | number | symbol, any>) => void;
@@ -41,6 +43,8 @@ export default function AuthProvider({
     authToken: string;
   }>();
 
+  const [role, setRole] = useState<string | undefined>();
+
   useEffect(() => {
     console.debug('AuthProvider authenticated');
     if (route === 'authenticated') {
@@ -54,17 +58,24 @@ export default function AuthProvider({
           },
           authToken: (await Auth.currentSession()).getIdToken().getJwtToken(),
         });
+        setRole(
+          (await Auth.currentSession()).getIdToken().payload[
+            'cognito:groups'
+          ][0],
+        );
       })();
     } else if (route === 'signOut') {
       setCredentials(undefined);
+      setRole(undefined);
     }
   }, [route]);
 
-  if (route === 'authenticated' && credentials) {
+  if (route === 'authenticated' && credentials && role) {
     API.updateIsSignedIn(true);
     API.updateAuthToken(credentials.authToken);
     const value: AuthValue = {
-      accountType: user.attributes?.['custom:accountType'] as AccountType,
+      // accountType: user.attributes?.['custom:accountType'] as AccountType,
+      role: Role[role as keyof typeof Role],
       credentials: credentials.credentials,
       getIdToken: credentials.getIdToken,
       signOut,

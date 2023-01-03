@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   useCreateAnlagenUserMutation,
   useDeleteAnlagenUserMutation,
@@ -15,7 +16,7 @@ const columns: { [key: string]: string } = {
 };
 
 const KundeUser = () => {
-  const { data, isLoading } = useListAnlagenUsersQuery(undefined, {
+  const { data, isLoading, refetch } = useListAnlagenUsersQuery(undefined, {
     refetchOnWindowFocus: false,
   });
 
@@ -30,7 +31,27 @@ const KundeUser = () => {
   const deleteAnlagenUser = useDeleteAnlagenUserMutation();
   const createAnlagenUser = useCreateAnlagenUserMutation();
 
-  if (isLoading || !data?.listAnlagenUsers?.items || anlagen.isLoading)
+  const [newKundeUser, setNewKundeUser] = useState<
+    | {
+        anlageId?: string;
+        userEmail?: string;
+      }
+    | undefined
+  >(undefined);
+
+  useEffect(() => {
+    setNewKundeUser({
+      anlageId: anlagen.data?.listAnlages?.items?.[0]?.id,
+      userEmail: users.data?.listUsers?.items?.[0]?.email,
+    });
+  }, [anlagen.isLoading, users.isLoading]);
+
+  if (
+    isLoading ||
+    !data?.listAnlagenUsers?.items ||
+    anlagen.isLoading ||
+    users.isLoading
+  )
     return <div>Loading...</div>;
 
   return (
@@ -77,17 +98,18 @@ const KundeUser = () => {
                     className="p-3 text-left whitespace-pre-line"
                   >
                     <button
-                      className="cursor-pointer"
-                      onClick={() =>
-                        deleteAnlagenUser.mutateAsync({
+                      className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+                      onClick={async () => {
+                        await deleteAnlagenUser.mutateAsync({
                           input: {
                             anlageId: anlagenuser.anlageId,
                             userEmail: anlagenuser.userEmail,
                           },
-                        })
-                      }
+                        });
+                        await refetch();
+                      }}
                     >
-                      <span>Delete</span>
+                      <span>Löschen</span>
                     </button>
                   </td>
                 </tr>
@@ -100,13 +122,20 @@ const KundeUser = () => {
               className="p-3 text-left whitespace-pre-line"
             >
               <div className="select-container-kunde">
-                <select>
+                <select
+                  onChange={(e) =>
+                    setNewKundeUser({
+                      ...newKundeUser,
+                      anlageId: e.target.value,
+                    })
+                  }
+                >
                   {anlagen.data?.listAnlages?.items
                     ?.sort(
                       (a1, a2) => a1?.firma.localeCompare(a2?.firma ?? '') ?? 0,
                     )
                     .map((anlage) => (
-                      <option value={anlage?.id}>
+                      <option key={anlage?.id} value={anlage?.id}>
                         {`Firma: ${anlage?.firma} Standort: ${anlage?.standort}`}
                       </option>
                     ))}
@@ -118,27 +147,47 @@ const KundeUser = () => {
               className="p-3 text-left whitespace-pre-line"
             >
               <div className="select-container-email">
-                <select>
+                <select
+                  onChange={(e) =>
+                    setNewKundeUser({
+                      ...newKundeUser,
+                      userEmail: e.target.value,
+                    })
+                  }
+                >
                   {users.data?.listUsers?.items?.map((user) => (
-                    <option value={user?.email}>{user?.email}</option>
+                    <option key={user?.email} value={user?.email}>
+                      {user?.email}
+                    </option>
                   ))}
                 </select>
               </div>
             </td>
             <td key="action" className="p-3 text-left whitespace-pre-line">
-              <button
-                className="cursor-pointer"
-                onClick={() =>
-                  createAnlagenUser.mutateAsync({
-                    input: {
-                      anlageId: '',
-                      userEmail: '',
-                    },
-                  })
-                }
-              >
-                <span>Einfügen</span>
-              </button>
+              {!newKundeUser?.anlageId || !newKundeUser?.userEmail ? (
+                <button className="px-4 py-2 font-bold text-white bg-blue-500 rounded opacity-50 cursor-not-allowed">
+                  <span>Einfügen</span>
+                </button>
+              ) : (
+                <button
+                  className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+                  onClick={async () => {
+                    if (!newKundeUser?.anlageId || !newKundeUser?.userEmail) {
+                      console.debug('newKundeUser missing');
+                      return;
+                    }
+                    await createAnlagenUser.mutateAsync({
+                      input: {
+                        anlageId: newKundeUser.anlageId,
+                        userEmail: newKundeUser.userEmail,
+                      },
+                    });
+                    await refetch();
+                  }}
+                >
+                  <span>Einfügen</span>
+                </button>
+              )}
             </td>
           </tr>
         </tbody>

@@ -4,7 +4,7 @@ import './NavTop.scss';
 import Profile from './Profile';
 
 const NavTop = ({ className }: { className: string }) => {
-  const { accountType, user } = useAuth();
+  const { user, role } = useAuth();
 
   return (
     <header
@@ -16,10 +16,7 @@ const NavTop = ({ className }: { className: string }) => {
         <MarttiLogo aria-label="Martti Agent" className="h-full p-3 pb-0" />
       </div>
       <div className="flex flex-grow"></div>
-      <Profile
-        name={`${user.attributes?.name ?? 'No Name'}`}
-        role={accountType}
-      />
+      <Profile name={`${user.attributes?.email ?? 'No Email'}`} role={role} />
     </header>
   );
 };

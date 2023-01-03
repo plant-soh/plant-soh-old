@@ -1,9 +1,10 @@
 import { ReactComponent as UphealthLogo } from '../../assets/UpHealth_logo_white.svg';
+import { Role } from '../../lib/api';
 import { useAuth } from '../../providers/AuthProvider';
 import NavLeftLink from './Link';
 
 const NavLeft = ({ className }: { className: string }) => {
-  const { signOut } = useAuth();
+  const { signOut, role } = useAuth();
 
   return (
     <nav
@@ -20,9 +21,11 @@ const NavLeft = ({ className }: { className: string }) => {
         Kunde
       </NavLeftLink>
 
-      <NavLeftLink name={'kundeuser'} to="/kundeuser" icon="IoHomeOutline">
-        Kunde User
-      </NavLeftLink>
+      {role === Role.Admin && (
+        <NavLeftLink name={'kundeuser'} to="/kundeuser" icon="IoHomeOutline">
+          Kunde User
+        </NavLeftLink>
+      )}
 
       <NavLeftLink name={'settings'} to="/settings" icon="IoSettingsOutline">
         Settings
