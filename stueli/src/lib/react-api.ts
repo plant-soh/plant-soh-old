@@ -1,7 +1,7 @@
 import {
   useMutation,
-  UseMutationOptions,
   useQuery,
+  UseMutationOptions,
   UseQueryOptions,
 } from '@tanstack/react-query';
 import { amplifyFetcher } from '../lib/fetcher';
@@ -38,16 +38,17 @@ export type Scalars = {
 
 export type Anlage = {
   __typename?: 'Anlage';
+  anlagenUsers?: Maybe<ModelAnlagenUserConnection>;
   anschrift?: Maybe<Scalars['String']>;
   createdAt: Scalars['AWSDateTime'];
   firma: Scalars['String'];
   id: Scalars['ID'];
   standort: Scalars['String'];
   updatedAt: Scalars['AWSDateTime'];
-  users?: Maybe<ModelAnlagenUserConnection>;
+  users?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
-export type AnlageUsersArgs = {
+export type AnlageAnlagenUsersArgs = {
   filter?: InputMaybe<ModelAnlagenUserFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
@@ -70,6 +71,7 @@ export type CreateAnlageInput = {
   firma: Scalars['String'];
   id?: InputMaybe<Scalars['ID']>;
   standort: Scalars['String'];
+  users?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type CreateAnlagenUserInput = {
@@ -109,6 +111,7 @@ export type ModelAnlageFilterInput = {
   not?: InputMaybe<ModelAnlageFilterInput>;
   or?: InputMaybe<Array<InputMaybe<ModelAnlageFilterInput>>>;
   standort?: InputMaybe<ModelStringFilterInput>;
+  users?: InputMaybe<ModelStringFilterInput>;
 };
 
 export type ModelAnlagenUserConnection = {
@@ -224,9 +227,11 @@ export type Mutation = {
   __typename?: 'Mutation';
   createAnlage?: Maybe<Anlage>;
   createAnlagenUser?: Maybe<AnlagenUser>;
+  createAnlagenUserPrimary?: Maybe<AnlagenUser>;
   createUser?: Maybe<User>;
   deleteAnlage?: Maybe<Anlage>;
   deleteAnlagenUser?: Maybe<AnlagenUser>;
+  deleteAnlagenUserPrimary?: Maybe<AnlagenUser>;
   deleteUser?: Maybe<User>;
   updateAnlage?: Maybe<Anlage>;
   updateAnlagenUser?: Maybe<AnlagenUser>;
@@ -241,6 +246,10 @@ export type MutationCreateAnlagenUserArgs = {
   input: CreateAnlagenUserInput;
 };
 
+export type MutationCreateAnlagenUserPrimaryArgs = {
+  input: CreateAnlagenUserInput;
+};
+
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
 };
@@ -250,6 +259,10 @@ export type MutationDeleteAnlageArgs = {
 };
 
 export type MutationDeleteAnlagenUserArgs = {
+  input: DeleteAnlagenUserInput;
+};
+
+export type MutationDeleteAnlagenUserPrimaryArgs = {
   input: DeleteAnlagenUserInput;
 };
 
@@ -375,6 +388,7 @@ export type UpdateAnlageInput = {
   firma?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];
   standort?: InputMaybe<Scalars['String']>;
+  users?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type UpdateAnlagenUserInput = {
@@ -404,6 +418,357 @@ export type UserAnlagenArgs = {
   sortDirection?: InputMaybe<ModelSortDirection>;
 };
 
+export type CreateAnlagenUserPrimaryMutationVariables = Exact<{
+  input: CreateAnlagenUserInput;
+}>;
+
+export type CreateAnlagenUserPrimaryMutation = {
+  __typename?: 'Mutation';
+  createAnlagenUserPrimary?:
+    | {
+        __typename?: 'AnlagenUser';
+        anlageId: string;
+        userEmail: string;
+        createdAt: any;
+        updatedAt: any;
+        anlage: {
+          __typename?: 'Anlage';
+          id: string;
+          firma: string;
+          standort: string;
+          anschrift?: string | null | undefined;
+          users?: Array<string | null | undefined> | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlagenUsers?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
+        user: {
+          __typename?: 'User';
+          email: string;
+          role: Role;
+          createdAt: any;
+          updatedAt: any;
+          anlagen?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
+      }
+    | null
+    | undefined;
+};
+
+export type DeleteAnlagenUserPrimaryMutationVariables = Exact<{
+  input: DeleteAnlagenUserInput;
+}>;
+
+export type DeleteAnlagenUserPrimaryMutation = {
+  __typename?: 'Mutation';
+  deleteAnlagenUserPrimary?:
+    | {
+        __typename?: 'AnlagenUser';
+        anlageId: string;
+        userEmail: string;
+        createdAt: any;
+        updatedAt: any;
+        anlage: {
+          __typename?: 'Anlage';
+          id: string;
+          firma: string;
+          standort: string;
+          anschrift?: string | null | undefined;
+          users?: Array<string | null | undefined> | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlagenUsers?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
+        user: {
+          __typename?: 'User';
+          email: string;
+          role: Role;
+          createdAt: any;
+          updatedAt: any;
+          anlagen?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
+      }
+    | null
+    | undefined;
+};
+
+export type UpdateAnlagenUserMutationVariables = Exact<{
+  input: UpdateAnlagenUserInput;
+}>;
+
+export type UpdateAnlagenUserMutation = {
+  __typename?: 'Mutation';
+  updateAnlagenUser?:
+    | {
+        __typename?: 'AnlagenUser';
+        anlageId: string;
+        userEmail: string;
+        createdAt: any;
+        updatedAt: any;
+        anlage: {
+          __typename?: 'Anlage';
+          id: string;
+          firma: string;
+          standort: string;
+          anschrift?: string | null | undefined;
+          users?: Array<string | null | undefined> | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlagenUsers?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
+        user: {
+          __typename?: 'User';
+          email: string;
+          role: Role;
+          createdAt: any;
+          updatedAt: any;
+          anlagen?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
+      }
+    | null
+    | undefined;
+};
+
 export type CreateAnlageMutationVariables = Exact<{
   input: CreateAnlageInput;
 }>;
@@ -417,9 +782,10 @@ export type CreateAnlageMutation = {
         firma: string;
         standort: string;
         anschrift?: string | null | undefined;
+        users?: Array<string | null | undefined> | null | undefined;
         createdAt: any;
         updatedAt: any;
-        users?:
+        anlagenUsers?:
           | {
               __typename?: 'ModelAnlagenUserConnection';
               nextToken?: string | null | undefined;
@@ -437,9 +803,13 @@ export type CreateAnlageMutation = {
                           firma: string;
                           standort: string;
                           anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          users?:
+                          anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
                                 nextToken?: string | null | undefined;
@@ -488,9 +858,10 @@ export type UpdateAnlageMutation = {
         firma: string;
         standort: string;
         anschrift?: string | null | undefined;
+        users?: Array<string | null | undefined> | null | undefined;
         createdAt: any;
         updatedAt: any;
-        users?:
+        anlagenUsers?:
           | {
               __typename?: 'ModelAnlagenUserConnection';
               nextToken?: string | null | undefined;
@@ -508,9 +879,13 @@ export type UpdateAnlageMutation = {
                           firma: string;
                           standort: string;
                           anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          users?:
+                          anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
                                 nextToken?: string | null | undefined;
@@ -559,9 +934,10 @@ export type DeleteAnlageMutation = {
         firma: string;
         standort: string;
         anschrift?: string | null | undefined;
+        users?: Array<string | null | undefined> | null | undefined;
         createdAt: any;
         updatedAt: any;
-        users?:
+        anlagenUsers?:
           | {
               __typename?: 'ModelAnlagenUserConnection';
               nextToken?: string | null | undefined;
@@ -579,9 +955,13 @@ export type DeleteAnlageMutation = {
                           firma: string;
                           standort: string;
                           anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          users?:
+                          anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
                                 nextToken?: string | null | undefined;
@@ -636,9 +1016,10 @@ export type CreateAnlagenUserMutation = {
           firma: string;
           standort: string;
           anschrift?: string | null | undefined;
+          users?: Array<string | null | undefined> | null | undefined;
           createdAt: any;
           updatedAt: any;
-          users?:
+          anlagenUsers?:
             | {
                 __typename?: 'ModelAnlagenUserConnection';
                 nextToken?: string | null | undefined;
@@ -656,6 +1037,10 @@ export type CreateAnlagenUserMutation = {
                             firma: string;
                             standort: string;
                             anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -700,114 +1085,10 @@ export type CreateAnlagenUserMutation = {
                             firma: string;
                             standort: string;
                             anschrift?: string | null | undefined;
-                            createdAt: any;
-                            updatedAt: any;
-                          };
-                          user: {
-                            __typename?: 'User';
-                            email: string;
-                            role: Role;
-                            createdAt: any;
-                            updatedAt: any;
-                          };
-                        }
-                      | null
-                      | undefined
-                    >
-                  | null
-                  | undefined;
-              }
-            | null
-            | undefined;
-        };
-      }
-    | null
-    | undefined;
-};
-
-export type UpdateAnlagenUserMutationVariables = Exact<{
-  input: UpdateAnlagenUserInput;
-}>;
-
-export type UpdateAnlagenUserMutation = {
-  __typename?: 'Mutation';
-  updateAnlagenUser?:
-    | {
-        __typename?: 'AnlagenUser';
-        anlageId: string;
-        userEmail: string;
-        createdAt: any;
-        updatedAt: any;
-        anlage: {
-          __typename?: 'Anlage';
-          id: string;
-          firma: string;
-          standort: string;
-          anschrift?: string | null | undefined;
-          createdAt: any;
-          updatedAt: any;
-          users?:
-            | {
-                __typename?: 'ModelAnlagenUserConnection';
-                nextToken?: string | null | undefined;
-                items?:
-                  | Array<
-                      | {
-                          __typename?: 'AnlagenUser';
-                          anlageId: string;
-                          userEmail: string;
-                          createdAt: any;
-                          updatedAt: any;
-                          anlage: {
-                            __typename?: 'Anlage';
-                            id: string;
-                            firma: string;
-                            standort: string;
-                            anschrift?: string | null | undefined;
-                            createdAt: any;
-                            updatedAt: any;
-                          };
-                          user: {
-                            __typename?: 'User';
-                            email: string;
-                            role: Role;
-                            createdAt: any;
-                            updatedAt: any;
-                          };
-                        }
-                      | null
-                      | undefined
-                    >
-                  | null
-                  | undefined;
-              }
-            | null
-            | undefined;
-        };
-        user: {
-          __typename?: 'User';
-          email: string;
-          role: Role;
-          createdAt: any;
-          updatedAt: any;
-          anlagen?:
-            | {
-                __typename?: 'ModelAnlagenUserConnection';
-                nextToken?: string | null | undefined;
-                items?:
-                  | Array<
-                      | {
-                          __typename?: 'AnlagenUser';
-                          anlageId: string;
-                          userEmail: string;
-                          createdAt: any;
-                          updatedAt: any;
-                          anlage: {
-                            __typename?: 'Anlage';
-                            id: string;
-                            firma: string;
-                            standort: string;
-                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -852,9 +1133,10 @@ export type DeleteAnlagenUserMutation = {
           firma: string;
           standort: string;
           anschrift?: string | null | undefined;
+          users?: Array<string | null | undefined> | null | undefined;
           createdAt: any;
           updatedAt: any;
-          users?:
+          anlagenUsers?:
             | {
                 __typename?: 'ModelAnlagenUserConnection';
                 nextToken?: string | null | undefined;
@@ -872,6 +1154,10 @@ export type DeleteAnlagenUserMutation = {
                             firma: string;
                             standort: string;
                             anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -916,6 +1202,10 @@ export type DeleteAnlagenUserMutation = {
                             firma: string;
                             standort: string;
                             anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -972,9 +1262,13 @@ export type CreateUserMutation = {
                           firma: string;
                           standort: string;
                           anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          users?:
+                          anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
                                 nextToken?: string | null | undefined;
@@ -1041,9 +1335,13 @@ export type UpdateUserMutation = {
                           firma: string;
                           standort: string;
                           anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          users?:
+                          anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
                                 nextToken?: string | null | undefined;
@@ -1110,9 +1408,13 @@ export type DeleteUserMutation = {
                           firma: string;
                           standort: string;
                           anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          users?:
+                          anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
                                 nextToken?: string | null | undefined;
@@ -1161,9 +1463,10 @@ export type GetAnlageQuery = {
         firma: string;
         standort: string;
         anschrift?: string | null | undefined;
+        users?: Array<string | null | undefined> | null | undefined;
         createdAt: any;
         updatedAt: any;
-        users?:
+        anlagenUsers?:
           | {
               __typename?: 'ModelAnlagenUserConnection';
               nextToken?: string | null | undefined;
@@ -1181,9 +1484,13 @@ export type GetAnlageQuery = {
                           firma: string;
                           standort: string;
                           anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          users?:
+                          anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
                                 nextToken?: string | null | undefined;
@@ -1239,9 +1546,10 @@ export type ListAnlagesQuery = {
                   firma: string;
                   standort: string;
                   anschrift?: string | null | undefined;
+                  users?: Array<string | null | undefined> | null | undefined;
                   createdAt: any;
                   updatedAt: any;
-                  users?:
+                  anlagenUsers?:
                     | {
                         __typename?: 'ModelAnlagenUserConnection';
                         nextToken?: string | null | undefined;
@@ -1259,6 +1567,10 @@ export type ListAnlagesQuery = {
                                     firma: string;
                                     standort: string;
                                     anschrift?: string | null | undefined;
+                                    users?:
+                                      | Array<string | null | undefined>
+                                      | null
+                                      | undefined;
                                     createdAt: any;
                                     updatedAt: any;
                                   };
@@ -1309,9 +1621,10 @@ export type GetAnlagenUserQuery = {
           firma: string;
           standort: string;
           anschrift?: string | null | undefined;
+          users?: Array<string | null | undefined> | null | undefined;
           createdAt: any;
           updatedAt: any;
-          users?:
+          anlagenUsers?:
             | {
                 __typename?: 'ModelAnlagenUserConnection';
                 nextToken?: string | null | undefined;
@@ -1329,6 +1642,10 @@ export type GetAnlagenUserQuery = {
                             firma: string;
                             standort: string;
                             anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1373,6 +1690,10 @@ export type GetAnlagenUserQuery = {
                             firma: string;
                             standort: string;
                             anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1427,9 +1748,10 @@ export type ListAnlagenUsersQuery = {
                     firma: string;
                     standort: string;
                     anschrift?: string | null | undefined;
+                    users?: Array<string | null | undefined> | null | undefined;
                     createdAt: any;
                     updatedAt: any;
-                    users?:
+                    anlagenUsers?:
                       | {
                           __typename?: 'ModelAnlagenUserConnection';
                           nextToken?: string | null | undefined;
@@ -1521,9 +1843,13 @@ export type GetUserQuery = {
                           firma: string;
                           standort: string;
                           anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          users?:
+                          anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
                                 nextToken?: string | null | undefined;
@@ -1599,6 +1925,10 @@ export type ListUsersQuery = {
                                     firma: string;
                                     standort: string;
                                     anschrift?: string | null | undefined;
+                                    users?:
+                                      | Array<string | null | undefined>
+                                      | null
+                                      | undefined;
                                     createdAt: any;
                                     updatedAt: any;
                                   };
@@ -1642,9 +1972,10 @@ export type OnCreateAnlageSubscription = {
         firma: string;
         standort: string;
         anschrift?: string | null | undefined;
+        users?: Array<string | null | undefined> | null | undefined;
         createdAt: any;
         updatedAt: any;
-        users?:
+        anlagenUsers?:
           | {
               __typename?: 'ModelAnlagenUserConnection';
               nextToken?: string | null | undefined;
@@ -1662,9 +1993,13 @@ export type OnCreateAnlageSubscription = {
                           firma: string;
                           standort: string;
                           anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          users?:
+                          anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
                                 nextToken?: string | null | undefined;
@@ -1713,9 +2048,10 @@ export type OnUpdateAnlageSubscription = {
         firma: string;
         standort: string;
         anschrift?: string | null | undefined;
+        users?: Array<string | null | undefined> | null | undefined;
         createdAt: any;
         updatedAt: any;
-        users?:
+        anlagenUsers?:
           | {
               __typename?: 'ModelAnlagenUserConnection';
               nextToken?: string | null | undefined;
@@ -1733,9 +2069,13 @@ export type OnUpdateAnlageSubscription = {
                           firma: string;
                           standort: string;
                           anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          users?:
+                          anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
                                 nextToken?: string | null | undefined;
@@ -1784,9 +2124,10 @@ export type OnDeleteAnlageSubscription = {
         firma: string;
         standort: string;
         anschrift?: string | null | undefined;
+        users?: Array<string | null | undefined> | null | undefined;
         createdAt: any;
         updatedAt: any;
-        users?:
+        anlagenUsers?:
           | {
               __typename?: 'ModelAnlagenUserConnection';
               nextToken?: string | null | undefined;
@@ -1804,9 +2145,13 @@ export type OnDeleteAnlageSubscription = {
                           firma: string;
                           standort: string;
                           anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          users?:
+                          anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
                                 nextToken?: string | null | undefined;
@@ -1861,9 +2206,10 @@ export type OnCreateAnlagenUserSubscription = {
           firma: string;
           standort: string;
           anschrift?: string | null | undefined;
+          users?: Array<string | null | undefined> | null | undefined;
           createdAt: any;
           updatedAt: any;
-          users?:
+          anlagenUsers?:
             | {
                 __typename?: 'ModelAnlagenUserConnection';
                 nextToken?: string | null | undefined;
@@ -1881,6 +2227,10 @@ export type OnCreateAnlagenUserSubscription = {
                             firma: string;
                             standort: string;
                             anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1925,6 +2275,10 @@ export type OnCreateAnlagenUserSubscription = {
                             firma: string;
                             standort: string;
                             anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1969,9 +2323,10 @@ export type OnUpdateAnlagenUserSubscription = {
           firma: string;
           standort: string;
           anschrift?: string | null | undefined;
+          users?: Array<string | null | undefined> | null | undefined;
           createdAt: any;
           updatedAt: any;
-          users?:
+          anlagenUsers?:
             | {
                 __typename?: 'ModelAnlagenUserConnection';
                 nextToken?: string | null | undefined;
@@ -1989,6 +2344,10 @@ export type OnUpdateAnlagenUserSubscription = {
                             firma: string;
                             standort: string;
                             anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -2033,6 +2392,10 @@ export type OnUpdateAnlagenUserSubscription = {
                             firma: string;
                             standort: string;
                             anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -2077,9 +2440,10 @@ export type OnDeleteAnlagenUserSubscription = {
           firma: string;
           standort: string;
           anschrift?: string | null | undefined;
+          users?: Array<string | null | undefined> | null | undefined;
           createdAt: any;
           updatedAt: any;
-          users?:
+          anlagenUsers?:
             | {
                 __typename?: 'ModelAnlagenUserConnection';
                 nextToken?: string | null | undefined;
@@ -2097,6 +2461,10 @@ export type OnDeleteAnlagenUserSubscription = {
                             firma: string;
                             standort: string;
                             anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -2141,6 +2509,10 @@ export type OnDeleteAnlagenUserSubscription = {
                             firma: string;
                             standort: string;
                             anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -2197,9 +2569,13 @@ export type OnCreateUserSubscription = {
                           firma: string;
                           standort: string;
                           anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          users?:
+                          anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
                                 nextToken?: string | null | undefined;
@@ -2266,9 +2642,13 @@ export type OnUpdateUserSubscription = {
                           firma: string;
                           standort: string;
                           anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          users?:
+                          anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
                                 nextToken?: string | null | undefined;
@@ -2335,9 +2715,13 @@ export type OnDeleteUserSubscription = {
                           firma: string;
                           standort: string;
                           anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          users?:
+                          anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
                                 nextToken?: string | null | undefined;
@@ -2373,6 +2757,300 @@ export type OnDeleteUserSubscription = {
     | undefined;
 };
 
+export const CreateAnlagenUserPrimaryDocument = `
+    mutation CreateAnlagenUserPrimary($input: CreateAnlagenUserInput!) {
+  createAnlagenUserPrimary(input: $input) {
+    anlageId
+    userEmail
+    createdAt
+    updatedAt
+    anlage {
+      id
+      firma
+      standort
+      anschrift
+      users
+      createdAt
+      updatedAt
+      anlagenUsers {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+          }
+          user {
+            email
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
+    user {
+      email
+      role
+      createdAt
+      updatedAt
+      anlagen {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+          }
+          user {
+            email
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
+  }
+}
+    `;
+export const useCreateAnlagenUserPrimaryMutation = <
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: UseMutationOptions<
+    CreateAnlagenUserPrimaryMutation,
+    TError,
+    CreateAnlagenUserPrimaryMutationVariables,
+    TContext
+  >,
+) =>
+  useMutation<
+    CreateAnlagenUserPrimaryMutation,
+    TError,
+    CreateAnlagenUserPrimaryMutationVariables,
+    TContext
+  >(
+    ['CreateAnlagenUserPrimary'],
+    (variables?: CreateAnlagenUserPrimaryMutationVariables) =>
+      amplifyFetcher<
+        CreateAnlagenUserPrimaryMutation,
+        CreateAnlagenUserPrimaryMutationVariables
+      >(CreateAnlagenUserPrimaryDocument, variables)(),
+    options,
+  );
+export const DeleteAnlagenUserPrimaryDocument = `
+    mutation DeleteAnlagenUserPrimary($input: DeleteAnlagenUserInput!) {
+  deleteAnlagenUserPrimary(input: $input) {
+    anlageId
+    userEmail
+    createdAt
+    updatedAt
+    anlage {
+      id
+      firma
+      standort
+      anschrift
+      users
+      createdAt
+      updatedAt
+      anlagenUsers {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+          }
+          user {
+            email
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
+    user {
+      email
+      role
+      createdAt
+      updatedAt
+      anlagen {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+          }
+          user {
+            email
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
+  }
+}
+    `;
+export const useDeleteAnlagenUserPrimaryMutation = <
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: UseMutationOptions<
+    DeleteAnlagenUserPrimaryMutation,
+    TError,
+    DeleteAnlagenUserPrimaryMutationVariables,
+    TContext
+  >,
+) =>
+  useMutation<
+    DeleteAnlagenUserPrimaryMutation,
+    TError,
+    DeleteAnlagenUserPrimaryMutationVariables,
+    TContext
+  >(
+    ['DeleteAnlagenUserPrimary'],
+    (variables?: DeleteAnlagenUserPrimaryMutationVariables) =>
+      amplifyFetcher<
+        DeleteAnlagenUserPrimaryMutation,
+        DeleteAnlagenUserPrimaryMutationVariables
+      >(DeleteAnlagenUserPrimaryDocument, variables)(),
+    options,
+  );
+export const UpdateAnlagenUserDocument = `
+    mutation UpdateAnlagenUser($input: UpdateAnlagenUserInput!) {
+  updateAnlagenUser(input: $input) {
+    anlageId
+    userEmail
+    createdAt
+    updatedAt
+    anlage {
+      id
+      firma
+      standort
+      anschrift
+      users
+      createdAt
+      updatedAt
+      anlagenUsers {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+          }
+          user {
+            email
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
+    user {
+      email
+      role
+      createdAt
+      updatedAt
+      anlagen {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+          }
+          user {
+            email
+            role
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
+  }
+}
+    `;
+export const useUpdateAnlagenUserMutation = <
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: UseMutationOptions<
+    UpdateAnlagenUserMutation,
+    TError,
+    UpdateAnlagenUserMutationVariables,
+    TContext
+  >,
+) =>
+  useMutation<
+    UpdateAnlagenUserMutation,
+    TError,
+    UpdateAnlagenUserMutationVariables,
+    TContext
+  >(
+    ['UpdateAnlagenUser'],
+    (variables?: UpdateAnlagenUserMutationVariables) =>
+      amplifyFetcher<
+        UpdateAnlagenUserMutation,
+        UpdateAnlagenUserMutationVariables
+      >(UpdateAnlagenUserDocument, variables)(),
+    options,
+  );
 export const CreateAnlageDocument = `
     mutation CreateAnlage($input: CreateAnlageInput!) {
   createAnlage(input: $input) {
@@ -2380,9 +3058,10 @@ export const CreateAnlageDocument = `
     firma
     standort
     anschrift
+    users
     createdAt
     updatedAt
-    users {
+    anlagenUsers {
       items {
         anlageId
         userEmail
@@ -2393,9 +3072,10 @@ export const CreateAnlageDocument = `
           firma
           standort
           anschrift
+          users
           createdAt
           updatedAt
-          users {
+          anlagenUsers {
             nextToken
           }
         }
@@ -2443,9 +3123,10 @@ export const UpdateAnlageDocument = `
     firma
     standort
     anschrift
+    users
     createdAt
     updatedAt
-    users {
+    anlagenUsers {
       items {
         anlageId
         userEmail
@@ -2456,9 +3137,10 @@ export const UpdateAnlageDocument = `
           firma
           standort
           anschrift
+          users
           createdAt
           updatedAt
-          users {
+          anlagenUsers {
             nextToken
           }
         }
@@ -2506,9 +3188,10 @@ export const DeleteAnlageDocument = `
     firma
     standort
     anschrift
+    users
     createdAt
     updatedAt
-    users {
+    anlagenUsers {
       items {
         anlageId
         userEmail
@@ -2519,9 +3202,10 @@ export const DeleteAnlageDocument = `
           firma
           standort
           anschrift
+          users
           createdAt
           updatedAt
-          users {
+          anlagenUsers {
             nextToken
           }
         }
@@ -2574,9 +3258,10 @@ export const CreateAnlagenUserDocument = `
       firma
       standort
       anschrift
+      users
       createdAt
       updatedAt
-      users {
+      anlagenUsers {
         items {
           anlageId
           userEmail
@@ -2587,6 +3272,7 @@ export const CreateAnlagenUserDocument = `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
           }
@@ -2616,6 +3302,7 @@ export const CreateAnlagenUserDocument = `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
           }
@@ -2657,101 +3344,6 @@ export const useCreateAnlagenUserMutation = <
       >(CreateAnlagenUserDocument, variables)(),
     options,
   );
-export const UpdateAnlagenUserDocument = `
-    mutation UpdateAnlagenUser($input: UpdateAnlagenUserInput!) {
-  updateAnlagenUser(input: $input) {
-    anlageId
-    userEmail
-    createdAt
-    updatedAt
-    anlage {
-      id
-      firma
-      standort
-      anschrift
-      createdAt
-      updatedAt
-      users {
-        items {
-          anlageId
-          userEmail
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            createdAt
-            updatedAt
-          }
-          user {
-            email
-            role
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-    }
-    user {
-      email
-      role
-      createdAt
-      updatedAt
-      anlagen {
-        items {
-          anlageId
-          userEmail
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            createdAt
-            updatedAt
-          }
-          user {
-            email
-            role
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-    }
-  }
-}
-    `;
-export const useUpdateAnlagenUserMutation = <
-  TError = unknown,
-  TContext = unknown,
->(
-  options?: UseMutationOptions<
-    UpdateAnlagenUserMutation,
-    TError,
-    UpdateAnlagenUserMutationVariables,
-    TContext
-  >,
-) =>
-  useMutation<
-    UpdateAnlagenUserMutation,
-    TError,
-    UpdateAnlagenUserMutationVariables,
-    TContext
-  >(
-    ['UpdateAnlagenUser'],
-    (variables?: UpdateAnlagenUserMutationVariables) =>
-      amplifyFetcher<
-        UpdateAnlagenUserMutation,
-        UpdateAnlagenUserMutationVariables
-      >(UpdateAnlagenUserDocument, variables)(),
-    options,
-  );
 export const DeleteAnlagenUserDocument = `
     mutation DeleteAnlagenUser($input: DeleteAnlagenUserInput!) {
   deleteAnlagenUser(input: $input) {
@@ -2764,9 +3356,10 @@ export const DeleteAnlagenUserDocument = `
       firma
       standort
       anschrift
+      users
       createdAt
       updatedAt
-      users {
+      anlagenUsers {
         items {
           anlageId
           userEmail
@@ -2777,6 +3370,7 @@ export const DeleteAnlagenUserDocument = `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
           }
@@ -2806,6 +3400,7 @@ export const DeleteAnlagenUserDocument = `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
           }
@@ -2865,9 +3460,10 @@ export const CreateUserDocument = `
           firma
           standort
           anschrift
+          users
           createdAt
           updatedAt
-          users {
+          anlagenUsers {
             nextToken
           }
         }
@@ -2926,9 +3522,10 @@ export const UpdateUserDocument = `
           firma
           standort
           anschrift
+          users
           createdAt
           updatedAt
-          users {
+          anlagenUsers {
             nextToken
           }
         }
@@ -2987,9 +3584,10 @@ export const DeleteUserDocument = `
           firma
           standort
           anschrift
+          users
           createdAt
           updatedAt
-          users {
+          anlagenUsers {
             nextToken
           }
         }
@@ -3037,9 +3635,10 @@ export const GetAnlageDocument = `
     firma
     standort
     anschrift
+    users
     createdAt
     updatedAt
-    users {
+    anlagenUsers {
       items {
         anlageId
         userEmail
@@ -3050,9 +3649,10 @@ export const GetAnlageDocument = `
           firma
           standort
           anschrift
+          users
           createdAt
           updatedAt
-          users {
+          anlagenUsers {
             nextToken
           }
         }
@@ -3091,9 +3691,10 @@ export const ListAnlagesDocument = `
       firma
       standort
       anschrift
+      users
       createdAt
       updatedAt
-      users {
+      anlagenUsers {
         items {
           anlageId
           userEmail
@@ -3104,6 +3705,7 @@ export const ListAnlagesDocument = `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
           }
@@ -3145,9 +3747,10 @@ export const GetAnlagenUserDocument = `
       firma
       standort
       anschrift
+      users
       createdAt
       updatedAt
-      users {
+      anlagenUsers {
         items {
           anlageId
           userEmail
@@ -3158,6 +3761,7 @@ export const GetAnlagenUserDocument = `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
           }
@@ -3187,6 +3791,7 @@ export const GetAnlagenUserDocument = `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
           }
@@ -3238,9 +3843,10 @@ export const ListAnlagenUsersDocument = `
         firma
         standort
         anschrift
+        users
         createdAt
         updatedAt
-        users {
+        anlagenUsers {
           items {
             anlageId
             userEmail
@@ -3305,9 +3911,10 @@ export const GetUserDocument = `
           firma
           standort
           anschrift
+          users
           createdAt
           updatedAt
-          users {
+          anlagenUsers {
             nextToken
           }
         }
@@ -3363,6 +3970,7 @@ export const ListUsersDocument = `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
           }
@@ -3399,9 +4007,10 @@ export const OnCreateAnlageDocument = `
     firma
     standort
     anschrift
+    users
     createdAt
     updatedAt
-    users {
+    anlagenUsers {
       items {
         anlageId
         userEmail
@@ -3412,9 +4021,10 @@ export const OnCreateAnlageDocument = `
           firma
           standort
           anschrift
+          users
           createdAt
           updatedAt
-          users {
+          anlagenUsers {
             nextToken
           }
         }
@@ -3440,9 +4050,10 @@ export const OnUpdateAnlageDocument = `
     firma
     standort
     anschrift
+    users
     createdAt
     updatedAt
-    users {
+    anlagenUsers {
       items {
         anlageId
         userEmail
@@ -3453,9 +4064,10 @@ export const OnUpdateAnlageDocument = `
           firma
           standort
           anschrift
+          users
           createdAt
           updatedAt
-          users {
+          anlagenUsers {
             nextToken
           }
         }
@@ -3481,9 +4093,10 @@ export const OnDeleteAnlageDocument = `
     firma
     standort
     anschrift
+    users
     createdAt
     updatedAt
-    users {
+    anlagenUsers {
       items {
         anlageId
         userEmail
@@ -3494,9 +4107,10 @@ export const OnDeleteAnlageDocument = `
           firma
           standort
           anschrift
+          users
           createdAt
           updatedAt
-          users {
+          anlagenUsers {
             nextToken
           }
         }
@@ -3527,9 +4141,10 @@ export const OnCreateAnlagenUserDocument = `
       firma
       standort
       anschrift
+      users
       createdAt
       updatedAt
-      users {
+      anlagenUsers {
         items {
           anlageId
           userEmail
@@ -3540,6 +4155,7 @@ export const OnCreateAnlagenUserDocument = `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
           }
@@ -3569,6 +4185,7 @@ export const OnCreateAnlagenUserDocument = `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
           }
@@ -3597,9 +4214,10 @@ export const OnUpdateAnlagenUserDocument = `
       firma
       standort
       anschrift
+      users
       createdAt
       updatedAt
-      users {
+      anlagenUsers {
         items {
           anlageId
           userEmail
@@ -3610,6 +4228,7 @@ export const OnUpdateAnlagenUserDocument = `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
           }
@@ -3639,6 +4258,7 @@ export const OnUpdateAnlagenUserDocument = `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
           }
@@ -3667,9 +4287,10 @@ export const OnDeleteAnlagenUserDocument = `
       firma
       standort
       anschrift
+      users
       createdAt
       updatedAt
-      users {
+      anlagenUsers {
         items {
           anlageId
           userEmail
@@ -3680,6 +4301,7 @@ export const OnDeleteAnlagenUserDocument = `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
           }
@@ -3709,6 +4331,7 @@ export const OnDeleteAnlagenUserDocument = `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
           }
@@ -3743,9 +4366,10 @@ export const OnCreateUserDocument = `
           firma
           standort
           anschrift
+          users
           createdAt
           updatedAt
-          users {
+          anlagenUsers {
             nextToken
           }
         }
@@ -3782,9 +4406,10 @@ export const OnUpdateUserDocument = `
           firma
           standort
           anschrift
+          users
           createdAt
           updatedAt
-          users {
+          anlagenUsers {
             nextToken
           }
         }
@@ -3821,9 +4446,10 @@ export const OnDeleteUserDocument = `
           firma
           standort
           anschrift
+          users
           createdAt
           updatedAt
-          users {
+          anlagenUsers {
             nextToken
           }
         }

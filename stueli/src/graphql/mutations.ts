@@ -2,6 +2,225 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createAnlagenUserPrimary = /* GraphQL */ `
+  mutation CreateAnlagenUserPrimary($input: CreateAnlagenUserInput!) {
+    createAnlagenUserPrimary(input: $input) {
+      anlageId
+      userEmail
+      createdAt
+      updatedAt
+      anlage {
+        id
+        firma
+        standort
+        anschrift
+        users
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              users
+              createdAt
+              updatedAt
+            }
+            user {
+              email
+              role
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+        }
+      }
+      user {
+        email
+        role
+        createdAt
+        updatedAt
+        anlagen {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              users
+              createdAt
+              updatedAt
+            }
+            user {
+              email
+              role
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const deleteAnlagenUserPrimary = /* GraphQL */ `
+  mutation DeleteAnlagenUserPrimary($input: DeleteAnlagenUserInput!) {
+    deleteAnlagenUserPrimary(input: $input) {
+      anlageId
+      userEmail
+      createdAt
+      updatedAt
+      anlage {
+        id
+        firma
+        standort
+        anschrift
+        users
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              users
+              createdAt
+              updatedAt
+            }
+            user {
+              email
+              role
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+        }
+      }
+      user {
+        email
+        role
+        createdAt
+        updatedAt
+        anlagen {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              users
+              createdAt
+              updatedAt
+            }
+            user {
+              email
+              role
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const updateAnlagenUser = /* GraphQL */ `
+  mutation UpdateAnlagenUser($input: UpdateAnlagenUserInput!) {
+    updateAnlagenUser(input: $input) {
+      anlageId
+      userEmail
+      createdAt
+      updatedAt
+      anlage {
+        id
+        firma
+        standort
+        anschrift
+        users
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              users
+              createdAt
+              updatedAt
+            }
+            user {
+              email
+              role
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+        }
+      }
+      user {
+        email
+        role
+        createdAt
+        updatedAt
+        anlagen {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              users
+              createdAt
+              updatedAt
+            }
+            user {
+              email
+              role
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+        }
+      }
+    }
+  }
+`;
 export const createAnlage = /* GraphQL */ `
   mutation CreateAnlage($input: CreateAnlageInput!) {
     createAnlage(input: $input) {
@@ -9,9 +228,10 @@ export const createAnlage = /* GraphQL */ `
       firma
       standort
       anschrift
+      users
       createdAt
       updatedAt
-      users {
+      anlagenUsers {
         items {
           anlageId
           userEmail
@@ -22,9 +242,10 @@ export const createAnlage = /* GraphQL */ `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
-            users {
+            anlagenUsers {
               nextToken
             }
           }
@@ -50,9 +271,10 @@ export const updateAnlage = /* GraphQL */ `
       firma
       standort
       anschrift
+      users
       createdAt
       updatedAt
-      users {
+      anlagenUsers {
         items {
           anlageId
           userEmail
@@ -63,9 +285,10 @@ export const updateAnlage = /* GraphQL */ `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
-            users {
+            anlagenUsers {
               nextToken
             }
           }
@@ -91,9 +314,10 @@ export const deleteAnlage = /* GraphQL */ `
       firma
       standort
       anschrift
+      users
       createdAt
       updatedAt
-      users {
+      anlagenUsers {
         items {
           anlageId
           userEmail
@@ -104,9 +328,10 @@ export const deleteAnlage = /* GraphQL */ `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
-            users {
+            anlagenUsers {
               nextToken
             }
           }
@@ -137,9 +362,10 @@ export const createAnlagenUser = /* GraphQL */ `
         firma
         standort
         anschrift
+        users
         createdAt
         updatedAt
-        users {
+        anlagenUsers {
           items {
             anlageId
             userEmail
@@ -150,6 +376,7 @@ export const createAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
+              users
               createdAt
               updatedAt
             }
@@ -179,76 +406,7 @@ export const createAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              createdAt
-              updatedAt
-            }
-            user {
-              email
-              role
-              createdAt
-              updatedAt
-            }
-          }
-          nextToken
-        }
-      }
-    }
-  }
-`;
-export const updateAnlagenUser = /* GraphQL */ `
-  mutation UpdateAnlagenUser($input: UpdateAnlagenUserInput!) {
-    updateAnlagenUser(input: $input) {
-      anlageId
-      userEmail
-      createdAt
-      updatedAt
-      anlage {
-        id
-        firma
-        standort
-        anschrift
-        createdAt
-        updatedAt
-        users {
-          items {
-            anlageId
-            userEmail
-            createdAt
-            updatedAt
-            anlage {
-              id
-              firma
-              standort
-              anschrift
-              createdAt
-              updatedAt
-            }
-            user {
-              email
-              role
-              createdAt
-              updatedAt
-            }
-          }
-          nextToken
-        }
-      }
-      user {
-        email
-        role
-        createdAt
-        updatedAt
-        anlagen {
-          items {
-            anlageId
-            userEmail
-            createdAt
-            updatedAt
-            anlage {
-              id
-              firma
-              standort
-              anschrift
+              users
               createdAt
               updatedAt
             }
@@ -277,9 +435,10 @@ export const deleteAnlagenUser = /* GraphQL */ `
         firma
         standort
         anschrift
+        users
         createdAt
         updatedAt
-        users {
+        anlagenUsers {
           items {
             anlageId
             userEmail
@@ -290,6 +449,7 @@ export const deleteAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
+              users
               createdAt
               updatedAt
             }
@@ -319,6 +479,7 @@ export const deleteAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
+              users
               createdAt
               updatedAt
             }
@@ -353,9 +514,10 @@ export const createUser = /* GraphQL */ `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
-            users {
+            anlagenUsers {
               nextToken
             }
           }
@@ -392,9 +554,10 @@ export const updateUser = /* GraphQL */ `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
-            users {
+            anlagenUsers {
               nextToken
             }
           }
@@ -431,9 +594,10 @@ export const deleteUser = /* GraphQL */ `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
-            users {
+            anlagenUsers {
               nextToken
             }
           }

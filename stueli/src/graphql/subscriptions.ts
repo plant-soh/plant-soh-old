@@ -9,9 +9,10 @@ export const onCreateAnlage = /* GraphQL */ `
       firma
       standort
       anschrift
+      users
       createdAt
       updatedAt
-      users {
+      anlagenUsers {
         items {
           anlageId
           userEmail
@@ -22,9 +23,10 @@ export const onCreateAnlage = /* GraphQL */ `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
-            users {
+            anlagenUsers {
               nextToken
             }
           }
@@ -50,9 +52,10 @@ export const onUpdateAnlage = /* GraphQL */ `
       firma
       standort
       anschrift
+      users
       createdAt
       updatedAt
-      users {
+      anlagenUsers {
         items {
           anlageId
           userEmail
@@ -63,9 +66,10 @@ export const onUpdateAnlage = /* GraphQL */ `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
-            users {
+            anlagenUsers {
               nextToken
             }
           }
@@ -91,9 +95,10 @@ export const onDeleteAnlage = /* GraphQL */ `
       firma
       standort
       anschrift
+      users
       createdAt
       updatedAt
-      users {
+      anlagenUsers {
         items {
           anlageId
           userEmail
@@ -104,9 +109,10 @@ export const onDeleteAnlage = /* GraphQL */ `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
-            users {
+            anlagenUsers {
               nextToken
             }
           }
@@ -137,9 +143,10 @@ export const onCreateAnlagenUser = /* GraphQL */ `
         firma
         standort
         anschrift
+        users
         createdAt
         updatedAt
-        users {
+        anlagenUsers {
           items {
             anlageId
             userEmail
@@ -150,6 +157,7 @@ export const onCreateAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
+              users
               createdAt
               updatedAt
             }
@@ -179,6 +187,7 @@ export const onCreateAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
+              users
               createdAt
               updatedAt
             }
@@ -207,9 +216,10 @@ export const onUpdateAnlagenUser = /* GraphQL */ `
         firma
         standort
         anschrift
+        users
         createdAt
         updatedAt
-        users {
+        anlagenUsers {
           items {
             anlageId
             userEmail
@@ -220,6 +230,7 @@ export const onUpdateAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
+              users
               createdAt
               updatedAt
             }
@@ -249,6 +260,7 @@ export const onUpdateAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
+              users
               createdAt
               updatedAt
             }
@@ -277,9 +289,10 @@ export const onDeleteAnlagenUser = /* GraphQL */ `
         firma
         standort
         anschrift
+        users
         createdAt
         updatedAt
-        users {
+        anlagenUsers {
           items {
             anlageId
             userEmail
@@ -290,6 +303,7 @@ export const onDeleteAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
+              users
               createdAt
               updatedAt
             }
@@ -319,6 +333,7 @@ export const onDeleteAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
+              users
               createdAt
               updatedAt
             }
@@ -353,9 +368,10 @@ export const onCreateUser = /* GraphQL */ `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
-            users {
+            anlagenUsers {
               nextToken
             }
           }
@@ -392,9 +408,10 @@ export const onUpdateUser = /* GraphQL */ `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
-            users {
+            anlagenUsers {
               nextToken
             }
           }
@@ -431,9 +448,10 @@ export const onDeleteUser = /* GraphQL */ `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
-            users {
+            anlagenUsers {
               nextToken
             }
           }

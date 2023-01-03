@@ -11,7 +11,8 @@ type Anlage
   firma: String!
   standort: String!
   anschrift: String
-  users: [AnlagenUser] @connection(keyName: "byAnlage", fields: ["id"])
+  users: [String]
+  anlagenUsers: [AnlagenUser] @connection(keyName: "byAnlage", fields: ["id"])
 }
 
 type AnlagenUser
@@ -19,9 +20,14 @@ type AnlagenUser
   @key(fields: ["userEmail", "anlageId"])
   @auth(
     rules: [
-      { allow: groups, groups: ["Admin"] }
-      { allow: private, provider: iam }
-      { allow: owner, ownerField: "userEmail", identityClaim: "email" }
+      { allow: groups, groups: ["Admin"], operations: [read] }
+      { allow: private, provider: iam, operations: [create, delete, read] }
+      {
+        allow: owner
+        ownerField: "userEmail"
+        identityClaim: "email"
+        operations: [read]
+      }
     ]
   )
   @key(name: "byUser", fields: ["userEmail", "anlageId"])
@@ -51,4 +57,26 @@ enum Role {
   Anlagenbauer
   Anlagenbetreiber
   Admin
+}
+
+type Mutation {
+  createAnlagenUserPrimary(input: CreateAnlagenUserInput!): AnlagenUser
+    @function(name: "createAnlagenUser")
+    @aws_cognito_user_pools
+    @aws_iam
+
+  deleteAnlagenUserPrimary(input: DeleteAnlagenUserInput!): AnlagenUser
+    @function(name: "deleteAnlagenUser")
+    @aws_cognito_user_pools
+    @aws_iam
+}
+
+input CreateAnlagenUserInput {
+  anlageId: ID!
+  userEmail: String!
+}
+
+input DeleteAnlagenUserInput {
+  anlageId: ID!
+  userEmail: String!
 }

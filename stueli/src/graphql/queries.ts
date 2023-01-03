@@ -9,9 +9,10 @@ export const getAnlage = /* GraphQL */ `
       firma
       standort
       anschrift
+      users
       createdAt
       updatedAt
-      users {
+      anlagenUsers {
         items {
           anlageId
           userEmail
@@ -22,9 +23,10 @@ export const getAnlage = /* GraphQL */ `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
-            users {
+            anlagenUsers {
               nextToken
             }
           }
@@ -55,9 +57,10 @@ export const listAnlages = /* GraphQL */ `
         firma
         standort
         anschrift
+        users
         createdAt
         updatedAt
-        users {
+        anlagenUsers {
           items {
             anlageId
             userEmail
@@ -68,6 +71,7 @@ export const listAnlages = /* GraphQL */ `
               firma
               standort
               anschrift
+              users
               createdAt
               updatedAt
             }
@@ -97,9 +101,10 @@ export const getAnlagenUser = /* GraphQL */ `
         firma
         standort
         anschrift
+        users
         createdAt
         updatedAt
-        users {
+        anlagenUsers {
           items {
             anlageId
             userEmail
@@ -110,6 +115,7 @@ export const getAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
+              users
               createdAt
               updatedAt
             }
@@ -139,6 +145,7 @@ export const getAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
+              users
               createdAt
               updatedAt
             }
@@ -182,9 +189,10 @@ export const listAnlagenUsers = /* GraphQL */ `
           firma
           standort
           anschrift
+          users
           createdAt
           updatedAt
-          users {
+          anlagenUsers {
             items {
               anlageId
               userEmail
@@ -232,9 +240,10 @@ export const getUser = /* GraphQL */ `
             firma
             standort
             anschrift
+            users
             createdAt
             updatedAt
-            users {
+            anlagenUsers {
               nextToken
             }
           }
@@ -284,6 +293,7 @@ export const listUsers = /* GraphQL */ `
               firma
               standort
               anschrift
+              users
               createdAt
               updatedAt
             }

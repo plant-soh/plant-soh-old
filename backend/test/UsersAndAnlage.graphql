@@ -11,7 +11,7 @@ mutation CreateUsers {
   }
 }
 
-mutation CreateAnlage {
+mutation CreateAnlagen {
   a1: createAnlage(input: { firma: "Mueller", standort: "Berlin", id: "m1" }) {
     id
     firma
@@ -24,14 +24,14 @@ mutation CreateAnlage {
   }
 }
 
-mutation CreateAnlagenUser {
-  au1: createAnlagenUser(
+mutation CreateAnlagenUsers {
+  au1: createAnlagenUserPrimary(
     input: { anlageId: "m1", userEmail: "damadden88@googlemail.com" }
   ) {
     anlageId
     userEmail
   }
-  au2: createAnlagenUser(
+  au2: createAnlagenUserPrimary(
     input: { anlageId: "aliceAnlage", userEmail: "alice@plantsoh.de" }
   ) {
     anlageId
@@ -42,15 +42,17 @@ mutation CreateAnlagenUser {
 query ListAnlagen {
   listAnlages {
     items {
+      id
       firma
-      users {
+      standort
+      users
+      anlagenUsers {
         items {
           user {
             email
           }
         }
       }
-      id
     }
   }
 }

@@ -245,15 +245,53 @@ export class BackendStack extends core.Stack {
       preTokenGenerationLambda,
     );
 
+    const createAnlagenUser = new lambdajs.NodejsFunction(
+      this,
+      'createAnlagenUser',
+      {
+        functionName: 'createAnlagenUser',
+        timeout: core.Duration.seconds(30),
+        environment: {
+          APPSYNC_URL: appSyncCustomDomainUrl,
+        },
+      },
+    );
+
+    api.addLambdaDataSourceAndResolvers(
+      'createAnlagenUser',
+      'createAnlagenUser',
+      createAnlagenUser,
+    );
+
+    const deleteAnlagenUser = new lambdajs.NodejsFunction(
+      this,
+      'deleteAnlagenUser',
+      {
+        functionName: 'deleteAnlagenUser',
+        timeout: core.Duration.seconds(30),
+        environment: {
+          APPSYNC_URL: appSyncCustomDomainUrl,
+        },
+      },
+    );
+
+    api.addLambdaDataSourceAndResolvers(
+      'deleteAnlagenUser',
+      'deleteAnlagenUser',
+      deleteAnlagenUser,
+    );
+
     // add AppSync access to all lambda which need it
-    [preTokenGenerationLambda].map((lambda) => {
-      lambda.addToRolePolicy(
-        new iam.PolicyStatement({
-          actions: ['appsync:*'],
-          resources: ['*'],
-        }),
-      );
-    });
+    [preTokenGenerationLambda, createAnlagenUser, deleteAnlagenUser].map(
+      (lambda) => {
+        lambda.addToRolePolicy(
+          new iam.PolicyStatement({
+            actions: ['appsync:*'],
+            resources: ['*'],
+          }),
+        );
+      },
+    );
 
     new StaticWebsite(this, 'Stueli', {
       build: '../stueli/build',

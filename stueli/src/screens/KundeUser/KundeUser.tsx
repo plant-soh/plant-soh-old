@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import {
-  useCreateAnlagenUserMutation,
-  useDeleteAnlagenUserMutation,
+  useCreateAnlagenUserPrimaryMutation,
+  useDeleteAnlagenUserPrimaryMutation,
   useListAnlagenUsersQuery,
   useListAnlagesQuery,
   useListUsersQuery,
@@ -28,8 +28,8 @@ const KundeUser = () => {
     refetchOnWindowFocus: false,
   });
 
-  const deleteAnlagenUser = useDeleteAnlagenUserMutation();
-  const createAnlagenUser = useCreateAnlagenUserMutation();
+  const deleteAnlagenUser = useDeleteAnlagenUserPrimaryMutation();
+  const createAnlagenUser = useCreateAnlagenUserPrimaryMutation();
 
   const [newKundeUser, setNewKundeUser] = useState<
     | {
