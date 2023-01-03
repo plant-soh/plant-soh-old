@@ -4,7 +4,12 @@ type Anlage
     rules: [
       { allow: groups, groups: ["Admin"] }
       { allow: private, provider: iam }
-      { allow: owner, ownerField: "users", identityClaim: "email" }
+      {
+        allow: owner
+        ownerField: "users"
+        identityClaim: "email"
+        operations: [read]
+      }
     ]
   ) {
   id: ID!
