@@ -1,4 +1,4 @@
-import { useListAnlagesQuery } from '../../lib/react-api';
+import { useListAnlagenUsersQuery } from '../../lib/react-api';
 
 const columns: { [key: string]: string } = {
   firma: 'Firma',
@@ -8,7 +8,9 @@ const columns: { [key: string]: string } = {
 };
 
 const Kunde = () => {
-  const { data, isLoading } = useListAnlagesQuery(undefined, {
+  // const { user } = useAuth();
+
+  const { data, isLoading } = useListAnlagenUsersQuery(undefined, {
     refetchOnWindowFocus: false,
   });
 
@@ -35,19 +37,33 @@ const Kunde = () => {
           </tr>
         </thead>
         <tbody className="bg-gray-50" data-testid="recent-calls-table-body">
-          {data?.listAnlages?.items?.map((anlage, row_index) => (
-            <tr key={row_index} className="border-b border-gray-400">
-              {Object.keys(columns).map((col, index) => (
-                <td key={index} className="p-3 text-left whitespace-pre-line">
-                  {col === 'firma'
-                    ? anlage?.firma
-                    : col === 'standort'
-                    ? anlage?.standort
-                    : anlage?.anschrift}
-                </td>
-              ))}
-            </tr>
-          ))}
+          {
+            // deduplicate
+            Array.from(
+              new Set(
+                data?.listAnlagenUsers?.items?.map((anlagenUsers) => {
+                  return {
+                    firma: anlagenUsers?.anlage.firma,
+                    // standort: anlagenUsers?.anlage.standort,
+                    // anschrift: anlagenUsers?.anlage.anschrift,
+                  };
+                }),
+              ),
+            ).map((anlage, row_index) => (
+              <tr key={row_index} className="border-b border-gray-400">
+                {Object.keys(columns).map((_col, index) => (
+                  <td key={index} className="p-3 text-left whitespace-pre-line">
+                    {/* {col === 'firma'
+                      ? anlage?.firma
+                      : col === 'standort'
+                      ? anlage?.standort
+                      : anlage?.anschrift} */}
+                    {anlage?.firma}
+                  </td>
+                ))}
+              </tr>
+            ))
+          }
         </tbody>
       </table>
     </div>
