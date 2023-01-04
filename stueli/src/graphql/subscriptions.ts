@@ -29,6 +29,9 @@ export const onCreateAnlage = /* GraphQL */ `
             anlagenUsers {
               nextToken
             }
+            referenzStueli {
+              nextToken
+            }
           }
           user {
             email
@@ -39,6 +42,18 @@ export const onCreateAnlage = /* GraphQL */ `
               nextToken
             }
           }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -72,6 +87,9 @@ export const onUpdateAnlage = /* GraphQL */ `
             anlagenUsers {
               nextToken
             }
+            referenzStueli {
+              nextToken
+            }
           }
           user {
             email
@@ -82,6 +100,18 @@ export const onUpdateAnlage = /* GraphQL */ `
               nextToken
             }
           }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -115,6 +145,9 @@ export const onDeleteAnlage = /* GraphQL */ `
             anlagenUsers {
               nextToken
             }
+            referenzStueli {
+              nextToken
+            }
           }
           user {
             email
@@ -125,6 +158,18 @@ export const onDeleteAnlage = /* GraphQL */ `
               nextToken
             }
           }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -167,6 +212,18 @@ export const onCreateAnlagenUser = /* GraphQL */ `
               createdAt
               updatedAt
             }
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
           }
           nextToken
         }
@@ -243,6 +300,18 @@ export const onUpdateAnlagenUser = /* GraphQL */ `
           }
           nextToken
         }
+        referenzStueli {
+          items {
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
       }
       user {
         email
@@ -316,6 +385,18 @@ export const onDeleteAnlagenUser = /* GraphQL */ `
           }
           nextToken
         }
+        referenzStueli {
+          items {
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
       }
       user {
         email
@@ -350,6 +431,45 @@ export const onDeleteAnlagenUser = /* GraphQL */ `
     }
   }
 `;
+export const onCreateReferenzStueli = /* GraphQL */ `
+  subscription OnCreateReferenzStueli {
+    onCreateReferenzStueli {
+      anlageId
+      kurzspezifikation
+      lieferant
+      nennweite
+      feinspezifikation
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateReferenzStueli = /* GraphQL */ `
+  subscription OnUpdateReferenzStueli {
+    onUpdateReferenzStueli {
+      anlageId
+      kurzspezifikation
+      lieferant
+      nennweite
+      feinspezifikation
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteReferenzStueli = /* GraphQL */ `
+  subscription OnDeleteReferenzStueli {
+    onDeleteReferenzStueli {
+      anlageId
+      kurzspezifikation
+      lieferant
+      nennweite
+      feinspezifikation
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser($email: String) {
     onCreateUser(email: $email) {
@@ -372,6 +492,9 @@ export const onCreateUser = /* GraphQL */ `
             createdAt
             updatedAt
             anlagenUsers {
+              nextToken
+            }
+            referenzStueli {
               nextToken
             }
           }
@@ -414,6 +537,9 @@ export const onUpdateUser = /* GraphQL */ `
             anlagenUsers {
               nextToken
             }
+            referenzStueli {
+              nextToken
+            }
           }
           user {
             email
@@ -452,6 +578,9 @@ export const onDeleteUser = /* GraphQL */ `
             createdAt
             updatedAt
             anlagenUsers {
+              nextToken
+            }
+            referenzStueli {
               nextToken
             }
           }

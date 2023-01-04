@@ -2,7 +2,7 @@ type Anlage
   @model
   @auth(
     rules: [
-      { allow: groups, groups: ["Admin"] }
+      { allow: groups, groups: ["Admin"], operations: [read] }
       { allow: private, provider: iam }
       {
         allow: owner
@@ -18,6 +18,7 @@ type Anlage
   anschrift: String
   users: [String]
   anlagenUsers: [AnlagenUser] @connection(keyName: "byAnlage", fields: ["id"])
+  referenzStueli: [ReferenzStueli] @connection(fields: ["id"])
 }
 
 type AnlagenUser
@@ -41,6 +42,22 @@ type AnlagenUser
   userEmail: String!
   anlage: Anlage! @connection(fields: ["anlageId"])
   user: User! @connection(fields: ["userEmail"])
+}
+
+type ReferenzStueli
+  @model
+  @auth(
+    rules: [
+      { allow: groups, groups: ["Admin"] }
+      { allow: private, provider: iam }
+    ]
+  )
+  @key(fields: ["anlageId"]) {
+  anlageId: ID!
+  kurzspezifikation: String
+  lieferant: String
+  nennweite: String
+  feinspezifikation: String
 }
 
 type User
@@ -74,6 +91,15 @@ type Mutation {
     @function(name: "deleteAnlagenUser")
     @aws_cognito_user_pools
     @aws_iam
+
+  deleteAnlagePrimary(input: DeleteAnlageInput!): Anlage
+    @function(name: "deleteAnlage")
+    @aws_cognito_user_pools
+    @aws_iam
+}
+
+input DeleteAnlageInput {
+  anlageId: ID!
 }
 
 input CreateAnlagenUserInput {

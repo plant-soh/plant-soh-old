@@ -281,17 +281,34 @@ export class BackendStack extends core.Stack {
       deleteAnlagenUser,
     );
 
-    // add AppSync access to all lambda which need it
-    [preTokenGenerationLambda, createAnlagenUser, deleteAnlagenUser].map(
-      (lambda) => {
-        lambda.addToRolePolicy(
-          new iam.PolicyStatement({
-            actions: ['appsync:*'],
-            resources: ['*'],
-          }),
-        );
+    const deleteAnlage = new lambdajs.NodejsFunction(this, 'deleteAnlage', {
+      functionName: 'deleteAnlage',
+      timeout: core.Duration.seconds(30),
+      environment: {
+        APPSYNC_URL: appSyncCustomDomainUrl,
       },
+    });
+
+    api.addLambdaDataSourceAndResolvers(
+      'deleteAnlage',
+      'deleteAnlage',
+      deleteAnlage,
     );
+
+    // add AppSync access to all lambda which need it
+    [
+      preTokenGenerationLambda,
+      createAnlagenUser,
+      deleteAnlagenUser,
+      deleteAnlage,
+    ].map((lambda) => {
+      lambda.addToRolePolicy(
+        new iam.PolicyStatement({
+          actions: ['appsync:*'],
+          resources: ['*'],
+        }),
+      );
+    });
 
     new StaticWebsite(this, 'Stueli', {
       build: '../stueli/build',

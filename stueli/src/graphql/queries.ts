@@ -29,6 +29,9 @@ export const getAnlage = /* GraphQL */ `
             anlagenUsers {
               nextToken
             }
+            referenzStueli {
+              nextToken
+            }
           }
           user {
             email
@@ -39,6 +42,18 @@ export const getAnlage = /* GraphQL */ `
               nextToken
             }
           }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -84,6 +99,18 @@ export const listAnlages = /* GraphQL */ `
           }
           nextToken
         }
+        referenzStueli {
+          items {
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
       }
       nextToken
     }
@@ -125,6 +152,18 @@ export const getAnlagenUser = /* GraphQL */ `
               createdAt
               updatedAt
             }
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
           }
           nextToken
         }
@@ -201,6 +240,18 @@ export const listAnlagenUsers = /* GraphQL */ `
             }
             nextToken
           }
+          referenzStueli {
+            items {
+              anlageId
+              kurzspezifikation
+              lieferant
+              nennweite
+              feinspezifikation
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
         }
         user {
           email
@@ -217,6 +268,47 @@ export const listAnlagenUsers = /* GraphQL */ `
             nextToken
           }
         }
+      }
+      nextToken
+    }
+  }
+`;
+export const getReferenzStueli = /* GraphQL */ `
+  query GetReferenzStueli($anlageId: ID!) {
+    getReferenzStueli(anlageId: $anlageId) {
+      anlageId
+      kurzspezifikation
+      lieferant
+      nennweite
+      feinspezifikation
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listReferenzStuelis = /* GraphQL */ `
+  query ListReferenzStuelis(
+    $anlageId: ID
+    $filter: ModelReferenzStueliFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listReferenzStuelis(
+      anlageId: $anlageId
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        anlageId
+        kurzspezifikation
+        lieferant
+        nennweite
+        feinspezifikation
+        createdAt
+        updatedAt
       }
       nextToken
     }
@@ -244,6 +336,9 @@ export const getUser = /* GraphQL */ `
             createdAt
             updatedAt
             anlagenUsers {
+              nextToken
+            }
+            referenzStueli {
               nextToken
             }
           }

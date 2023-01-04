@@ -1,0 +1,35 @@
+mutation CreateStuecklisten {
+  createReferenzStueli(
+    input: {
+      anlageId: "m1"
+      feinspezifikation: "V/23/d"
+      kurzspezifikation: "Ventil"
+      lieferant: "venture"
+      nennweite: "D/W60"
+    }
+  ) {
+    anlageId
+    kurzspezifikation
+    lieferant
+    nennweite
+    feinspezifikation
+  }
+}
+
+query ListAnlagenWithStueli {
+  listAnlages {
+    items {
+      id
+      firma
+      standort
+      referenzStueli {
+        items {
+          feinspezifikation
+          kurzspezifikation
+          nennweite
+          lieferant
+        }
+      }
+    }
+  }
+}

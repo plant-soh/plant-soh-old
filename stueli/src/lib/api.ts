@@ -37,6 +37,7 @@ export type Anlage = {
   createdAt: Scalars['AWSDateTime'];
   firma: Scalars['String'];
   id: Scalars['ID'];
+  referenzStueli?: Maybe<ModelReferenzStueliConnection>;
   standort: Scalars['String'];
   updatedAt: Scalars['AWSDateTime'];
   users?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -48,6 +49,13 @@ export type AnlageAnlagenUsersArgs = {
   nextToken?: InputMaybe<Scalars['String']>;
   sortDirection?: InputMaybe<ModelSortDirection>;
   userEmail?: InputMaybe<ModelStringKeyConditionInput>;
+};
+
+export type AnlageReferenzStueliArgs = {
+  filter?: InputMaybe<ModelReferenzStueliFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
 };
 
 export type AnlagenUser = {
@@ -73,18 +81,30 @@ export type CreateAnlagenUserInput = {
   userEmail: Scalars['String'];
 };
 
+export type CreateReferenzStueliInput = {
+  anlageId: Scalars['ID'];
+  feinspezifikation?: InputMaybe<Scalars['String']>;
+  kurzspezifikation?: InputMaybe<Scalars['String']>;
+  lieferant?: InputMaybe<Scalars['String']>;
+  nennweite?: InputMaybe<Scalars['String']>;
+};
+
 export type CreateUserInput = {
   email: Scalars['String'];
   role: Role;
 };
 
 export type DeleteAnlageInput = {
-  id: Scalars['ID'];
+  anlageId: Scalars['ID'];
 };
 
 export type DeleteAnlagenUserInput = {
   anlageId: Scalars['ID'];
   userEmail: Scalars['String'];
+};
+
+export type DeleteReferenzStueliInput = {
+  anlageId: Scalars['ID'];
 };
 
 export type DeleteUserInput = {
@@ -170,6 +190,23 @@ export type ModelIntFilterInput = {
   ne?: InputMaybe<Scalars['Int']>;
 };
 
+export type ModelReferenzStueliConnection = {
+  __typename?: 'ModelReferenzStueliConnection';
+  items?: Maybe<Array<Maybe<ReferenzStueli>>>;
+  nextToken?: Maybe<Scalars['String']>;
+};
+
+export type ModelReferenzStueliFilterInput = {
+  and?: InputMaybe<Array<InputMaybe<ModelReferenzStueliFilterInput>>>;
+  anlageId?: InputMaybe<ModelIdFilterInput>;
+  feinspezifikation?: InputMaybe<ModelStringFilterInput>;
+  kurzspezifikation?: InputMaybe<ModelStringFilterInput>;
+  lieferant?: InputMaybe<ModelStringFilterInput>;
+  nennweite?: InputMaybe<ModelStringFilterInput>;
+  not?: InputMaybe<ModelReferenzStueliFilterInput>;
+  or?: InputMaybe<Array<InputMaybe<ModelReferenzStueliFilterInput>>>;
+};
+
 export type ModelRoleFilterInput = {
   eq?: InputMaybe<Role>;
   ne?: InputMaybe<Role>;
@@ -222,13 +259,17 @@ export type Mutation = {
   createAnlage?: Maybe<Anlage>;
   createAnlagenUser?: Maybe<AnlagenUser>;
   createAnlagenUserPrimary?: Maybe<AnlagenUser>;
+  createReferenzStueli?: Maybe<ReferenzStueli>;
   createUser?: Maybe<User>;
   deleteAnlage?: Maybe<Anlage>;
+  deleteAnlagePrimary?: Maybe<Anlage>;
   deleteAnlagenUser?: Maybe<AnlagenUser>;
   deleteAnlagenUserPrimary?: Maybe<AnlagenUser>;
+  deleteReferenzStueli?: Maybe<ReferenzStueli>;
   deleteUser?: Maybe<User>;
   updateAnlage?: Maybe<Anlage>;
   updateAnlagenUser?: Maybe<AnlagenUser>;
+  updateReferenzStueli?: Maybe<ReferenzStueli>;
   updateUser?: Maybe<User>;
 };
 
@@ -244,11 +285,19 @@ export type MutationCreateAnlagenUserPrimaryArgs = {
   input: CreateAnlagenUserInput;
 };
 
+export type MutationCreateReferenzStueliArgs = {
+  input: CreateReferenzStueliInput;
+};
+
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
 };
 
 export type MutationDeleteAnlageArgs = {
+  input: DeleteAnlageInput;
+};
+
+export type MutationDeleteAnlagePrimaryArgs = {
   input: DeleteAnlageInput;
 };
 
@@ -258,6 +307,10 @@ export type MutationDeleteAnlagenUserArgs = {
 
 export type MutationDeleteAnlagenUserPrimaryArgs = {
   input: DeleteAnlagenUserInput;
+};
+
+export type MutationDeleteReferenzStueliArgs = {
+  input: DeleteReferenzStueliInput;
 };
 
 export type MutationDeleteUserArgs = {
@@ -272,6 +325,10 @@ export type MutationUpdateAnlagenUserArgs = {
   input: UpdateAnlagenUserInput;
 };
 
+export type MutationUpdateReferenzStueliArgs = {
+  input: UpdateReferenzStueliInput;
+};
+
 export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
 };
@@ -280,9 +337,11 @@ export type Query = {
   __typename?: 'Query';
   getAnlage?: Maybe<Anlage>;
   getAnlagenUser?: Maybe<AnlagenUser>;
+  getReferenzStueli?: Maybe<ReferenzStueli>;
   getUser?: Maybe<User>;
   listAnlagenUsers?: Maybe<ModelAnlagenUserConnection>;
   listAnlages?: Maybe<ModelAnlageConnection>;
+  listReferenzStuelis?: Maybe<ModelReferenzStueliConnection>;
   listUsers?: Maybe<ModelUserConnection>;
 };
 
@@ -293,6 +352,10 @@ export type QueryGetAnlageArgs = {
 export type QueryGetAnlagenUserArgs = {
   anlageId: Scalars['ID'];
   userEmail: Scalars['String'];
+};
+
+export type QueryGetReferenzStueliArgs = {
+  anlageId: Scalars['ID'];
 };
 
 export type QueryGetUserArgs = {
@@ -314,12 +377,31 @@ export type QueryListAnlagesArgs = {
   nextToken?: InputMaybe<Scalars['String']>;
 };
 
+export type QueryListReferenzStuelisArgs = {
+  anlageId?: InputMaybe<Scalars['ID']>;
+  filter?: InputMaybe<ModelReferenzStueliFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+};
+
 export type QueryListUsersArgs = {
   email?: InputMaybe<Scalars['String']>;
   filter?: InputMaybe<ModelUserFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
   sortDirection?: InputMaybe<ModelSortDirection>;
+};
+
+export type ReferenzStueli = {
+  __typename?: 'ReferenzStueli';
+  anlageId: Scalars['ID'];
+  createdAt: Scalars['AWSDateTime'];
+  feinspezifikation?: Maybe<Scalars['String']>;
+  kurzspezifikation?: Maybe<Scalars['String']>;
+  lieferant?: Maybe<Scalars['String']>;
+  nennweite?: Maybe<Scalars['String']>;
+  updatedAt: Scalars['AWSDateTime'];
 };
 
 export enum Role {
@@ -332,12 +414,15 @@ export type Subscription = {
   __typename?: 'Subscription';
   onCreateAnlage?: Maybe<Anlage>;
   onCreateAnlagenUser?: Maybe<AnlagenUser>;
+  onCreateReferenzStueli?: Maybe<ReferenzStueli>;
   onCreateUser?: Maybe<User>;
   onDeleteAnlage?: Maybe<Anlage>;
   onDeleteAnlagenUser?: Maybe<AnlagenUser>;
+  onDeleteReferenzStueli?: Maybe<ReferenzStueli>;
   onDeleteUser?: Maybe<User>;
   onUpdateAnlage?: Maybe<Anlage>;
   onUpdateAnlagenUser?: Maybe<AnlagenUser>;
+  onUpdateReferenzStueli?: Maybe<ReferenzStueli>;
   onUpdateUser?: Maybe<User>;
 };
 
@@ -388,6 +473,14 @@ export type UpdateAnlageInput = {
 export type UpdateAnlagenUserInput = {
   anlageId: Scalars['ID'];
   userEmail: Scalars['String'];
+};
+
+export type UpdateReferenzStueliInput = {
+  anlageId: Scalars['ID'];
+  feinspezifikation?: InputMaybe<Scalars['String']>;
+  kurzspezifikation?: InputMaybe<Scalars['String']>;
+  lieferant?: InputMaybe<Scalars['String']>;
+  nennweite?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateUserInput = {
@@ -466,6 +559,30 @@ export type CreateAnlagenUserPrimaryMutation = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
                         }
                       | null
                       | undefined
@@ -592,6 +709,30 @@ export type DeleteAnlagenUserPrimaryMutation = {
               }
             | null
             | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
         };
         user: {
           __typename?: 'User';
@@ -641,6 +782,113 @@ export type DeleteAnlagenUserPrimaryMutation = {
             | null
             | undefined;
         };
+      }
+    | null
+    | undefined;
+};
+
+export type DeleteAnlagePrimaryMutationVariables = Exact<{
+  input: DeleteAnlageInput;
+}>;
+
+export type DeleteAnlagePrimaryMutation = {
+  __typename?: 'Mutation';
+  deleteAnlagePrimary?:
+    | {
+        __typename?: 'Anlage';
+        id: string;
+        firma: string;
+        standort: string;
+        anschrift?: string | null | undefined;
+        users?: Array<string | null | undefined> | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+        anlagenUsers?:
+          | {
+              __typename?: 'ModelAnlagenUserConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'AnlagenUser';
+                        anlageId: string;
+                        userEmail: string;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlage: {
+                          __typename?: 'Anlage';
+                          id: string;
+                          firma: string;
+                          standort: string;
+                          anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagenUsers?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
+                        user: {
+                          __typename?: 'User';
+                          email: string;
+                          role: Role;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        referenzStueli?:
+          | {
+              __typename?: 'ModelReferenzStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ReferenzStueli';
+                        anlageId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
       }
     | null
     | undefined;
@@ -700,6 +948,30 @@ export type UpdateAnlagenUserMutation = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
                         }
                       | null
                       | undefined
@@ -810,6 +1082,13 @@ export type CreateAnlageMutation = {
                               }
                             | null
                             | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         };
                         user: {
                           __typename?: 'User';
@@ -825,6 +1104,30 @@ export type CreateAnlageMutation = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        referenzStueli?:
+          | {
+              __typename?: 'ModelReferenzStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ReferenzStueli';
+                        anlageId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
                       }
                     | null
                     | undefined
@@ -886,6 +1189,13 @@ export type UpdateAnlageMutation = {
                               }
                             | null
                             | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         };
                         user: {
                           __typename?: 'User';
@@ -901,6 +1211,30 @@ export type UpdateAnlageMutation = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        referenzStueli?:
+          | {
+              __typename?: 'ModelReferenzStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ReferenzStueli';
+                        anlageId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
                       }
                     | null
                     | undefined
@@ -962,6 +1296,13 @@ export type DeleteAnlageMutation = {
                               }
                             | null
                             | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         };
                         user: {
                           __typename?: 'User';
@@ -977,6 +1318,30 @@ export type DeleteAnlageMutation = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        referenzStueli?:
+          | {
+              __typename?: 'ModelReferenzStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ReferenzStueli';
+                        anlageId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
                       }
                     | null
                     | undefined
@@ -1045,6 +1410,30 @@ export type CreateAnlagenUserMutation = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
                         }
                       | null
                       | undefined
@@ -1171,6 +1560,30 @@ export type DeleteAnlagenUserMutation = {
               }
             | null
             | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
         };
         user: {
           __typename?: 'User';
@@ -1225,6 +1638,69 @@ export type DeleteAnlagenUserMutation = {
     | undefined;
 };
 
+export type CreateReferenzStueliMutationVariables = Exact<{
+  input: CreateReferenzStueliInput;
+}>;
+
+export type CreateReferenzStueliMutation = {
+  __typename?: 'Mutation';
+  createReferenzStueli?:
+    | {
+        __typename?: 'ReferenzStueli';
+        anlageId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
+export type UpdateReferenzStueliMutationVariables = Exact<{
+  input: UpdateReferenzStueliInput;
+}>;
+
+export type UpdateReferenzStueliMutation = {
+  __typename?: 'Mutation';
+  updateReferenzStueli?:
+    | {
+        __typename?: 'ReferenzStueli';
+        anlageId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
+export type DeleteReferenzStueliMutationVariables = Exact<{
+  input: DeleteReferenzStueliInput;
+}>;
+
+export type DeleteReferenzStueliMutation = {
+  __typename?: 'Mutation';
+  deleteReferenzStueli?:
+    | {
+        __typename?: 'ReferenzStueli';
+        anlageId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput;
 }>;
@@ -1265,6 +1741,13 @@ export type CreateUserMutation = {
                           anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
                                 nextToken?: string | null | undefined;
                               }
                             | null
@@ -1342,6 +1825,13 @@ export type UpdateUserMutation = {
                               }
                             | null
                             | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         };
                         user: {
                           __typename?: 'User';
@@ -1411,6 +1901,13 @@ export type DeleteUserMutation = {
                           anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
                                 nextToken?: string | null | undefined;
                               }
                             | null
@@ -1491,6 +1988,13 @@ export type GetAnlageQuery = {
                               }
                             | null
                             | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         };
                         user: {
                           __typename?: 'User';
@@ -1506,6 +2010,30 @@ export type GetAnlageQuery = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        referenzStueli?:
+          | {
+              __typename?: 'ModelReferenzStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ReferenzStueli';
+                        anlageId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
                       }
                     | null
                     | undefined
@@ -1584,6 +2112,30 @@ export type ListAnlagesQuery = {
                       }
                     | null
                     | undefined;
+                  referenzStueli?:
+                    | {
+                        __typename?: 'ModelReferenzStueliConnection';
+                        nextToken?: string | null | undefined;
+                        items?:
+                          | Array<
+                              | {
+                                  __typename?: 'ReferenzStueli';
+                                  anlageId: string;
+                                  kurzspezifikation?: string | null | undefined;
+                                  lieferant?: string | null | undefined;
+                                  nennweite?: string | null | undefined;
+                                  feinspezifikation?: string | null | undefined;
+                                  createdAt: any;
+                                  updatedAt: any;
+                                }
+                              | null
+                              | undefined
+                            >
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined;
                 }
               | null
               | undefined
@@ -1650,6 +2202,30 @@ export type GetAnlagenUserQuery = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
                         }
                       | null
                       | undefined
@@ -1766,6 +2342,36 @@ export type ListAnlagenUsersQuery = {
                         }
                       | null
                       | undefined;
+                    referenzStueli?:
+                      | {
+                          __typename?: 'ModelReferenzStueliConnection';
+                          nextToken?: string | null | undefined;
+                          items?:
+                            | Array<
+                                | {
+                                    __typename?: 'ReferenzStueli';
+                                    anlageId: string;
+                                    kurzspezifikation?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    lieferant?: string | null | undefined;
+                                    nennweite?: string | null | undefined;
+                                    feinspezifikation?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    createdAt: any;
+                                    updatedAt: any;
+                                  }
+                                | null
+                                | undefined
+                              >
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
                   };
                   user: {
                     __typename?: 'User';
@@ -1795,6 +2401,63 @@ export type ListAnlagenUsersQuery = {
                       | null
                       | undefined;
                   };
+                }
+              | null
+              | undefined
+            >
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type GetReferenzStueliQueryVariables = Exact<{
+  anlageId: Scalars['ID'];
+}>;
+
+export type GetReferenzStueliQuery = {
+  __typename?: 'Query';
+  getReferenzStueli?:
+    | {
+        __typename?: 'ReferenzStueli';
+        anlageId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
+export type ListReferenzStuelisQueryVariables = Exact<{
+  anlageId?: InputMaybe<Scalars['ID']>;
+  filter?: InputMaybe<ModelReferenzStueliFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+}>;
+
+export type ListReferenzStuelisQuery = {
+  __typename?: 'Query';
+  listReferenzStuelis?:
+    | {
+        __typename?: 'ModelReferenzStueliConnection';
+        nextToken?: string | null | undefined;
+        items?:
+          | Array<
+              | {
+                  __typename?: 'ReferenzStueli';
+                  anlageId: string;
+                  kurzspezifikation?: string | null | undefined;
+                  lieferant?: string | null | undefined;
+                  nennweite?: string | null | undefined;
+                  feinspezifikation?: string | null | undefined;
+                  createdAt: any;
+                  updatedAt: any;
                 }
               | null
               | undefined
@@ -1846,6 +2509,13 @@ export type GetUserQuery = {
                           anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
                                 nextToken?: string | null | undefined;
                               }
                             | null
@@ -2000,6 +2670,13 @@ export type OnCreateAnlageSubscription = {
                               }
                             | null
                             | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         };
                         user: {
                           __typename?: 'User';
@@ -2015,6 +2692,30 @@ export type OnCreateAnlageSubscription = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        referenzStueli?:
+          | {
+              __typename?: 'ModelReferenzStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ReferenzStueli';
+                        anlageId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
                       }
                     | null
                     | undefined
@@ -2076,6 +2777,13 @@ export type OnUpdateAnlageSubscription = {
                               }
                             | null
                             | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         };
                         user: {
                           __typename?: 'User';
@@ -2091,6 +2799,30 @@ export type OnUpdateAnlageSubscription = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        referenzStueli?:
+          | {
+              __typename?: 'ModelReferenzStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ReferenzStueli';
+                        anlageId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
                       }
                     | null
                     | undefined
@@ -2152,6 +2884,13 @@ export type OnDeleteAnlageSubscription = {
                               }
                             | null
                             | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         };
                         user: {
                           __typename?: 'User';
@@ -2167,6 +2906,30 @@ export type OnDeleteAnlageSubscription = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        referenzStueli?:
+          | {
+              __typename?: 'ModelReferenzStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ReferenzStueli';
+                        anlageId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
                       }
                     | null
                     | undefined
@@ -2235,6 +2998,30 @@ export type OnCreateAnlagenUserSubscription = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
                         }
                       | null
                       | undefined
@@ -2361,6 +3148,30 @@ export type OnUpdateAnlagenUserSubscription = {
               }
             | null
             | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
         };
         user: {
           __typename?: 'User';
@@ -2478,6 +3289,30 @@ export type OnDeleteAnlagenUserSubscription = {
               }
             | null
             | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
         };
         user: {
           __typename?: 'User';
@@ -2532,6 +3367,69 @@ export type OnDeleteAnlagenUserSubscription = {
     | undefined;
 };
 
+export type OnCreateReferenzStueliSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type OnCreateReferenzStueliSubscription = {
+  __typename?: 'Subscription';
+  onCreateReferenzStueli?:
+    | {
+        __typename?: 'ReferenzStueli';
+        anlageId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
+export type OnUpdateReferenzStueliSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type OnUpdateReferenzStueliSubscription = {
+  __typename?: 'Subscription';
+  onUpdateReferenzStueli?:
+    | {
+        __typename?: 'ReferenzStueli';
+        anlageId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
+export type OnDeleteReferenzStueliSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type OnDeleteReferenzStueliSubscription = {
+  __typename?: 'Subscription';
+  onDeleteReferenzStueli?:
+    | {
+        __typename?: 'ReferenzStueli';
+        anlageId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
 export type OnCreateUserSubscriptionVariables = Exact<{
   email?: InputMaybe<Scalars['String']>;
 }>;
@@ -2572,6 +3470,13 @@ export type OnCreateUserSubscription = {
                           anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
                                 nextToken?: string | null | undefined;
                               }
                             | null
@@ -2649,6 +3554,13 @@ export type OnUpdateUserSubscription = {
                               }
                             | null
                             | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         };
                         user: {
                           __typename?: 'User';
@@ -2718,6 +3630,13 @@ export type OnDeleteUserSubscription = {
                           anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
                                 nextToken?: string | null | undefined;
                               }
                             | null
@@ -2938,6 +3857,62 @@ export const CreateAnlagenUserPrimaryDocument = {
                                         },
                                       ],
                                     },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'referenzStueli' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'kurzspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'lieferant' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nennweite' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'feinspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
                                   },
                                 ],
                               },
@@ -3307,6 +4282,62 @@ export const DeleteAnlagenUserPrimaryDocument = {
                           ],
                         },
                       },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'referenzStueli' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'kurzspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'lieferant' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nennweite' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'feinspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
@@ -3466,6 +4497,276 @@ export const DeleteAnlagenUserPrimaryDocument = {
 } as unknown as DocumentNode<
   DeleteAnlagenUserPrimaryMutation,
   DeleteAnlagenUserPrimaryMutationVariables
+>;
+export const DeleteAnlagePrimaryDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteAnlagePrimary' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteAnlageInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteAnlagePrimary' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firma' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'standort' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'anschrift' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'users' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlagenUsers' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'userEmail' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlage' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'firma' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'standort' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anschrift' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'anlagenUsers',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'referenzStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'user' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'email' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'referenzStueli' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'kurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lieferant' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nennweite' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'feinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteAnlagePrimaryMutation,
+  DeleteAnlagePrimaryMutationVariables
 >;
 export const UpdateAnlagenUserDocument = {
   kind: 'Document',
@@ -3654,6 +4955,62 @@ export const UpdateAnlagenUserDocument = {
                                         },
                                       ],
                                     },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'referenzStueli' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'kurzspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'lieferant' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nennweite' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'feinspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
                                   },
                                 ],
                               },
@@ -3955,6 +5312,25 @@ export const CreateAnlageDocument = {
                                       ],
                                     },
                                   },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'referenzStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
                                 ],
                               },
                             },
@@ -3998,6 +5374,62 @@ export const CreateAnlageDocument = {
                                   },
                                 ],
                               },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'referenzStueli' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'kurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lieferant' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nennweite' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'feinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
                             },
                           ],
                         },
@@ -4150,6 +5582,25 @@ export const UpdateAnlageDocument = {
                                       ],
                                     },
                                   },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'referenzStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
                                 ],
                               },
                             },
@@ -4193,6 +5644,62 @@ export const UpdateAnlageDocument = {
                                   },
                                 ],
                               },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'referenzStueli' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'kurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lieferant' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nennweite' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'feinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
                             },
                           ],
                         },
@@ -4345,6 +5852,25 @@ export const DeleteAnlageDocument = {
                                       ],
                                     },
                                   },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'referenzStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
                                 ],
                               },
                             },
@@ -4388,6 +5914,62 @@ export const DeleteAnlageDocument = {
                                   },
                                 ],
                               },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'referenzStueli' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'kurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lieferant' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nennweite' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'feinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
                             },
                           ],
                         },
@@ -4597,6 +6179,62 @@ export const CreateAnlagenUserDocument = {
                                         },
                                       ],
                                     },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'referenzStueli' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'kurzspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'lieferant' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nennweite' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'feinspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
                                   },
                                 ],
                               },
@@ -4966,6 +6604,62 @@ export const DeleteAnlagenUserDocument = {
                           ],
                         },
                       },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'referenzStueli' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'kurzspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'lieferant' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nennweite' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'feinspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
@@ -5126,6 +6820,204 @@ export const DeleteAnlagenUserDocument = {
   DeleteAnlagenUserMutation,
   DeleteAnlagenUserMutationVariables
 >;
+export const CreateReferenzStueliDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateReferenzStueli' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateReferenzStueliInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createReferenzStueli' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'kurzspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'lieferant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'nennweite' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'feinspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateReferenzStueliMutation,
+  CreateReferenzStueliMutationVariables
+>;
+export const UpdateReferenzStueliDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateReferenzStueli' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'UpdateReferenzStueliInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateReferenzStueli' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'kurzspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'lieferant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'nennweite' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'feinspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateReferenzStueliMutation,
+  UpdateReferenzStueliMutationVariables
+>;
+export const DeleteReferenzStueliDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteReferenzStueli' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteReferenzStueliInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteReferenzStueli' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'kurzspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'lieferant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'nennweite' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'feinspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteReferenzStueliMutation,
+  DeleteReferenzStueliMutationVariables
+>;
 export const CreateUserDocument = {
   kind: 'Document',
   definitions: [
@@ -5239,6 +7131,25 @@ export const CreateUserDocument = {
                                     name: {
                                       kind: 'Name',
                                       value: 'anlagenUsers',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'referenzStueli',
                                     },
                                     selectionSet: {
                                       kind: 'SelectionSet',
@@ -5442,6 +7353,25 @@ export const UpdateUserDocument = {
                                       ],
                                     },
                                   },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'referenzStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
                                 ],
                               },
                             },
@@ -5617,6 +7547,25 @@ export const DeleteUserDocument = {
                                     name: {
                                       kind: 'Name',
                                       value: 'anlagenUsers',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'referenzStueli',
                                     },
                                     selectionSet: {
                                       kind: 'SelectionSet',
@@ -5817,6 +7766,25 @@ export const GetAnlageDocument = {
                                       ],
                                     },
                                   },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'referenzStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
                                 ],
                               },
                             },
@@ -5860,6 +7828,62 @@ export const GetAnlageDocument = {
                                   },
                                 ],
                               },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'referenzStueli' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'kurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lieferant' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nennweite' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'feinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
                             },
                           ],
                         },
@@ -6102,6 +8126,62 @@ export const ListAnlagesDocument = {
                           ],
                         },
                       },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'referenzStueli' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'kurzspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'lieferant' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nennweite' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'feinspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
@@ -6320,6 +8400,62 @@ export const GetAnlagenUserDocument = {
                                         },
                                       ],
                                     },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'referenzStueli' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'kurzspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'lieferant' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nennweite' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'feinspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
                                   },
                                 ],
                               },
@@ -6719,6 +8855,77 @@ export const ListAnlagenUsersDocument = {
                                 ],
                               },
                             },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'referenzStueli' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'kurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'lieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'feinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
                           ],
                         },
                       },
@@ -6811,6 +9018,224 @@ export const ListAnlagenUsersDocument = {
 } as unknown as DocumentNode<
   ListAnlagenUsersQuery,
   ListAnlagenUsersQueryVariables
+>;
+export const GetReferenzStueliDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetReferenzStueli' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'anlageId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getReferenzStueli' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'anlageId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'anlageId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'kurzspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'lieferant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'nennweite' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'feinspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetReferenzStueliQuery,
+  GetReferenzStueliQueryVariables
+>;
+export const ListReferenzStuelisDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'ListReferenzStuelis' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'anlageId' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'filter' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelReferenzStueliFilterInput' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'limit' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'nextToken' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'sortDirection' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelSortDirection' },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listReferenzStuelis' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'anlageId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'anlageId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'filter' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'limit' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'nextToken' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'nextToken' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sortDirection' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'sortDirection' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'items' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anlageId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'kurzspezifikation' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lieferant' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nennweite' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'feinspezifikation' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'nextToken' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  ListReferenzStuelisQuery,
+  ListReferenzStuelisQueryVariables
 >;
 export const GetUserDocument = {
   kind: 'Document',
@@ -6925,6 +9350,25 @@ export const GetUserDocument = {
                                     name: {
                                       kind: 'Name',
                                       value: 'anlagenUsers',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'referenzStueli',
                                     },
                                     selectionSet: {
                                       kind: 'SelectionSet',
@@ -7386,6 +9830,25 @@ export const OnCreateAnlageDocument = {
                                       ],
                                     },
                                   },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'referenzStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
                                 ],
                               },
                             },
@@ -7429,6 +9892,62 @@ export const OnCreateAnlageDocument = {
                                   },
                                 ],
                               },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'referenzStueli' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'kurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lieferant' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nennweite' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'feinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
                             },
                           ],
                         },
@@ -7575,6 +10094,25 @@ export const OnUpdateAnlageDocument = {
                                       ],
                                     },
                                   },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'referenzStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
                                 ],
                               },
                             },
@@ -7618,6 +10156,62 @@ export const OnUpdateAnlageDocument = {
                                   },
                                 ],
                               },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'referenzStueli' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'kurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lieferant' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nennweite' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'feinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
                             },
                           ],
                         },
@@ -7764,6 +10358,25 @@ export const OnDeleteAnlageDocument = {
                                       ],
                                     },
                                   },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'referenzStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
                                 ],
                               },
                             },
@@ -7807,6 +10420,62 @@ export const OnDeleteAnlageDocument = {
                                   },
                                 ],
                               },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'referenzStueli' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'kurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lieferant' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nennweite' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'feinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
                             },
                           ],
                         },
@@ -8010,6 +10679,62 @@ export const OnCreateAnlagenUserDocument = {
                                         },
                                       ],
                                     },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'referenzStueli' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'kurzspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'lieferant' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nennweite' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'feinspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
                                   },
                                 ],
                               },
@@ -8373,6 +11098,62 @@ export const OnUpdateAnlagenUserDocument = {
                           ],
                         },
                       },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'referenzStueli' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'kurzspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'lieferant' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nennweite' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'feinspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
@@ -8725,6 +11506,62 @@ export const OnDeleteAnlagenUserDocument = {
                           ],
                         },
                       },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'referenzStueli' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'kurzspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'lieferant' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nennweite' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'feinspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
@@ -8885,6 +11722,126 @@ export const OnDeleteAnlagenUserDocument = {
   OnDeleteAnlagenUserSubscription,
   OnDeleteAnlagenUserSubscriptionVariables
 >;
+export const OnCreateReferenzStueliDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'subscription',
+      name: { kind: 'Name', value: 'OnCreateReferenzStueli' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'onCreateReferenzStueli' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'kurzspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'lieferant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'nennweite' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'feinspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  OnCreateReferenzStueliSubscription,
+  OnCreateReferenzStueliSubscriptionVariables
+>;
+export const OnUpdateReferenzStueliDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'subscription',
+      name: { kind: 'Name', value: 'OnUpdateReferenzStueli' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'onUpdateReferenzStueli' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'kurzspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'lieferant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'nennweite' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'feinspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  OnUpdateReferenzStueliSubscription,
+  OnUpdateReferenzStueliSubscriptionVariables
+>;
+export const OnDeleteReferenzStueliDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'subscription',
+      name: { kind: 'Name', value: 'OnDeleteReferenzStueli' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'onDeleteReferenzStueli' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'kurzspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'lieferant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'nennweite' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'feinspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  OnDeleteReferenzStueliSubscription,
+  OnDeleteReferenzStueliSubscriptionVariables
+>;
 export const OnCreateUserDocument = {
   kind: 'Document',
   definitions: [
@@ -8992,6 +11949,25 @@ export const OnCreateUserDocument = {
                                     name: {
                                       kind: 'Name',
                                       value: 'anlagenUsers',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'referenzStueli',
                                     },
                                     selectionSet: {
                                       kind: 'SelectionSet',
@@ -9192,6 +12168,25 @@ export const OnUpdateUserDocument = {
                                       ],
                                     },
                                   },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'referenzStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
                                 ],
                               },
                             },
@@ -9364,6 +12359,25 @@ export const OnDeleteUserDocument = {
                                     name: {
                                       kind: 'Name',
                                       value: 'anlagenUsers',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'referenzStueli',
                                     },
                                     selectionSet: {
                                       kind: 'SelectionSet',

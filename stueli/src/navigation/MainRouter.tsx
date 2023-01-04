@@ -6,7 +6,7 @@ import { useAuth } from '../providers/AuthProvider';
 import Home from '../screens/Home';
 import Kunde from '../screens/Kunde';
 import KundeUser from '../screens/KundeUser';
-import ReferenzStueli from '../screens/ReferenzStueli';
+import ReferenzStueli from '../screens/ReferenzStueckliste';
 import NavigationLayout from './NavigationLayout';
 
 const MainRouter = () => {
@@ -15,7 +15,7 @@ const MainRouter = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<NavigationLayout />}>
-          <Route element={<Home />} />
+          <Route index element={<Home />} />
           <Route path="kunde" element={<Kunde />} />
           <Route path="kunde/:id" element={<ReferenzStueli />} />
           {role === Role.Admin && (

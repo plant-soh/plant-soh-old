@@ -41,6 +41,18 @@ export const createAnlagenUserPrimary = /* GraphQL */ `
           }
           nextToken
         }
+        referenzStueli {
+          items {
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
       }
       user {
         email
@@ -114,6 +126,18 @@ export const deleteAnlagenUserPrimary = /* GraphQL */ `
           }
           nextToken
         }
+        referenzStueli {
+          items {
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
       }
       user {
         email
@@ -144,6 +168,64 @@ export const deleteAnlagenUserPrimary = /* GraphQL */ `
           }
           nextToken
         }
+      }
+    }
+  }
+`;
+export const deleteAnlagePrimary = /* GraphQL */ `
+  mutation DeleteAnlagePrimary($input: DeleteAnlageInput!) {
+    deleteAnlagePrimary(input: $input) {
+      id
+      firma
+      standort
+      anschrift
+      users
+      createdAt
+      updatedAt
+      anlagenUsers {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+            anlagenUsers {
+              nextToken
+            }
+            referenzStueli {
+              nextToken
+            }
+          }
+          user {
+            email
+            role
+            createdAt
+            updatedAt
+            anlagen {
+              nextToken
+            }
+          }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
     }
   }
@@ -184,6 +266,18 @@ export const updateAnlagenUser = /* GraphQL */ `
               createdAt
               updatedAt
             }
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
           }
           nextToken
         }
@@ -248,6 +342,9 @@ export const createAnlage = /* GraphQL */ `
             anlagenUsers {
               nextToken
             }
+            referenzStueli {
+              nextToken
+            }
           }
           user {
             email
@@ -258,6 +355,18 @@ export const createAnlage = /* GraphQL */ `
               nextToken
             }
           }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -291,6 +400,9 @@ export const updateAnlage = /* GraphQL */ `
             anlagenUsers {
               nextToken
             }
+            referenzStueli {
+              nextToken
+            }
           }
           user {
             email
@@ -301,6 +413,18 @@ export const updateAnlage = /* GraphQL */ `
               nextToken
             }
           }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -334,6 +458,9 @@ export const deleteAnlage = /* GraphQL */ `
             anlagenUsers {
               nextToken
             }
+            referenzStueli {
+              nextToken
+            }
           }
           user {
             email
@@ -344,6 +471,18 @@ export const deleteAnlage = /* GraphQL */ `
               nextToken
             }
           }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -386,6 +525,18 @@ export const createAnlagenUser = /* GraphQL */ `
               createdAt
               updatedAt
             }
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
           }
           nextToken
         }
@@ -462,6 +613,18 @@ export const deleteAnlagenUser = /* GraphQL */ `
           }
           nextToken
         }
+        referenzStueli {
+          items {
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
       }
       user {
         email
@@ -496,6 +659,45 @@ export const deleteAnlagenUser = /* GraphQL */ `
     }
   }
 `;
+export const createReferenzStueli = /* GraphQL */ `
+  mutation CreateReferenzStueli($input: CreateReferenzStueliInput!) {
+    createReferenzStueli(input: $input) {
+      anlageId
+      kurzspezifikation
+      lieferant
+      nennweite
+      feinspezifikation
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateReferenzStueli = /* GraphQL */ `
+  mutation UpdateReferenzStueli($input: UpdateReferenzStueliInput!) {
+    updateReferenzStueli(input: $input) {
+      anlageId
+      kurzspezifikation
+      lieferant
+      nennweite
+      feinspezifikation
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteReferenzStueli = /* GraphQL */ `
+  mutation DeleteReferenzStueli($input: DeleteReferenzStueliInput!) {
+    deleteReferenzStueli(input: $input) {
+      anlageId
+      kurzspezifikation
+      lieferant
+      nennweite
+      feinspezifikation
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createUser = /* GraphQL */ `
   mutation CreateUser($input: CreateUserInput!) {
     createUser(input: $input) {
@@ -518,6 +720,9 @@ export const createUser = /* GraphQL */ `
             createdAt
             updatedAt
             anlagenUsers {
+              nextToken
+            }
+            referenzStueli {
               nextToken
             }
           }
@@ -560,6 +765,9 @@ export const updateUser = /* GraphQL */ `
             anlagenUsers {
               nextToken
             }
+            referenzStueli {
+              nextToken
+            }
           }
           user {
             email
@@ -598,6 +806,9 @@ export const deleteUser = /* GraphQL */ `
             createdAt
             updatedAt
             anlagenUsers {
+              nextToken
+            }
+            referenzStueli {
               nextToken
             }
           }

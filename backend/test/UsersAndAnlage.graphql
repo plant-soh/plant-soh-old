@@ -37,6 +37,12 @@ mutation CreateAnlagenUsers {
     anlageId
     userEmail
   }
+  au3: createAnlagenUserPrimary(
+    input: { anlageId: "m1", userEmail: "damaddin88@googlemail.com" }
+  ) {
+    anlageId
+    userEmail
+  }
 }
 
 query ListAnlagen {

@@ -4,7 +4,7 @@ import {
   Anlage,
   Role,
   useCreateAnlageMutation,
-  useDeleteAnlageMutation,
+  useDeleteAnlagePrimaryMutation,
   useListAnlagesQuery,
 } from '../../lib/react-api';
 import { useAuth } from '../../providers/AuthProvider';
@@ -32,7 +32,7 @@ const Kunde = () => {
     refetchOnWindowFocus: false,
   });
 
-  const deleteAnlage = useDeleteAnlageMutation();
+  const deleteAnlage = useDeleteAnlagePrimaryMutation();
   const createAnlage = useCreateAnlageMutation();
 
   const [newAnlage, setNewAnlage] = useState<
@@ -82,7 +82,7 @@ const Kunde = () => {
                           onClick={async () => {
                             await deleteAnlage.mutateAsync({
                               input: {
-                                id: anlage?.id,
+                                anlageId: anlage?.id,
                               },
                             });
                             await refetch();

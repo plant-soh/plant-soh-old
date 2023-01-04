@@ -43,6 +43,7 @@ export type Anlage = {
   createdAt: Scalars['AWSDateTime'];
   firma: Scalars['String'];
   id: Scalars['ID'];
+  referenzStueli?: Maybe<ModelReferenzStueliConnection>;
   standort: Scalars['String'];
   updatedAt: Scalars['AWSDateTime'];
   users?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -54,6 +55,13 @@ export type AnlageAnlagenUsersArgs = {
   nextToken?: InputMaybe<Scalars['String']>;
   sortDirection?: InputMaybe<ModelSortDirection>;
   userEmail?: InputMaybe<ModelStringKeyConditionInput>;
+};
+
+export type AnlageReferenzStueliArgs = {
+  filter?: InputMaybe<ModelReferenzStueliFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
 };
 
 export type AnlagenUser = {
@@ -79,18 +87,30 @@ export type CreateAnlagenUserInput = {
   userEmail: Scalars['String'];
 };
 
+export type CreateReferenzStueliInput = {
+  anlageId: Scalars['ID'];
+  feinspezifikation?: InputMaybe<Scalars['String']>;
+  kurzspezifikation?: InputMaybe<Scalars['String']>;
+  lieferant?: InputMaybe<Scalars['String']>;
+  nennweite?: InputMaybe<Scalars['String']>;
+};
+
 export type CreateUserInput = {
   email: Scalars['String'];
   role: Role;
 };
 
 export type DeleteAnlageInput = {
-  id: Scalars['ID'];
+  anlageId: Scalars['ID'];
 };
 
 export type DeleteAnlagenUserInput = {
   anlageId: Scalars['ID'];
   userEmail: Scalars['String'];
+};
+
+export type DeleteReferenzStueliInput = {
+  anlageId: Scalars['ID'];
 };
 
 export type DeleteUserInput = {
@@ -176,6 +196,23 @@ export type ModelIntFilterInput = {
   ne?: InputMaybe<Scalars['Int']>;
 };
 
+export type ModelReferenzStueliConnection = {
+  __typename?: 'ModelReferenzStueliConnection';
+  items?: Maybe<Array<Maybe<ReferenzStueli>>>;
+  nextToken?: Maybe<Scalars['String']>;
+};
+
+export type ModelReferenzStueliFilterInput = {
+  and?: InputMaybe<Array<InputMaybe<ModelReferenzStueliFilterInput>>>;
+  anlageId?: InputMaybe<ModelIdFilterInput>;
+  feinspezifikation?: InputMaybe<ModelStringFilterInput>;
+  kurzspezifikation?: InputMaybe<ModelStringFilterInput>;
+  lieferant?: InputMaybe<ModelStringFilterInput>;
+  nennweite?: InputMaybe<ModelStringFilterInput>;
+  not?: InputMaybe<ModelReferenzStueliFilterInput>;
+  or?: InputMaybe<Array<InputMaybe<ModelReferenzStueliFilterInput>>>;
+};
+
 export type ModelRoleFilterInput = {
   eq?: InputMaybe<Role>;
   ne?: InputMaybe<Role>;
@@ -228,13 +265,17 @@ export type Mutation = {
   createAnlage?: Maybe<Anlage>;
   createAnlagenUser?: Maybe<AnlagenUser>;
   createAnlagenUserPrimary?: Maybe<AnlagenUser>;
+  createReferenzStueli?: Maybe<ReferenzStueli>;
   createUser?: Maybe<User>;
   deleteAnlage?: Maybe<Anlage>;
+  deleteAnlagePrimary?: Maybe<Anlage>;
   deleteAnlagenUser?: Maybe<AnlagenUser>;
   deleteAnlagenUserPrimary?: Maybe<AnlagenUser>;
+  deleteReferenzStueli?: Maybe<ReferenzStueli>;
   deleteUser?: Maybe<User>;
   updateAnlage?: Maybe<Anlage>;
   updateAnlagenUser?: Maybe<AnlagenUser>;
+  updateReferenzStueli?: Maybe<ReferenzStueli>;
   updateUser?: Maybe<User>;
 };
 
@@ -250,11 +291,19 @@ export type MutationCreateAnlagenUserPrimaryArgs = {
   input: CreateAnlagenUserInput;
 };
 
+export type MutationCreateReferenzStueliArgs = {
+  input: CreateReferenzStueliInput;
+};
+
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
 };
 
 export type MutationDeleteAnlageArgs = {
+  input: DeleteAnlageInput;
+};
+
+export type MutationDeleteAnlagePrimaryArgs = {
   input: DeleteAnlageInput;
 };
 
@@ -264,6 +313,10 @@ export type MutationDeleteAnlagenUserArgs = {
 
 export type MutationDeleteAnlagenUserPrimaryArgs = {
   input: DeleteAnlagenUserInput;
+};
+
+export type MutationDeleteReferenzStueliArgs = {
+  input: DeleteReferenzStueliInput;
 };
 
 export type MutationDeleteUserArgs = {
@@ -278,6 +331,10 @@ export type MutationUpdateAnlagenUserArgs = {
   input: UpdateAnlagenUserInput;
 };
 
+export type MutationUpdateReferenzStueliArgs = {
+  input: UpdateReferenzStueliInput;
+};
+
 export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
 };
@@ -286,9 +343,11 @@ export type Query = {
   __typename?: 'Query';
   getAnlage?: Maybe<Anlage>;
   getAnlagenUser?: Maybe<AnlagenUser>;
+  getReferenzStueli?: Maybe<ReferenzStueli>;
   getUser?: Maybe<User>;
   listAnlagenUsers?: Maybe<ModelAnlagenUserConnection>;
   listAnlages?: Maybe<ModelAnlageConnection>;
+  listReferenzStuelis?: Maybe<ModelReferenzStueliConnection>;
   listUsers?: Maybe<ModelUserConnection>;
 };
 
@@ -299,6 +358,10 @@ export type QueryGetAnlageArgs = {
 export type QueryGetAnlagenUserArgs = {
   anlageId: Scalars['ID'];
   userEmail: Scalars['String'];
+};
+
+export type QueryGetReferenzStueliArgs = {
+  anlageId: Scalars['ID'];
 };
 
 export type QueryGetUserArgs = {
@@ -320,12 +383,31 @@ export type QueryListAnlagesArgs = {
   nextToken?: InputMaybe<Scalars['String']>;
 };
 
+export type QueryListReferenzStuelisArgs = {
+  anlageId?: InputMaybe<Scalars['ID']>;
+  filter?: InputMaybe<ModelReferenzStueliFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+};
+
 export type QueryListUsersArgs = {
   email?: InputMaybe<Scalars['String']>;
   filter?: InputMaybe<ModelUserFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
   sortDirection?: InputMaybe<ModelSortDirection>;
+};
+
+export type ReferenzStueli = {
+  __typename?: 'ReferenzStueli';
+  anlageId: Scalars['ID'];
+  createdAt: Scalars['AWSDateTime'];
+  feinspezifikation?: Maybe<Scalars['String']>;
+  kurzspezifikation?: Maybe<Scalars['String']>;
+  lieferant?: Maybe<Scalars['String']>;
+  nennweite?: Maybe<Scalars['String']>;
+  updatedAt: Scalars['AWSDateTime'];
 };
 
 export enum Role {
@@ -338,12 +420,15 @@ export type Subscription = {
   __typename?: 'Subscription';
   onCreateAnlage?: Maybe<Anlage>;
   onCreateAnlagenUser?: Maybe<AnlagenUser>;
+  onCreateReferenzStueli?: Maybe<ReferenzStueli>;
   onCreateUser?: Maybe<User>;
   onDeleteAnlage?: Maybe<Anlage>;
   onDeleteAnlagenUser?: Maybe<AnlagenUser>;
+  onDeleteReferenzStueli?: Maybe<ReferenzStueli>;
   onDeleteUser?: Maybe<User>;
   onUpdateAnlage?: Maybe<Anlage>;
   onUpdateAnlagenUser?: Maybe<AnlagenUser>;
+  onUpdateReferenzStueli?: Maybe<ReferenzStueli>;
   onUpdateUser?: Maybe<User>;
 };
 
@@ -394,6 +479,14 @@ export type UpdateAnlageInput = {
 export type UpdateAnlagenUserInput = {
   anlageId: Scalars['ID'];
   userEmail: Scalars['String'];
+};
+
+export type UpdateReferenzStueliInput = {
+  anlageId: Scalars['ID'];
+  feinspezifikation?: InputMaybe<Scalars['String']>;
+  kurzspezifikation?: InputMaybe<Scalars['String']>;
+  lieferant?: InputMaybe<Scalars['String']>;
+  nennweite?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateUserInput = {
@@ -472,6 +565,30 @@ export type CreateAnlagenUserPrimaryMutation = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
                         }
                       | null
                       | undefined
@@ -598,6 +715,30 @@ export type DeleteAnlagenUserPrimaryMutation = {
               }
             | null
             | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
         };
         user: {
           __typename?: 'User';
@@ -647,6 +788,113 @@ export type DeleteAnlagenUserPrimaryMutation = {
             | null
             | undefined;
         };
+      }
+    | null
+    | undefined;
+};
+
+export type DeleteAnlagePrimaryMutationVariables = Exact<{
+  input: DeleteAnlageInput;
+}>;
+
+export type DeleteAnlagePrimaryMutation = {
+  __typename?: 'Mutation';
+  deleteAnlagePrimary?:
+    | {
+        __typename?: 'Anlage';
+        id: string;
+        firma: string;
+        standort: string;
+        anschrift?: string | null | undefined;
+        users?: Array<string | null | undefined> | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+        anlagenUsers?:
+          | {
+              __typename?: 'ModelAnlagenUserConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'AnlagenUser';
+                        anlageId: string;
+                        userEmail: string;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlage: {
+                          __typename?: 'Anlage';
+                          id: string;
+                          firma: string;
+                          standort: string;
+                          anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagenUsers?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
+                        user: {
+                          __typename?: 'User';
+                          email: string;
+                          role: Role;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        referenzStueli?:
+          | {
+              __typename?: 'ModelReferenzStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ReferenzStueli';
+                        anlageId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
       }
     | null
     | undefined;
@@ -706,6 +954,30 @@ export type UpdateAnlagenUserMutation = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
                         }
                       | null
                       | undefined
@@ -816,6 +1088,13 @@ export type CreateAnlageMutation = {
                               }
                             | null
                             | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         };
                         user: {
                           __typename?: 'User';
@@ -831,6 +1110,30 @@ export type CreateAnlageMutation = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        referenzStueli?:
+          | {
+              __typename?: 'ModelReferenzStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ReferenzStueli';
+                        anlageId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
                       }
                     | null
                     | undefined
@@ -892,6 +1195,13 @@ export type UpdateAnlageMutation = {
                               }
                             | null
                             | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         };
                         user: {
                           __typename?: 'User';
@@ -907,6 +1217,30 @@ export type UpdateAnlageMutation = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        referenzStueli?:
+          | {
+              __typename?: 'ModelReferenzStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ReferenzStueli';
+                        anlageId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
                       }
                     | null
                     | undefined
@@ -968,6 +1302,13 @@ export type DeleteAnlageMutation = {
                               }
                             | null
                             | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         };
                         user: {
                           __typename?: 'User';
@@ -983,6 +1324,30 @@ export type DeleteAnlageMutation = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        referenzStueli?:
+          | {
+              __typename?: 'ModelReferenzStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ReferenzStueli';
+                        anlageId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
                       }
                     | null
                     | undefined
@@ -1051,6 +1416,30 @@ export type CreateAnlagenUserMutation = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
                         }
                       | null
                       | undefined
@@ -1177,6 +1566,30 @@ export type DeleteAnlagenUserMutation = {
               }
             | null
             | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
         };
         user: {
           __typename?: 'User';
@@ -1231,6 +1644,69 @@ export type DeleteAnlagenUserMutation = {
     | undefined;
 };
 
+export type CreateReferenzStueliMutationVariables = Exact<{
+  input: CreateReferenzStueliInput;
+}>;
+
+export type CreateReferenzStueliMutation = {
+  __typename?: 'Mutation';
+  createReferenzStueli?:
+    | {
+        __typename?: 'ReferenzStueli';
+        anlageId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
+export type UpdateReferenzStueliMutationVariables = Exact<{
+  input: UpdateReferenzStueliInput;
+}>;
+
+export type UpdateReferenzStueliMutation = {
+  __typename?: 'Mutation';
+  updateReferenzStueli?:
+    | {
+        __typename?: 'ReferenzStueli';
+        anlageId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
+export type DeleteReferenzStueliMutationVariables = Exact<{
+  input: DeleteReferenzStueliInput;
+}>;
+
+export type DeleteReferenzStueliMutation = {
+  __typename?: 'Mutation';
+  deleteReferenzStueli?:
+    | {
+        __typename?: 'ReferenzStueli';
+        anlageId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput;
 }>;
@@ -1271,6 +1747,13 @@ export type CreateUserMutation = {
                           anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
                                 nextToken?: string | null | undefined;
                               }
                             | null
@@ -1348,6 +1831,13 @@ export type UpdateUserMutation = {
                               }
                             | null
                             | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         };
                         user: {
                           __typename?: 'User';
@@ -1417,6 +1907,13 @@ export type DeleteUserMutation = {
                           anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
                                 nextToken?: string | null | undefined;
                               }
                             | null
@@ -1497,6 +1994,13 @@ export type GetAnlageQuery = {
                               }
                             | null
                             | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         };
                         user: {
                           __typename?: 'User';
@@ -1512,6 +2016,30 @@ export type GetAnlageQuery = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        referenzStueli?:
+          | {
+              __typename?: 'ModelReferenzStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ReferenzStueli';
+                        anlageId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
                       }
                     | null
                     | undefined
@@ -1590,6 +2118,30 @@ export type ListAnlagesQuery = {
                       }
                     | null
                     | undefined;
+                  referenzStueli?:
+                    | {
+                        __typename?: 'ModelReferenzStueliConnection';
+                        nextToken?: string | null | undefined;
+                        items?:
+                          | Array<
+                              | {
+                                  __typename?: 'ReferenzStueli';
+                                  anlageId: string;
+                                  kurzspezifikation?: string | null | undefined;
+                                  lieferant?: string | null | undefined;
+                                  nennweite?: string | null | undefined;
+                                  feinspezifikation?: string | null | undefined;
+                                  createdAt: any;
+                                  updatedAt: any;
+                                }
+                              | null
+                              | undefined
+                            >
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined;
                 }
               | null
               | undefined
@@ -1656,6 +2208,30 @@ export type GetAnlagenUserQuery = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
                         }
                       | null
                       | undefined
@@ -1772,6 +2348,36 @@ export type ListAnlagenUsersQuery = {
                         }
                       | null
                       | undefined;
+                    referenzStueli?:
+                      | {
+                          __typename?: 'ModelReferenzStueliConnection';
+                          nextToken?: string | null | undefined;
+                          items?:
+                            | Array<
+                                | {
+                                    __typename?: 'ReferenzStueli';
+                                    anlageId: string;
+                                    kurzspezifikation?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    lieferant?: string | null | undefined;
+                                    nennweite?: string | null | undefined;
+                                    feinspezifikation?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    createdAt: any;
+                                    updatedAt: any;
+                                  }
+                                | null
+                                | undefined
+                              >
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
                   };
                   user: {
                     __typename?: 'User';
@@ -1801,6 +2407,63 @@ export type ListAnlagenUsersQuery = {
                       | null
                       | undefined;
                   };
+                }
+              | null
+              | undefined
+            >
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type GetReferenzStueliQueryVariables = Exact<{
+  anlageId: Scalars['ID'];
+}>;
+
+export type GetReferenzStueliQuery = {
+  __typename?: 'Query';
+  getReferenzStueli?:
+    | {
+        __typename?: 'ReferenzStueli';
+        anlageId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
+export type ListReferenzStuelisQueryVariables = Exact<{
+  anlageId?: InputMaybe<Scalars['ID']>;
+  filter?: InputMaybe<ModelReferenzStueliFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+}>;
+
+export type ListReferenzStuelisQuery = {
+  __typename?: 'Query';
+  listReferenzStuelis?:
+    | {
+        __typename?: 'ModelReferenzStueliConnection';
+        nextToken?: string | null | undefined;
+        items?:
+          | Array<
+              | {
+                  __typename?: 'ReferenzStueli';
+                  anlageId: string;
+                  kurzspezifikation?: string | null | undefined;
+                  lieferant?: string | null | undefined;
+                  nennweite?: string | null | undefined;
+                  feinspezifikation?: string | null | undefined;
+                  createdAt: any;
+                  updatedAt: any;
                 }
               | null
               | undefined
@@ -1852,6 +2515,13 @@ export type GetUserQuery = {
                           anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
                                 nextToken?: string | null | undefined;
                               }
                             | null
@@ -2006,6 +2676,13 @@ export type OnCreateAnlageSubscription = {
                               }
                             | null
                             | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         };
                         user: {
                           __typename?: 'User';
@@ -2021,6 +2698,30 @@ export type OnCreateAnlageSubscription = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        referenzStueli?:
+          | {
+              __typename?: 'ModelReferenzStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ReferenzStueli';
+                        anlageId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
                       }
                     | null
                     | undefined
@@ -2082,6 +2783,13 @@ export type OnUpdateAnlageSubscription = {
                               }
                             | null
                             | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         };
                         user: {
                           __typename?: 'User';
@@ -2097,6 +2805,30 @@ export type OnUpdateAnlageSubscription = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        referenzStueli?:
+          | {
+              __typename?: 'ModelReferenzStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ReferenzStueli';
+                        anlageId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
                       }
                     | null
                     | undefined
@@ -2158,6 +2890,13 @@ export type OnDeleteAnlageSubscription = {
                               }
                             | null
                             | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         };
                         user: {
                           __typename?: 'User';
@@ -2173,6 +2912,30 @@ export type OnDeleteAnlageSubscription = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        referenzStueli?:
+          | {
+              __typename?: 'ModelReferenzStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ReferenzStueli';
+                        anlageId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
                       }
                     | null
                     | undefined
@@ -2241,6 +3004,30 @@ export type OnCreateAnlagenUserSubscription = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
                         }
                       | null
                       | undefined
@@ -2367,6 +3154,30 @@ export type OnUpdateAnlagenUserSubscription = {
               }
             | null
             | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
         };
         user: {
           __typename?: 'User';
@@ -2484,6 +3295,30 @@ export type OnDeleteAnlagenUserSubscription = {
               }
             | null
             | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
         };
         user: {
           __typename?: 'User';
@@ -2538,6 +3373,69 @@ export type OnDeleteAnlagenUserSubscription = {
     | undefined;
 };
 
+export type OnCreateReferenzStueliSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type OnCreateReferenzStueliSubscription = {
+  __typename?: 'Subscription';
+  onCreateReferenzStueli?:
+    | {
+        __typename?: 'ReferenzStueli';
+        anlageId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
+export type OnUpdateReferenzStueliSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type OnUpdateReferenzStueliSubscription = {
+  __typename?: 'Subscription';
+  onUpdateReferenzStueli?:
+    | {
+        __typename?: 'ReferenzStueli';
+        anlageId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
+export type OnDeleteReferenzStueliSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type OnDeleteReferenzStueliSubscription = {
+  __typename?: 'Subscription';
+  onDeleteReferenzStueli?:
+    | {
+        __typename?: 'ReferenzStueli';
+        anlageId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
 export type OnCreateUserSubscriptionVariables = Exact<{
   email?: InputMaybe<Scalars['String']>;
 }>;
@@ -2578,6 +3476,13 @@ export type OnCreateUserSubscription = {
                           anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
                                 nextToken?: string | null | undefined;
                               }
                             | null
@@ -2655,6 +3560,13 @@ export type OnUpdateUserSubscription = {
                               }
                             | null
                             | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         };
                         user: {
                           __typename?: 'User';
@@ -2728,6 +3640,13 @@ export type OnDeleteUserSubscription = {
                               }
                             | null
                             | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         };
                         user: {
                           __typename?: 'User';
@@ -2793,6 +3712,18 @@ export const CreateAnlagenUserPrimaryDocument = `
             createdAt
             updatedAt
           }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -2894,6 +3825,18 @@ export const DeleteAnlagenUserPrimaryDocument = `
         }
         nextToken
       }
+      referenzStueli {
+        items {
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
     user {
       email
@@ -2953,6 +3896,89 @@ export const useDeleteAnlagenUserPrimaryMutation = <
       >(DeleteAnlagenUserPrimaryDocument, variables)(),
     options,
   );
+export const DeleteAnlagePrimaryDocument = `
+    mutation DeleteAnlagePrimary($input: DeleteAnlageInput!) {
+  deleteAnlagePrimary(input: $input) {
+    id
+    firma
+    standort
+    anschrift
+    users
+    createdAt
+    updatedAt
+    anlagenUsers {
+      items {
+        anlageId
+        userEmail
+        createdAt
+        updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          users
+          createdAt
+          updatedAt
+          anlagenUsers {
+            nextToken
+          }
+          referenzStueli {
+            nextToken
+          }
+        }
+        user {
+          email
+          role
+          createdAt
+          updatedAt
+          anlagen {
+            nextToken
+          }
+        }
+      }
+      nextToken
+    }
+    referenzStueli {
+      items {
+        anlageId
+        kurzspezifikation
+        lieferant
+        nennweite
+        feinspezifikation
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+}
+    `;
+export const useDeleteAnlagePrimaryMutation = <
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: UseMutationOptions<
+    DeleteAnlagePrimaryMutation,
+    TError,
+    DeleteAnlagePrimaryMutationVariables,
+    TContext
+  >,
+) =>
+  useMutation<
+    DeleteAnlagePrimaryMutation,
+    TError,
+    DeleteAnlagePrimaryMutationVariables,
+    TContext
+  >(
+    ['DeleteAnlagePrimary'],
+    (variables?: DeleteAnlagePrimaryMutationVariables) =>
+      amplifyFetcher<
+        DeleteAnlagePrimaryMutation,
+        DeleteAnlagePrimaryMutationVariables
+      >(DeleteAnlagePrimaryDocument, variables)(),
+    options,
+  );
 export const UpdateAnlagenUserDocument = `
     mutation UpdateAnlagenUser($input: UpdateAnlagenUserInput!) {
   updateAnlagenUser(input: $input) {
@@ -2989,6 +4015,18 @@ export const UpdateAnlagenUserDocument = `
             createdAt
             updatedAt
           }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -3078,6 +4116,9 @@ export const CreateAnlageDocument = `
           anlagenUsers {
             nextToken
           }
+          referenzStueli {
+            nextToken
+          }
         }
         user {
           email
@@ -3088,6 +4129,18 @@ export const CreateAnlageDocument = `
             nextToken
           }
         }
+      }
+      nextToken
+    }
+    referenzStueli {
+      items {
+        anlageId
+        kurzspezifikation
+        lieferant
+        nennweite
+        feinspezifikation
+        createdAt
+        updatedAt
       }
       nextToken
     }
@@ -3143,6 +4196,9 @@ export const UpdateAnlageDocument = `
           anlagenUsers {
             nextToken
           }
+          referenzStueli {
+            nextToken
+          }
         }
         user {
           email
@@ -3153,6 +4209,18 @@ export const UpdateAnlageDocument = `
             nextToken
           }
         }
+      }
+      nextToken
+    }
+    referenzStueli {
+      items {
+        anlageId
+        kurzspezifikation
+        lieferant
+        nennweite
+        feinspezifikation
+        createdAt
+        updatedAt
       }
       nextToken
     }
@@ -3208,6 +4276,9 @@ export const DeleteAnlageDocument = `
           anlagenUsers {
             nextToken
           }
+          referenzStueli {
+            nextToken
+          }
         }
         user {
           email
@@ -3218,6 +4289,18 @@ export const DeleteAnlageDocument = `
             nextToken
           }
         }
+      }
+      nextToken
+    }
+    referenzStueli {
+      items {
+        anlageId
+        kurzspezifikation
+        lieferant
+        nennweite
+        feinspezifikation
+        createdAt
+        updatedAt
       }
       nextToken
     }
@@ -3282,6 +4365,18 @@ export const CreateAnlagenUserDocument = `
             createdAt
             updatedAt
           }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -3383,6 +4478,18 @@ export const DeleteAnlagenUserDocument = `
         }
         nextToken
       }
+      referenzStueli {
+        items {
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
     user {
       email
@@ -3442,6 +4549,120 @@ export const useDeleteAnlagenUserMutation = <
       >(DeleteAnlagenUserDocument, variables)(),
     options,
   );
+export const CreateReferenzStueliDocument = `
+    mutation CreateReferenzStueli($input: CreateReferenzStueliInput!) {
+  createReferenzStueli(input: $input) {
+    anlageId
+    kurzspezifikation
+    lieferant
+    nennweite
+    feinspezifikation
+    createdAt
+    updatedAt
+  }
+}
+    `;
+export const useCreateReferenzStueliMutation = <
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: UseMutationOptions<
+    CreateReferenzStueliMutation,
+    TError,
+    CreateReferenzStueliMutationVariables,
+    TContext
+  >,
+) =>
+  useMutation<
+    CreateReferenzStueliMutation,
+    TError,
+    CreateReferenzStueliMutationVariables,
+    TContext
+  >(
+    ['CreateReferenzStueli'],
+    (variables?: CreateReferenzStueliMutationVariables) =>
+      amplifyFetcher<
+        CreateReferenzStueliMutation,
+        CreateReferenzStueliMutationVariables
+      >(CreateReferenzStueliDocument, variables)(),
+    options,
+  );
+export const UpdateReferenzStueliDocument = `
+    mutation UpdateReferenzStueli($input: UpdateReferenzStueliInput!) {
+  updateReferenzStueli(input: $input) {
+    anlageId
+    kurzspezifikation
+    lieferant
+    nennweite
+    feinspezifikation
+    createdAt
+    updatedAt
+  }
+}
+    `;
+export const useUpdateReferenzStueliMutation = <
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: UseMutationOptions<
+    UpdateReferenzStueliMutation,
+    TError,
+    UpdateReferenzStueliMutationVariables,
+    TContext
+  >,
+) =>
+  useMutation<
+    UpdateReferenzStueliMutation,
+    TError,
+    UpdateReferenzStueliMutationVariables,
+    TContext
+  >(
+    ['UpdateReferenzStueli'],
+    (variables?: UpdateReferenzStueliMutationVariables) =>
+      amplifyFetcher<
+        UpdateReferenzStueliMutation,
+        UpdateReferenzStueliMutationVariables
+      >(UpdateReferenzStueliDocument, variables)(),
+    options,
+  );
+export const DeleteReferenzStueliDocument = `
+    mutation DeleteReferenzStueli($input: DeleteReferenzStueliInput!) {
+  deleteReferenzStueli(input: $input) {
+    anlageId
+    kurzspezifikation
+    lieferant
+    nennweite
+    feinspezifikation
+    createdAt
+    updatedAt
+  }
+}
+    `;
+export const useDeleteReferenzStueliMutation = <
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: UseMutationOptions<
+    DeleteReferenzStueliMutation,
+    TError,
+    DeleteReferenzStueliMutationVariables,
+    TContext
+  >,
+) =>
+  useMutation<
+    DeleteReferenzStueliMutation,
+    TError,
+    DeleteReferenzStueliMutationVariables,
+    TContext
+  >(
+    ['DeleteReferenzStueli'],
+    (variables?: DeleteReferenzStueliMutationVariables) =>
+      amplifyFetcher<
+        DeleteReferenzStueliMutation,
+        DeleteReferenzStueliMutationVariables
+      >(DeleteReferenzStueliDocument, variables)(),
+    options,
+  );
 export const CreateUserDocument = `
     mutation CreateUser($input: CreateUserInput!) {
   createUser(input: $input) {
@@ -3464,6 +4685,9 @@ export const CreateUserDocument = `
           createdAt
           updatedAt
           anlagenUsers {
+            nextToken
+          }
+          referenzStueli {
             nextToken
           }
         }
@@ -3528,6 +4752,9 @@ export const UpdateUserDocument = `
           anlagenUsers {
             nextToken
           }
+          referenzStueli {
+            nextToken
+          }
         }
         user {
           email
@@ -3588,6 +4815,9 @@ export const DeleteUserDocument = `
           createdAt
           updatedAt
           anlagenUsers {
+            nextToken
+          }
+          referenzStueli {
             nextToken
           }
         }
@@ -3655,6 +4885,9 @@ export const GetAnlageDocument = `
           anlagenUsers {
             nextToken
           }
+          referenzStueli {
+            nextToken
+          }
         }
         user {
           email
@@ -3665,6 +4898,18 @@ export const GetAnlageDocument = `
             nextToken
           }
         }
+      }
+      nextToken
+    }
+    referenzStueli {
+      items {
+        anlageId
+        kurzspezifikation
+        lieferant
+        nennweite
+        feinspezifikation
+        createdAt
+        updatedAt
       }
       nextToken
     }
@@ -3715,6 +4960,18 @@ export const ListAnlagesDocument = `
             createdAt
             updatedAt
           }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -3771,6 +5028,18 @@ export const GetAnlagenUserDocument = `
             createdAt
             updatedAt
           }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -3855,6 +5124,18 @@ export const ListAnlagenUsersDocument = `
           }
           nextToken
         }
+        referenzStueli {
+          items {
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
       }
       user {
         email
@@ -3893,6 +5174,73 @@ export const useListAnlagenUsersQuery = <
     ),
     options,
   );
+export const GetReferenzStueliDocument = `
+    query GetReferenzStueli($anlageId: ID!) {
+  getReferenzStueli(anlageId: $anlageId) {
+    anlageId
+    kurzspezifikation
+    lieferant
+    nennweite
+    feinspezifikation
+    createdAt
+    updatedAt
+  }
+}
+    `;
+export const useGetReferenzStueliQuery = <
+  TData = GetReferenzStueliQuery,
+  TError = unknown,
+>(
+  variables: GetReferenzStueliQueryVariables,
+  options?: UseQueryOptions<GetReferenzStueliQuery, TError, TData>,
+) =>
+  useQuery<GetReferenzStueliQuery, TError, TData>(
+    ['GetReferenzStueli', variables],
+    amplifyFetcher<GetReferenzStueliQuery, GetReferenzStueliQueryVariables>(
+      GetReferenzStueliDocument,
+      variables,
+    ),
+    options,
+  );
+export const ListReferenzStuelisDocument = `
+    query ListReferenzStuelis($anlageId: ID, $filter: ModelReferenzStueliFilterInput, $limit: Int, $nextToken: String, $sortDirection: ModelSortDirection) {
+  listReferenzStuelis(
+    anlageId: $anlageId
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      anlageId
+      kurzspezifikation
+      lieferant
+      nennweite
+      feinspezifikation
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}
+    `;
+export const useListReferenzStuelisQuery = <
+  TData = ListReferenzStuelisQuery,
+  TError = unknown,
+>(
+  variables?: ListReferenzStuelisQueryVariables,
+  options?: UseQueryOptions<ListReferenzStuelisQuery, TError, TData>,
+) =>
+  useQuery<ListReferenzStuelisQuery, TError, TData>(
+    variables === undefined
+      ? ['ListReferenzStuelis']
+      : ['ListReferenzStuelis', variables],
+    amplifyFetcher<ListReferenzStuelisQuery, ListReferenzStuelisQueryVariables>(
+      ListReferenzStuelisDocument,
+      variables,
+    ),
+    options,
+  );
 export const GetUserDocument = `
     query GetUser($email: String!) {
   getUser(email: $email) {
@@ -3915,6 +5263,9 @@ export const GetUserDocument = `
           createdAt
           updatedAt
           anlagenUsers {
+            nextToken
+          }
+          referenzStueli {
             nextToken
           }
         }
@@ -4027,6 +5378,9 @@ export const OnCreateAnlageDocument = `
           anlagenUsers {
             nextToken
           }
+          referenzStueli {
+            nextToken
+          }
         }
         user {
           email
@@ -4037,6 +5391,18 @@ export const OnCreateAnlageDocument = `
             nextToken
           }
         }
+      }
+      nextToken
+    }
+    referenzStueli {
+      items {
+        anlageId
+        kurzspezifikation
+        lieferant
+        nennweite
+        feinspezifikation
+        createdAt
+        updatedAt
       }
       nextToken
     }
@@ -4070,6 +5436,9 @@ export const OnUpdateAnlageDocument = `
           anlagenUsers {
             nextToken
           }
+          referenzStueli {
+            nextToken
+          }
         }
         user {
           email
@@ -4080,6 +5449,18 @@ export const OnUpdateAnlageDocument = `
             nextToken
           }
         }
+      }
+      nextToken
+    }
+    referenzStueli {
+      items {
+        anlageId
+        kurzspezifikation
+        lieferant
+        nennweite
+        feinspezifikation
+        createdAt
+        updatedAt
       }
       nextToken
     }
@@ -4113,6 +5494,9 @@ export const OnDeleteAnlageDocument = `
           anlagenUsers {
             nextToken
           }
+          referenzStueli {
+            nextToken
+          }
         }
         user {
           email
@@ -4123,6 +5507,18 @@ export const OnDeleteAnlageDocument = `
             nextToken
           }
         }
+      }
+      nextToken
+    }
+    referenzStueli {
+      items {
+        anlageId
+        kurzspezifikation
+        lieferant
+        nennweite
+        feinspezifikation
+        createdAt
+        updatedAt
       }
       nextToken
     }
@@ -4165,6 +5561,18 @@ export const OnCreateAnlagenUserDocument = `
             createdAt
             updatedAt
           }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -4241,6 +5649,18 @@ export const OnUpdateAnlagenUserDocument = `
         }
         nextToken
       }
+      referenzStueli {
+        items {
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
     user {
       email
@@ -4314,6 +5734,18 @@ export const OnDeleteAnlagenUserDocument = `
         }
         nextToken
       }
+      referenzStueli {
+        items {
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
     user {
       email
@@ -4348,6 +5780,45 @@ export const OnDeleteAnlagenUserDocument = `
   }
 }
     `;
+export const OnCreateReferenzStueliDocument = `
+    subscription OnCreateReferenzStueli {
+  onCreateReferenzStueli {
+    anlageId
+    kurzspezifikation
+    lieferant
+    nennweite
+    feinspezifikation
+    createdAt
+    updatedAt
+  }
+}
+    `;
+export const OnUpdateReferenzStueliDocument = `
+    subscription OnUpdateReferenzStueli {
+  onUpdateReferenzStueli {
+    anlageId
+    kurzspezifikation
+    lieferant
+    nennweite
+    feinspezifikation
+    createdAt
+    updatedAt
+  }
+}
+    `;
+export const OnDeleteReferenzStueliDocument = `
+    subscription OnDeleteReferenzStueli {
+  onDeleteReferenzStueli {
+    anlageId
+    kurzspezifikation
+    lieferant
+    nennweite
+    feinspezifikation
+    createdAt
+    updatedAt
+  }
+}
+    `;
 export const OnCreateUserDocument = `
     subscription OnCreateUser($email: String) {
   onCreateUser(email: $email) {
@@ -4370,6 +5841,9 @@ export const OnCreateUserDocument = `
           createdAt
           updatedAt
           anlagenUsers {
+            nextToken
+          }
+          referenzStueli {
             nextToken
           }
         }
@@ -4412,6 +5886,9 @@ export const OnUpdateUserDocument = `
           anlagenUsers {
             nextToken
           }
+          referenzStueli {
+            nextToken
+          }
         }
         user {
           email
@@ -4450,6 +5927,9 @@ export const OnDeleteUserDocument = `
           createdAt
           updatedAt
           anlagenUsers {
+            nextToken
+          }
+          referenzStueli {
             nextToken
           }
         }
