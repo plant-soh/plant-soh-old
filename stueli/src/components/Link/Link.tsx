@@ -12,9 +12,9 @@ const Link = ({
 }: {
   name: string;
   to: string;
-  onClick: any;
+  onClick?: any;
   className?: string;
-  children: ReactNode;
+  children?: ReactNode;
 }) => {
   const parsedLink = to.startsWith('/') ? to : `/${to}`;
   return (

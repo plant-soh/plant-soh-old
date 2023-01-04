@@ -1,18 +1,33 @@
 import { useState } from 'react';
+import Link from '../../components/Link';
 import {
+  Anlage,
+  Role,
   useCreateAnlageMutation,
   useDeleteAnlageMutation,
   useListAnlagesQuery,
 } from '../../lib/react-api';
+import { useAuth } from '../../providers/AuthProvider';
 
-const columns: { [key: string]: string } = {
-  firma: 'Firma',
-  standort: 'Standort',
-  anschrift: 'Anchrift',
-  actions: 'Aktionen',
-};
+function nameof<T>(key: keyof T): keyof T {
+  return key;
+}
 
 const Kunde = () => {
+  const { role } = useAuth();
+
+  const isAdmin = role === Role.Admin;
+
+  let columns = {
+    [nameof<Anlage>('firma')]: 'Firma',
+    [nameof<Anlage>('standort')]: 'Standort',
+    [nameof<Anlage>('anschrift')]: 'Anchrift',
+  };
+
+  if (isAdmin) {
+    columns = { ...columns, actions: 'Aktionen' };
+  }
+
   const { data, isLoading, refetch } = useListAnlagesQuery(undefined, {
     refetchOnWindowFocus: false,
   });
@@ -56,109 +71,107 @@ const Kunde = () => {
             (anlage, row_index) =>
               anlage && (
                 <tr key={row_index} className="border-b border-gray-400">
-                  {Object.keys(columns)
-                    .slice(0, -1)
-                    .map((col, index) => (
-                      <td
-                        key={index}
-                        className="p-3 text-left whitespace-pre-line"
-                      >
-                        {col === 'firma'
-                          ? anlage?.firma
-                          : col === 'standort'
-                          ? anlage?.standort
-                          : anlage?.anschrift}
-                      </td>
-                    ))}
-                  <td
-                    key="action"
-                    className="p-3 text-left whitespace-pre-line"
-                  >
-                    <button
-                      className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
-                      onClick={async () => {
-                        await deleteAnlage.mutateAsync({
-                          input: {
-                            id: anlage?.id,
-                          },
-                        });
-                        await refetch();
-                      }}
+                  {Object.keys(columns).map((col, index) => (
+                    <td
+                      key={index}
+                      className="p-3 text-left whitespace-pre-line"
                     >
-                      <span>Löschen</span>
-                    </button>
-                  </td>
+                      {col === 'actions' ? (
+                        <button
+                          className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+                          onClick={async () => {
+                            await deleteAnlage.mutateAsync({
+                              input: {
+                                id: anlage?.id,
+                              },
+                            });
+                            await refetch();
+                          }}
+                        >
+                          <span>Löschen</span>
+                        </button>
+                      ) : col === 'standort' ? (
+                        <Link name="referenz-stueli" to={`/kunde/${anlage.id}`}>
+                          <span>{anlage[col]}</span>
+                        </Link>
+                      ) : (
+                        anlage[col as 'firma' | 'anschrift']
+                      )}
+                    </td>
+                  ))}
                 </tr>
               ),
           )}
-          <tr key="insert_row" className="border-b border-gray-400">
-            <td
-              key="firma_insert"
-              className="p-3 text-left whitespace-pre-line"
-            >
-              <input
-                type="text"
-                id="firma"
-                name="firma"
-                onChange={(e) =>
-                  setNewAnlage({ ...newAnlage, firma: e.target.value })
-                }
-              />
-            </td>
-            <td
-              key="standort_insert"
-              className="p-3 text-left whitespace-pre-line"
-            >
-              <input
-                type="text"
-                id="standort"
-                name="standort"
-                onChange={(e) =>
-                  setNewAnlage({ ...newAnlage, standort: e.target.value })
-                }
-              />
-            </td>
-            <td
-              key="anschrift_insert"
-              className="p-3 text-left whitespace-pre-line"
-            >
-              <input
-                type="text"
-                id="anschrift"
-                name="firma"
-                onChange={(e) =>
-                  setNewAnlage({ ...newAnlage, anschrift: e.target.value })
-                }
-              />
-            </td>
-            <td key="action" className="p-3 text-left whitespace-pre-line">
-              {!newAnlage?.firma || !newAnlage?.standort ? (
-                <button className="px-4 py-2 font-bold text-white bg-blue-500 rounded opacity-50 cursor-not-allowed">
-                  <span>Einfügen</span>
-                </button>
-              ) : (
-                <button
-                  className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
-                  onClick={async () => {
-                    if (!newAnlage?.firma || !newAnlage?.standort) {
-                      console.debug('newAnlage missing');
-                      return;
-                    }
-                    await createAnlage.mutateAsync({
-                      input: {
-                        firma: newAnlage.firma,
-                        standort: newAnlage.standort,
-                        anschrift: newAnlage.anschrift,
-                      },
-                    });
-                    await refetch();
-                  }}
-                >
-                  <span>Einfügen</span>
-                </button>
-              )}
-            </td>
-          </tr>
+          {isAdmin && (
+            <tr key="insert_row" className="border-b border-gray-400">
+              <td
+                key="firma_insert"
+                className="p-3 text-left whitespace-pre-line"
+              >
+                <input
+                  type="text"
+                  id="firma"
+                  name="firma"
+                  onChange={(e) =>
+                    setNewAnlage({ ...newAnlage, firma: e.target.value })
+                  }
+                />
+              </td>
+              <td
+                key="standort_insert"
+                className="p-3 text-left whitespace-pre-line"
+              >
+                <input
+                  type="text"
+                  id="standort"
+                  name="standort"
+                  onChange={(e) =>
+                    setNewAnlage({ ...newAnlage, standort: e.target.value })
+                  }
+                />
+              </td>
+              <td
+                key="anschrift_insert"
+                className="p-3 text-left whitespace-pre-line"
+              >
+                <input
+                  type="text"
+                  id="anschrift"
+                  name="firma"
+                  onChange={(e) =>
+                    setNewAnlage({ ...newAnlage, anschrift: e.target.value })
+                  }
+                />
+              </td>
+              <td key="action" className="p-3 text-left whitespace-pre-line">
+                {!newAnlage?.firma || !newAnlage?.standort ? (
+                  <button className="px-4 py-2 font-bold text-white bg-blue-500 rounded opacity-50 cursor-not-allowed">
+                    <span>Einfügen</span>
+                  </button>
+                ) : (
+                  <button
+                    className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+                    onClick={async () => {
+                      if (!newAnlage?.firma || !newAnlage?.standort) {
+                        console.debug('newAnlage missing');
+                        return;
+                      }
+                      await createAnlage.mutateAsync({
+                        input: {
+                          firma: newAnlage.firma,
+                          standort: newAnlage.standort,
+                          anschrift: newAnlage.anschrift,
+                        },
+                      });
+                      await refetch();
+                    }}
+                  >
+                    <span>Einfügen</span>
+                  </button>
+                )}
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
