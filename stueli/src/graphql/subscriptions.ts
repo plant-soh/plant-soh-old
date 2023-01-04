@@ -47,6 +47,7 @@ export const onCreateAnlage = /* GraphQL */ `
       }
       referenzStueli {
         items {
+          id
           anlageId
           kurzspezifikation
           lieferant
@@ -105,6 +106,7 @@ export const onUpdateAnlage = /* GraphQL */ `
       }
       referenzStueli {
         items {
+          id
           anlageId
           kurzspezifikation
           lieferant
@@ -163,6 +165,7 @@ export const onDeleteAnlage = /* GraphQL */ `
       }
       referenzStueli {
         items {
+          id
           anlageId
           kurzspezifikation
           lieferant
@@ -217,6 +220,7 @@ export const onCreateAnlagenUser = /* GraphQL */ `
         }
         referenzStueli {
           items {
+            id
             anlageId
             kurzspezifikation
             lieferant
@@ -302,6 +306,7 @@ export const onUpdateAnlagenUser = /* GraphQL */ `
         }
         referenzStueli {
           items {
+            id
             anlageId
             kurzspezifikation
             lieferant
@@ -387,6 +392,7 @@ export const onDeleteAnlagenUser = /* GraphQL */ `
         }
         referenzStueli {
           items {
+            id
             anlageId
             kurzspezifikation
             lieferant
@@ -434,6 +440,7 @@ export const onDeleteAnlagenUser = /* GraphQL */ `
 export const onCreateReferenzStueli = /* GraphQL */ `
   subscription OnCreateReferenzStueli {
     onCreateReferenzStueli {
+      id
       anlageId
       kurzspezifikation
       lieferant
@@ -447,6 +454,7 @@ export const onCreateReferenzStueli = /* GraphQL */ `
 export const onUpdateReferenzStueli = /* GraphQL */ `
   subscription OnUpdateReferenzStueli {
     onUpdateReferenzStueli {
+      id
       anlageId
       kurzspezifikation
       lieferant
@@ -460,6 +468,7 @@ export const onUpdateReferenzStueli = /* GraphQL */ `
 export const onDeleteReferenzStueli = /* GraphQL */ `
   subscription OnDeleteReferenzStueli {
     onDeleteReferenzStueli {
+      id
       anlageId
       kurzspezifikation
       lieferant

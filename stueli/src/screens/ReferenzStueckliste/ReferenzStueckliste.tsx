@@ -1,6 +1,13 @@
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { ReferenzStueli, Role, useGetAnlageQuery } from '../../lib/react-api';
+import {
+  ReferenzStueli,
+  Role,
+  useCreateReferenzStueliMutation,
+  useDeleteReferenzStueliMutation,
+  useGetAnlageQuery,
+} from '../../lib/react-api';
 import { useAuth } from '../../providers/AuthProvider';
 
 function nameof<T>(key: keyof T): keyof T {
@@ -16,6 +23,16 @@ const ReferenzStueckliste = () => {
 
   const { role } = useAuth();
 
+  const [newStueck, setNewStueck] = useState<
+    | {
+        kurzspezifikation?: string;
+        lieferant?: string;
+        nennweite?: string;
+        feinspezifikation?: string;
+      }
+    | undefined
+  >(undefined);
+
   const isAdmin = role === Role.Admin;
 
   let columns = {
@@ -29,12 +46,15 @@ const ReferenzStueckliste = () => {
     columns = { ...columns, actions: 'Aktionen' };
   }
 
-  const { data, isLoading } = useGetAnlageQuery(
+  const { data, isLoading, refetch } = useGetAnlageQuery(
     { id: id },
     {
       refetchOnWindowFocus: false,
     },
   );
+
+  const deleteStueck = useDeleteReferenzStueliMutation();
+  const createStueck = useCreateReferenzStueliMutation();
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -73,7 +93,14 @@ const ReferenzStueckliste = () => {
                       {col === 'actions' ? (
                         <button
                           className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
-                          onClick={async () => {}}
+                          onClick={async () => {
+                            await deleteStueck.mutateAsync({
+                              input: {
+                                id: stueck.id,
+                              },
+                            });
+                            await refetch();
+                          }}
                         >
                           <span>Löschen</span>
                         </button>
@@ -93,41 +120,56 @@ const ReferenzStueckliste = () => {
           )}
           {isAdmin && (
             <tr key="insert_row" className="border-b border-gray-400">
-              {Object.keys(columns).map((col, _index) => (
-                <>
-                  {col === 'actions' ? (
-                    <td
-                      key="action"
-                      className="p-3 text-left whitespace-pre-line"
-                    >
-                      {true ? (
-                        <button className="px-4 py-2 font-bold text-white bg-blue-500 rounded opacity-50 cursor-not-allowed">
-                          <span>Einfügen</span>
-                        </button>
-                      ) : (
-                        <button
-                          className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
-                          onClick={async () => {}}
-                        >
-                          <span>Einfügen</span>
-                        </button>
-                      )}
-                    </td>
-                  ) : (
-                    <td
-                      key={`${col}_insert`}
-                      className="p-3 text-left whitespace-pre-line"
-                    >
-                      <input
-                        type="text"
-                        id={col}
-                        name={col}
-                        onChange={(_e) => {}}
-                      />
-                    </td>
-                  )}
-                </>
-              ))}
+              {Object.keys(columns).map((col, _index) =>
+                col === 'actions' ? (
+                  <td key={col} className="p-3 text-left whitespace-pre-line">
+                    {!newStueck?.kurzspezifikation ||
+                    !newStueck?.lieferant ||
+                    !newStueck?.feinspezifikation ? (
+                      <button className="px-4 py-2 font-bold text-white bg-blue-500 rounded opacity-50 cursor-not-allowed">
+                        <span>Einfügen</span>
+                      </button>
+                    ) : (
+                      <button
+                        className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+                        onClick={async () => {
+                          if (
+                            !newStueck?.kurzspezifikation ||
+                            !newStueck?.lieferant ||
+                            !newStueck?.feinspezifikation
+                          ) {
+                            console.debug('newStueck missing');
+                            return;
+                          }
+                          await createStueck.mutateAsync({
+                            input: {
+                              anlageId: id,
+                              ...newStueck,
+                            },
+                          });
+                          await refetch();
+                        }}
+                      >
+                        <span>Einfügen</span>
+                      </button>
+                    )}
+                  </td>
+                ) : (
+                  <td
+                    key={`${col}_insert`}
+                    className="p-3 text-left whitespace-pre-line"
+                  >
+                    <input
+                      type="text"
+                      id={col}
+                      name={col}
+                      onChange={(e) =>
+                        setNewStueck({ ...newStueck, [col]: e.target.value })
+                      }
+                    />
+                  </td>
+                ),
+              )}
             </tr>
           )}
         </tbody>

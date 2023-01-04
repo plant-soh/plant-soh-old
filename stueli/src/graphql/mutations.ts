@@ -43,6 +43,7 @@ export const createAnlagenUserPrimary = /* GraphQL */ `
         }
         referenzStueli {
           items {
+            id
             anlageId
             kurzspezifikation
             lieferant
@@ -128,6 +129,7 @@ export const deleteAnlagenUserPrimary = /* GraphQL */ `
         }
         referenzStueli {
           items {
+            id
             anlageId
             kurzspezifikation
             lieferant
@@ -217,6 +219,7 @@ export const deleteAnlagePrimary = /* GraphQL */ `
       }
       referenzStueli {
         items {
+          id
           anlageId
           kurzspezifikation
           lieferant
@@ -271,6 +274,7 @@ export const updateAnlagenUser = /* GraphQL */ `
         }
         referenzStueli {
           items {
+            id
             anlageId
             kurzspezifikation
             lieferant
@@ -360,6 +364,7 @@ export const createAnlage = /* GraphQL */ `
       }
       referenzStueli {
         items {
+          id
           anlageId
           kurzspezifikation
           lieferant
@@ -418,6 +423,7 @@ export const updateAnlage = /* GraphQL */ `
       }
       referenzStueli {
         items {
+          id
           anlageId
           kurzspezifikation
           lieferant
@@ -476,6 +482,7 @@ export const deleteAnlage = /* GraphQL */ `
       }
       referenzStueli {
         items {
+          id
           anlageId
           kurzspezifikation
           lieferant
@@ -530,6 +537,7 @@ export const createAnlagenUser = /* GraphQL */ `
         }
         referenzStueli {
           items {
+            id
             anlageId
             kurzspezifikation
             lieferant
@@ -615,6 +623,7 @@ export const deleteAnlagenUser = /* GraphQL */ `
         }
         referenzStueli {
           items {
+            id
             anlageId
             kurzspezifikation
             lieferant
@@ -662,6 +671,7 @@ export const deleteAnlagenUser = /* GraphQL */ `
 export const createReferenzStueli = /* GraphQL */ `
   mutation CreateReferenzStueli($input: CreateReferenzStueliInput!) {
     createReferenzStueli(input: $input) {
+      id
       anlageId
       kurzspezifikation
       lieferant
@@ -675,6 +685,7 @@ export const createReferenzStueli = /* GraphQL */ `
 export const updateReferenzStueli = /* GraphQL */ `
   mutation UpdateReferenzStueli($input: UpdateReferenzStueliInput!) {
     updateReferenzStueli(input: $input) {
+      id
       anlageId
       kurzspezifikation
       lieferant
@@ -688,6 +699,7 @@ export const updateReferenzStueli = /* GraphQL */ `
 export const deleteReferenzStueli = /* GraphQL */ `
   mutation DeleteReferenzStueli($input: DeleteReferenzStueliInput!) {
     deleteReferenzStueli(input: $input) {
+      id
       anlageId
       kurzspezifikation
       lieferant

@@ -47,6 +47,7 @@ export const getAnlage = /* GraphQL */ `
       }
       referenzStueli {
         items {
+          id
           anlageId
           kurzspezifikation
           lieferant
@@ -101,6 +102,7 @@ export const listAnlages = /* GraphQL */ `
         }
         referenzStueli {
           items {
+            id
             anlageId
             kurzspezifikation
             lieferant
@@ -157,6 +159,7 @@ export const getAnlagenUser = /* GraphQL */ `
         }
         referenzStueli {
           items {
+            id
             anlageId
             kurzspezifikation
             lieferant
@@ -242,6 +245,7 @@ export const listAnlagenUsers = /* GraphQL */ `
           }
           referenzStueli {
             items {
+              id
               anlageId
               kurzspezifikation
               lieferant
@@ -274,8 +278,9 @@ export const listAnlagenUsers = /* GraphQL */ `
   }
 `;
 export const getReferenzStueli = /* GraphQL */ `
-  query GetReferenzStueli($anlageId: ID!) {
-    getReferenzStueli(anlageId: $anlageId) {
+  query GetReferenzStueli($id: ID!) {
+    getReferenzStueli(id: $id) {
+      id
       anlageId
       kurzspezifikation
       lieferant
@@ -288,20 +293,13 @@ export const getReferenzStueli = /* GraphQL */ `
 `;
 export const listReferenzStuelis = /* GraphQL */ `
   query ListReferenzStuelis(
-    $anlageId: ID
     $filter: ModelReferenzStueliFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listReferenzStuelis(
-      anlageId: $anlageId
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
+    listReferenzStuelis(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
+        id
         anlageId
         kurzspezifikation
         lieferant

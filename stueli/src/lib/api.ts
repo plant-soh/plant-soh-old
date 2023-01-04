@@ -84,6 +84,7 @@ export type CreateAnlagenUserInput = {
 export type CreateReferenzStueliInput = {
   anlageId: Scalars['ID'];
   feinspezifikation?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
   kurzspezifikation?: InputMaybe<Scalars['String']>;
   lieferant?: InputMaybe<Scalars['String']>;
   nennweite?: InputMaybe<Scalars['String']>;
@@ -104,7 +105,7 @@ export type DeleteAnlagenUserInput = {
 };
 
 export type DeleteReferenzStueliInput = {
-  anlageId: Scalars['ID'];
+  id: Scalars['ID'];
 };
 
 export type DeleteUserInput = {
@@ -200,6 +201,7 @@ export type ModelReferenzStueliFilterInput = {
   and?: InputMaybe<Array<InputMaybe<ModelReferenzStueliFilterInput>>>;
   anlageId?: InputMaybe<ModelIdFilterInput>;
   feinspezifikation?: InputMaybe<ModelStringFilterInput>;
+  id?: InputMaybe<ModelIdFilterInput>;
   kurzspezifikation?: InputMaybe<ModelStringFilterInput>;
   lieferant?: InputMaybe<ModelStringFilterInput>;
   nennweite?: InputMaybe<ModelStringFilterInput>;
@@ -355,7 +357,7 @@ export type QueryGetAnlagenUserArgs = {
 };
 
 export type QueryGetReferenzStueliArgs = {
-  anlageId: Scalars['ID'];
+  id: Scalars['ID'];
 };
 
 export type QueryGetUserArgs = {
@@ -378,11 +380,9 @@ export type QueryListAnlagesArgs = {
 };
 
 export type QueryListReferenzStuelisArgs = {
-  anlageId?: InputMaybe<Scalars['ID']>;
   filter?: InputMaybe<ModelReferenzStueliFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
-  sortDirection?: InputMaybe<ModelSortDirection>;
 };
 
 export type QueryListUsersArgs = {
@@ -398,6 +398,7 @@ export type ReferenzStueli = {
   anlageId: Scalars['ID'];
   createdAt: Scalars['AWSDateTime'];
   feinspezifikation?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
   kurzspezifikation?: Maybe<Scalars['String']>;
   lieferant?: Maybe<Scalars['String']>;
   nennweite?: Maybe<Scalars['String']>;
@@ -476,8 +477,9 @@ export type UpdateAnlagenUserInput = {
 };
 
 export type UpdateReferenzStueliInput = {
-  anlageId: Scalars['ID'];
+  anlageId?: InputMaybe<Scalars['ID']>;
   feinspezifikation?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
   kurzspezifikation?: InputMaybe<Scalars['String']>;
   lieferant?: InputMaybe<Scalars['String']>;
   nennweite?: InputMaybe<Scalars['String']>;
@@ -576,6 +578,7 @@ export type CreateAnlagenUserPrimaryMutation = {
                   | Array<
                       | {
                           __typename?: 'ReferenzStueli';
+                          id: string;
                           anlageId: string;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
@@ -717,6 +720,7 @@ export type DeleteAnlagenUserPrimaryMutation = {
                   | Array<
                       | {
                           __typename?: 'ReferenzStueli';
+                          id: string;
                           anlageId: string;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
@@ -873,6 +877,7 @@ export type DeleteAnlagePrimaryMutation = {
                 | Array<
                     | {
                         __typename?: 'ReferenzStueli';
+                        id: string;
                         anlageId: string;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
@@ -965,6 +970,7 @@ export type UpdateAnlagenUserMutation = {
                   | Array<
                       | {
                           __typename?: 'ReferenzStueli';
+                          id: string;
                           anlageId: string;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
@@ -1121,6 +1127,7 @@ export type CreateAnlageMutation = {
                 | Array<
                     | {
                         __typename?: 'ReferenzStueli';
+                        id: string;
                         anlageId: string;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
@@ -1228,6 +1235,7 @@ export type UpdateAnlageMutation = {
                 | Array<
                     | {
                         __typename?: 'ReferenzStueli';
+                        id: string;
                         anlageId: string;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
@@ -1335,6 +1343,7 @@ export type DeleteAnlageMutation = {
                 | Array<
                     | {
                         __typename?: 'ReferenzStueli';
+                        id: string;
                         anlageId: string;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
@@ -1427,6 +1436,7 @@ export type CreateAnlagenUserMutation = {
                   | Array<
                       | {
                           __typename?: 'ReferenzStueli';
+                          id: string;
                           anlageId: string;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
@@ -1568,6 +1578,7 @@ export type DeleteAnlagenUserMutation = {
                   | Array<
                       | {
                           __typename?: 'ReferenzStueli';
+                          id: string;
                           anlageId: string;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
@@ -1647,6 +1658,7 @@ export type CreateReferenzStueliMutation = {
   createReferenzStueli?:
     | {
         __typename?: 'ReferenzStueli';
+        id: string;
         anlageId: string;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
@@ -1668,6 +1680,7 @@ export type UpdateReferenzStueliMutation = {
   updateReferenzStueli?:
     | {
         __typename?: 'ReferenzStueli';
+        id: string;
         anlageId: string;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
@@ -1689,6 +1702,7 @@ export type DeleteReferenzStueliMutation = {
   deleteReferenzStueli?:
     | {
         __typename?: 'ReferenzStueli';
+        id: string;
         anlageId: string;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
@@ -2027,6 +2041,7 @@ export type GetAnlageQuery = {
                 | Array<
                     | {
                         __typename?: 'ReferenzStueli';
+                        id: string;
                         anlageId: string;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
@@ -2120,6 +2135,7 @@ export type ListAnlagesQuery = {
                           | Array<
                               | {
                                   __typename?: 'ReferenzStueli';
+                                  id: string;
                                   anlageId: string;
                                   kurzspezifikation?: string | null | undefined;
                                   lieferant?: string | null | undefined;
@@ -2219,6 +2235,7 @@ export type GetAnlagenUserQuery = {
                   | Array<
                       | {
                           __typename?: 'ReferenzStueli';
+                          id: string;
                           anlageId: string;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
@@ -2350,6 +2367,7 @@ export type ListAnlagenUsersQuery = {
                             | Array<
                                 | {
                                     __typename?: 'ReferenzStueli';
+                                    id: string;
                                     anlageId: string;
                                     kurzspezifikation?:
                                       | string
@@ -2413,7 +2431,7 @@ export type ListAnlagenUsersQuery = {
 };
 
 export type GetReferenzStueliQueryVariables = Exact<{
-  anlageId: Scalars['ID'];
+  id: Scalars['ID'];
 }>;
 
 export type GetReferenzStueliQuery = {
@@ -2421,6 +2439,7 @@ export type GetReferenzStueliQuery = {
   getReferenzStueli?:
     | {
         __typename?: 'ReferenzStueli';
+        id: string;
         anlageId: string;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
@@ -2434,11 +2453,9 @@ export type GetReferenzStueliQuery = {
 };
 
 export type ListReferenzStuelisQueryVariables = Exact<{
-  anlageId?: InputMaybe<Scalars['ID']>;
   filter?: InputMaybe<ModelReferenzStueliFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
-  sortDirection?: InputMaybe<ModelSortDirection>;
 }>;
 
 export type ListReferenzStuelisQuery = {
@@ -2451,6 +2468,7 @@ export type ListReferenzStuelisQuery = {
           | Array<
               | {
                   __typename?: 'ReferenzStueli';
+                  id: string;
                   anlageId: string;
                   kurzspezifikation?: string | null | undefined;
                   lieferant?: string | null | undefined;
@@ -2709,6 +2727,7 @@ export type OnCreateAnlageSubscription = {
                 | Array<
                     | {
                         __typename?: 'ReferenzStueli';
+                        id: string;
                         anlageId: string;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
@@ -2816,6 +2835,7 @@ export type OnUpdateAnlageSubscription = {
                 | Array<
                     | {
                         __typename?: 'ReferenzStueli';
+                        id: string;
                         anlageId: string;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
@@ -2923,6 +2943,7 @@ export type OnDeleteAnlageSubscription = {
                 | Array<
                     | {
                         __typename?: 'ReferenzStueli';
+                        id: string;
                         anlageId: string;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
@@ -3015,6 +3036,7 @@ export type OnCreateAnlagenUserSubscription = {
                   | Array<
                       | {
                           __typename?: 'ReferenzStueli';
+                          id: string;
                           anlageId: string;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
@@ -3156,6 +3178,7 @@ export type OnUpdateAnlagenUserSubscription = {
                   | Array<
                       | {
                           __typename?: 'ReferenzStueli';
+                          id: string;
                           anlageId: string;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
@@ -3297,6 +3320,7 @@ export type OnDeleteAnlagenUserSubscription = {
                   | Array<
                       | {
                           __typename?: 'ReferenzStueli';
+                          id: string;
                           anlageId: string;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
@@ -3376,6 +3400,7 @@ export type OnCreateReferenzStueliSubscription = {
   onCreateReferenzStueli?:
     | {
         __typename?: 'ReferenzStueli';
+        id: string;
         anlageId: string;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
@@ -3397,6 +3422,7 @@ export type OnUpdateReferenzStueliSubscription = {
   onUpdateReferenzStueli?:
     | {
         __typename?: 'ReferenzStueli';
+        id: string;
         anlageId: string;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
@@ -3418,6 +3444,7 @@ export type OnDeleteReferenzStueliSubscription = {
   onDeleteReferenzStueli?:
     | {
         __typename?: 'ReferenzStueli';
+        id: string;
         anlageId: string;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
@@ -3882,6 +3909,10 @@ export const CreateAnlagenUserPrimaryDocument = {
                                 selections: [
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'anlageId' },
                                   },
                                   {
@@ -4294,6 +4325,10 @@ export const DeleteAnlagenUserPrimaryDocument = {
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'anlageId' },
@@ -4715,6 +4750,10 @@ export const DeleteAnlagePrimaryDocument = {
                           selections: [
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'anlageId' },
                             },
                             {
@@ -4978,6 +5017,10 @@ export const UpdateAnlagenUserDocument = {
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'anlageId' },
@@ -5399,6 +5442,10 @@ export const CreateAnlageDocument = {
                           selections: [
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'anlageId' },
                             },
                             {
@@ -5667,6 +5714,10 @@ export const UpdateAnlageDocument = {
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'anlageId' },
@@ -5939,6 +5990,10 @@ export const DeleteAnlageDocument = {
                           selections: [
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'anlageId' },
                             },
                             {
@@ -6202,6 +6257,10 @@ export const CreateAnlagenUserDocument = {
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'anlageId' },
@@ -6618,6 +6677,10 @@ export const DeleteAnlagenUserDocument = {
                                 selections: [
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'anlageId' },
                                   },
                                   {
@@ -6862,6 +6925,7 @@ export const CreateReferenzStueliDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
                 {
                   kind: 'Field',
@@ -6928,6 +6992,7 @@ export const UpdateReferenzStueliDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
                 {
                   kind: 'Field',
@@ -6994,6 +7059,7 @@ export const DeleteReferenzStueliDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
                 {
                   kind: 'Field',
@@ -7853,6 +7919,10 @@ export const GetAnlageDocument = {
                           selections: [
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'anlageId' },
                             },
                             {
@@ -8140,6 +8210,10 @@ export const ListAnlagesDocument = {
                                 selections: [
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'anlageId' },
                                   },
                                   {
@@ -8423,6 +8497,10 @@ export const GetAnlagenUserDocument = {
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'anlageId' },
@@ -8869,6 +8947,10 @@ export const ListAnlagenUsersDocument = {
                                       selections: [
                                         {
                                           kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
                                           name: {
                                             kind: 'Name',
                                             value: 'anlageId',
@@ -9029,10 +9111,7 @@ export const GetReferenzStueliDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'anlageId' },
-          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
           type: {
             kind: 'NonNullType',
             type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
@@ -9048,16 +9127,17 @@ export const GetReferenzStueliDocument = {
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'anlageId' },
+                name: { kind: 'Name', value: 'id' },
                 value: {
                   kind: 'Variable',
-                  name: { kind: 'Name', value: 'anlageId' },
+                  name: { kind: 'Name', value: 'id' },
                 },
               },
             ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
                 {
                   kind: 'Field',
@@ -9094,14 +9174,6 @@ export const ListReferenzStuelisDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'anlageId' },
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
             name: { kind: 'Name', value: 'filter' },
           },
           type: {
@@ -9125,17 +9197,6 @@ export const ListReferenzStuelisDocument = {
           },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
         },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'sortDirection' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'ModelSortDirection' },
-          },
-        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -9144,14 +9205,6 @@ export const ListReferenzStuelisDocument = {
             kind: 'Field',
             name: { kind: 'Name', value: 'listReferenzStuelis' },
             arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'anlageId' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'anlageId' },
-                },
-              },
               {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'filter' },
@@ -9176,14 +9229,6 @@ export const ListReferenzStuelisDocument = {
                   name: { kind: 'Name', value: 'nextToken' },
                 },
               },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'sortDirection' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'sortDirection' },
-                },
-              },
             ],
             selectionSet: {
               kind: 'SelectionSet',
@@ -9194,6 +9239,7 @@ export const ListReferenzStuelisDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'anlageId' },
@@ -9917,6 +9963,10 @@ export const OnCreateAnlageDocument = {
                           selections: [
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'anlageId' },
                             },
                             {
@@ -10179,6 +10229,10 @@ export const OnUpdateAnlageDocument = {
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'anlageId' },
@@ -10445,6 +10499,10 @@ export const OnDeleteAnlageDocument = {
                           selections: [
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'anlageId' },
                             },
                             {
@@ -10702,6 +10760,10 @@ export const OnCreateAnlagenUserDocument = {
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'anlageId' },
@@ -11112,6 +11174,10 @@ export const OnUpdateAnlagenUserDocument = {
                                 selections: [
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'anlageId' },
                                   },
                                   {
@@ -11520,6 +11586,10 @@ export const OnDeleteAnlagenUserDocument = {
                                 selections: [
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'anlageId' },
                                   },
                                   {
@@ -11738,6 +11808,7 @@ export const OnCreateReferenzStueliDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
                 {
                   kind: 'Field',
@@ -11778,6 +11849,7 @@ export const OnUpdateReferenzStueliDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
                 {
                   kind: 'Field',
@@ -11818,6 +11890,7 @@ export const OnDeleteReferenzStueliDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
                 {
                   kind: 'Field',

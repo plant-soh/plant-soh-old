@@ -18,7 +18,8 @@ type Anlage
   anschrift: String
   users: [String]
   anlagenUsers: [AnlagenUser] @connection(keyName: "byAnlage", fields: ["id"])
-  referenzStueli: [ReferenzStueli] @connection(fields: ["id"])
+  referenzStueli: [ReferenzStueli]
+    @connection(keyName: "byAnlage", fields: ["id"])
 }
 
 type AnlagenUser
@@ -52,7 +53,8 @@ type ReferenzStueli
       { allow: private, provider: iam }
     ]
   )
-  @key(fields: ["anlageId"]) {
+  @key(name: "byAnlage", fields: ["anlageId"]) {
+  id: ID!
   anlageId: ID!
   kurzspezifikation: String
   lieferant: String

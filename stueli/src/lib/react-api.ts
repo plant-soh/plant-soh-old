@@ -90,6 +90,7 @@ export type CreateAnlagenUserInput = {
 export type CreateReferenzStueliInput = {
   anlageId: Scalars['ID'];
   feinspezifikation?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
   kurzspezifikation?: InputMaybe<Scalars['String']>;
   lieferant?: InputMaybe<Scalars['String']>;
   nennweite?: InputMaybe<Scalars['String']>;
@@ -110,7 +111,7 @@ export type DeleteAnlagenUserInput = {
 };
 
 export type DeleteReferenzStueliInput = {
-  anlageId: Scalars['ID'];
+  id: Scalars['ID'];
 };
 
 export type DeleteUserInput = {
@@ -206,6 +207,7 @@ export type ModelReferenzStueliFilterInput = {
   and?: InputMaybe<Array<InputMaybe<ModelReferenzStueliFilterInput>>>;
   anlageId?: InputMaybe<ModelIdFilterInput>;
   feinspezifikation?: InputMaybe<ModelStringFilterInput>;
+  id?: InputMaybe<ModelIdFilterInput>;
   kurzspezifikation?: InputMaybe<ModelStringFilterInput>;
   lieferant?: InputMaybe<ModelStringFilterInput>;
   nennweite?: InputMaybe<ModelStringFilterInput>;
@@ -361,7 +363,7 @@ export type QueryGetAnlagenUserArgs = {
 };
 
 export type QueryGetReferenzStueliArgs = {
-  anlageId: Scalars['ID'];
+  id: Scalars['ID'];
 };
 
 export type QueryGetUserArgs = {
@@ -384,11 +386,9 @@ export type QueryListAnlagesArgs = {
 };
 
 export type QueryListReferenzStuelisArgs = {
-  anlageId?: InputMaybe<Scalars['ID']>;
   filter?: InputMaybe<ModelReferenzStueliFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
-  sortDirection?: InputMaybe<ModelSortDirection>;
 };
 
 export type QueryListUsersArgs = {
@@ -404,6 +404,7 @@ export type ReferenzStueli = {
   anlageId: Scalars['ID'];
   createdAt: Scalars['AWSDateTime'];
   feinspezifikation?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
   kurzspezifikation?: Maybe<Scalars['String']>;
   lieferant?: Maybe<Scalars['String']>;
   nennweite?: Maybe<Scalars['String']>;
@@ -482,8 +483,9 @@ export type UpdateAnlagenUserInput = {
 };
 
 export type UpdateReferenzStueliInput = {
-  anlageId: Scalars['ID'];
+  anlageId?: InputMaybe<Scalars['ID']>;
   feinspezifikation?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
   kurzspezifikation?: InputMaybe<Scalars['String']>;
   lieferant?: InputMaybe<Scalars['String']>;
   nennweite?: InputMaybe<Scalars['String']>;
@@ -582,6 +584,7 @@ export type CreateAnlagenUserPrimaryMutation = {
                   | Array<
                       | {
                           __typename?: 'ReferenzStueli';
+                          id: string;
                           anlageId: string;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
@@ -723,6 +726,7 @@ export type DeleteAnlagenUserPrimaryMutation = {
                   | Array<
                       | {
                           __typename?: 'ReferenzStueli';
+                          id: string;
                           anlageId: string;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
@@ -879,6 +883,7 @@ export type DeleteAnlagePrimaryMutation = {
                 | Array<
                     | {
                         __typename?: 'ReferenzStueli';
+                        id: string;
                         anlageId: string;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
@@ -971,6 +976,7 @@ export type UpdateAnlagenUserMutation = {
                   | Array<
                       | {
                           __typename?: 'ReferenzStueli';
+                          id: string;
                           anlageId: string;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
@@ -1127,6 +1133,7 @@ export type CreateAnlageMutation = {
                 | Array<
                     | {
                         __typename?: 'ReferenzStueli';
+                        id: string;
                         anlageId: string;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
@@ -1234,6 +1241,7 @@ export type UpdateAnlageMutation = {
                 | Array<
                     | {
                         __typename?: 'ReferenzStueli';
+                        id: string;
                         anlageId: string;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
@@ -1341,6 +1349,7 @@ export type DeleteAnlageMutation = {
                 | Array<
                     | {
                         __typename?: 'ReferenzStueli';
+                        id: string;
                         anlageId: string;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
@@ -1433,6 +1442,7 @@ export type CreateAnlagenUserMutation = {
                   | Array<
                       | {
                           __typename?: 'ReferenzStueli';
+                          id: string;
                           anlageId: string;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
@@ -1574,6 +1584,7 @@ export type DeleteAnlagenUserMutation = {
                   | Array<
                       | {
                           __typename?: 'ReferenzStueli';
+                          id: string;
                           anlageId: string;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
@@ -1653,6 +1664,7 @@ export type CreateReferenzStueliMutation = {
   createReferenzStueli?:
     | {
         __typename?: 'ReferenzStueli';
+        id: string;
         anlageId: string;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
@@ -1674,6 +1686,7 @@ export type UpdateReferenzStueliMutation = {
   updateReferenzStueli?:
     | {
         __typename?: 'ReferenzStueli';
+        id: string;
         anlageId: string;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
@@ -1695,6 +1708,7 @@ export type DeleteReferenzStueliMutation = {
   deleteReferenzStueli?:
     | {
         __typename?: 'ReferenzStueli';
+        id: string;
         anlageId: string;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
@@ -2033,6 +2047,7 @@ export type GetAnlageQuery = {
                 | Array<
                     | {
                         __typename?: 'ReferenzStueli';
+                        id: string;
                         anlageId: string;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
@@ -2126,6 +2141,7 @@ export type ListAnlagesQuery = {
                           | Array<
                               | {
                                   __typename?: 'ReferenzStueli';
+                                  id: string;
                                   anlageId: string;
                                   kurzspezifikation?: string | null | undefined;
                                   lieferant?: string | null | undefined;
@@ -2225,6 +2241,7 @@ export type GetAnlagenUserQuery = {
                   | Array<
                       | {
                           __typename?: 'ReferenzStueli';
+                          id: string;
                           anlageId: string;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
@@ -2356,6 +2373,7 @@ export type ListAnlagenUsersQuery = {
                             | Array<
                                 | {
                                     __typename?: 'ReferenzStueli';
+                                    id: string;
                                     anlageId: string;
                                     kurzspezifikation?:
                                       | string
@@ -2419,7 +2437,7 @@ export type ListAnlagenUsersQuery = {
 };
 
 export type GetReferenzStueliQueryVariables = Exact<{
-  anlageId: Scalars['ID'];
+  id: Scalars['ID'];
 }>;
 
 export type GetReferenzStueliQuery = {
@@ -2427,6 +2445,7 @@ export type GetReferenzStueliQuery = {
   getReferenzStueli?:
     | {
         __typename?: 'ReferenzStueli';
+        id: string;
         anlageId: string;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
@@ -2440,11 +2459,9 @@ export type GetReferenzStueliQuery = {
 };
 
 export type ListReferenzStuelisQueryVariables = Exact<{
-  anlageId?: InputMaybe<Scalars['ID']>;
   filter?: InputMaybe<ModelReferenzStueliFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
-  sortDirection?: InputMaybe<ModelSortDirection>;
 }>;
 
 export type ListReferenzStuelisQuery = {
@@ -2457,6 +2474,7 @@ export type ListReferenzStuelisQuery = {
           | Array<
               | {
                   __typename?: 'ReferenzStueli';
+                  id: string;
                   anlageId: string;
                   kurzspezifikation?: string | null | undefined;
                   lieferant?: string | null | undefined;
@@ -2715,6 +2733,7 @@ export type OnCreateAnlageSubscription = {
                 | Array<
                     | {
                         __typename?: 'ReferenzStueli';
+                        id: string;
                         anlageId: string;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
@@ -2822,6 +2841,7 @@ export type OnUpdateAnlageSubscription = {
                 | Array<
                     | {
                         __typename?: 'ReferenzStueli';
+                        id: string;
                         anlageId: string;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
@@ -2929,6 +2949,7 @@ export type OnDeleteAnlageSubscription = {
                 | Array<
                     | {
                         __typename?: 'ReferenzStueli';
+                        id: string;
                         anlageId: string;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
@@ -3021,6 +3042,7 @@ export type OnCreateAnlagenUserSubscription = {
                   | Array<
                       | {
                           __typename?: 'ReferenzStueli';
+                          id: string;
                           anlageId: string;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
@@ -3162,6 +3184,7 @@ export type OnUpdateAnlagenUserSubscription = {
                   | Array<
                       | {
                           __typename?: 'ReferenzStueli';
+                          id: string;
                           anlageId: string;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
@@ -3303,6 +3326,7 @@ export type OnDeleteAnlagenUserSubscription = {
                   | Array<
                       | {
                           __typename?: 'ReferenzStueli';
+                          id: string;
                           anlageId: string;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
@@ -3382,6 +3406,7 @@ export type OnCreateReferenzStueliSubscription = {
   onCreateReferenzStueli?:
     | {
         __typename?: 'ReferenzStueli';
+        id: string;
         anlageId: string;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
@@ -3403,6 +3428,7 @@ export type OnUpdateReferenzStueliSubscription = {
   onUpdateReferenzStueli?:
     | {
         __typename?: 'ReferenzStueli';
+        id: string;
         anlageId: string;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
@@ -3424,6 +3450,7 @@ export type OnDeleteReferenzStueliSubscription = {
   onDeleteReferenzStueli?:
     | {
         __typename?: 'ReferenzStueli';
+        id: string;
         anlageId: string;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
@@ -3717,6 +3744,7 @@ export const CreateAnlagenUserPrimaryDocument = `
       }
       referenzStueli {
         items {
+          id
           anlageId
           kurzspezifikation
           lieferant
@@ -3827,6 +3855,7 @@ export const DeleteAnlagenUserPrimaryDocument = `
       }
       referenzStueli {
         items {
+          id
           anlageId
           kurzspezifikation
           lieferant
@@ -3941,6 +3970,7 @@ export const DeleteAnlagePrimaryDocument = `
     }
     referenzStueli {
       items {
+        id
         anlageId
         kurzspezifikation
         lieferant
@@ -4020,6 +4050,7 @@ export const UpdateAnlagenUserDocument = `
       }
       referenzStueli {
         items {
+          id
           anlageId
           kurzspezifikation
           lieferant
@@ -4134,6 +4165,7 @@ export const CreateAnlageDocument = `
     }
     referenzStueli {
       items {
+        id
         anlageId
         kurzspezifikation
         lieferant
@@ -4214,6 +4246,7 @@ export const UpdateAnlageDocument = `
     }
     referenzStueli {
       items {
+        id
         anlageId
         kurzspezifikation
         lieferant
@@ -4294,6 +4327,7 @@ export const DeleteAnlageDocument = `
     }
     referenzStueli {
       items {
+        id
         anlageId
         kurzspezifikation
         lieferant
@@ -4370,6 +4404,7 @@ export const CreateAnlagenUserDocument = `
       }
       referenzStueli {
         items {
+          id
           anlageId
           kurzspezifikation
           lieferant
@@ -4480,6 +4515,7 @@ export const DeleteAnlagenUserDocument = `
       }
       referenzStueli {
         items {
+          id
           anlageId
           kurzspezifikation
           lieferant
@@ -4552,6 +4588,7 @@ export const useDeleteAnlagenUserMutation = <
 export const CreateReferenzStueliDocument = `
     mutation CreateReferenzStueli($input: CreateReferenzStueliInput!) {
   createReferenzStueli(input: $input) {
+    id
     anlageId
     kurzspezifikation
     lieferant
@@ -4590,6 +4627,7 @@ export const useCreateReferenzStueliMutation = <
 export const UpdateReferenzStueliDocument = `
     mutation UpdateReferenzStueli($input: UpdateReferenzStueliInput!) {
   updateReferenzStueli(input: $input) {
+    id
     anlageId
     kurzspezifikation
     lieferant
@@ -4628,6 +4666,7 @@ export const useUpdateReferenzStueliMutation = <
 export const DeleteReferenzStueliDocument = `
     mutation DeleteReferenzStueli($input: DeleteReferenzStueliInput!) {
   deleteReferenzStueli(input: $input) {
+    id
     anlageId
     kurzspezifikation
     lieferant
@@ -4903,6 +4942,7 @@ export const GetAnlageDocument = `
     }
     referenzStueli {
       items {
+        id
         anlageId
         kurzspezifikation
         lieferant
@@ -4965,6 +5005,7 @@ export const ListAnlagesDocument = `
       }
       referenzStueli {
         items {
+          id
           anlageId
           kurzspezifikation
           lieferant
@@ -5033,6 +5074,7 @@ export const GetAnlagenUserDocument = `
       }
       referenzStueli {
         items {
+          id
           anlageId
           kurzspezifikation
           lieferant
@@ -5126,6 +5168,7 @@ export const ListAnlagenUsersDocument = `
         }
         referenzStueli {
           items {
+            id
             anlageId
             kurzspezifikation
             lieferant
@@ -5175,8 +5218,9 @@ export const useListAnlagenUsersQuery = <
     options,
   );
 export const GetReferenzStueliDocument = `
-    query GetReferenzStueli($anlageId: ID!) {
-  getReferenzStueli(anlageId: $anlageId) {
+    query GetReferenzStueli($id: ID!) {
+  getReferenzStueli(id: $id) {
+    id
     anlageId
     kurzspezifikation
     lieferant
@@ -5203,15 +5247,10 @@ export const useGetReferenzStueliQuery = <
     options,
   );
 export const ListReferenzStuelisDocument = `
-    query ListReferenzStuelis($anlageId: ID, $filter: ModelReferenzStueliFilterInput, $limit: Int, $nextToken: String, $sortDirection: ModelSortDirection) {
-  listReferenzStuelis(
-    anlageId: $anlageId
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-    sortDirection: $sortDirection
-  ) {
+    query ListReferenzStuelis($filter: ModelReferenzStueliFilterInput, $limit: Int, $nextToken: String) {
+  listReferenzStuelis(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
+      id
       anlageId
       kurzspezifikation
       lieferant
@@ -5396,6 +5435,7 @@ export const OnCreateAnlageDocument = `
     }
     referenzStueli {
       items {
+        id
         anlageId
         kurzspezifikation
         lieferant
@@ -5454,6 +5494,7 @@ export const OnUpdateAnlageDocument = `
     }
     referenzStueli {
       items {
+        id
         anlageId
         kurzspezifikation
         lieferant
@@ -5512,6 +5553,7 @@ export const OnDeleteAnlageDocument = `
     }
     referenzStueli {
       items {
+        id
         anlageId
         kurzspezifikation
         lieferant
@@ -5566,6 +5608,7 @@ export const OnCreateAnlagenUserDocument = `
       }
       referenzStueli {
         items {
+          id
           anlageId
           kurzspezifikation
           lieferant
@@ -5651,6 +5694,7 @@ export const OnUpdateAnlagenUserDocument = `
       }
       referenzStueli {
         items {
+          id
           anlageId
           kurzspezifikation
           lieferant
@@ -5736,6 +5780,7 @@ export const OnDeleteAnlagenUserDocument = `
       }
       referenzStueli {
         items {
+          id
           anlageId
           kurzspezifikation
           lieferant
@@ -5783,6 +5828,7 @@ export const OnDeleteAnlagenUserDocument = `
 export const OnCreateReferenzStueliDocument = `
     subscription OnCreateReferenzStueli {
   onCreateReferenzStueli {
+    id
     anlageId
     kurzspezifikation
     lieferant
@@ -5796,6 +5842,7 @@ export const OnCreateReferenzStueliDocument = `
 export const OnUpdateReferenzStueliDocument = `
     subscription OnUpdateReferenzStueli {
   onUpdateReferenzStueli {
+    id
     anlageId
     kurzspezifikation
     lieferant
@@ -5809,6 +5856,7 @@ export const OnUpdateReferenzStueliDocument = `
 export const OnDeleteReferenzStueliDocument = `
     subscription OnDeleteReferenzStueli {
   onDeleteReferenzStueli {
+    id
     anlageId
     kurzspezifikation
     lieferant
