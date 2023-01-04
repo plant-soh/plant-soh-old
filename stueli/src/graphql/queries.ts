@@ -312,6 +312,66 @@ export const listReferenzStuelis = /* GraphQL */ `
     }
   }
 `;
+export const referenzStueliByKurzspezifikation = /* GraphQL */ `
+  query ReferenzStueliByKurzspezifikation(
+    $anlageId: ID
+    $kurzspezifikation: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelReferenzStueliFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    referenzStueliByKurzspezifikation(
+      anlageId: $anlageId
+      kurzspezifikation: $kurzspezifikation
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        anlageId
+        kurzspezifikation
+        lieferant
+        nennweite
+        feinspezifikation
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const byAnlage = /* GraphQL */ `
+  query ByAnlage(
+    $anlageId: ID
+    $sortDirection: ModelSortDirection
+    $filter: ModelReferenzStueliFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    byAnlage(
+      anlageId: $anlageId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        anlageId
+        kurzspezifikation
+        lieferant
+        nennweite
+        feinspezifikation
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getUser = /* GraphQL */ `
   query GetUser($email: String!) {
     getUser(email: $email) {

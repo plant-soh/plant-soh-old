@@ -343,6 +343,7 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  byAnlage?: Maybe<ModelReferenzStueliConnection>;
   getAnlage?: Maybe<Anlage>;
   getAnlagenUser?: Maybe<AnlagenUser>;
   getReferenzStueli?: Maybe<ReferenzStueli>;
@@ -351,6 +352,15 @@ export type Query = {
   listAnlages?: Maybe<ModelAnlageConnection>;
   listReferenzStuelis?: Maybe<ModelReferenzStueliConnection>;
   listUsers?: Maybe<ModelUserConnection>;
+  referenzStueliByKurzspezifikation?: Maybe<ModelReferenzStueliConnection>;
+};
+
+export type QueryByAnlageArgs = {
+  anlageId?: InputMaybe<Scalars['ID']>;
+  filter?: InputMaybe<ModelReferenzStueliFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
 };
 
 export type QueryGetAnlageArgs = {
@@ -394,6 +404,15 @@ export type QueryListReferenzStuelisArgs = {
 export type QueryListUsersArgs = {
   email?: InputMaybe<Scalars['String']>;
   filter?: InputMaybe<ModelUserFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+};
+
+export type QueryReferenzStueliByKurzspezifikationArgs = {
+  anlageId?: InputMaybe<Scalars['ID']>;
+  filter?: InputMaybe<ModelReferenzStueliFilterInput>;
+  kurzspezifikation?: InputMaybe<ModelStringKeyConditionInput>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
   sortDirection?: InputMaybe<ModelSortDirection>;
@@ -2467,6 +2486,81 @@ export type ListReferenzStuelisQueryVariables = Exact<{
 export type ListReferenzStuelisQuery = {
   __typename?: 'Query';
   listReferenzStuelis?:
+    | {
+        __typename?: 'ModelReferenzStueliConnection';
+        nextToken?: string | null | undefined;
+        items?:
+          | Array<
+              | {
+                  __typename?: 'ReferenzStueli';
+                  id: string;
+                  anlageId: string;
+                  kurzspezifikation?: string | null | undefined;
+                  lieferant?: string | null | undefined;
+                  nennweite?: string | null | undefined;
+                  feinspezifikation?: string | null | undefined;
+                  createdAt: any;
+                  updatedAt: any;
+                }
+              | null
+              | undefined
+            >
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type ReferenzStueliByKurzspezifikationQueryVariables = Exact<{
+  anlageId?: InputMaybe<Scalars['ID']>;
+  kurzspezifikation?: InputMaybe<ModelStringKeyConditionInput>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+  filter?: InputMaybe<ModelReferenzStueliFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+}>;
+
+export type ReferenzStueliByKurzspezifikationQuery = {
+  __typename?: 'Query';
+  referenzStueliByKurzspezifikation?:
+    | {
+        __typename?: 'ModelReferenzStueliConnection';
+        nextToken?: string | null | undefined;
+        items?:
+          | Array<
+              | {
+                  __typename?: 'ReferenzStueli';
+                  id: string;
+                  anlageId: string;
+                  kurzspezifikation?: string | null | undefined;
+                  lieferant?: string | null | undefined;
+                  nennweite?: string | null | undefined;
+                  feinspezifikation?: string | null | undefined;
+                  createdAt: any;
+                  updatedAt: any;
+                }
+              | null
+              | undefined
+            >
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type ByAnlageQueryVariables = Exact<{
+  anlageId?: InputMaybe<Scalars['ID']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+  filter?: InputMaybe<ModelReferenzStueliFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+}>;
+
+export type ByAnlageQuery = {
+  __typename?: 'Query';
+  byAnlage?:
     | {
         __typename?: 'ModelReferenzStueliConnection';
         nextToken?: string | null | undefined;
@@ -5276,6 +5370,86 @@ export const useListReferenzStuelisQuery = <
       : ['ListReferenzStuelis', variables],
     amplifyFetcher<ListReferenzStuelisQuery, ListReferenzStuelisQueryVariables>(
       ListReferenzStuelisDocument,
+      variables,
+    ),
+    options,
+  );
+export const ReferenzStueliByKurzspezifikationDocument = `
+    query ReferenzStueliByKurzspezifikation($anlageId: ID, $kurzspezifikation: ModelStringKeyConditionInput, $sortDirection: ModelSortDirection, $filter: ModelReferenzStueliFilterInput, $limit: Int, $nextToken: String) {
+  referenzStueliByKurzspezifikation(
+    anlageId: $anlageId
+    kurzspezifikation: $kurzspezifikation
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      anlageId
+      kurzspezifikation
+      lieferant
+      nennweite
+      feinspezifikation
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}
+    `;
+export const useReferenzStueliByKurzspezifikationQuery = <
+  TData = ReferenzStueliByKurzspezifikationQuery,
+  TError = unknown,
+>(
+  variables?: ReferenzStueliByKurzspezifikationQueryVariables,
+  options?: UseQueryOptions<
+    ReferenzStueliByKurzspezifikationQuery,
+    TError,
+    TData
+  >,
+) =>
+  useQuery<ReferenzStueliByKurzspezifikationQuery, TError, TData>(
+    variables === undefined
+      ? ['ReferenzStueliByKurzspezifikation']
+      : ['ReferenzStueliByKurzspezifikation', variables],
+    amplifyFetcher<
+      ReferenzStueliByKurzspezifikationQuery,
+      ReferenzStueliByKurzspezifikationQueryVariables
+    >(ReferenzStueliByKurzspezifikationDocument, variables),
+    options,
+  );
+export const ByAnlageDocument = `
+    query ByAnlage($anlageId: ID, $sortDirection: ModelSortDirection, $filter: ModelReferenzStueliFilterInput, $limit: Int, $nextToken: String) {
+  byAnlage(
+    anlageId: $anlageId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      anlageId
+      kurzspezifikation
+      lieferant
+      nennweite
+      feinspezifikation
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}
+    `;
+export const useByAnlageQuery = <TData = ByAnlageQuery, TError = unknown>(
+  variables?: ByAnlageQueryVariables,
+  options?: UseQueryOptions<ByAnlageQuery, TError, TData>,
+) =>
+  useQuery<ByAnlageQuery, TError, TData>(
+    variables === undefined ? ['ByAnlage'] : ['ByAnlage', variables],
+    amplifyFetcher<ByAnlageQuery, ByAnlageQueryVariables>(
+      ByAnlageDocument,
       variables,
     ),
     options,

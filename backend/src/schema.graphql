@@ -53,7 +53,12 @@ type ReferenzStueli
       { allow: private, provider: iam }
     ]
   )
-  @key(name: "byAnlage", fields: ["anlageId"]) {
+  @key(
+    name: "byKurzspezifikation"
+    fields: ["anlageId", "kurzspezifikation"]
+    queryField: "referenzStueliByKurzspezifikation"
+  )
+  @key(name: "byAnlage", fields: ["anlageId"], queryField: "byAnlage") {
   id: ID!
   anlageId: ID!
   kurzspezifikation: String

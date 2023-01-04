@@ -188,6 +188,7 @@ const stueli = new pj.web.ReactTypeScriptProject({
     'js-cookie',
     'moment',
     'stream',
+    'thenby',
   ],
   devDeps: [
     // '@types/react-router-dom',

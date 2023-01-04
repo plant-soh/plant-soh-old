@@ -337,6 +337,7 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  byAnlage?: Maybe<ModelReferenzStueliConnection>;
   getAnlage?: Maybe<Anlage>;
   getAnlagenUser?: Maybe<AnlagenUser>;
   getReferenzStueli?: Maybe<ReferenzStueli>;
@@ -345,6 +346,15 @@ export type Query = {
   listAnlages?: Maybe<ModelAnlageConnection>;
   listReferenzStuelis?: Maybe<ModelReferenzStueliConnection>;
   listUsers?: Maybe<ModelUserConnection>;
+  referenzStueliByKurzspezifikation?: Maybe<ModelReferenzStueliConnection>;
+};
+
+export type QueryByAnlageArgs = {
+  anlageId?: InputMaybe<Scalars['ID']>;
+  filter?: InputMaybe<ModelReferenzStueliFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
 };
 
 export type QueryGetAnlageArgs = {
@@ -388,6 +398,15 @@ export type QueryListReferenzStuelisArgs = {
 export type QueryListUsersArgs = {
   email?: InputMaybe<Scalars['String']>;
   filter?: InputMaybe<ModelUserFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+};
+
+export type QueryReferenzStueliByKurzspezifikationArgs = {
+  anlageId?: InputMaybe<Scalars['ID']>;
+  filter?: InputMaybe<ModelReferenzStueliFilterInput>;
+  kurzspezifikation?: InputMaybe<ModelStringKeyConditionInput>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
   sortDirection?: InputMaybe<ModelSortDirection>;
@@ -2461,6 +2480,81 @@ export type ListReferenzStuelisQueryVariables = Exact<{
 export type ListReferenzStuelisQuery = {
   __typename?: 'Query';
   listReferenzStuelis?:
+    | {
+        __typename?: 'ModelReferenzStueliConnection';
+        nextToken?: string | null | undefined;
+        items?:
+          | Array<
+              | {
+                  __typename?: 'ReferenzStueli';
+                  id: string;
+                  anlageId: string;
+                  kurzspezifikation?: string | null | undefined;
+                  lieferant?: string | null | undefined;
+                  nennweite?: string | null | undefined;
+                  feinspezifikation?: string | null | undefined;
+                  createdAt: any;
+                  updatedAt: any;
+                }
+              | null
+              | undefined
+            >
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type ReferenzStueliByKurzspezifikationQueryVariables = Exact<{
+  anlageId?: InputMaybe<Scalars['ID']>;
+  kurzspezifikation?: InputMaybe<ModelStringKeyConditionInput>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+  filter?: InputMaybe<ModelReferenzStueliFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+}>;
+
+export type ReferenzStueliByKurzspezifikationQuery = {
+  __typename?: 'Query';
+  referenzStueliByKurzspezifikation?:
+    | {
+        __typename?: 'ModelReferenzStueliConnection';
+        nextToken?: string | null | undefined;
+        items?:
+          | Array<
+              | {
+                  __typename?: 'ReferenzStueli';
+                  id: string;
+                  anlageId: string;
+                  kurzspezifikation?: string | null | undefined;
+                  lieferant?: string | null | undefined;
+                  nennweite?: string | null | undefined;
+                  feinspezifikation?: string | null | undefined;
+                  createdAt: any;
+                  updatedAt: any;
+                }
+              | null
+              | undefined
+            >
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type ByAnlageQueryVariables = Exact<{
+  anlageId?: InputMaybe<Scalars['ID']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+  filter?: InputMaybe<ModelReferenzStueliFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+}>;
+
+export type ByAnlageQuery = {
+  __typename?: 'Query';
+  byAnlage?:
     | {
         __typename?: 'ModelReferenzStueliConnection';
         nextToken?: string | null | undefined;
@@ -9283,6 +9377,334 @@ export const ListReferenzStuelisDocument = {
   ListReferenzStuelisQuery,
   ListReferenzStuelisQueryVariables
 >;
+export const ReferenzStueliByKurzspezifikationDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'ReferenzStueliByKurzspezifikation' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'anlageId' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'kurzspezifikation' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelStringKeyConditionInput' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'sortDirection' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelSortDirection' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'filter' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelReferenzStueliFilterInput' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'limit' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'nextToken' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'referenzStueliByKurzspezifikation' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'anlageId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'anlageId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'kurzspezifikation' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'kurzspezifikation' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sortDirection' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'sortDirection' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'filter' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'limit' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'nextToken' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'nextToken' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'items' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anlageId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'kurzspezifikation' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lieferant' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nennweite' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'feinspezifikation' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'nextToken' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  ReferenzStueliByKurzspezifikationQuery,
+  ReferenzStueliByKurzspezifikationQueryVariables
+>;
+export const ByAnlageDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'ByAnlage' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'anlageId' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'sortDirection' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelSortDirection' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'filter' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelReferenzStueliFilterInput' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'limit' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'nextToken' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'byAnlage' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'anlageId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'anlageId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sortDirection' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'sortDirection' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'filter' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'limit' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'nextToken' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'nextToken' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'items' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anlageId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'kurzspezifikation' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lieferant' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nennweite' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'feinspezifikation' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'nextToken' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<ByAnlageQuery, ByAnlageQueryVariables>;
 export const GetUserDocument = {
   kind: 'Document',
   definitions: [

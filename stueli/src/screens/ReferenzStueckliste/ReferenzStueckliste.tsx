@@ -1,6 +1,7 @@
 import * as Papa from 'papaparse';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { firstBy } from 'thenby';
 
 import {
   ReferenzStueli,
@@ -8,6 +9,7 @@ import {
   useCreateReferenzStueliMutation,
   useDeleteReferenzStueliMutation,
   useGetAnlageQuery,
+  useReferenzStueliByKurzspezifikationQuery,
 } from '../../lib/react-api';
 import { useAuth } from '../../providers/AuthProvider';
 
@@ -49,12 +51,20 @@ const ReferenzStueckliste = () => {
     columns = { ...columns, actions: 'Aktionen' };
   }
 
-  const { data, isLoading, refetch } = useGetAnlageQuery(
+  const getAnlageQuery = useGetAnlageQuery(
     { id: id },
     {
       refetchOnWindowFocus: false,
     },
   );
+
+  const { data, isLoading, refetch } =
+    useReferenzStueliByKurzspezifikationQuery(
+      { anlageId: id },
+      {
+        refetchOnWindowFocus: false,
+      },
+    );
 
   const deleteStueck = useDeleteReferenzStueliMutation();
   const createStueck = useCreateReferenzStueliMutation();
@@ -98,7 +108,8 @@ const ReferenzStueckliste = () => {
       data-testid="kunde"
     >
       <h1 className="flex text-xl font-semibold">
-        Kunde: {data?.getAnlage?.firma} Standort: {data?.getAnlage?.standort}
+        Kunde: {getAnlageQuery.data?.getAnlage?.firma} Standort:{' '}
+        {getAnlageQuery.data?.getAnlage?.standort}
       </h1>
       <div className="flex flex-col">
         <input type="file" name="file" onChange={changeHandler} accept=".csv" />
@@ -130,43 +141,55 @@ const ReferenzStueckliste = () => {
           </tr>
         </thead>
         <tbody className="bg-gray-50" data-testid="recent-calls-table-body">
-          {data?.getAnlage?.referenzStueli?.items?.map(
-            (stueck, row_index) =>
-              stueck && (
-                <tr key={row_index} className="border-b border-gray-400">
-                  {Object.keys(columns).map((col, index) => (
-                    <td
-                      key={index}
-                      className="p-3 text-left whitespace-pre-line"
-                    >
-                      {col === 'actions' ? (
-                        <button
-                          className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
-                          onClick={async () => {
-                            await deleteStueck.mutateAsync({
-                              input: {
-                                id: stueck.id,
-                              },
-                            });
-                            await refetch();
-                          }}
-                        >
-                          <span>Löschen</span>
-                        </button>
-                      ) : (
-                        stueck[
-                          col as
-                            | 'kurzspezifikation'
-                            | 'lieferant'
-                            | 'nennweite'
-                            | 'feinspezifikation'
-                        ]
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              ),
-          )}
+          {data!
+            .referenzStueliByKurzspezifikation!.items!.sort(
+              firstBy<ReferenzStueli>((s1, s2) =>
+                s1!.kurzspezifikation!.localeCompare(s2!.kurzspezifikation!),
+              )
+                .thenBy<ReferenzStueli>((s1, s2) =>
+                  s1!.lieferant!.localeCompare(s2!.lieferant!),
+                )
+                .thenBy((s1, s2) =>
+                  s1!.nennweite!.localeCompare(s2!.nennweite!),
+                ),
+            )
+            .map(
+              (stueck, row_index) =>
+                stueck && (
+                  <tr key={row_index} className="border-b border-gray-400">
+                    {Object.keys(columns).map((col, index) => (
+                      <td
+                        key={index}
+                        className="p-3 text-left whitespace-pre-line"
+                      >
+                        {col === 'actions' ? (
+                          <button
+                            className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+                            onClick={async () => {
+                              await deleteStueck.mutateAsync({
+                                input: {
+                                  id: stueck.id,
+                                },
+                              });
+                              await refetch();
+                            }}
+                          >
+                            <span>Löschen</span>
+                          </button>
+                        ) : (
+                          stueck[
+                            col as
+                              | 'kurzspezifikation'
+                              | 'lieferant'
+                              | 'nennweite'
+                              | 'feinspezifikation'
+                          ]
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ),
+            )}
           {isAdmin && (
             <tr key="insert_row" className="border-b border-gray-400">
               {Object.keys(columns).map((col, _index) =>
