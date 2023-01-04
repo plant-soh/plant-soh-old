@@ -1,3 +1,4 @@
+import * as Papa from 'papaparse';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -32,6 +33,8 @@ const ReferenzStueckliste = () => {
       }
     | undefined
   >(undefined);
+  const [selectedFile, setSelectedFile] = useState();
+  // const [isFilePicked, setIsFilePicked] = useState(false);
 
   const isAdmin = role === Role.Admin;
 
@@ -56,6 +59,37 @@ const ReferenzStueckliste = () => {
   const deleteStueck = useDeleteReferenzStueliMutation();
   const createStueck = useCreateReferenzStueliMutation();
 
+  const changeHandler = (event: any) => {
+    setSelectedFile(event.target.files[0]);
+    // setIsFilePicked(true);
+  };
+
+  const onClick = (_e: any) => {
+    console.log('start parsing');
+    if (!selectedFile) return;
+    Papa.parse<any>(selectedFile, {
+      header: true,
+      skipEmptyLines: 'greedy',
+      complete: async (results) => {
+        console.log(results.data);
+        await Promise.all(
+          results.data.map(async (row) => {
+            await createStueck.mutateAsync({
+              input: {
+                anlageId: id,
+                kurzspezifikation: row.Kurzspezifikation,
+                lieferant: row.Lieferant,
+                nennweite: row['NW/P'],
+                feinspezifikation: row.Feinsp,
+              },
+            });
+          }),
+        );
+        await refetch();
+      },
+    });
+  };
+
   if (isLoading) return <div>Loading...</div>;
 
   return (
@@ -66,6 +100,21 @@ const ReferenzStueckliste = () => {
       <h1 className="flex text-xl font-semibold">
         Kunde: {data?.getAnlage?.firma} Standort: {data?.getAnlage?.standort}
       </h1>
+      <div className="flex flex-col">
+        <input type="file" name="file" onChange={changeHandler} accept=".csv" />
+        <div>
+          <button
+            className={`px-4 py-2 font-bold text-white bg-blue-500 rounded ${
+              selectedFile
+                ? 'hover:bg-blue-700'
+                : 'opacity-50 cursor-not-allowed'
+            }`}
+            onClick={(e) => onClick(e)}
+          >
+            <span>Importieren</span>
+          </button>
+        </div>
+      </div>
       <table className="mt-4">
         <thead>
           <tr>
@@ -123,36 +172,34 @@ const ReferenzStueckliste = () => {
               {Object.keys(columns).map((col, _index) =>
                 col === 'actions' ? (
                   <td key={col} className="p-3 text-left whitespace-pre-line">
-                    {!newStueck?.kurzspezifikation ||
-                    !newStueck?.lieferant ||
-                    !newStueck?.feinspezifikation ? (
-                      <button className="px-4 py-2 font-bold text-white bg-blue-500 rounded opacity-50 cursor-not-allowed">
-                        <span>Einfügen</span>
-                      </button>
-                    ) : (
-                      <button
-                        className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
-                        onClick={async () => {
-                          if (
-                            !newStueck?.kurzspezifikation ||
-                            !newStueck?.lieferant ||
-                            !newStueck?.feinspezifikation
-                          ) {
-                            console.debug('newStueck missing');
-                            return;
-                          }
-                          await createStueck.mutateAsync({
-                            input: {
-                              anlageId: id,
-                              ...newStueck,
-                            },
-                          });
-                          await refetch();
-                        }}
-                      >
-                        <span>Einfügen</span>
-                      </button>
-                    )}
+                    <button
+                      className={`px-4 py-2 font-bold text-white bg-blue-500 rounded ${
+                        !newStueck?.kurzspezifikation ||
+                        !newStueck?.lieferant ||
+                        !newStueck?.feinspezifikation
+                          ? 'opacity-50 cursor-not-allowed'
+                          : 'hover:bg-blue-700'
+                      }`}
+                      onClick={async () => {
+                        if (
+                          !newStueck?.kurzspezifikation ||
+                          !newStueck?.lieferant ||
+                          !newStueck?.feinspezifikation
+                        ) {
+                          console.debug('newStueck missing');
+                          return;
+                        }
+                        await createStueck.mutateAsync({
+                          input: {
+                            anlageId: id,
+                            ...newStueck,
+                          },
+                        });
+                        await refetch();
+                      }}
+                    >
+                      <span>Einfügen</span>
+                    </button>
                   </td>
                 ) : (
                   <td

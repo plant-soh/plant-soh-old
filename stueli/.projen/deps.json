@@ -30,6 +30,10 @@
       "type": "build"
     },
     {
+      "name": "@types/papaparse",
+      "type": "build"
+    },
+    {
       "name": "@types/react",
       "type": "build"
     },
@@ -271,6 +275,10 @@
     },
     {
       "name": "moment",
+      "type": "runtime"
+    },
+    {
+      "name": "papaparse",
       "type": "runtime"
     },
     {

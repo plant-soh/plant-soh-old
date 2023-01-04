@@ -161,6 +161,7 @@ const stueli = new pj.web.ReactTypeScriptProject({
       '@graphql-typed-document-node/core',
     ],
     'classnames',
+    'papaparse',
     'react-apollo',
     'react-color',
     'react-hook-form',
@@ -190,6 +191,7 @@ const stueli = new pj.web.ReactTypeScriptProject({
   ],
   devDeps: [
     // '@types/react-router-dom',
+    '@types/papaparse',
     '@types/styled-components',
     '@types/react-test-renderer',
     '@types/react-responsive',
