@@ -176,6 +176,21 @@ export class BackendStack extends core.Stack {
       },
     });
 
+    const appSyncCustomDomainUrl =
+      'https://x4hydovt5ncqtfdy6owen6mmga.appsync-api.eu-central-1.amazonaws.com/graphql';
+
+    const customApiAuthorizer = new lambdajs.NodejsFunction(
+      this,
+      'customApiAuthorizer',
+      {
+        functionName: 'customApiAuthorizer',
+        timeout: core.Duration.seconds(30),
+        environment: {
+          APPSYNC_URL: appSyncCustomDomainUrl,
+        },
+      },
+    );
+
     const api = new AppSyncTransformer(this, 'plant-soh-graphql', {
       schemaPath: 'src/schema.graphql',
       authorizationConfig: {
@@ -189,6 +204,12 @@ export class BackendStack extends core.Stack {
         additionalAuthorizationModes: [
           {
             authorizationType: appsync.AuthorizationType.IAM,
+          },
+          {
+            authorizationType: appsync.AuthorizationType.LAMBDA,
+            lambdaAuthorizerConfig: {
+              handler: customApiAuthorizer,
+            },
           },
           // {
           //   authorizationType: appsync.AuthorizationType.API_KEY,
@@ -220,8 +241,6 @@ export class BackendStack extends core.Stack {
       stringValue: api.appsyncAPI.graphqlUrl,
     });
 
-    const appSyncCustomDomainUrl =
-      'https://x4hydovt5ncqtfdy6owen6mmga.appsync-api.eu-central-1.amazonaws.com/graphql';
     new core.CfnOutput(this, 'AppSyncCustomDomainUrl', {
       value: appSyncCustomDomainUrl,
     });

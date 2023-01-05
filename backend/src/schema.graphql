@@ -11,7 +11,8 @@ type Anlage
         operations: [read]
       }
     ]
-  ) {
+  )
+  @key(fields: ["id"]) {
   id: ID!
   firma: String!
   standort: String!
@@ -20,6 +21,7 @@ type Anlage
   anlagenUsers: [AnlagenUser] @connection(keyName: "byAnlage", fields: ["id"])
   referenzStueli: [ReferenzStueli]
     @connection(keyName: "byAnlage", fields: ["id"])
+  projekte: [Projekt] @connection(keyName: "byAnlage", fields: ["id"])
 }
 
 type AnlagenUser
@@ -45,6 +47,58 @@ type AnlagenUser
   user: User! @connection(fields: ["userEmail"])
 }
 
+type Projekt
+  @model
+  @auth(
+    rules: [
+      { allow: groups, groups: ["Admin"], operations: [read] }
+      { allow: private, provider: iam }
+      {
+        allow: owner
+        ownerField: "users"
+        identityClaim: "email"
+        operations: [read]
+      }
+    ]
+  )
+  @key(name: "byAnlage", fields: ["anlageId"])
+  @key(fields: ["id"]) {
+  id: ID!
+  anlageId: ID!
+  projektNummer: Int!
+  users: [String]
+  anlagen: [Anlage] @connection(fields: ["anlageId"])
+  projektStueli: [ProjektStueli]
+    @connection(keyName: "byProjekt", fields: ["id"])
+}
+
+type ProjektStueli
+  @model
+  @auth(
+    rules: [
+      { allow: groups, groups: ["Admin"] }
+      { allow: private, provider: iam }
+    ]
+  )
+  @key(fields: ["id"])
+  @key(name: "byProjekt", fields: ["projektId"])
+  @key(
+    name: "byKurzspezifikation"
+    fields: ["projektId", "kurzspezifikation"]
+    queryField: "projektStueliByKurzspezifikation"
+  ) {
+  id: ID!
+  projektId: ID!
+  kurzspezifikation: String
+  lieferant: String
+  nennweite: String
+  feinspezifikation: String
+  voschlagKurzspezifikation: String
+  vorschlagLieferant: String
+  vorschlagNennweite: String
+  vorschlagFeinspezifikation: String
+}
+
 type ReferenzStueli
   @model
   @auth(
@@ -53,6 +107,7 @@ type ReferenzStueli
       { allow: private, provider: iam }
     ]
   )
+  @key(fields: ["id"])
   @key(
     name: "byKurzspezifikation"
     fields: ["anlageId", "kurzspezifikation"]
@@ -89,32 +144,32 @@ enum Role {
 }
 
 type Mutation {
-  createAnlagenUserPrimary(input: CreateAnlagenUserInput!): AnlagenUser
+  createAnlagenUserPrimary(input: CreateAnlagenUserPrimaryInput!): AnlagenUser
     @function(name: "createAnlagenUser")
     @aws_cognito_user_pools
     @aws_iam
 
-  deleteAnlagenUserPrimary(input: DeleteAnlagenUserInput!): AnlagenUser
+  deleteAnlagenUserPrimary(input: DeleteAnlagenUserPrimaryInput!): AnlagenUser
     @function(name: "deleteAnlagenUser")
     @aws_cognito_user_pools
     @aws_iam
 
-  deleteAnlagePrimary(input: DeleteAnlageInput!): Anlage
+  deleteAnlagePrimary(input: DeleteAnlagePrimaryInput!): Anlage
     @function(name: "deleteAnlage")
     @aws_cognito_user_pools
     @aws_iam
 }
 
-input DeleteAnlageInput {
+input DeleteAnlagePrimaryInput {
   anlageId: ID!
 }
 
-input CreateAnlagenUserInput {
+input CreateAnlagenUserPrimaryInput {
   anlageId: ID!
   userEmail: String!
 }
 
-input DeleteAnlagenUserInput {
+input DeleteAnlagenUserPrimaryInput {
   anlageId: ID!
   userEmail: String!
 }

@@ -37,6 +37,7 @@ export type Anlage = {
   createdAt: Scalars['AWSDateTime'];
   firma: Scalars['String'];
   id: Scalars['ID'];
+  projekte?: Maybe<ModelProjektConnection>;
   referenzStueli?: Maybe<ModelReferenzStueliConnection>;
   standort: Scalars['String'];
   updatedAt: Scalars['AWSDateTime'];
@@ -49,6 +50,13 @@ export type AnlageAnlagenUsersArgs = {
   nextToken?: InputMaybe<Scalars['String']>;
   sortDirection?: InputMaybe<ModelSortDirection>;
   userEmail?: InputMaybe<ModelStringKeyConditionInput>;
+};
+
+export type AnlageProjekteArgs = {
+  filter?: InputMaybe<ModelProjektFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
 };
 
 export type AnlageReferenzStueliArgs = {
@@ -81,6 +89,31 @@ export type CreateAnlagenUserInput = {
   userEmail: Scalars['String'];
 };
 
+export type CreateAnlagenUserPrimaryInput = {
+  anlageId: Scalars['ID'];
+  userEmail: Scalars['String'];
+};
+
+export type CreateProjektInput = {
+  anlageId: Scalars['ID'];
+  id?: InputMaybe<Scalars['ID']>;
+  projektNummer: Scalars['Int'];
+  users?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type CreateProjektStueliInput = {
+  feinspezifikation?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  kurzspezifikation?: InputMaybe<Scalars['String']>;
+  lieferant?: InputMaybe<Scalars['String']>;
+  nennweite?: InputMaybe<Scalars['String']>;
+  projektId: Scalars['ID'];
+  vorschlagFeinspezifikation?: InputMaybe<Scalars['String']>;
+  vorschlagLieferant?: InputMaybe<Scalars['String']>;
+  vorschlagNennweite?: InputMaybe<Scalars['String']>;
+  voschlagKurzspezifikation?: InputMaybe<Scalars['String']>;
+};
+
 export type CreateReferenzStueliInput = {
   anlageId: Scalars['ID'];
   feinspezifikation?: InputMaybe<Scalars['String']>;
@@ -96,12 +129,29 @@ export type CreateUserInput = {
 };
 
 export type DeleteAnlageInput = {
+  id: Scalars['ID'];
+};
+
+export type DeleteAnlagePrimaryInput = {
   anlageId: Scalars['ID'];
 };
 
 export type DeleteAnlagenUserInput = {
   anlageId: Scalars['ID'];
   userEmail: Scalars['String'];
+};
+
+export type DeleteAnlagenUserPrimaryInput = {
+  anlageId: Scalars['ID'];
+  userEmail: Scalars['String'];
+};
+
+export type DeleteProjektInput = {
+  id: Scalars['ID'];
+};
+
+export type DeleteProjektStueliInput = {
+  id: Scalars['ID'];
 };
 
 export type DeleteReferenzStueliInput = {
@@ -191,6 +241,44 @@ export type ModelIntFilterInput = {
   ne?: InputMaybe<Scalars['Int']>;
 };
 
+export type ModelProjektConnection = {
+  __typename?: 'ModelProjektConnection';
+  items?: Maybe<Array<Maybe<Projekt>>>;
+  nextToken?: Maybe<Scalars['String']>;
+};
+
+export type ModelProjektFilterInput = {
+  and?: InputMaybe<Array<InputMaybe<ModelProjektFilterInput>>>;
+  anlageId?: InputMaybe<ModelIdFilterInput>;
+  id?: InputMaybe<ModelIdFilterInput>;
+  not?: InputMaybe<ModelProjektFilterInput>;
+  or?: InputMaybe<Array<InputMaybe<ModelProjektFilterInput>>>;
+  projektNummer?: InputMaybe<ModelIntFilterInput>;
+  users?: InputMaybe<ModelStringFilterInput>;
+};
+
+export type ModelProjektStueliConnection = {
+  __typename?: 'ModelProjektStueliConnection';
+  items?: Maybe<Array<Maybe<ProjektStueli>>>;
+  nextToken?: Maybe<Scalars['String']>;
+};
+
+export type ModelProjektStueliFilterInput = {
+  and?: InputMaybe<Array<InputMaybe<ModelProjektStueliFilterInput>>>;
+  feinspezifikation?: InputMaybe<ModelStringFilterInput>;
+  id?: InputMaybe<ModelIdFilterInput>;
+  kurzspezifikation?: InputMaybe<ModelStringFilterInput>;
+  lieferant?: InputMaybe<ModelStringFilterInput>;
+  nennweite?: InputMaybe<ModelStringFilterInput>;
+  not?: InputMaybe<ModelProjektStueliFilterInput>;
+  or?: InputMaybe<Array<InputMaybe<ModelProjektStueliFilterInput>>>;
+  projektId?: InputMaybe<ModelIdFilterInput>;
+  vorschlagFeinspezifikation?: InputMaybe<ModelStringFilterInput>;
+  vorschlagLieferant?: InputMaybe<ModelStringFilterInput>;
+  vorschlagNennweite?: InputMaybe<ModelStringFilterInput>;
+  voschlagKurzspezifikation?: InputMaybe<ModelStringFilterInput>;
+};
+
 export type ModelReferenzStueliConnection = {
   __typename?: 'ModelReferenzStueliConnection';
   items?: Maybe<Array<Maybe<ReferenzStueli>>>;
@@ -261,16 +349,22 @@ export type Mutation = {
   createAnlage?: Maybe<Anlage>;
   createAnlagenUser?: Maybe<AnlagenUser>;
   createAnlagenUserPrimary?: Maybe<AnlagenUser>;
+  createProjekt?: Maybe<Projekt>;
+  createProjektStueli?: Maybe<ProjektStueli>;
   createReferenzStueli?: Maybe<ReferenzStueli>;
   createUser?: Maybe<User>;
   deleteAnlage?: Maybe<Anlage>;
   deleteAnlagePrimary?: Maybe<Anlage>;
   deleteAnlagenUser?: Maybe<AnlagenUser>;
   deleteAnlagenUserPrimary?: Maybe<AnlagenUser>;
+  deleteProjekt?: Maybe<Projekt>;
+  deleteProjektStueli?: Maybe<ProjektStueli>;
   deleteReferenzStueli?: Maybe<ReferenzStueli>;
   deleteUser?: Maybe<User>;
   updateAnlage?: Maybe<Anlage>;
   updateAnlagenUser?: Maybe<AnlagenUser>;
+  updateProjekt?: Maybe<Projekt>;
+  updateProjektStueli?: Maybe<ProjektStueli>;
   updateReferenzStueli?: Maybe<ReferenzStueli>;
   updateUser?: Maybe<User>;
 };
@@ -284,7 +378,15 @@ export type MutationCreateAnlagenUserArgs = {
 };
 
 export type MutationCreateAnlagenUserPrimaryArgs = {
-  input: CreateAnlagenUserInput;
+  input: CreateAnlagenUserPrimaryInput;
+};
+
+export type MutationCreateProjektArgs = {
+  input: CreateProjektInput;
+};
+
+export type MutationCreateProjektStueliArgs = {
+  input: CreateProjektStueliInput;
 };
 
 export type MutationCreateReferenzStueliArgs = {
@@ -300,7 +402,7 @@ export type MutationDeleteAnlageArgs = {
 };
 
 export type MutationDeleteAnlagePrimaryArgs = {
-  input: DeleteAnlageInput;
+  input: DeleteAnlagePrimaryInput;
 };
 
 export type MutationDeleteAnlagenUserArgs = {
@@ -308,7 +410,15 @@ export type MutationDeleteAnlagenUserArgs = {
 };
 
 export type MutationDeleteAnlagenUserPrimaryArgs = {
-  input: DeleteAnlagenUserInput;
+  input: DeleteAnlagenUserPrimaryInput;
+};
+
+export type MutationDeleteProjektArgs = {
+  input: DeleteProjektInput;
+};
+
+export type MutationDeleteProjektStueliArgs = {
+  input: DeleteProjektStueliInput;
 };
 
 export type MutationDeleteReferenzStueliArgs = {
@@ -327,6 +437,14 @@ export type MutationUpdateAnlagenUserArgs = {
   input: UpdateAnlagenUserInput;
 };
 
+export type MutationUpdateProjektArgs = {
+  input: UpdateProjektInput;
+};
+
+export type MutationUpdateProjektStueliArgs = {
+  input: UpdateProjektStueliInput;
+};
+
 export type MutationUpdateReferenzStueliArgs = {
   input: UpdateReferenzStueliInput;
 };
@@ -335,17 +453,64 @@ export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
 };
 
+export type Projekt = {
+  __typename?: 'Projekt';
+  anlageId: Scalars['ID'];
+  anlagen?: Maybe<ModelAnlageConnection>;
+  createdAt: Scalars['AWSDateTime'];
+  id: Scalars['ID'];
+  projektNummer: Scalars['Int'];
+  projektStueli?: Maybe<ModelProjektStueliConnection>;
+  updatedAt: Scalars['AWSDateTime'];
+  users?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+export type ProjektAnlagenArgs = {
+  filter?: InputMaybe<ModelAnlageFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+};
+
+export type ProjektProjektStueliArgs = {
+  filter?: InputMaybe<ModelProjektStueliFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+};
+
+export type ProjektStueli = {
+  __typename?: 'ProjektStueli';
+  createdAt: Scalars['AWSDateTime'];
+  feinspezifikation?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  kurzspezifikation?: Maybe<Scalars['String']>;
+  lieferant?: Maybe<Scalars['String']>;
+  nennweite?: Maybe<Scalars['String']>;
+  projektId: Scalars['ID'];
+  updatedAt: Scalars['AWSDateTime'];
+  vorschlagFeinspezifikation?: Maybe<Scalars['String']>;
+  vorschlagLieferant?: Maybe<Scalars['String']>;
+  vorschlagNennweite?: Maybe<Scalars['String']>;
+  voschlagKurzspezifikation?: Maybe<Scalars['String']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   byAnlage?: Maybe<ModelReferenzStueliConnection>;
   getAnlage?: Maybe<Anlage>;
   getAnlagenUser?: Maybe<AnlagenUser>;
+  getProjekt?: Maybe<Projekt>;
+  getProjektStueli?: Maybe<ProjektStueli>;
   getReferenzStueli?: Maybe<ReferenzStueli>;
   getUser?: Maybe<User>;
   listAnlagenUsers?: Maybe<ModelAnlagenUserConnection>;
   listAnlages?: Maybe<ModelAnlageConnection>;
+  listProjektStuelis?: Maybe<ModelProjektStueliConnection>;
+  listProjekts?: Maybe<ModelProjektConnection>;
   listReferenzStuelis?: Maybe<ModelReferenzStueliConnection>;
   listUsers?: Maybe<ModelUserConnection>;
+  projektStueliByKurzspezifikation?: Maybe<ModelProjektStueliConnection>;
   referenzStueliByKurzspezifikation?: Maybe<ModelReferenzStueliConnection>;
 };
 
@@ -364,6 +529,14 @@ export type QueryGetAnlageArgs = {
 export type QueryGetAnlagenUserArgs = {
   anlageId: Scalars['ID'];
   userEmail: Scalars['String'];
+};
+
+export type QueryGetProjektArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryGetProjektStueliArgs = {
+  id: Scalars['ID'];
 };
 
 export type QueryGetReferenzStueliArgs = {
@@ -385,14 +558,34 @@ export type QueryListAnlagenUsersArgs = {
 
 export type QueryListAnlagesArgs = {
   filter?: InputMaybe<ModelAnlageFilterInput>;
+  id?: InputMaybe<Scalars['ID']>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+};
+
+export type QueryListProjektStuelisArgs = {
+  filter?: InputMaybe<ModelProjektStueliFilterInput>;
+  id?: InputMaybe<Scalars['ID']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+};
+
+export type QueryListProjektsArgs = {
+  filter?: InputMaybe<ModelProjektFilterInput>;
+  id?: InputMaybe<Scalars['ID']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
 };
 
 export type QueryListReferenzStuelisArgs = {
   filter?: InputMaybe<ModelReferenzStueliFilterInput>;
+  id?: InputMaybe<Scalars['ID']>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
 };
 
 export type QueryListUsersArgs = {
@@ -400,6 +593,15 @@ export type QueryListUsersArgs = {
   filter?: InputMaybe<ModelUserFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+};
+
+export type QueryProjektStueliByKurzspezifikationArgs = {
+  filter?: InputMaybe<ModelProjektStueliFilterInput>;
+  kurzspezifikation?: InputMaybe<ModelStringKeyConditionInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  projektId?: InputMaybe<Scalars['ID']>;
   sortDirection?: InputMaybe<ModelSortDirection>;
 };
 
@@ -434,14 +636,20 @@ export type Subscription = {
   __typename?: 'Subscription';
   onCreateAnlage?: Maybe<Anlage>;
   onCreateAnlagenUser?: Maybe<AnlagenUser>;
+  onCreateProjekt?: Maybe<Projekt>;
+  onCreateProjektStueli?: Maybe<ProjektStueli>;
   onCreateReferenzStueli?: Maybe<ReferenzStueli>;
   onCreateUser?: Maybe<User>;
   onDeleteAnlage?: Maybe<Anlage>;
   onDeleteAnlagenUser?: Maybe<AnlagenUser>;
+  onDeleteProjekt?: Maybe<Projekt>;
+  onDeleteProjektStueli?: Maybe<ProjektStueli>;
   onDeleteReferenzStueli?: Maybe<ReferenzStueli>;
   onDeleteUser?: Maybe<User>;
   onUpdateAnlage?: Maybe<Anlage>;
   onUpdateAnlagenUser?: Maybe<AnlagenUser>;
+  onUpdateProjekt?: Maybe<Projekt>;
+  onUpdateProjektStueli?: Maybe<ProjektStueli>;
   onUpdateReferenzStueli?: Maybe<ReferenzStueli>;
   onUpdateUser?: Maybe<User>;
 };
@@ -452,6 +660,10 @@ export type SubscriptionOnCreateAnlageArgs = {
 
 export type SubscriptionOnCreateAnlagenUserArgs = {
   userEmail?: InputMaybe<Scalars['String']>;
+};
+
+export type SubscriptionOnCreateProjektArgs = {
+  users?: InputMaybe<Scalars['String']>;
 };
 
 export type SubscriptionOnCreateUserArgs = {
@@ -466,6 +678,10 @@ export type SubscriptionOnDeleteAnlagenUserArgs = {
   userEmail?: InputMaybe<Scalars['String']>;
 };
 
+export type SubscriptionOnDeleteProjektArgs = {
+  users?: InputMaybe<Scalars['String']>;
+};
+
 export type SubscriptionOnDeleteUserArgs = {
   email?: InputMaybe<Scalars['String']>;
 };
@@ -476,6 +692,10 @@ export type SubscriptionOnUpdateAnlageArgs = {
 
 export type SubscriptionOnUpdateAnlagenUserArgs = {
   userEmail?: InputMaybe<Scalars['String']>;
+};
+
+export type SubscriptionOnUpdateProjektArgs = {
+  users?: InputMaybe<Scalars['String']>;
 };
 
 export type SubscriptionOnUpdateUserArgs = {
@@ -493,6 +713,26 @@ export type UpdateAnlageInput = {
 export type UpdateAnlagenUserInput = {
   anlageId: Scalars['ID'];
   userEmail: Scalars['String'];
+};
+
+export type UpdateProjektInput = {
+  anlageId?: InputMaybe<Scalars['ID']>;
+  id: Scalars['ID'];
+  projektNummer?: InputMaybe<Scalars['Int']>;
+  users?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type UpdateProjektStueliInput = {
+  feinspezifikation?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
+  kurzspezifikation?: InputMaybe<Scalars['String']>;
+  lieferant?: InputMaybe<Scalars['String']>;
+  nennweite?: InputMaybe<Scalars['String']>;
+  projektId?: InputMaybe<Scalars['ID']>;
+  vorschlagFeinspezifikation?: InputMaybe<Scalars['String']>;
+  vorschlagLieferant?: InputMaybe<Scalars['String']>;
+  vorschlagNennweite?: InputMaybe<Scalars['String']>;
+  voschlagKurzspezifikation?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateReferenzStueliInput = {
@@ -527,7 +767,7 @@ export type UserAnlagenArgs = {
 };
 
 export type CreateAnlagenUserPrimaryMutationVariables = Exact<{
-  input: CreateAnlagenUserInput;
+  input: CreateAnlagenUserPrimaryInput;
 }>;
 
 export type CreateAnlagenUserPrimaryMutation = {
@@ -580,6 +820,46 @@ export type CreateAnlagenUserPrimaryMutation = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlageConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         }
                       | null
                       | undefined
@@ -669,7 +949,7 @@ export type CreateAnlagenUserPrimaryMutation = {
 };
 
 export type DeleteAnlagenUserPrimaryMutationVariables = Exact<{
-  input: DeleteAnlagenUserInput;
+  input: DeleteAnlagenUserPrimaryInput;
 }>;
 
 export type DeleteAnlagenUserPrimaryMutation = {
@@ -722,6 +1002,46 @@ export type DeleteAnlagenUserPrimaryMutation = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlageConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         }
                       | null
                       | undefined
@@ -811,7 +1131,7 @@ export type DeleteAnlagenUserPrimaryMutation = {
 };
 
 export type DeleteAnlagePrimaryMutationVariables = Exact<{
-  input: DeleteAnlageInput;
+  input: DeleteAnlagePrimaryInput;
 }>;
 
 export type DeleteAnlagePrimaryMutation = {
@@ -857,6 +1177,13 @@ export type DeleteAnlagePrimaryMutation = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -879,6 +1206,106 @@ export type DeleteAnlagePrimaryMutation = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projekte?:
+          | {
+              __typename?: 'ModelProjektConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Projekt';
+                        id: string;
+                        anlageId: string;
+                        projektNummer: number;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagen?:
+                          | {
+                              __typename?: 'ModelAnlageConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Anlage';
+                                        id: string;
+                                        firma: string;
+                                        standort: string;
+                                        anschrift?: string | null | undefined;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projektStueli?:
+                          | {
+                              __typename?: 'ModelProjektStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ProjektStueli';
+                                        id: string;
+                                        projektId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        voschlagKurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagLieferant?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagNennweite?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagFeinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
                       }
                     | null
                     | undefined
@@ -972,6 +1399,46 @@ export type UpdateAnlagenUserMutation = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlageConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         }
                       | null
                       | undefined
@@ -1107,6 +1574,13 @@ export type CreateAnlageMutation = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -1129,6 +1603,106 @@ export type CreateAnlageMutation = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projekte?:
+          | {
+              __typename?: 'ModelProjektConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Projekt';
+                        id: string;
+                        anlageId: string;
+                        projektNummer: number;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagen?:
+                          | {
+                              __typename?: 'ModelAnlageConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Anlage';
+                                        id: string;
+                                        firma: string;
+                                        standort: string;
+                                        anschrift?: string | null | undefined;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projektStueli?:
+                          | {
+                              __typename?: 'ModelProjektStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ProjektStueli';
+                                        id: string;
+                                        projektId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        voschlagKurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagLieferant?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagNennweite?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagFeinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
                       }
                     | null
                     | undefined
@@ -1215,6 +1789,13 @@ export type UpdateAnlageMutation = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -1237,6 +1818,106 @@ export type UpdateAnlageMutation = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projekte?:
+          | {
+              __typename?: 'ModelProjektConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Projekt';
+                        id: string;
+                        anlageId: string;
+                        projektNummer: number;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagen?:
+                          | {
+                              __typename?: 'ModelAnlageConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Anlage';
+                                        id: string;
+                                        firma: string;
+                                        standort: string;
+                                        anschrift?: string | null | undefined;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projektStueli?:
+                          | {
+                              __typename?: 'ModelProjektStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ProjektStueli';
+                                        id: string;
+                                        projektId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        voschlagKurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagLieferant?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagNennweite?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagFeinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
                       }
                     | null
                     | undefined
@@ -1323,6 +2004,13 @@ export type DeleteAnlageMutation = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -1345,6 +2033,106 @@ export type DeleteAnlageMutation = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projekte?:
+          | {
+              __typename?: 'ModelProjektConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Projekt';
+                        id: string;
+                        anlageId: string;
+                        projektNummer: number;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagen?:
+                          | {
+                              __typename?: 'ModelAnlageConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Anlage';
+                                        id: string;
+                                        firma: string;
+                                        standort: string;
+                                        anschrift?: string | null | undefined;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projektStueli?:
+                          | {
+                              __typename?: 'ModelProjektStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ProjektStueli';
+                                        id: string;
+                                        projektId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        voschlagKurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagLieferant?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagNennweite?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagFeinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
                       }
                     | null
                     | undefined
@@ -1438,6 +2226,46 @@ export type CreateAnlagenUserMutation = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlageConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         }
                       | null
                       | undefined
@@ -1589,6 +2417,46 @@ export type DeleteAnlagenUserMutation = {
               }
             | null
             | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlageConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
           referenzStueli?:
             | {
                 __typename?: 'ModelReferenzStueliConnection';
@@ -1663,6 +2531,546 @@ export type DeleteAnlagenUserMutation = {
             | null
             | undefined;
         };
+      }
+    | null
+    | undefined;
+};
+
+export type CreateProjektMutationVariables = Exact<{
+  input: CreateProjektInput;
+}>;
+
+export type CreateProjektMutation = {
+  __typename?: 'Mutation';
+  createProjekt?:
+    | {
+        __typename?: 'Projekt';
+        id: string;
+        anlageId: string;
+        projektNummer: number;
+        users?: Array<string | null | undefined> | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+        anlagen?:
+          | {
+              __typename?: 'ModelAnlageConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Anlage';
+                        id: string;
+                        firma: string;
+                        standort: string;
+                        anschrift?: string | null | undefined;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagenUsers?:
+                          | {
+                              __typename?: 'ModelAnlagenUserConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'AnlagenUser';
+                                        anlageId: string;
+                                        userEmail: string;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projekte?:
+                          | {
+                              __typename?: 'ModelProjektConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Projekt';
+                                        id: string;
+                                        anlageId: string;
+                                        projektNummer: number;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        referenzStueli?:
+                          | {
+                              __typename?: 'ModelReferenzStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ReferenzStueli';
+                                        id: string;
+                                        anlageId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projektStueli?:
+          | {
+              __typename?: 'ModelProjektStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ProjektStueli';
+                        id: string;
+                        projektId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        voschlagKurzspezifikation?: string | null | undefined;
+                        vorschlagLieferant?: string | null | undefined;
+                        vorschlagNennweite?: string | null | undefined;
+                        vorschlagFeinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type UpdateProjektMutationVariables = Exact<{
+  input: UpdateProjektInput;
+}>;
+
+export type UpdateProjektMutation = {
+  __typename?: 'Mutation';
+  updateProjekt?:
+    | {
+        __typename?: 'Projekt';
+        id: string;
+        anlageId: string;
+        projektNummer: number;
+        users?: Array<string | null | undefined> | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+        anlagen?:
+          | {
+              __typename?: 'ModelAnlageConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Anlage';
+                        id: string;
+                        firma: string;
+                        standort: string;
+                        anschrift?: string | null | undefined;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagenUsers?:
+                          | {
+                              __typename?: 'ModelAnlagenUserConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'AnlagenUser';
+                                        anlageId: string;
+                                        userEmail: string;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projekte?:
+                          | {
+                              __typename?: 'ModelProjektConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Projekt';
+                                        id: string;
+                                        anlageId: string;
+                                        projektNummer: number;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        referenzStueli?:
+                          | {
+                              __typename?: 'ModelReferenzStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ReferenzStueli';
+                                        id: string;
+                                        anlageId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projektStueli?:
+          | {
+              __typename?: 'ModelProjektStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ProjektStueli';
+                        id: string;
+                        projektId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        voschlagKurzspezifikation?: string | null | undefined;
+                        vorschlagLieferant?: string | null | undefined;
+                        vorschlagNennweite?: string | null | undefined;
+                        vorschlagFeinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type DeleteProjektMutationVariables = Exact<{
+  input: DeleteProjektInput;
+}>;
+
+export type DeleteProjektMutation = {
+  __typename?: 'Mutation';
+  deleteProjekt?:
+    | {
+        __typename?: 'Projekt';
+        id: string;
+        anlageId: string;
+        projektNummer: number;
+        users?: Array<string | null | undefined> | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+        anlagen?:
+          | {
+              __typename?: 'ModelAnlageConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Anlage';
+                        id: string;
+                        firma: string;
+                        standort: string;
+                        anschrift?: string | null | undefined;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagenUsers?:
+                          | {
+                              __typename?: 'ModelAnlagenUserConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'AnlagenUser';
+                                        anlageId: string;
+                                        userEmail: string;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projekte?:
+                          | {
+                              __typename?: 'ModelProjektConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Projekt';
+                                        id: string;
+                                        anlageId: string;
+                                        projektNummer: number;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        referenzStueli?:
+                          | {
+                              __typename?: 'ModelReferenzStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ReferenzStueli';
+                                        id: string;
+                                        anlageId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projektStueli?:
+          | {
+              __typename?: 'ModelProjektStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ProjektStueli';
+                        id: string;
+                        projektId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        voschlagKurzspezifikation?: string | null | undefined;
+                        vorschlagLieferant?: string | null | undefined;
+                        vorschlagNennweite?: string | null | undefined;
+                        vorschlagFeinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type CreateProjektStueliMutationVariables = Exact<{
+  input: CreateProjektStueliInput;
+}>;
+
+export type CreateProjektStueliMutation = {
+  __typename?: 'Mutation';
+  createProjektStueli?:
+    | {
+        __typename?: 'ProjektStueli';
+        id: string;
+        projektId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        voschlagKurzspezifikation?: string | null | undefined;
+        vorschlagLieferant?: string | null | undefined;
+        vorschlagNennweite?: string | null | undefined;
+        vorschlagFeinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
+export type UpdateProjektStueliMutationVariables = Exact<{
+  input: UpdateProjektStueliInput;
+}>;
+
+export type UpdateProjektStueliMutation = {
+  __typename?: 'Mutation';
+  updateProjektStueli?:
+    | {
+        __typename?: 'ProjektStueli';
+        id: string;
+        projektId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        voschlagKurzspezifikation?: string | null | undefined;
+        vorschlagLieferant?: string | null | undefined;
+        vorschlagNennweite?: string | null | undefined;
+        vorschlagFeinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
+export type DeleteProjektStueliMutationVariables = Exact<{
+  input: DeleteProjektStueliInput;
+}>;
+
+export type DeleteProjektStueliMutation = {
+  __typename?: 'Mutation';
+  deleteProjektStueli?:
+    | {
+        __typename?: 'ProjektStueli';
+        id: string;
+        projektId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        voschlagKurzspezifikation?: string | null | undefined;
+        vorschlagLieferant?: string | null | undefined;
+        vorschlagNennweite?: string | null | undefined;
+        vorschlagFeinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
       }
     | null
     | undefined;
@@ -1778,6 +3186,13 @@ export type CreateUserMutation = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -1858,6 +3273,13 @@ export type UpdateUserMutation = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -1934,6 +3356,13 @@ export type DeleteUserMutation = {
                           anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
                                 nextToken?: string | null | undefined;
                               }
                             | null
@@ -2021,6 +3450,13 @@ export type GetAnlageQuery = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -2043,6 +3479,106 @@ export type GetAnlageQuery = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projekte?:
+          | {
+              __typename?: 'ModelProjektConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Projekt';
+                        id: string;
+                        anlageId: string;
+                        projektNummer: number;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagen?:
+                          | {
+                              __typename?: 'ModelAnlageConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Anlage';
+                                        id: string;
+                                        firma: string;
+                                        standort: string;
+                                        anschrift?: string | null | undefined;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projektStueli?:
+                          | {
+                              __typename?: 'ModelProjektStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ProjektStueli';
+                                        id: string;
+                                        projektId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        voschlagKurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagLieferant?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagNennweite?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagFeinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
                       }
                     | null
                     | undefined
@@ -2083,9 +3619,11 @@ export type GetAnlageQuery = {
 };
 
 export type ListAnlagesQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
   filter?: InputMaybe<ModelAnlageFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
 }>;
 
 export type ListAnlagesQuery = {
@@ -2137,6 +3675,46 @@ export type ListAnlagesQuery = {
                                     createdAt: any;
                                     updatedAt: any;
                                   };
+                                }
+                              | null
+                              | undefined
+                            >
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined;
+                  projekte?:
+                    | {
+                        __typename?: 'ModelProjektConnection';
+                        nextToken?: string | null | undefined;
+                        items?:
+                          | Array<
+                              | {
+                                  __typename?: 'Projekt';
+                                  id: string;
+                                  anlageId: string;
+                                  projektNummer: number;
+                                  users?:
+                                    | Array<string | null | undefined>
+                                    | null
+                                    | undefined;
+                                  createdAt: any;
+                                  updatedAt: any;
+                                  anlagen?:
+                                    | {
+                                        __typename?: 'ModelAnlageConnection';
+                                        nextToken?: string | null | undefined;
+                                      }
+                                    | null
+                                    | undefined;
+                                  projektStueli?:
+                                    | {
+                                        __typename?: 'ModelProjektStueliConnection';
+                                        nextToken?: string | null | undefined;
+                                      }
+                                    | null
+                                    | undefined;
                                 }
                               | null
                               | undefined
@@ -2237,6 +3815,46 @@ export type GetAnlagenUserQuery = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlageConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         }
                       | null
                       | undefined
@@ -2378,6 +3996,32 @@ export type ListAnlagenUsersQuery = {
                         }
                       | null
                       | undefined;
+                    projekte?:
+                      | {
+                          __typename?: 'ModelProjektConnection';
+                          nextToken?: string | null | undefined;
+                          items?:
+                            | Array<
+                                | {
+                                    __typename?: 'Projekt';
+                                    id: string;
+                                    anlageId: string;
+                                    projektNummer: number;
+                                    users?:
+                                      | Array<string | null | undefined>
+                                      | null
+                                      | undefined;
+                                    createdAt: any;
+                                    updatedAt: any;
+                                  }
+                                | null
+                                | undefined
+                              >
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
                     referenzStueli?:
                       | {
                           __typename?: 'ModelReferenzStueliConnection';
@@ -2449,6 +4093,393 @@ export type ListAnlagenUsersQuery = {
     | undefined;
 };
 
+export type GetProjektQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type GetProjektQuery = {
+  __typename?: 'Query';
+  getProjekt?:
+    | {
+        __typename?: 'Projekt';
+        id: string;
+        anlageId: string;
+        projektNummer: number;
+        users?: Array<string | null | undefined> | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+        anlagen?:
+          | {
+              __typename?: 'ModelAnlageConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Anlage';
+                        id: string;
+                        firma: string;
+                        standort: string;
+                        anschrift?: string | null | undefined;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagenUsers?:
+                          | {
+                              __typename?: 'ModelAnlagenUserConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'AnlagenUser';
+                                        anlageId: string;
+                                        userEmail: string;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projekte?:
+                          | {
+                              __typename?: 'ModelProjektConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Projekt';
+                                        id: string;
+                                        anlageId: string;
+                                        projektNummer: number;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        referenzStueli?:
+                          | {
+                              __typename?: 'ModelReferenzStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ReferenzStueli';
+                                        id: string;
+                                        anlageId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projektStueli?:
+          | {
+              __typename?: 'ModelProjektStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ProjektStueli';
+                        id: string;
+                        projektId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        voschlagKurzspezifikation?: string | null | undefined;
+                        vorschlagLieferant?: string | null | undefined;
+                        vorschlagNennweite?: string | null | undefined;
+                        vorschlagFeinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type ListProjektsQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+  filter?: InputMaybe<ModelProjektFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+}>;
+
+export type ListProjektsQuery = {
+  __typename?: 'Query';
+  listProjekts?:
+    | {
+        __typename?: 'ModelProjektConnection';
+        nextToken?: string | null | undefined;
+        items?:
+          | Array<
+              | {
+                  __typename?: 'Projekt';
+                  id: string;
+                  anlageId: string;
+                  projektNummer: number;
+                  users?: Array<string | null | undefined> | null | undefined;
+                  createdAt: any;
+                  updatedAt: any;
+                  anlagen?:
+                    | {
+                        __typename?: 'ModelAnlageConnection';
+                        nextToken?: string | null | undefined;
+                        items?:
+                          | Array<
+                              | {
+                                  __typename?: 'Anlage';
+                                  id: string;
+                                  firma: string;
+                                  standort: string;
+                                  anschrift?: string | null | undefined;
+                                  users?:
+                                    | Array<string | null | undefined>
+                                    | null
+                                    | undefined;
+                                  createdAt: any;
+                                  updatedAt: any;
+                                  anlagenUsers?:
+                                    | {
+                                        __typename?: 'ModelAnlagenUserConnection';
+                                        nextToken?: string | null | undefined;
+                                      }
+                                    | null
+                                    | undefined;
+                                  projekte?:
+                                    | {
+                                        __typename?: 'ModelProjektConnection';
+                                        nextToken?: string | null | undefined;
+                                      }
+                                    | null
+                                    | undefined;
+                                  referenzStueli?:
+                                    | {
+                                        __typename?: 'ModelReferenzStueliConnection';
+                                        nextToken?: string | null | undefined;
+                                      }
+                                    | null
+                                    | undefined;
+                                }
+                              | null
+                              | undefined
+                            >
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined;
+                  projektStueli?:
+                    | {
+                        __typename?: 'ModelProjektStueliConnection';
+                        nextToken?: string | null | undefined;
+                        items?:
+                          | Array<
+                              | {
+                                  __typename?: 'ProjektStueli';
+                                  id: string;
+                                  projektId: string;
+                                  kurzspezifikation?: string | null | undefined;
+                                  lieferant?: string | null | undefined;
+                                  nennweite?: string | null | undefined;
+                                  feinspezifikation?: string | null | undefined;
+                                  voschlagKurzspezifikation?:
+                                    | string
+                                    | null
+                                    | undefined;
+                                  vorschlagLieferant?:
+                                    | string
+                                    | null
+                                    | undefined;
+                                  vorschlagNennweite?:
+                                    | string
+                                    | null
+                                    | undefined;
+                                  vorschlagFeinspezifikation?:
+                                    | string
+                                    | null
+                                    | undefined;
+                                  createdAt: any;
+                                  updatedAt: any;
+                                }
+                              | null
+                              | undefined
+                            >
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined
+            >
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type GetProjektStueliQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type GetProjektStueliQuery = {
+  __typename?: 'Query';
+  getProjektStueli?:
+    | {
+        __typename?: 'ProjektStueli';
+        id: string;
+        projektId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        voschlagKurzspezifikation?: string | null | undefined;
+        vorschlagLieferant?: string | null | undefined;
+        vorschlagNennweite?: string | null | undefined;
+        vorschlagFeinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
+export type ListProjektStuelisQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+  filter?: InputMaybe<ModelProjektStueliFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+}>;
+
+export type ListProjektStuelisQuery = {
+  __typename?: 'Query';
+  listProjektStuelis?:
+    | {
+        __typename?: 'ModelProjektStueliConnection';
+        nextToken?: string | null | undefined;
+        items?:
+          | Array<
+              | {
+                  __typename?: 'ProjektStueli';
+                  id: string;
+                  projektId: string;
+                  kurzspezifikation?: string | null | undefined;
+                  lieferant?: string | null | undefined;
+                  nennweite?: string | null | undefined;
+                  feinspezifikation?: string | null | undefined;
+                  voschlagKurzspezifikation?: string | null | undefined;
+                  vorschlagLieferant?: string | null | undefined;
+                  vorschlagNennweite?: string | null | undefined;
+                  vorschlagFeinspezifikation?: string | null | undefined;
+                  createdAt: any;
+                  updatedAt: any;
+                }
+              | null
+              | undefined
+            >
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type ProjektStueliByKurzspezifikationQueryVariables = Exact<{
+  projektId?: InputMaybe<Scalars['ID']>;
+  kurzspezifikation?: InputMaybe<ModelStringKeyConditionInput>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+  filter?: InputMaybe<ModelProjektStueliFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+}>;
+
+export type ProjektStueliByKurzspezifikationQuery = {
+  __typename?: 'Query';
+  projektStueliByKurzspezifikation?:
+    | {
+        __typename?: 'ModelProjektStueliConnection';
+        nextToken?: string | null | undefined;
+        items?:
+          | Array<
+              | {
+                  __typename?: 'ProjektStueli';
+                  id: string;
+                  projektId: string;
+                  kurzspezifikation?: string | null | undefined;
+                  lieferant?: string | null | undefined;
+                  nennweite?: string | null | undefined;
+                  feinspezifikation?: string | null | undefined;
+                  voschlagKurzspezifikation?: string | null | undefined;
+                  vorschlagLieferant?: string | null | undefined;
+                  vorschlagNennweite?: string | null | undefined;
+                  vorschlagFeinspezifikation?: string | null | undefined;
+                  createdAt: any;
+                  updatedAt: any;
+                }
+              | null
+              | undefined
+            >
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
 export type GetReferenzStueliQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -2472,9 +4503,11 @@ export type GetReferenzStueliQuery = {
 };
 
 export type ListReferenzStuelisQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
   filter?: InputMaybe<ModelReferenzStueliFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
 }>;
 
 export type ListReferenzStuelisQuery = {
@@ -2621,6 +4654,13 @@ export type GetUserQuery = {
                           anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
                                 nextToken?: string | null | undefined;
                               }
                             | null
@@ -2782,6 +4822,13 @@ export type OnCreateAnlageSubscription = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -2804,6 +4851,106 @@ export type OnCreateAnlageSubscription = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projekte?:
+          | {
+              __typename?: 'ModelProjektConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Projekt';
+                        id: string;
+                        anlageId: string;
+                        projektNummer: number;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagen?:
+                          | {
+                              __typename?: 'ModelAnlageConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Anlage';
+                                        id: string;
+                                        firma: string;
+                                        standort: string;
+                                        anschrift?: string | null | undefined;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projektStueli?:
+                          | {
+                              __typename?: 'ModelProjektStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ProjektStueli';
+                                        id: string;
+                                        projektId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        voschlagKurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagLieferant?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagNennweite?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagFeinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
                       }
                     | null
                     | undefined
@@ -2890,6 +5037,13 @@ export type OnUpdateAnlageSubscription = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -2912,6 +5066,106 @@ export type OnUpdateAnlageSubscription = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projekte?:
+          | {
+              __typename?: 'ModelProjektConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Projekt';
+                        id: string;
+                        anlageId: string;
+                        projektNummer: number;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagen?:
+                          | {
+                              __typename?: 'ModelAnlageConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Anlage';
+                                        id: string;
+                                        firma: string;
+                                        standort: string;
+                                        anschrift?: string | null | undefined;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projektStueli?:
+                          | {
+                              __typename?: 'ModelProjektStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ProjektStueli';
+                                        id: string;
+                                        projektId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        voschlagKurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagLieferant?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagNennweite?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagFeinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
                       }
                     | null
                     | undefined
@@ -2998,6 +5252,13 @@ export type OnDeleteAnlageSubscription = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -3020,6 +5281,106 @@ export type OnDeleteAnlageSubscription = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projekte?:
+          | {
+              __typename?: 'ModelProjektConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Projekt';
+                        id: string;
+                        anlageId: string;
+                        projektNummer: number;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagen?:
+                          | {
+                              __typename?: 'ModelAnlageConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Anlage';
+                                        id: string;
+                                        firma: string;
+                                        standort: string;
+                                        anschrift?: string | null | undefined;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projektStueli?:
+                          | {
+                              __typename?: 'ModelProjektStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ProjektStueli';
+                                        id: string;
+                                        projektId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        voschlagKurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagLieferant?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagNennweite?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagFeinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
                       }
                     | null
                     | undefined
@@ -3113,6 +5474,46 @@ export type OnCreateAnlagenUserSubscription = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlageConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         }
                       | null
                       | undefined
@@ -3264,6 +5665,46 @@ export type OnUpdateAnlagenUserSubscription = {
               }
             | null
             | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlageConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
           referenzStueli?:
             | {
                 __typename?: 'ModelReferenzStueliConnection';
@@ -3406,6 +5847,46 @@ export type OnDeleteAnlagenUserSubscription = {
               }
             | null
             | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlageConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
           referenzStueli?:
             | {
                 __typename?: 'ModelReferenzStueliConnection';
@@ -3480,6 +5961,546 @@ export type OnDeleteAnlagenUserSubscription = {
             | null
             | undefined;
         };
+      }
+    | null
+    | undefined;
+};
+
+export type OnCreateProjektSubscriptionVariables = Exact<{
+  users?: InputMaybe<Scalars['String']>;
+}>;
+
+export type OnCreateProjektSubscription = {
+  __typename?: 'Subscription';
+  onCreateProjekt?:
+    | {
+        __typename?: 'Projekt';
+        id: string;
+        anlageId: string;
+        projektNummer: number;
+        users?: Array<string | null | undefined> | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+        anlagen?:
+          | {
+              __typename?: 'ModelAnlageConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Anlage';
+                        id: string;
+                        firma: string;
+                        standort: string;
+                        anschrift?: string | null | undefined;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagenUsers?:
+                          | {
+                              __typename?: 'ModelAnlagenUserConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'AnlagenUser';
+                                        anlageId: string;
+                                        userEmail: string;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projekte?:
+                          | {
+                              __typename?: 'ModelProjektConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Projekt';
+                                        id: string;
+                                        anlageId: string;
+                                        projektNummer: number;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        referenzStueli?:
+                          | {
+                              __typename?: 'ModelReferenzStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ReferenzStueli';
+                                        id: string;
+                                        anlageId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projektStueli?:
+          | {
+              __typename?: 'ModelProjektStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ProjektStueli';
+                        id: string;
+                        projektId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        voschlagKurzspezifikation?: string | null | undefined;
+                        vorschlagLieferant?: string | null | undefined;
+                        vorschlagNennweite?: string | null | undefined;
+                        vorschlagFeinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type OnUpdateProjektSubscriptionVariables = Exact<{
+  users?: InputMaybe<Scalars['String']>;
+}>;
+
+export type OnUpdateProjektSubscription = {
+  __typename?: 'Subscription';
+  onUpdateProjekt?:
+    | {
+        __typename?: 'Projekt';
+        id: string;
+        anlageId: string;
+        projektNummer: number;
+        users?: Array<string | null | undefined> | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+        anlagen?:
+          | {
+              __typename?: 'ModelAnlageConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Anlage';
+                        id: string;
+                        firma: string;
+                        standort: string;
+                        anschrift?: string | null | undefined;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagenUsers?:
+                          | {
+                              __typename?: 'ModelAnlagenUserConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'AnlagenUser';
+                                        anlageId: string;
+                                        userEmail: string;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projekte?:
+                          | {
+                              __typename?: 'ModelProjektConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Projekt';
+                                        id: string;
+                                        anlageId: string;
+                                        projektNummer: number;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        referenzStueli?:
+                          | {
+                              __typename?: 'ModelReferenzStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ReferenzStueli';
+                                        id: string;
+                                        anlageId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projektStueli?:
+          | {
+              __typename?: 'ModelProjektStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ProjektStueli';
+                        id: string;
+                        projektId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        voschlagKurzspezifikation?: string | null | undefined;
+                        vorschlagLieferant?: string | null | undefined;
+                        vorschlagNennweite?: string | null | undefined;
+                        vorschlagFeinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type OnDeleteProjektSubscriptionVariables = Exact<{
+  users?: InputMaybe<Scalars['String']>;
+}>;
+
+export type OnDeleteProjektSubscription = {
+  __typename?: 'Subscription';
+  onDeleteProjekt?:
+    | {
+        __typename?: 'Projekt';
+        id: string;
+        anlageId: string;
+        projektNummer: number;
+        users?: Array<string | null | undefined> | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+        anlagen?:
+          | {
+              __typename?: 'ModelAnlageConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Anlage';
+                        id: string;
+                        firma: string;
+                        standort: string;
+                        anschrift?: string | null | undefined;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagenUsers?:
+                          | {
+                              __typename?: 'ModelAnlagenUserConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'AnlagenUser';
+                                        anlageId: string;
+                                        userEmail: string;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projekte?:
+                          | {
+                              __typename?: 'ModelProjektConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Projekt';
+                                        id: string;
+                                        anlageId: string;
+                                        projektNummer: number;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        referenzStueli?:
+                          | {
+                              __typename?: 'ModelReferenzStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ReferenzStueli';
+                                        id: string;
+                                        anlageId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projektStueli?:
+          | {
+              __typename?: 'ModelProjektStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ProjektStueli';
+                        id: string;
+                        projektId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        voschlagKurzspezifikation?: string | null | undefined;
+                        vorschlagLieferant?: string | null | undefined;
+                        vorschlagNennweite?: string | null | undefined;
+                        vorschlagFeinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type OnCreateProjektStueliSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type OnCreateProjektStueliSubscription = {
+  __typename?: 'Subscription';
+  onCreateProjektStueli?:
+    | {
+        __typename?: 'ProjektStueli';
+        id: string;
+        projektId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        voschlagKurzspezifikation?: string | null | undefined;
+        vorschlagLieferant?: string | null | undefined;
+        vorschlagNennweite?: string | null | undefined;
+        vorschlagFeinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
+export type OnUpdateProjektStueliSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type OnUpdateProjektStueliSubscription = {
+  __typename?: 'Subscription';
+  onUpdateProjektStueli?:
+    | {
+        __typename?: 'ProjektStueli';
+        id: string;
+        projektId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        voschlagKurzspezifikation?: string | null | undefined;
+        vorschlagLieferant?: string | null | undefined;
+        vorschlagNennweite?: string | null | undefined;
+        vorschlagFeinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
+export type OnDeleteProjektStueliSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type OnDeleteProjektStueliSubscription = {
+  __typename?: 'Subscription';
+  onDeleteProjektStueli?:
+    | {
+        __typename?: 'ProjektStueli';
+        id: string;
+        projektId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        voschlagKurzspezifikation?: string | null | undefined;
+        vorschlagLieferant?: string | null | undefined;
+        vorschlagNennweite?: string | null | undefined;
+        vorschlagFeinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
       }
     | null
     | undefined;
@@ -3595,6 +6616,13 @@ export type OnCreateUserSubscription = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -3671,6 +6699,13 @@ export type OnUpdateUserSubscription = {
                           anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
                                 nextToken?: string | null | undefined;
                               }
                             | null
@@ -3755,6 +6790,13 @@ export type OnDeleteUserSubscription = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -3809,7 +6851,7 @@ export const CreateAnlagenUserPrimaryDocument = {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreateAnlagenUserInput' },
+              name: { kind: 'Name', value: 'CreateAnlagenUserPrimaryInput' },
             },
           },
         },
@@ -3974,6 +7016,90 @@ export const CreateAnlagenUserPrimaryDocument = {
                                           name: {
                                             kind: 'Name',
                                             value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'projekte' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'projektNummer',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'projektStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
                                           },
                                         },
                                       ],
@@ -4227,7 +7353,7 @@ export const DeleteAnlagenUserPrimaryDocument = {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'DeleteAnlagenUserInput' },
+              name: { kind: 'Name', value: 'DeleteAnlagenUserPrimaryInput' },
             },
           },
         },
@@ -4392,6 +7518,90 @@ export const DeleteAnlagenUserPrimaryDocument = {
                                           name: {
                                             kind: 'Name',
                                             value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'projekte' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'projektNummer',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'projektStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
                                           },
                                         },
                                       ],
@@ -4645,7 +7855,7 @@ export const DeleteAnlagePrimaryDocument = {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'DeleteAnlageInput' },
+              name: { kind: 'Name', value: 'DeleteAnlagePrimaryInput' },
             },
           },
         },
@@ -4759,6 +7969,22 @@ export const DeleteAnlagePrimaryDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'projekte' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: {
                                       kind: 'Name',
                                       value: 'referenzStueli',
@@ -4816,6 +8042,223 @@ export const DeleteAnlagePrimaryDocument = {
                                         },
                                       ],
                                     },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projekte' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektNummer' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'users' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlagen' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'users',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektStueli' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'projektId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'kurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'lieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'feinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'voschlagKurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagLieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagNennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagFeinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
                                   },
                                 ],
                               },
@@ -5084,6 +8527,90 @@ export const UpdateAnlagenUserDocument = {
                                           name: {
                                             kind: 'Name',
                                             value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'projekte' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'projektNummer',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'projektStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
                                           },
                                         },
                                       ],
@@ -5451,6 +8978,22 @@ export const CreateAnlageDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'projekte' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: {
                                       kind: 'Name',
                                       value: 'referenzStueli',
@@ -5508,6 +9051,223 @@ export const CreateAnlageDocument = {
                                         },
                                       ],
                                     },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projekte' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektNummer' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'users' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlagen' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'users',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektStueli' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'projektId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'kurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'lieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'feinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'voschlagKurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagLieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagNennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagFeinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
                                   },
                                 ],
                               },
@@ -5725,6 +9485,22 @@ export const UpdateAnlageDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'projekte' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: {
                                       kind: 'Name',
                                       value: 'referenzStueli',
@@ -5782,6 +9558,223 @@ export const UpdateAnlageDocument = {
                                         },
                                       ],
                                     },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projekte' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektNummer' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'users' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlagen' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'users',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektStueli' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'projektId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'kurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'lieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'feinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'voschlagKurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagLieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagNennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagFeinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
                                   },
                                 ],
                               },
@@ -5999,6 +9992,22 @@ export const DeleteAnlageDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'projekte' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: {
                                       kind: 'Name',
                                       value: 'referenzStueli',
@@ -6056,6 +10065,223 @@ export const DeleteAnlageDocument = {
                                         },
                                       ],
                                     },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projekte' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektNummer' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'users' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlagen' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'users',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektStueli' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'projektId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'kurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'lieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'feinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'voschlagKurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagLieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagNennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagFeinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
                                   },
                                 ],
                               },
@@ -6324,6 +10550,90 @@ export const CreateAnlagenUserDocument = {
                                           name: {
                                             kind: 'Name',
                                             value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'projekte' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'projektNummer',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'projektStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
                                           },
                                         },
                                       ],
@@ -6759,6 +11069,90 @@ export const DeleteAnlagenUserDocument = {
                       },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'projekte' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'projektNummer',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'projektStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'referenzStueli' },
                         selectionSet: {
                           kind: 'SelectionSet',
@@ -6976,6 +11370,1413 @@ export const DeleteAnlagenUserDocument = {
 } as unknown as DocumentNode<
   DeleteAnlagenUserMutation,
   DeleteAnlagenUserMutationVariables
+>;
+export const CreateProjektDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateProjekt' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateProjektInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createProjekt' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projektNummer' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'users' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlagen' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'firma' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'standort' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anschrift' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'users' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlagenUsers' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'userEmail',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projekte' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'projektNummer',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'users',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'referenzStueli' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'kurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'lieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'feinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projektStueli' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'kurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lieferant' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nennweite' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'feinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'voschlagKurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'vorschlagLieferant',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'vorschlagNennweite',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'vorschlagFeinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateProjektMutation,
+  CreateProjektMutationVariables
+>;
+export const UpdateProjektDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateProjekt' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'UpdateProjektInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateProjekt' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projektNummer' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'users' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlagen' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'firma' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'standort' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anschrift' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'users' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlagenUsers' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'userEmail',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projekte' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'projektNummer',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'users',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'referenzStueli' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'kurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'lieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'feinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projektStueli' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'kurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lieferant' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nennweite' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'feinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'voschlagKurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'vorschlagLieferant',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'vorschlagNennweite',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'vorschlagFeinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateProjektMutation,
+  UpdateProjektMutationVariables
+>;
+export const DeleteProjektDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteProjekt' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteProjektInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteProjekt' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projektNummer' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'users' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlagen' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'firma' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'standort' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anschrift' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'users' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlagenUsers' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'userEmail',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projekte' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'projektNummer',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'users',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'referenzStueli' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'kurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'lieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'feinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projektStueli' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'kurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lieferant' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nennweite' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'feinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'voschlagKurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'vorschlagLieferant',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'vorschlagNennweite',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'vorschlagFeinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteProjektMutation,
+  DeleteProjektMutationVariables
+>;
+export const CreateProjektStueliDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateProjektStueli' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateProjektStueliInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createProjektStueli' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'projektId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'kurzspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'lieferant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'nennweite' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'feinspezifikation' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'voschlagKurzspezifikation' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'vorschlagLieferant' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'vorschlagNennweite' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'vorschlagFeinspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateProjektStueliMutation,
+  CreateProjektStueliMutationVariables
+>;
+export const UpdateProjektStueliDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateProjektStueli' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'UpdateProjektStueliInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateProjektStueli' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'projektId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'kurzspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'lieferant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'nennweite' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'feinspezifikation' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'voschlagKurzspezifikation' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'vorschlagLieferant' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'vorschlagNennweite' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'vorschlagFeinspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateProjektStueliMutation,
+  UpdateProjektStueliMutationVariables
+>;
+export const DeleteProjektStueliDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteProjektStueli' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteProjektStueliInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteProjektStueli' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'projektId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'kurzspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'lieferant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'nennweite' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'feinspezifikation' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'voschlagKurzspezifikation' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'vorschlagLieferant' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'vorschlagNennweite' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'vorschlagFeinspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteProjektStueliMutation,
+  DeleteProjektStueliMutationVariables
 >;
 export const CreateReferenzStueliDocument = {
   kind: 'Document',
@@ -7307,6 +13108,22 @@ export const CreateUserDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'projekte' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: {
                                       kind: 'Name',
                                       value: 'referenzStueli',
@@ -7500,6 +13317,22 @@ export const UpdateUserDocument = {
                                       kind: 'Name',
                                       value: 'anlagenUsers',
                                     },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'projekte' },
                                     selectionSet: {
                                       kind: 'SelectionSet',
                                       selections: [
@@ -7723,6 +13556,22 @@ export const DeleteUserDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'projekte' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: {
                                       kind: 'Name',
                                       value: 'referenzStueli',
@@ -7928,6 +13777,22 @@ export const GetAnlageDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'projekte' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: {
                                       kind: 'Name',
                                       value: 'referenzStueli',
@@ -7985,6 +13850,223 @@ export const GetAnlageDocument = {
                                         },
                                       ],
                                     },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projekte' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektNummer' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'users' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlagen' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'users',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektStueli' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'projektId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'kurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'lieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'feinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'voschlagKurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagLieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagNennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagFeinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
                                   },
                                 ],
                               },
@@ -8077,6 +14159,11 @@ export const ListAnlagesDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+        },
+        {
+          kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
             name: { kind: 'Name', value: 'filter' },
@@ -8102,6 +14189,17 @@ export const ListAnlagesDocument = {
           },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'sortDirection' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelSortDirection' },
+          },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -8110,6 +14208,14 @@ export const ListAnlagesDocument = {
             kind: 'Field',
             name: { kind: 'Name', value: 'listAnlages' },
             arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
               {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'filter' },
@@ -8132,6 +14238,14 @@ export const ListAnlagesDocument = {
                 value: {
                   kind: 'Variable',
                   name: { kind: 'Name', value: 'nextToken' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sortDirection' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'sortDirection' },
                 },
               },
             ],
@@ -8275,6 +14389,90 @@ export const ListAnlagesDocument = {
                                           name: {
                                             kind: 'Name',
                                             value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'projekte' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'projektNummer',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'projektStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
                                           },
                                         },
                                       ],
@@ -8564,6 +14762,90 @@ export const GetAnlagenUserDocument = {
                                           name: {
                                             kind: 'Name',
                                             value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'projekte' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'projektNummer',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'projektStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
                                           },
                                         },
                                       ],
@@ -9029,6 +15311,67 @@ export const ListAnlagenUsersDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'projekte' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'projektNummer',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'users',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'referenzStueli' },
                               selectionSet: {
                                 kind: 'SelectionSet',
@@ -9195,6 +15538,1163 @@ export const ListAnlagenUsersDocument = {
   ListAnlagenUsersQuery,
   ListAnlagenUsersQueryVariables
 >;
+export const GetProjektDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetProjekt' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getProjekt' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projektNummer' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'users' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlagen' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'firma' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'standort' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anschrift' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'users' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlagenUsers' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'userEmail',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projekte' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'projektNummer',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'users',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'referenzStueli' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'kurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'lieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'feinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projektStueli' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'kurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lieferant' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nennweite' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'feinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'voschlagKurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'vorschlagLieferant',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'vorschlagNennweite',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'vorschlagFeinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetProjektQuery, GetProjektQueryVariables>;
+export const ListProjektsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'ListProjekts' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'filter' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelProjektFilterInput' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'limit' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'nextToken' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'sortDirection' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelSortDirection' },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listProjekts' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'filter' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'limit' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'nextToken' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'nextToken' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sortDirection' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'sortDirection' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'items' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anlageId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'projektNummer' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'users' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'anlagen' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'firma' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'standort' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anschrift' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'anlagenUsers',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'projekte' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'referenzStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'projektStueli' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'projektId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'kurzspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'lieferant' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nennweite' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'feinspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'voschlagKurzspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'vorschlagLieferant',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'vorschlagNennweite',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'vorschlagFeinspezifikation',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'nextToken' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<ListProjektsQuery, ListProjektsQueryVariables>;
+export const GetProjektStueliDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetProjektStueli' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getProjektStueli' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'projektId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'kurzspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'lieferant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'nennweite' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'feinspezifikation' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'voschlagKurzspezifikation' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'vorschlagLieferant' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'vorschlagNennweite' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'vorschlagFeinspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetProjektStueliQuery,
+  GetProjektStueliQueryVariables
+>;
+export const ListProjektStuelisDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'ListProjektStuelis' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'filter' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelProjektStueliFilterInput' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'limit' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'nextToken' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'sortDirection' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelSortDirection' },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listProjektStuelis' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'filter' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'limit' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'nextToken' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'nextToken' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sortDirection' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'sortDirection' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'items' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'projektId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'kurzspezifikation' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lieferant' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nennweite' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'feinspezifikation' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'voschlagKurzspezifikation',
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'vorschlagLieferant' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'vorschlagNennweite' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'vorschlagFeinspezifikation',
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'nextToken' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  ListProjektStuelisQuery,
+  ListProjektStuelisQueryVariables
+>;
+export const ProjektStueliByKurzspezifikationDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'ProjektStueliByKurzspezifikation' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'projektId' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'kurzspezifikation' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelStringKeyConditionInput' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'sortDirection' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelSortDirection' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'filter' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelProjektStueliFilterInput' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'limit' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'nextToken' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'projektStueliByKurzspezifikation' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'projektId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'projektId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'kurzspezifikation' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'kurzspezifikation' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sortDirection' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'sortDirection' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'filter' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'limit' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'nextToken' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'nextToken' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'items' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'projektId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'kurzspezifikation' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lieferant' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nennweite' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'feinspezifikation' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'voschlagKurzspezifikation',
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'vorschlagLieferant' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'vorschlagNennweite' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'vorschlagFeinspezifikation',
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'nextToken' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  ProjektStueliByKurzspezifikationQuery,
+  ProjektStueliByKurzspezifikationQueryVariables
+>;
 export const GetReferenzStueliDocument = {
   kind: 'Document',
   definitions: [
@@ -9266,6 +16766,11 @@ export const ListReferenzStuelisDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+        },
+        {
+          kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
             name: { kind: 'Name', value: 'filter' },
@@ -9291,6 +16796,17 @@ export const ListReferenzStuelisDocument = {
           },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'sortDirection' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'ModelSortDirection' },
+          },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -9299,6 +16815,14 @@ export const ListReferenzStuelisDocument = {
             kind: 'Field',
             name: { kind: 'Name', value: 'listReferenzStuelis' },
             arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
               {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'filter' },
@@ -9321,6 +16845,14 @@ export const ListReferenzStuelisDocument = {
                 value: {
                   kind: 'Variable',
                   name: { kind: 'Name', value: 'nextToken' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sortDirection' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'sortDirection' },
                 },
               },
             ],
@@ -9834,6 +17366,22 @@ export const GetUserDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'projekte' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: {
                                       kind: 'Name',
                                       value: 'referenzStueli',
@@ -10300,6 +17848,22 @@ export const OnCreateAnlageDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'projekte' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: {
                                       kind: 'Name',
                                       value: 'referenzStueli',
@@ -10357,6 +17921,223 @@ export const OnCreateAnlageDocument = {
                                         },
                                       ],
                                     },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projekte' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektNummer' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'users' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlagen' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'users',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektStueli' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'projektId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'kurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'lieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'feinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'voschlagKurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagLieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagNennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagFeinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
                                   },
                                 ],
                               },
@@ -10568,6 +18349,22 @@ export const OnUpdateAnlageDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'projekte' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: {
                                       kind: 'Name',
                                       value: 'referenzStueli',
@@ -10625,6 +18422,223 @@ export const OnUpdateAnlageDocument = {
                                         },
                                       ],
                                     },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projekte' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektNummer' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'users' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlagen' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'users',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektStueli' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'projektId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'kurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'lieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'feinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'voschlagKurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagLieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagNennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagFeinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
                                   },
                                 ],
                               },
@@ -10836,6 +18850,22 @@ export const OnDeleteAnlageDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'projekte' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: {
                                       kind: 'Name',
                                       value: 'referenzStueli',
@@ -10893,6 +18923,223 @@ export const OnDeleteAnlageDocument = {
                                         },
                                       ],
                                     },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projekte' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektNummer' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'users' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlagen' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'firma',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'standort',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anschrift',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'users',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektStueli' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'projektId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'kurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'lieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'feinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'voschlagKurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagLieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagNennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'vorschlagFeinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
                                   },
                                 ],
                               },
@@ -11155,6 +19402,90 @@ export const OnCreateAnlagenUserDocument = {
                                           name: {
                                             kind: 'Name',
                                             value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'projekte' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'projektNummer',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'projektStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
                                           },
                                         },
                                       ],
@@ -11584,6 +19915,90 @@ export const OnUpdateAnlagenUserDocument = {
                       },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'projekte' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'projektNummer',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'projektStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'referenzStueli' },
                         selectionSet: {
                           kind: 'SelectionSet',
@@ -11996,6 +20411,90 @@ export const OnDeleteAnlagenUserDocument = {
                       },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'projekte' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'items' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlageId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'projektNummer',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'projektStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nextToken' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'referenzStueli' },
                         selectionSet: {
                           kind: 'SelectionSet',
@@ -12213,6 +20712,1317 @@ export const OnDeleteAnlagenUserDocument = {
 } as unknown as DocumentNode<
   OnDeleteAnlagenUserSubscription,
   OnDeleteAnlagenUserSubscriptionVariables
+>;
+export const OnCreateProjektDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'subscription',
+      name: { kind: 'Name', value: 'OnCreateProjekt' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'users' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'onCreateProjekt' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'users' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'users' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projektNummer' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'users' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlagen' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'firma' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'standort' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anschrift' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'users' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlagenUsers' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'userEmail',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projekte' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'projektNummer',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'users',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'referenzStueli' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'kurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'lieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'feinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projektStueli' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'kurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lieferant' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nennweite' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'feinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'voschlagKurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'vorschlagLieferant',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'vorschlagNennweite',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'vorschlagFeinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  OnCreateProjektSubscription,
+  OnCreateProjektSubscriptionVariables
+>;
+export const OnUpdateProjektDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'subscription',
+      name: { kind: 'Name', value: 'OnUpdateProjekt' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'users' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'onUpdateProjekt' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'users' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'users' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projektNummer' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'users' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlagen' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'firma' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'standort' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anschrift' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'users' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlagenUsers' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'userEmail',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projekte' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'projektNummer',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'users',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'referenzStueli' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'kurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'lieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'feinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projektStueli' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'kurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lieferant' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nennweite' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'feinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'voschlagKurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'vorschlagLieferant',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'vorschlagNennweite',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'vorschlagFeinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  OnUpdateProjektSubscription,
+  OnUpdateProjektSubscriptionVariables
+>;
+export const OnDeleteProjektDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'subscription',
+      name: { kind: 'Name', value: 'OnDeleteProjekt' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'users' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'onDeleteProjekt' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'users' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'users' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'anlageId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projektNummer' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'users' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlagen' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'firma' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'standort' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anschrift' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'users' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlagenUsers' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'userEmail',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projekte' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'projektNummer',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'users',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'referenzStueli' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'anlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'kurzspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'lieferant',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nennweite',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'feinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdAt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'updatedAt',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nextToken' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'projektStueli' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projektId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'kurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lieferant' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nennweite' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'feinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'voschlagKurzspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'vorschlagLieferant',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'vorschlagNennweite',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'vorschlagFeinspezifikation',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  OnDeleteProjektSubscription,
+  OnDeleteProjektSubscriptionVariables
+>;
+export const OnCreateProjektStueliDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'subscription',
+      name: { kind: 'Name', value: 'OnCreateProjektStueli' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'onCreateProjektStueli' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'projektId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'kurzspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'lieferant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'nennweite' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'feinspezifikation' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'voschlagKurzspezifikation' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'vorschlagLieferant' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'vorschlagNennweite' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'vorschlagFeinspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  OnCreateProjektStueliSubscription,
+  OnCreateProjektStueliSubscriptionVariables
+>;
+export const OnUpdateProjektStueliDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'subscription',
+      name: { kind: 'Name', value: 'OnUpdateProjektStueli' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'onUpdateProjektStueli' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'projektId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'kurzspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'lieferant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'nennweite' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'feinspezifikation' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'voschlagKurzspezifikation' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'vorschlagLieferant' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'vorschlagNennweite' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'vorschlagFeinspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  OnUpdateProjektStueliSubscription,
+  OnUpdateProjektStueliSubscriptionVariables
+>;
+export const OnDeleteProjektStueliDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'subscription',
+      name: { kind: 'Name', value: 'OnDeleteProjektStueli' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'onDeleteProjektStueli' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'projektId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'kurzspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'lieferant' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'nennweite' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'feinspezifikation' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'voschlagKurzspezifikation' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'vorschlagLieferant' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'vorschlagNennweite' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'vorschlagFeinspezifikation' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  OnDeleteProjektStueliSubscription,
+  OnDeleteProjektStueliSubscriptionVariables
 >;
 export const OnCreateReferenzStueliDocument = {
   kind: 'Document',
@@ -12460,6 +22270,22 @@ export const OnCreateUserDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'projekte' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: {
                                       kind: 'Name',
                                       value: 'referenzStueli',
@@ -12665,6 +22491,22 @@ export const OnUpdateUserDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'projekte' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: {
                                       kind: 'Name',
                                       value: 'referenzStueli',
@@ -12855,6 +22697,22 @@ export const OnDeleteUserDocument = {
                                       kind: 'Name',
                                       value: 'anlagenUsers',
                                     },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'projekte' },
                                     selectionSet: {
                                       kind: 'SelectionSet',
                                       selections: [

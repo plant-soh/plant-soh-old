@@ -29,6 +29,9 @@ export const getAnlage = /* GraphQL */ `
             anlagenUsers {
               nextToken
             }
+            projekte {
+              nextToken
+            }
             referenzStueli {
               nextToken
             }
@@ -41,6 +44,46 @@ export const getAnlage = /* GraphQL */ `
             anlagen {
               nextToken
             }
+          }
+        }
+        nextToken
+      }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlagen {
+            items {
+              id
+              firma
+              standort
+              anschrift
+              users
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          projektStueli {
+            items {
+              id
+              projektId
+              kurzspezifikation
+              lieferant
+              nennweite
+              feinspezifikation
+              voschlagKurzspezifikation
+              vorschlagLieferant
+              vorschlagNennweite
+              vorschlagFeinspezifikation
+              createdAt
+              updatedAt
+            }
+            nextToken
           }
         }
         nextToken
@@ -63,11 +106,19 @@ export const getAnlage = /* GraphQL */ `
 `;
 export const listAnlages = /* GraphQL */ `
   query ListAnlages(
+    $id: ID
     $filter: ModelAnlageFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listAnlages(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listAnlages(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
         id
         firma
@@ -96,6 +147,23 @@ export const listAnlages = /* GraphQL */ `
               role
               createdAt
               updatedAt
+            }
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            users
+            createdAt
+            updatedAt
+            anlagen {
+              nextToken
+            }
+            projektStueli {
+              nextToken
             }
           }
           nextToken
@@ -153,6 +221,23 @@ export const getAnlagenUser = /* GraphQL */ `
               role
               createdAt
               updatedAt
+            }
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            users
+            createdAt
+            updatedAt
+            anlagen {
+              nextToken
+            }
+            projektStueli {
+              nextToken
             }
           }
           nextToken
@@ -243,6 +328,17 @@ export const listAnlagenUsers = /* GraphQL */ `
             }
             nextToken
           }
+          projekte {
+            items {
+              id
+              anlageId
+              projektNummer
+              users
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
           referenzStueli {
             items {
               id
@@ -277,6 +373,231 @@ export const listAnlagenUsers = /* GraphQL */ `
     }
   }
 `;
+export const getProjekt = /* GraphQL */ `
+  query GetProjekt($id: ID!) {
+    getProjekt(id: $id) {
+      id
+      anlageId
+      projektNummer
+      users
+      createdAt
+      updatedAt
+      anlagen {
+        items {
+          id
+          firma
+          standort
+          anschrift
+          users
+          createdAt
+          updatedAt
+          anlagenUsers {
+            items {
+              anlageId
+              userEmail
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          projekte {
+            items {
+              id
+              anlageId
+              projektNummer
+              users
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          referenzStueli {
+            items {
+              id
+              anlageId
+              kurzspezifikation
+              lieferant
+              nennweite
+              feinspezifikation
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+        }
+        nextToken
+      }
+      projektStueli {
+        items {
+          id
+          projektId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          voschlagKurzspezifikation
+          vorschlagLieferant
+          vorschlagNennweite
+          vorschlagFeinspezifikation
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const listProjekts = /* GraphQL */ `
+  query ListProjekts(
+    $id: ID
+    $filter: ModelProjektFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listProjekts(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        anlageId
+        projektNummer
+        users
+        createdAt
+        updatedAt
+        anlagen {
+          items {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+            anlagenUsers {
+              nextToken
+            }
+            projekte {
+              nextToken
+            }
+            referenzStueli {
+              nextToken
+            }
+          }
+          nextToken
+        }
+        projektStueli {
+          items {
+            id
+            projektId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            voschlagKurzspezifikation
+            vorschlagLieferant
+            vorschlagNennweite
+            vorschlagFeinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const getProjektStueli = /* GraphQL */ `
+  query GetProjektStueli($id: ID!) {
+    getProjektStueli(id: $id) {
+      id
+      projektId
+      kurzspezifikation
+      lieferant
+      nennweite
+      feinspezifikation
+      voschlagKurzspezifikation
+      vorschlagLieferant
+      vorschlagNennweite
+      vorschlagFeinspezifikation
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listProjektStuelis = /* GraphQL */ `
+  query ListProjektStuelis(
+    $id: ID
+    $filter: ModelProjektStueliFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listProjektStuelis(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        projektId
+        kurzspezifikation
+        lieferant
+        nennweite
+        feinspezifikation
+        voschlagKurzspezifikation
+        vorschlagLieferant
+        vorschlagNennweite
+        vorschlagFeinspezifikation
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const projektStueliByKurzspezifikation = /* GraphQL */ `
+  query ProjektStueliByKurzspezifikation(
+    $projektId: ID
+    $kurzspezifikation: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelProjektStueliFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    projektStueliByKurzspezifikation(
+      projektId: $projektId
+      kurzspezifikation: $kurzspezifikation
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        projektId
+        kurzspezifikation
+        lieferant
+        nennweite
+        feinspezifikation
+        voschlagKurzspezifikation
+        vorschlagLieferant
+        vorschlagNennweite
+        vorschlagFeinspezifikation
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getReferenzStueli = /* GraphQL */ `
   query GetReferenzStueli($id: ID!) {
     getReferenzStueli(id: $id) {
@@ -293,11 +614,19 @@ export const getReferenzStueli = /* GraphQL */ `
 `;
 export const listReferenzStuelis = /* GraphQL */ `
   query ListReferenzStuelis(
+    $id: ID
     $filter: ModelReferenzStueliFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listReferenzStuelis(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listReferenzStuelis(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
         id
         anlageId
@@ -394,6 +723,9 @@ export const getUser = /* GraphQL */ `
             createdAt
             updatedAt
             anlagenUsers {
+              nextToken
+            }
+            projekte {
               nextToken
             }
             referenzStueli {

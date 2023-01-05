@@ -18,14 +18,12 @@ export async function handler(
 ): Promise<Anlage | null | undefined> {
   console.debug(`event: ${JSON.stringify(event)}`);
 
-  const { anlageId } = event.arguments.input;
+  const { id } = event.arguments.input;
 
   const { deleteAnlage } = await client.request({
     query: DeleteAnlageDocument,
     variables: {
-      input: {
-        anlageId: anlageId,
-      },
+      input: { id: id },
     },
   });
 

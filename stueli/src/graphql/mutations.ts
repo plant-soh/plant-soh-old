@@ -3,7 +3,7 @@
 // this is an auto generated file. This will be overwritten
 
 export const createAnlagenUserPrimary = /* GraphQL */ `
-  mutation CreateAnlagenUserPrimary($input: CreateAnlagenUserInput!) {
+  mutation CreateAnlagenUserPrimary($input: CreateAnlagenUserPrimaryInput!) {
     createAnlagenUserPrimary(input: $input) {
       anlageId
       userEmail
@@ -37,6 +37,23 @@ export const createAnlagenUserPrimary = /* GraphQL */ `
               role
               createdAt
               updatedAt
+            }
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            users
+            createdAt
+            updatedAt
+            anlagen {
+              nextToken
+            }
+            projektStueli {
+              nextToken
             }
           }
           nextToken
@@ -89,7 +106,7 @@ export const createAnlagenUserPrimary = /* GraphQL */ `
   }
 `;
 export const deleteAnlagenUserPrimary = /* GraphQL */ `
-  mutation DeleteAnlagenUserPrimary($input: DeleteAnlagenUserInput!) {
+  mutation DeleteAnlagenUserPrimary($input: DeleteAnlagenUserPrimaryInput!) {
     deleteAnlagenUserPrimary(input: $input) {
       anlageId
       userEmail
@@ -123,6 +140,23 @@ export const deleteAnlagenUserPrimary = /* GraphQL */ `
               role
               createdAt
               updatedAt
+            }
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            users
+            createdAt
+            updatedAt
+            anlagen {
+              nextToken
+            }
+            projektStueli {
+              nextToken
             }
           }
           nextToken
@@ -175,7 +209,7 @@ export const deleteAnlagenUserPrimary = /* GraphQL */ `
   }
 `;
 export const deleteAnlagePrimary = /* GraphQL */ `
-  mutation DeleteAnlagePrimary($input: DeleteAnlageInput!) {
+  mutation DeleteAnlagePrimary($input: DeleteAnlagePrimaryInput!) {
     deleteAnlagePrimary(input: $input) {
       id
       firma
@@ -201,6 +235,9 @@ export const deleteAnlagePrimary = /* GraphQL */ `
             anlagenUsers {
               nextToken
             }
+            projekte {
+              nextToken
+            }
             referenzStueli {
               nextToken
             }
@@ -213,6 +250,46 @@ export const deleteAnlagePrimary = /* GraphQL */ `
             anlagen {
               nextToken
             }
+          }
+        }
+        nextToken
+      }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlagen {
+            items {
+              id
+              firma
+              standort
+              anschrift
+              users
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          projektStueli {
+            items {
+              id
+              projektId
+              kurzspezifikation
+              lieferant
+              nennweite
+              feinspezifikation
+              voschlagKurzspezifikation
+              vorschlagLieferant
+              vorschlagNennweite
+              vorschlagFeinspezifikation
+              createdAt
+              updatedAt
+            }
+            nextToken
           }
         }
         nextToken
@@ -268,6 +345,23 @@ export const updateAnlagenUser = /* GraphQL */ `
               role
               createdAt
               updatedAt
+            }
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            users
+            createdAt
+            updatedAt
+            anlagen {
+              nextToken
+            }
+            projektStueli {
+              nextToken
             }
           }
           nextToken
@@ -346,6 +440,9 @@ export const createAnlage = /* GraphQL */ `
             anlagenUsers {
               nextToken
             }
+            projekte {
+              nextToken
+            }
             referenzStueli {
               nextToken
             }
@@ -358,6 +455,46 @@ export const createAnlage = /* GraphQL */ `
             anlagen {
               nextToken
             }
+          }
+        }
+        nextToken
+      }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlagen {
+            items {
+              id
+              firma
+              standort
+              anschrift
+              users
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          projektStueli {
+            items {
+              id
+              projektId
+              kurzspezifikation
+              lieferant
+              nennweite
+              feinspezifikation
+              voschlagKurzspezifikation
+              vorschlagLieferant
+              vorschlagNennweite
+              vorschlagFeinspezifikation
+              createdAt
+              updatedAt
+            }
+            nextToken
           }
         }
         nextToken
@@ -405,6 +542,9 @@ export const updateAnlage = /* GraphQL */ `
             anlagenUsers {
               nextToken
             }
+            projekte {
+              nextToken
+            }
             referenzStueli {
               nextToken
             }
@@ -417,6 +557,46 @@ export const updateAnlage = /* GraphQL */ `
             anlagen {
               nextToken
             }
+          }
+        }
+        nextToken
+      }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlagen {
+            items {
+              id
+              firma
+              standort
+              anschrift
+              users
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          projektStueli {
+            items {
+              id
+              projektId
+              kurzspezifikation
+              lieferant
+              nennweite
+              feinspezifikation
+              voschlagKurzspezifikation
+              vorschlagLieferant
+              vorschlagNennweite
+              vorschlagFeinspezifikation
+              createdAt
+              updatedAt
+            }
+            nextToken
           }
         }
         nextToken
@@ -464,6 +644,9 @@ export const deleteAnlage = /* GraphQL */ `
             anlagenUsers {
               nextToken
             }
+            projekte {
+              nextToken
+            }
             referenzStueli {
               nextToken
             }
@@ -476,6 +659,46 @@ export const deleteAnlage = /* GraphQL */ `
             anlagen {
               nextToken
             }
+          }
+        }
+        nextToken
+      }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlagen {
+            items {
+              id
+              firma
+              standort
+              anschrift
+              users
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          projektStueli {
+            items {
+              id
+              projektId
+              kurzspezifikation
+              lieferant
+              nennweite
+              feinspezifikation
+              voschlagKurzspezifikation
+              vorschlagLieferant
+              vorschlagNennweite
+              vorschlagFeinspezifikation
+              createdAt
+              updatedAt
+            }
+            nextToken
           }
         }
         nextToken
@@ -531,6 +754,23 @@ export const createAnlagenUser = /* GraphQL */ `
               role
               createdAt
               updatedAt
+            }
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            users
+            createdAt
+            updatedAt
+            anlagen {
+              nextToken
+            }
+            projektStueli {
+              nextToken
             }
           }
           nextToken
@@ -621,6 +861,23 @@ export const deleteAnlagenUser = /* GraphQL */ `
           }
           nextToken
         }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            users
+            createdAt
+            updatedAt
+            anlagen {
+              nextToken
+            }
+            projektStueli {
+              nextToken
+            }
+          }
+          nextToken
+        }
         referenzStueli {
           items {
             id
@@ -665,6 +922,282 @@ export const deleteAnlagenUser = /* GraphQL */ `
           nextToken
         }
       }
+    }
+  }
+`;
+export const createProjekt = /* GraphQL */ `
+  mutation CreateProjekt($input: CreateProjektInput!) {
+    createProjekt(input: $input) {
+      id
+      anlageId
+      projektNummer
+      users
+      createdAt
+      updatedAt
+      anlagen {
+        items {
+          id
+          firma
+          standort
+          anschrift
+          users
+          createdAt
+          updatedAt
+          anlagenUsers {
+            items {
+              anlageId
+              userEmail
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          projekte {
+            items {
+              id
+              anlageId
+              projektNummer
+              users
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          referenzStueli {
+            items {
+              id
+              anlageId
+              kurzspezifikation
+              lieferant
+              nennweite
+              feinspezifikation
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+        }
+        nextToken
+      }
+      projektStueli {
+        items {
+          id
+          projektId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          voschlagKurzspezifikation
+          vorschlagLieferant
+          vorschlagNennweite
+          vorschlagFeinspezifikation
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const updateProjekt = /* GraphQL */ `
+  mutation UpdateProjekt($input: UpdateProjektInput!) {
+    updateProjekt(input: $input) {
+      id
+      anlageId
+      projektNummer
+      users
+      createdAt
+      updatedAt
+      anlagen {
+        items {
+          id
+          firma
+          standort
+          anschrift
+          users
+          createdAt
+          updatedAt
+          anlagenUsers {
+            items {
+              anlageId
+              userEmail
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          projekte {
+            items {
+              id
+              anlageId
+              projektNummer
+              users
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          referenzStueli {
+            items {
+              id
+              anlageId
+              kurzspezifikation
+              lieferant
+              nennweite
+              feinspezifikation
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+        }
+        nextToken
+      }
+      projektStueli {
+        items {
+          id
+          projektId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          voschlagKurzspezifikation
+          vorschlagLieferant
+          vorschlagNennweite
+          vorschlagFeinspezifikation
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const deleteProjekt = /* GraphQL */ `
+  mutation DeleteProjekt($input: DeleteProjektInput!) {
+    deleteProjekt(input: $input) {
+      id
+      anlageId
+      projektNummer
+      users
+      createdAt
+      updatedAt
+      anlagen {
+        items {
+          id
+          firma
+          standort
+          anschrift
+          users
+          createdAt
+          updatedAt
+          anlagenUsers {
+            items {
+              anlageId
+              userEmail
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          projekte {
+            items {
+              id
+              anlageId
+              projektNummer
+              users
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          referenzStueli {
+            items {
+              id
+              anlageId
+              kurzspezifikation
+              lieferant
+              nennweite
+              feinspezifikation
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+        }
+        nextToken
+      }
+      projektStueli {
+        items {
+          id
+          projektId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          voschlagKurzspezifikation
+          vorschlagLieferant
+          vorschlagNennweite
+          vorschlagFeinspezifikation
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const createProjektStueli = /* GraphQL */ `
+  mutation CreateProjektStueli($input: CreateProjektStueliInput!) {
+    createProjektStueli(input: $input) {
+      id
+      projektId
+      kurzspezifikation
+      lieferant
+      nennweite
+      feinspezifikation
+      voschlagKurzspezifikation
+      vorschlagLieferant
+      vorschlagNennweite
+      vorschlagFeinspezifikation
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateProjektStueli = /* GraphQL */ `
+  mutation UpdateProjektStueli($input: UpdateProjektStueliInput!) {
+    updateProjektStueli(input: $input) {
+      id
+      projektId
+      kurzspezifikation
+      lieferant
+      nennweite
+      feinspezifikation
+      voschlagKurzspezifikation
+      vorschlagLieferant
+      vorschlagNennweite
+      vorschlagFeinspezifikation
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteProjektStueli = /* GraphQL */ `
+  mutation DeleteProjektStueli($input: DeleteProjektStueliInput!) {
+    deleteProjektStueli(input: $input) {
+      id
+      projektId
+      kurzspezifikation
+      lieferant
+      nennweite
+      feinspezifikation
+      voschlagKurzspezifikation
+      vorschlagLieferant
+      vorschlagNennweite
+      vorschlagFeinspezifikation
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -734,6 +1267,9 @@ export const createUser = /* GraphQL */ `
             anlagenUsers {
               nextToken
             }
+            projekte {
+              nextToken
+            }
             referenzStueli {
               nextToken
             }
@@ -777,6 +1313,9 @@ export const updateUser = /* GraphQL */ `
             anlagenUsers {
               nextToken
             }
+            projekte {
+              nextToken
+            }
             referenzStueli {
               nextToken
             }
@@ -818,6 +1357,9 @@ export const deleteUser = /* GraphQL */ `
             createdAt
             updatedAt
             anlagenUsers {
+              nextToken
+            }
+            projekte {
               nextToken
             }
             referenzStueli {

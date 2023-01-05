@@ -2120,7 +2120,7 @@ amplify-cli-logger@1.1.0:
     winston "^3.3.3"
     winston-daily-rotate-file "^4.5.0"
 
-amplify-graphql-docs-generator@:
+amplify-graphql-docs-generator@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/amplify-graphql-docs-generator/-/amplify-graphql-docs-generator-2.2.4.tgz#fca79615348cf4b230d4716a69df81e95b8ec96f"
   integrity sha512-VUFJXwX6EjqF8KckEhEfNOM2WuFoIrhxLPXEcRtyCn9g69zMMTDNJgJ76DCcdEWuC/Ju7B05mcdXxUtOAYnoNA==

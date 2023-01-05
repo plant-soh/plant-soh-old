@@ -130,7 +130,6 @@
     },
     {
       "name": "amplify-graphql-docs-generator",
-      "version": "",
       "type": "runtime"
     },
     {

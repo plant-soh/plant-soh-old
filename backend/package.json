@@ -59,7 +59,7 @@
     "@graphql-codegen/typescript-operations": "^2.5.11",
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
     "@graphql-codegen/typescript-react-query": "^4.0.6",
-    "amplify-graphql-docs-generator": "",
+    "amplify-graphql-docs-generator": "^2.2.4",
     "appsync-client": "^2.15.0",
     "aws-cdk-lib": "^2.53.0",
     "cdk-appsync-transformer": "2.0.0-alpha.0",

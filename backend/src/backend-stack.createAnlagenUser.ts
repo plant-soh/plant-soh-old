@@ -74,6 +74,21 @@ export async function handler(
 
   console.log(`updateAnlage=${JSON.stringify(updateAnlage)}`);
 
+  // getAnlage.
+
+  // const { updateProjekt } = await client.request({
+  //   query: UpdateProjektDocument,
+  //   variables: {
+  //     input: {
+  //       anlageId: anlageId,
+  //       // deduplicate
+  //       users: Array.from(new Set([...(getAnlage.users ?? []), userEmail])),
+  //     },
+  //   },
+  // });
+
+  console.log(`updateAnlage=${JSON.stringify(updateAnlage)}`);
+
   const getAnlagenUserUpdated = await client.request({
     query: GetAnlagenUserDocument,
     variables: {

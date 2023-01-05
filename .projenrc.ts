@@ -68,7 +68,7 @@ const backend = new pj.awscdk.AwsCdkTypeScriptApp({
     'appsync-client',
     `@aws-cdk/aws-appsync-alpha@${cdkVersion}-alpha.0`,
     ...[
-      'amplify-graphql-docs-generator@',
+      'amplify-graphql-docs-generator',
       '@graphql-codegen/add',
       '@graphql-codegen/cli',
       '@graphql-codegen/typescript',

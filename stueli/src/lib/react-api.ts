@@ -43,6 +43,7 @@ export type Anlage = {
   createdAt: Scalars['AWSDateTime'];
   firma: Scalars['String'];
   id: Scalars['ID'];
+  projekte?: Maybe<ModelProjektConnection>;
   referenzStueli?: Maybe<ModelReferenzStueliConnection>;
   standort: Scalars['String'];
   updatedAt: Scalars['AWSDateTime'];
@@ -55,6 +56,13 @@ export type AnlageAnlagenUsersArgs = {
   nextToken?: InputMaybe<Scalars['String']>;
   sortDirection?: InputMaybe<ModelSortDirection>;
   userEmail?: InputMaybe<ModelStringKeyConditionInput>;
+};
+
+export type AnlageProjekteArgs = {
+  filter?: InputMaybe<ModelProjektFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
 };
 
 export type AnlageReferenzStueliArgs = {
@@ -87,6 +95,31 @@ export type CreateAnlagenUserInput = {
   userEmail: Scalars['String'];
 };
 
+export type CreateAnlagenUserPrimaryInput = {
+  anlageId: Scalars['ID'];
+  userEmail: Scalars['String'];
+};
+
+export type CreateProjektInput = {
+  anlageId: Scalars['ID'];
+  id?: InputMaybe<Scalars['ID']>;
+  projektNummer: Scalars['Int'];
+  users?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type CreateProjektStueliInput = {
+  feinspezifikation?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  kurzspezifikation?: InputMaybe<Scalars['String']>;
+  lieferant?: InputMaybe<Scalars['String']>;
+  nennweite?: InputMaybe<Scalars['String']>;
+  projektId: Scalars['ID'];
+  vorschlagFeinspezifikation?: InputMaybe<Scalars['String']>;
+  vorschlagLieferant?: InputMaybe<Scalars['String']>;
+  vorschlagNennweite?: InputMaybe<Scalars['String']>;
+  voschlagKurzspezifikation?: InputMaybe<Scalars['String']>;
+};
+
 export type CreateReferenzStueliInput = {
   anlageId: Scalars['ID'];
   feinspezifikation?: InputMaybe<Scalars['String']>;
@@ -102,12 +135,29 @@ export type CreateUserInput = {
 };
 
 export type DeleteAnlageInput = {
+  id: Scalars['ID'];
+};
+
+export type DeleteAnlagePrimaryInput = {
   anlageId: Scalars['ID'];
 };
 
 export type DeleteAnlagenUserInput = {
   anlageId: Scalars['ID'];
   userEmail: Scalars['String'];
+};
+
+export type DeleteAnlagenUserPrimaryInput = {
+  anlageId: Scalars['ID'];
+  userEmail: Scalars['String'];
+};
+
+export type DeleteProjektInput = {
+  id: Scalars['ID'];
+};
+
+export type DeleteProjektStueliInput = {
+  id: Scalars['ID'];
 };
 
 export type DeleteReferenzStueliInput = {
@@ -197,6 +247,44 @@ export type ModelIntFilterInput = {
   ne?: InputMaybe<Scalars['Int']>;
 };
 
+export type ModelProjektConnection = {
+  __typename?: 'ModelProjektConnection';
+  items?: Maybe<Array<Maybe<Projekt>>>;
+  nextToken?: Maybe<Scalars['String']>;
+};
+
+export type ModelProjektFilterInput = {
+  and?: InputMaybe<Array<InputMaybe<ModelProjektFilterInput>>>;
+  anlageId?: InputMaybe<ModelIdFilterInput>;
+  id?: InputMaybe<ModelIdFilterInput>;
+  not?: InputMaybe<ModelProjektFilterInput>;
+  or?: InputMaybe<Array<InputMaybe<ModelProjektFilterInput>>>;
+  projektNummer?: InputMaybe<ModelIntFilterInput>;
+  users?: InputMaybe<ModelStringFilterInput>;
+};
+
+export type ModelProjektStueliConnection = {
+  __typename?: 'ModelProjektStueliConnection';
+  items?: Maybe<Array<Maybe<ProjektStueli>>>;
+  nextToken?: Maybe<Scalars['String']>;
+};
+
+export type ModelProjektStueliFilterInput = {
+  and?: InputMaybe<Array<InputMaybe<ModelProjektStueliFilterInput>>>;
+  feinspezifikation?: InputMaybe<ModelStringFilterInput>;
+  id?: InputMaybe<ModelIdFilterInput>;
+  kurzspezifikation?: InputMaybe<ModelStringFilterInput>;
+  lieferant?: InputMaybe<ModelStringFilterInput>;
+  nennweite?: InputMaybe<ModelStringFilterInput>;
+  not?: InputMaybe<ModelProjektStueliFilterInput>;
+  or?: InputMaybe<Array<InputMaybe<ModelProjektStueliFilterInput>>>;
+  projektId?: InputMaybe<ModelIdFilterInput>;
+  vorschlagFeinspezifikation?: InputMaybe<ModelStringFilterInput>;
+  vorschlagLieferant?: InputMaybe<ModelStringFilterInput>;
+  vorschlagNennweite?: InputMaybe<ModelStringFilterInput>;
+  voschlagKurzspezifikation?: InputMaybe<ModelStringFilterInput>;
+};
+
 export type ModelReferenzStueliConnection = {
   __typename?: 'ModelReferenzStueliConnection';
   items?: Maybe<Array<Maybe<ReferenzStueli>>>;
@@ -267,16 +355,22 @@ export type Mutation = {
   createAnlage?: Maybe<Anlage>;
   createAnlagenUser?: Maybe<AnlagenUser>;
   createAnlagenUserPrimary?: Maybe<AnlagenUser>;
+  createProjekt?: Maybe<Projekt>;
+  createProjektStueli?: Maybe<ProjektStueli>;
   createReferenzStueli?: Maybe<ReferenzStueli>;
   createUser?: Maybe<User>;
   deleteAnlage?: Maybe<Anlage>;
   deleteAnlagePrimary?: Maybe<Anlage>;
   deleteAnlagenUser?: Maybe<AnlagenUser>;
   deleteAnlagenUserPrimary?: Maybe<AnlagenUser>;
+  deleteProjekt?: Maybe<Projekt>;
+  deleteProjektStueli?: Maybe<ProjektStueli>;
   deleteReferenzStueli?: Maybe<ReferenzStueli>;
   deleteUser?: Maybe<User>;
   updateAnlage?: Maybe<Anlage>;
   updateAnlagenUser?: Maybe<AnlagenUser>;
+  updateProjekt?: Maybe<Projekt>;
+  updateProjektStueli?: Maybe<ProjektStueli>;
   updateReferenzStueli?: Maybe<ReferenzStueli>;
   updateUser?: Maybe<User>;
 };
@@ -290,7 +384,15 @@ export type MutationCreateAnlagenUserArgs = {
 };
 
 export type MutationCreateAnlagenUserPrimaryArgs = {
-  input: CreateAnlagenUserInput;
+  input: CreateAnlagenUserPrimaryInput;
+};
+
+export type MutationCreateProjektArgs = {
+  input: CreateProjektInput;
+};
+
+export type MutationCreateProjektStueliArgs = {
+  input: CreateProjektStueliInput;
 };
 
 export type MutationCreateReferenzStueliArgs = {
@@ -306,7 +408,7 @@ export type MutationDeleteAnlageArgs = {
 };
 
 export type MutationDeleteAnlagePrimaryArgs = {
-  input: DeleteAnlageInput;
+  input: DeleteAnlagePrimaryInput;
 };
 
 export type MutationDeleteAnlagenUserArgs = {
@@ -314,7 +416,15 @@ export type MutationDeleteAnlagenUserArgs = {
 };
 
 export type MutationDeleteAnlagenUserPrimaryArgs = {
-  input: DeleteAnlagenUserInput;
+  input: DeleteAnlagenUserPrimaryInput;
+};
+
+export type MutationDeleteProjektArgs = {
+  input: DeleteProjektInput;
+};
+
+export type MutationDeleteProjektStueliArgs = {
+  input: DeleteProjektStueliInput;
 };
 
 export type MutationDeleteReferenzStueliArgs = {
@@ -333,6 +443,14 @@ export type MutationUpdateAnlagenUserArgs = {
   input: UpdateAnlagenUserInput;
 };
 
+export type MutationUpdateProjektArgs = {
+  input: UpdateProjektInput;
+};
+
+export type MutationUpdateProjektStueliArgs = {
+  input: UpdateProjektStueliInput;
+};
+
 export type MutationUpdateReferenzStueliArgs = {
   input: UpdateReferenzStueliInput;
 };
@@ -341,17 +459,64 @@ export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
 };
 
+export type Projekt = {
+  __typename?: 'Projekt';
+  anlageId: Scalars['ID'];
+  anlagen?: Maybe<ModelAnlageConnection>;
+  createdAt: Scalars['AWSDateTime'];
+  id: Scalars['ID'];
+  projektNummer: Scalars['Int'];
+  projektStueli?: Maybe<ModelProjektStueliConnection>;
+  updatedAt: Scalars['AWSDateTime'];
+  users?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+export type ProjektAnlagenArgs = {
+  filter?: InputMaybe<ModelAnlageFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+};
+
+export type ProjektProjektStueliArgs = {
+  filter?: InputMaybe<ModelProjektStueliFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+};
+
+export type ProjektStueli = {
+  __typename?: 'ProjektStueli';
+  createdAt: Scalars['AWSDateTime'];
+  feinspezifikation?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  kurzspezifikation?: Maybe<Scalars['String']>;
+  lieferant?: Maybe<Scalars['String']>;
+  nennweite?: Maybe<Scalars['String']>;
+  projektId: Scalars['ID'];
+  updatedAt: Scalars['AWSDateTime'];
+  vorschlagFeinspezifikation?: Maybe<Scalars['String']>;
+  vorschlagLieferant?: Maybe<Scalars['String']>;
+  vorschlagNennweite?: Maybe<Scalars['String']>;
+  voschlagKurzspezifikation?: Maybe<Scalars['String']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   byAnlage?: Maybe<ModelReferenzStueliConnection>;
   getAnlage?: Maybe<Anlage>;
   getAnlagenUser?: Maybe<AnlagenUser>;
+  getProjekt?: Maybe<Projekt>;
+  getProjektStueli?: Maybe<ProjektStueli>;
   getReferenzStueli?: Maybe<ReferenzStueli>;
   getUser?: Maybe<User>;
   listAnlagenUsers?: Maybe<ModelAnlagenUserConnection>;
   listAnlages?: Maybe<ModelAnlageConnection>;
+  listProjektStuelis?: Maybe<ModelProjektStueliConnection>;
+  listProjekts?: Maybe<ModelProjektConnection>;
   listReferenzStuelis?: Maybe<ModelReferenzStueliConnection>;
   listUsers?: Maybe<ModelUserConnection>;
+  projektStueliByKurzspezifikation?: Maybe<ModelProjektStueliConnection>;
   referenzStueliByKurzspezifikation?: Maybe<ModelReferenzStueliConnection>;
 };
 
@@ -370,6 +535,14 @@ export type QueryGetAnlageArgs = {
 export type QueryGetAnlagenUserArgs = {
   anlageId: Scalars['ID'];
   userEmail: Scalars['String'];
+};
+
+export type QueryGetProjektArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryGetProjektStueliArgs = {
+  id: Scalars['ID'];
 };
 
 export type QueryGetReferenzStueliArgs = {
@@ -391,14 +564,34 @@ export type QueryListAnlagenUsersArgs = {
 
 export type QueryListAnlagesArgs = {
   filter?: InputMaybe<ModelAnlageFilterInput>;
+  id?: InputMaybe<Scalars['ID']>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+};
+
+export type QueryListProjektStuelisArgs = {
+  filter?: InputMaybe<ModelProjektStueliFilterInput>;
+  id?: InputMaybe<Scalars['ID']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+};
+
+export type QueryListProjektsArgs = {
+  filter?: InputMaybe<ModelProjektFilterInput>;
+  id?: InputMaybe<Scalars['ID']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
 };
 
 export type QueryListReferenzStuelisArgs = {
   filter?: InputMaybe<ModelReferenzStueliFilterInput>;
+  id?: InputMaybe<Scalars['ID']>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
 };
 
 export type QueryListUsersArgs = {
@@ -406,6 +599,15 @@ export type QueryListUsersArgs = {
   filter?: InputMaybe<ModelUserFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+};
+
+export type QueryProjektStueliByKurzspezifikationArgs = {
+  filter?: InputMaybe<ModelProjektStueliFilterInput>;
+  kurzspezifikation?: InputMaybe<ModelStringKeyConditionInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  projektId?: InputMaybe<Scalars['ID']>;
   sortDirection?: InputMaybe<ModelSortDirection>;
 };
 
@@ -440,14 +642,20 @@ export type Subscription = {
   __typename?: 'Subscription';
   onCreateAnlage?: Maybe<Anlage>;
   onCreateAnlagenUser?: Maybe<AnlagenUser>;
+  onCreateProjekt?: Maybe<Projekt>;
+  onCreateProjektStueli?: Maybe<ProjektStueli>;
   onCreateReferenzStueli?: Maybe<ReferenzStueli>;
   onCreateUser?: Maybe<User>;
   onDeleteAnlage?: Maybe<Anlage>;
   onDeleteAnlagenUser?: Maybe<AnlagenUser>;
+  onDeleteProjekt?: Maybe<Projekt>;
+  onDeleteProjektStueli?: Maybe<ProjektStueli>;
   onDeleteReferenzStueli?: Maybe<ReferenzStueli>;
   onDeleteUser?: Maybe<User>;
   onUpdateAnlage?: Maybe<Anlage>;
   onUpdateAnlagenUser?: Maybe<AnlagenUser>;
+  onUpdateProjekt?: Maybe<Projekt>;
+  onUpdateProjektStueli?: Maybe<ProjektStueli>;
   onUpdateReferenzStueli?: Maybe<ReferenzStueli>;
   onUpdateUser?: Maybe<User>;
 };
@@ -458,6 +666,10 @@ export type SubscriptionOnCreateAnlageArgs = {
 
 export type SubscriptionOnCreateAnlagenUserArgs = {
   userEmail?: InputMaybe<Scalars['String']>;
+};
+
+export type SubscriptionOnCreateProjektArgs = {
+  users?: InputMaybe<Scalars['String']>;
 };
 
 export type SubscriptionOnCreateUserArgs = {
@@ -472,6 +684,10 @@ export type SubscriptionOnDeleteAnlagenUserArgs = {
   userEmail?: InputMaybe<Scalars['String']>;
 };
 
+export type SubscriptionOnDeleteProjektArgs = {
+  users?: InputMaybe<Scalars['String']>;
+};
+
 export type SubscriptionOnDeleteUserArgs = {
   email?: InputMaybe<Scalars['String']>;
 };
@@ -482,6 +698,10 @@ export type SubscriptionOnUpdateAnlageArgs = {
 
 export type SubscriptionOnUpdateAnlagenUserArgs = {
   userEmail?: InputMaybe<Scalars['String']>;
+};
+
+export type SubscriptionOnUpdateProjektArgs = {
+  users?: InputMaybe<Scalars['String']>;
 };
 
 export type SubscriptionOnUpdateUserArgs = {
@@ -499,6 +719,26 @@ export type UpdateAnlageInput = {
 export type UpdateAnlagenUserInput = {
   anlageId: Scalars['ID'];
   userEmail: Scalars['String'];
+};
+
+export type UpdateProjektInput = {
+  anlageId?: InputMaybe<Scalars['ID']>;
+  id: Scalars['ID'];
+  projektNummer?: InputMaybe<Scalars['Int']>;
+  users?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type UpdateProjektStueliInput = {
+  feinspezifikation?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
+  kurzspezifikation?: InputMaybe<Scalars['String']>;
+  lieferant?: InputMaybe<Scalars['String']>;
+  nennweite?: InputMaybe<Scalars['String']>;
+  projektId?: InputMaybe<Scalars['ID']>;
+  vorschlagFeinspezifikation?: InputMaybe<Scalars['String']>;
+  vorschlagLieferant?: InputMaybe<Scalars['String']>;
+  vorschlagNennweite?: InputMaybe<Scalars['String']>;
+  voschlagKurzspezifikation?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateReferenzStueliInput = {
@@ -533,7 +773,7 @@ export type UserAnlagenArgs = {
 };
 
 export type CreateAnlagenUserPrimaryMutationVariables = Exact<{
-  input: CreateAnlagenUserInput;
+  input: CreateAnlagenUserPrimaryInput;
 }>;
 
 export type CreateAnlagenUserPrimaryMutation = {
@@ -586,6 +826,46 @@ export type CreateAnlagenUserPrimaryMutation = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlageConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         }
                       | null
                       | undefined
@@ -675,7 +955,7 @@ export type CreateAnlagenUserPrimaryMutation = {
 };
 
 export type DeleteAnlagenUserPrimaryMutationVariables = Exact<{
-  input: DeleteAnlagenUserInput;
+  input: DeleteAnlagenUserPrimaryInput;
 }>;
 
 export type DeleteAnlagenUserPrimaryMutation = {
@@ -728,6 +1008,46 @@ export type DeleteAnlagenUserPrimaryMutation = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlageConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         }
                       | null
                       | undefined
@@ -817,7 +1137,7 @@ export type DeleteAnlagenUserPrimaryMutation = {
 };
 
 export type DeleteAnlagePrimaryMutationVariables = Exact<{
-  input: DeleteAnlageInput;
+  input: DeleteAnlagePrimaryInput;
 }>;
 
 export type DeleteAnlagePrimaryMutation = {
@@ -863,6 +1183,13 @@ export type DeleteAnlagePrimaryMutation = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -885,6 +1212,106 @@ export type DeleteAnlagePrimaryMutation = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projekte?:
+          | {
+              __typename?: 'ModelProjektConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Projekt';
+                        id: string;
+                        anlageId: string;
+                        projektNummer: number;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagen?:
+                          | {
+                              __typename?: 'ModelAnlageConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Anlage';
+                                        id: string;
+                                        firma: string;
+                                        standort: string;
+                                        anschrift?: string | null | undefined;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projektStueli?:
+                          | {
+                              __typename?: 'ModelProjektStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ProjektStueli';
+                                        id: string;
+                                        projektId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        voschlagKurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagLieferant?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagNennweite?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagFeinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
                       }
                     | null
                     | undefined
@@ -978,6 +1405,46 @@ export type UpdateAnlagenUserMutation = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlageConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         }
                       | null
                       | undefined
@@ -1113,6 +1580,13 @@ export type CreateAnlageMutation = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -1135,6 +1609,106 @@ export type CreateAnlageMutation = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projekte?:
+          | {
+              __typename?: 'ModelProjektConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Projekt';
+                        id: string;
+                        anlageId: string;
+                        projektNummer: number;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagen?:
+                          | {
+                              __typename?: 'ModelAnlageConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Anlage';
+                                        id: string;
+                                        firma: string;
+                                        standort: string;
+                                        anschrift?: string | null | undefined;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projektStueli?:
+                          | {
+                              __typename?: 'ModelProjektStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ProjektStueli';
+                                        id: string;
+                                        projektId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        voschlagKurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagLieferant?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagNennweite?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagFeinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
                       }
                     | null
                     | undefined
@@ -1221,6 +1795,13 @@ export type UpdateAnlageMutation = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -1243,6 +1824,106 @@ export type UpdateAnlageMutation = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projekte?:
+          | {
+              __typename?: 'ModelProjektConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Projekt';
+                        id: string;
+                        anlageId: string;
+                        projektNummer: number;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagen?:
+                          | {
+                              __typename?: 'ModelAnlageConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Anlage';
+                                        id: string;
+                                        firma: string;
+                                        standort: string;
+                                        anschrift?: string | null | undefined;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projektStueli?:
+                          | {
+                              __typename?: 'ModelProjektStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ProjektStueli';
+                                        id: string;
+                                        projektId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        voschlagKurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagLieferant?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagNennweite?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagFeinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
                       }
                     | null
                     | undefined
@@ -1329,6 +2010,13 @@ export type DeleteAnlageMutation = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -1351,6 +2039,106 @@ export type DeleteAnlageMutation = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projekte?:
+          | {
+              __typename?: 'ModelProjektConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Projekt';
+                        id: string;
+                        anlageId: string;
+                        projektNummer: number;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagen?:
+                          | {
+                              __typename?: 'ModelAnlageConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Anlage';
+                                        id: string;
+                                        firma: string;
+                                        standort: string;
+                                        anschrift?: string | null | undefined;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projektStueli?:
+                          | {
+                              __typename?: 'ModelProjektStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ProjektStueli';
+                                        id: string;
+                                        projektId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        voschlagKurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagLieferant?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagNennweite?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagFeinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
                       }
                     | null
                     | undefined
@@ -1444,6 +2232,46 @@ export type CreateAnlagenUserMutation = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlageConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         }
                       | null
                       | undefined
@@ -1595,6 +2423,46 @@ export type DeleteAnlagenUserMutation = {
               }
             | null
             | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlageConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
           referenzStueli?:
             | {
                 __typename?: 'ModelReferenzStueliConnection';
@@ -1669,6 +2537,546 @@ export type DeleteAnlagenUserMutation = {
             | null
             | undefined;
         };
+      }
+    | null
+    | undefined;
+};
+
+export type CreateProjektMutationVariables = Exact<{
+  input: CreateProjektInput;
+}>;
+
+export type CreateProjektMutation = {
+  __typename?: 'Mutation';
+  createProjekt?:
+    | {
+        __typename?: 'Projekt';
+        id: string;
+        anlageId: string;
+        projektNummer: number;
+        users?: Array<string | null | undefined> | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+        anlagen?:
+          | {
+              __typename?: 'ModelAnlageConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Anlage';
+                        id: string;
+                        firma: string;
+                        standort: string;
+                        anschrift?: string | null | undefined;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagenUsers?:
+                          | {
+                              __typename?: 'ModelAnlagenUserConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'AnlagenUser';
+                                        anlageId: string;
+                                        userEmail: string;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projekte?:
+                          | {
+                              __typename?: 'ModelProjektConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Projekt';
+                                        id: string;
+                                        anlageId: string;
+                                        projektNummer: number;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        referenzStueli?:
+                          | {
+                              __typename?: 'ModelReferenzStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ReferenzStueli';
+                                        id: string;
+                                        anlageId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projektStueli?:
+          | {
+              __typename?: 'ModelProjektStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ProjektStueli';
+                        id: string;
+                        projektId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        voschlagKurzspezifikation?: string | null | undefined;
+                        vorschlagLieferant?: string | null | undefined;
+                        vorschlagNennweite?: string | null | undefined;
+                        vorschlagFeinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type UpdateProjektMutationVariables = Exact<{
+  input: UpdateProjektInput;
+}>;
+
+export type UpdateProjektMutation = {
+  __typename?: 'Mutation';
+  updateProjekt?:
+    | {
+        __typename?: 'Projekt';
+        id: string;
+        anlageId: string;
+        projektNummer: number;
+        users?: Array<string | null | undefined> | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+        anlagen?:
+          | {
+              __typename?: 'ModelAnlageConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Anlage';
+                        id: string;
+                        firma: string;
+                        standort: string;
+                        anschrift?: string | null | undefined;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagenUsers?:
+                          | {
+                              __typename?: 'ModelAnlagenUserConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'AnlagenUser';
+                                        anlageId: string;
+                                        userEmail: string;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projekte?:
+                          | {
+                              __typename?: 'ModelProjektConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Projekt';
+                                        id: string;
+                                        anlageId: string;
+                                        projektNummer: number;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        referenzStueli?:
+                          | {
+                              __typename?: 'ModelReferenzStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ReferenzStueli';
+                                        id: string;
+                                        anlageId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projektStueli?:
+          | {
+              __typename?: 'ModelProjektStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ProjektStueli';
+                        id: string;
+                        projektId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        voschlagKurzspezifikation?: string | null | undefined;
+                        vorschlagLieferant?: string | null | undefined;
+                        vorschlagNennweite?: string | null | undefined;
+                        vorschlagFeinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type DeleteProjektMutationVariables = Exact<{
+  input: DeleteProjektInput;
+}>;
+
+export type DeleteProjektMutation = {
+  __typename?: 'Mutation';
+  deleteProjekt?:
+    | {
+        __typename?: 'Projekt';
+        id: string;
+        anlageId: string;
+        projektNummer: number;
+        users?: Array<string | null | undefined> | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+        anlagen?:
+          | {
+              __typename?: 'ModelAnlageConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Anlage';
+                        id: string;
+                        firma: string;
+                        standort: string;
+                        anschrift?: string | null | undefined;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagenUsers?:
+                          | {
+                              __typename?: 'ModelAnlagenUserConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'AnlagenUser';
+                                        anlageId: string;
+                                        userEmail: string;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projekte?:
+                          | {
+                              __typename?: 'ModelProjektConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Projekt';
+                                        id: string;
+                                        anlageId: string;
+                                        projektNummer: number;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        referenzStueli?:
+                          | {
+                              __typename?: 'ModelReferenzStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ReferenzStueli';
+                                        id: string;
+                                        anlageId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projektStueli?:
+          | {
+              __typename?: 'ModelProjektStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ProjektStueli';
+                        id: string;
+                        projektId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        voschlagKurzspezifikation?: string | null | undefined;
+                        vorschlagLieferant?: string | null | undefined;
+                        vorschlagNennweite?: string | null | undefined;
+                        vorschlagFeinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type CreateProjektStueliMutationVariables = Exact<{
+  input: CreateProjektStueliInput;
+}>;
+
+export type CreateProjektStueliMutation = {
+  __typename?: 'Mutation';
+  createProjektStueli?:
+    | {
+        __typename?: 'ProjektStueli';
+        id: string;
+        projektId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        voschlagKurzspezifikation?: string | null | undefined;
+        vorschlagLieferant?: string | null | undefined;
+        vorschlagNennweite?: string | null | undefined;
+        vorschlagFeinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
+export type UpdateProjektStueliMutationVariables = Exact<{
+  input: UpdateProjektStueliInput;
+}>;
+
+export type UpdateProjektStueliMutation = {
+  __typename?: 'Mutation';
+  updateProjektStueli?:
+    | {
+        __typename?: 'ProjektStueli';
+        id: string;
+        projektId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        voschlagKurzspezifikation?: string | null | undefined;
+        vorschlagLieferant?: string | null | undefined;
+        vorschlagNennweite?: string | null | undefined;
+        vorschlagFeinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
+export type DeleteProjektStueliMutationVariables = Exact<{
+  input: DeleteProjektStueliInput;
+}>;
+
+export type DeleteProjektStueliMutation = {
+  __typename?: 'Mutation';
+  deleteProjektStueli?:
+    | {
+        __typename?: 'ProjektStueli';
+        id: string;
+        projektId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        voschlagKurzspezifikation?: string | null | undefined;
+        vorschlagLieferant?: string | null | undefined;
+        vorschlagNennweite?: string | null | undefined;
+        vorschlagFeinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
       }
     | null
     | undefined;
@@ -1784,6 +3192,13 @@ export type CreateUserMutation = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -1864,6 +3279,13 @@ export type UpdateUserMutation = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -1940,6 +3362,13 @@ export type DeleteUserMutation = {
                           anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
                                 nextToken?: string | null | undefined;
                               }
                             | null
@@ -2027,6 +3456,13 @@ export type GetAnlageQuery = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -2049,6 +3485,106 @@ export type GetAnlageQuery = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projekte?:
+          | {
+              __typename?: 'ModelProjektConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Projekt';
+                        id: string;
+                        anlageId: string;
+                        projektNummer: number;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagen?:
+                          | {
+                              __typename?: 'ModelAnlageConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Anlage';
+                                        id: string;
+                                        firma: string;
+                                        standort: string;
+                                        anschrift?: string | null | undefined;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projektStueli?:
+                          | {
+                              __typename?: 'ModelProjektStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ProjektStueli';
+                                        id: string;
+                                        projektId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        voschlagKurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagLieferant?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagNennweite?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagFeinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
                       }
                     | null
                     | undefined
@@ -2089,9 +3625,11 @@ export type GetAnlageQuery = {
 };
 
 export type ListAnlagesQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
   filter?: InputMaybe<ModelAnlageFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
 }>;
 
 export type ListAnlagesQuery = {
@@ -2143,6 +3681,46 @@ export type ListAnlagesQuery = {
                                     createdAt: any;
                                     updatedAt: any;
                                   };
+                                }
+                              | null
+                              | undefined
+                            >
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined;
+                  projekte?:
+                    | {
+                        __typename?: 'ModelProjektConnection';
+                        nextToken?: string | null | undefined;
+                        items?:
+                          | Array<
+                              | {
+                                  __typename?: 'Projekt';
+                                  id: string;
+                                  anlageId: string;
+                                  projektNummer: number;
+                                  users?:
+                                    | Array<string | null | undefined>
+                                    | null
+                                    | undefined;
+                                  createdAt: any;
+                                  updatedAt: any;
+                                  anlagen?:
+                                    | {
+                                        __typename?: 'ModelAnlageConnection';
+                                        nextToken?: string | null | undefined;
+                                      }
+                                    | null
+                                    | undefined;
+                                  projektStueli?:
+                                    | {
+                                        __typename?: 'ModelProjektStueliConnection';
+                                        nextToken?: string | null | undefined;
+                                      }
+                                    | null
+                                    | undefined;
                                 }
                               | null
                               | undefined
@@ -2243,6 +3821,46 @@ export type GetAnlagenUserQuery = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlageConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         }
                       | null
                       | undefined
@@ -2384,6 +4002,32 @@ export type ListAnlagenUsersQuery = {
                         }
                       | null
                       | undefined;
+                    projekte?:
+                      | {
+                          __typename?: 'ModelProjektConnection';
+                          nextToken?: string | null | undefined;
+                          items?:
+                            | Array<
+                                | {
+                                    __typename?: 'Projekt';
+                                    id: string;
+                                    anlageId: string;
+                                    projektNummer: number;
+                                    users?:
+                                      | Array<string | null | undefined>
+                                      | null
+                                      | undefined;
+                                    createdAt: any;
+                                    updatedAt: any;
+                                  }
+                                | null
+                                | undefined
+                              >
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
                     referenzStueli?:
                       | {
                           __typename?: 'ModelReferenzStueliConnection';
@@ -2455,6 +4099,393 @@ export type ListAnlagenUsersQuery = {
     | undefined;
 };
 
+export type GetProjektQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type GetProjektQuery = {
+  __typename?: 'Query';
+  getProjekt?:
+    | {
+        __typename?: 'Projekt';
+        id: string;
+        anlageId: string;
+        projektNummer: number;
+        users?: Array<string | null | undefined> | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+        anlagen?:
+          | {
+              __typename?: 'ModelAnlageConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Anlage';
+                        id: string;
+                        firma: string;
+                        standort: string;
+                        anschrift?: string | null | undefined;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagenUsers?:
+                          | {
+                              __typename?: 'ModelAnlagenUserConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'AnlagenUser';
+                                        anlageId: string;
+                                        userEmail: string;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projekte?:
+                          | {
+                              __typename?: 'ModelProjektConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Projekt';
+                                        id: string;
+                                        anlageId: string;
+                                        projektNummer: number;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        referenzStueli?:
+                          | {
+                              __typename?: 'ModelReferenzStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ReferenzStueli';
+                                        id: string;
+                                        anlageId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projektStueli?:
+          | {
+              __typename?: 'ModelProjektStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ProjektStueli';
+                        id: string;
+                        projektId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        voschlagKurzspezifikation?: string | null | undefined;
+                        vorschlagLieferant?: string | null | undefined;
+                        vorschlagNennweite?: string | null | undefined;
+                        vorschlagFeinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type ListProjektsQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+  filter?: InputMaybe<ModelProjektFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+}>;
+
+export type ListProjektsQuery = {
+  __typename?: 'Query';
+  listProjekts?:
+    | {
+        __typename?: 'ModelProjektConnection';
+        nextToken?: string | null | undefined;
+        items?:
+          | Array<
+              | {
+                  __typename?: 'Projekt';
+                  id: string;
+                  anlageId: string;
+                  projektNummer: number;
+                  users?: Array<string | null | undefined> | null | undefined;
+                  createdAt: any;
+                  updatedAt: any;
+                  anlagen?:
+                    | {
+                        __typename?: 'ModelAnlageConnection';
+                        nextToken?: string | null | undefined;
+                        items?:
+                          | Array<
+                              | {
+                                  __typename?: 'Anlage';
+                                  id: string;
+                                  firma: string;
+                                  standort: string;
+                                  anschrift?: string | null | undefined;
+                                  users?:
+                                    | Array<string | null | undefined>
+                                    | null
+                                    | undefined;
+                                  createdAt: any;
+                                  updatedAt: any;
+                                  anlagenUsers?:
+                                    | {
+                                        __typename?: 'ModelAnlagenUserConnection';
+                                        nextToken?: string | null | undefined;
+                                      }
+                                    | null
+                                    | undefined;
+                                  projekte?:
+                                    | {
+                                        __typename?: 'ModelProjektConnection';
+                                        nextToken?: string | null | undefined;
+                                      }
+                                    | null
+                                    | undefined;
+                                  referenzStueli?:
+                                    | {
+                                        __typename?: 'ModelReferenzStueliConnection';
+                                        nextToken?: string | null | undefined;
+                                      }
+                                    | null
+                                    | undefined;
+                                }
+                              | null
+                              | undefined
+                            >
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined;
+                  projektStueli?:
+                    | {
+                        __typename?: 'ModelProjektStueliConnection';
+                        nextToken?: string | null | undefined;
+                        items?:
+                          | Array<
+                              | {
+                                  __typename?: 'ProjektStueli';
+                                  id: string;
+                                  projektId: string;
+                                  kurzspezifikation?: string | null | undefined;
+                                  lieferant?: string | null | undefined;
+                                  nennweite?: string | null | undefined;
+                                  feinspezifikation?: string | null | undefined;
+                                  voschlagKurzspezifikation?:
+                                    | string
+                                    | null
+                                    | undefined;
+                                  vorschlagLieferant?:
+                                    | string
+                                    | null
+                                    | undefined;
+                                  vorschlagNennweite?:
+                                    | string
+                                    | null
+                                    | undefined;
+                                  vorschlagFeinspezifikation?:
+                                    | string
+                                    | null
+                                    | undefined;
+                                  createdAt: any;
+                                  updatedAt: any;
+                                }
+                              | null
+                              | undefined
+                            >
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined
+            >
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type GetProjektStueliQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type GetProjektStueliQuery = {
+  __typename?: 'Query';
+  getProjektStueli?:
+    | {
+        __typename?: 'ProjektStueli';
+        id: string;
+        projektId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        voschlagKurzspezifikation?: string | null | undefined;
+        vorschlagLieferant?: string | null | undefined;
+        vorschlagNennweite?: string | null | undefined;
+        vorschlagFeinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
+export type ListProjektStuelisQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+  filter?: InputMaybe<ModelProjektStueliFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+}>;
+
+export type ListProjektStuelisQuery = {
+  __typename?: 'Query';
+  listProjektStuelis?:
+    | {
+        __typename?: 'ModelProjektStueliConnection';
+        nextToken?: string | null | undefined;
+        items?:
+          | Array<
+              | {
+                  __typename?: 'ProjektStueli';
+                  id: string;
+                  projektId: string;
+                  kurzspezifikation?: string | null | undefined;
+                  lieferant?: string | null | undefined;
+                  nennweite?: string | null | undefined;
+                  feinspezifikation?: string | null | undefined;
+                  voschlagKurzspezifikation?: string | null | undefined;
+                  vorschlagLieferant?: string | null | undefined;
+                  vorschlagNennweite?: string | null | undefined;
+                  vorschlagFeinspezifikation?: string | null | undefined;
+                  createdAt: any;
+                  updatedAt: any;
+                }
+              | null
+              | undefined
+            >
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type ProjektStueliByKurzspezifikationQueryVariables = Exact<{
+  projektId?: InputMaybe<Scalars['ID']>;
+  kurzspezifikation?: InputMaybe<ModelStringKeyConditionInput>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
+  filter?: InputMaybe<ModelProjektStueliFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+}>;
+
+export type ProjektStueliByKurzspezifikationQuery = {
+  __typename?: 'Query';
+  projektStueliByKurzspezifikation?:
+    | {
+        __typename?: 'ModelProjektStueliConnection';
+        nextToken?: string | null | undefined;
+        items?:
+          | Array<
+              | {
+                  __typename?: 'ProjektStueli';
+                  id: string;
+                  projektId: string;
+                  kurzspezifikation?: string | null | undefined;
+                  lieferant?: string | null | undefined;
+                  nennweite?: string | null | undefined;
+                  feinspezifikation?: string | null | undefined;
+                  voschlagKurzspezifikation?: string | null | undefined;
+                  vorschlagLieferant?: string | null | undefined;
+                  vorschlagNennweite?: string | null | undefined;
+                  vorschlagFeinspezifikation?: string | null | undefined;
+                  createdAt: any;
+                  updatedAt: any;
+                }
+              | null
+              | undefined
+            >
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
 export type GetReferenzStueliQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -2478,9 +4509,11 @@ export type GetReferenzStueliQuery = {
 };
 
 export type ListReferenzStuelisQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
   filter?: InputMaybe<ModelReferenzStueliFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
+  sortDirection?: InputMaybe<ModelSortDirection>;
 }>;
 
 export type ListReferenzStuelisQuery = {
@@ -2627,6 +4660,13 @@ export type GetUserQuery = {
                           anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
                                 nextToken?: string | null | undefined;
                               }
                             | null
@@ -2788,6 +4828,13 @@ export type OnCreateAnlageSubscription = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -2810,6 +4857,106 @@ export type OnCreateAnlageSubscription = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projekte?:
+          | {
+              __typename?: 'ModelProjektConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Projekt';
+                        id: string;
+                        anlageId: string;
+                        projektNummer: number;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagen?:
+                          | {
+                              __typename?: 'ModelAnlageConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Anlage';
+                                        id: string;
+                                        firma: string;
+                                        standort: string;
+                                        anschrift?: string | null | undefined;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projektStueli?:
+                          | {
+                              __typename?: 'ModelProjektStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ProjektStueli';
+                                        id: string;
+                                        projektId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        voschlagKurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagLieferant?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagNennweite?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagFeinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
                       }
                     | null
                     | undefined
@@ -2896,6 +5043,13 @@ export type OnUpdateAnlageSubscription = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -2918,6 +5072,106 @@ export type OnUpdateAnlageSubscription = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projekte?:
+          | {
+              __typename?: 'ModelProjektConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Projekt';
+                        id: string;
+                        anlageId: string;
+                        projektNummer: number;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagen?:
+                          | {
+                              __typename?: 'ModelAnlageConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Anlage';
+                                        id: string;
+                                        firma: string;
+                                        standort: string;
+                                        anschrift?: string | null | undefined;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projektStueli?:
+                          | {
+                              __typename?: 'ModelProjektStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ProjektStueli';
+                                        id: string;
+                                        projektId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        voschlagKurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagLieferant?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagNennweite?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagFeinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
                       }
                     | null
                     | undefined
@@ -3004,6 +5258,13 @@ export type OnDeleteAnlageSubscription = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -3026,6 +5287,106 @@ export type OnDeleteAnlageSubscription = {
                             | null
                             | undefined;
                         };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projekte?:
+          | {
+              __typename?: 'ModelProjektConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Projekt';
+                        id: string;
+                        anlageId: string;
+                        projektNummer: number;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagen?:
+                          | {
+                              __typename?: 'ModelAnlageConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Anlage';
+                                        id: string;
+                                        firma: string;
+                                        standort: string;
+                                        anschrift?: string | null | undefined;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projektStueli?:
+                          | {
+                              __typename?: 'ModelProjektStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ProjektStueli';
+                                        id: string;
+                                        projektId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        voschlagKurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagLieferant?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagNennweite?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        vorschlagFeinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
                       }
                     | null
                     | undefined
@@ -3119,6 +5480,46 @@ export type OnCreateAnlagenUserSubscription = {
                             createdAt: any;
                             updatedAt: any;
                           };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlageConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                         }
                       | null
                       | undefined
@@ -3270,6 +5671,46 @@ export type OnUpdateAnlagenUserSubscription = {
               }
             | null
             | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlageConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
           referenzStueli?:
             | {
                 __typename?: 'ModelReferenzStueliConnection';
@@ -3412,6 +5853,46 @@ export type OnDeleteAnlagenUserSubscription = {
               }
             | null
             | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlageConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
           referenzStueli?:
             | {
                 __typename?: 'ModelReferenzStueliConnection';
@@ -3486,6 +5967,546 @@ export type OnDeleteAnlagenUserSubscription = {
             | null
             | undefined;
         };
+      }
+    | null
+    | undefined;
+};
+
+export type OnCreateProjektSubscriptionVariables = Exact<{
+  users?: InputMaybe<Scalars['String']>;
+}>;
+
+export type OnCreateProjektSubscription = {
+  __typename?: 'Subscription';
+  onCreateProjekt?:
+    | {
+        __typename?: 'Projekt';
+        id: string;
+        anlageId: string;
+        projektNummer: number;
+        users?: Array<string | null | undefined> | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+        anlagen?:
+          | {
+              __typename?: 'ModelAnlageConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Anlage';
+                        id: string;
+                        firma: string;
+                        standort: string;
+                        anschrift?: string | null | undefined;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagenUsers?:
+                          | {
+                              __typename?: 'ModelAnlagenUserConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'AnlagenUser';
+                                        anlageId: string;
+                                        userEmail: string;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projekte?:
+                          | {
+                              __typename?: 'ModelProjektConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Projekt';
+                                        id: string;
+                                        anlageId: string;
+                                        projektNummer: number;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        referenzStueli?:
+                          | {
+                              __typename?: 'ModelReferenzStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ReferenzStueli';
+                                        id: string;
+                                        anlageId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projektStueli?:
+          | {
+              __typename?: 'ModelProjektStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ProjektStueli';
+                        id: string;
+                        projektId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        voschlagKurzspezifikation?: string | null | undefined;
+                        vorschlagLieferant?: string | null | undefined;
+                        vorschlagNennweite?: string | null | undefined;
+                        vorschlagFeinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type OnUpdateProjektSubscriptionVariables = Exact<{
+  users?: InputMaybe<Scalars['String']>;
+}>;
+
+export type OnUpdateProjektSubscription = {
+  __typename?: 'Subscription';
+  onUpdateProjekt?:
+    | {
+        __typename?: 'Projekt';
+        id: string;
+        anlageId: string;
+        projektNummer: number;
+        users?: Array<string | null | undefined> | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+        anlagen?:
+          | {
+              __typename?: 'ModelAnlageConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Anlage';
+                        id: string;
+                        firma: string;
+                        standort: string;
+                        anschrift?: string | null | undefined;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagenUsers?:
+                          | {
+                              __typename?: 'ModelAnlagenUserConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'AnlagenUser';
+                                        anlageId: string;
+                                        userEmail: string;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projekte?:
+                          | {
+                              __typename?: 'ModelProjektConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Projekt';
+                                        id: string;
+                                        anlageId: string;
+                                        projektNummer: number;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        referenzStueli?:
+                          | {
+                              __typename?: 'ModelReferenzStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ReferenzStueli';
+                                        id: string;
+                                        anlageId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projektStueli?:
+          | {
+              __typename?: 'ModelProjektStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ProjektStueli';
+                        id: string;
+                        projektId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        voschlagKurzspezifikation?: string | null | undefined;
+                        vorschlagLieferant?: string | null | undefined;
+                        vorschlagNennweite?: string | null | undefined;
+                        vorschlagFeinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type OnDeleteProjektSubscriptionVariables = Exact<{
+  users?: InputMaybe<Scalars['String']>;
+}>;
+
+export type OnDeleteProjektSubscription = {
+  __typename?: 'Subscription';
+  onDeleteProjekt?:
+    | {
+        __typename?: 'Projekt';
+        id: string;
+        anlageId: string;
+        projektNummer: number;
+        users?: Array<string | null | undefined> | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+        anlagen?:
+          | {
+              __typename?: 'ModelAnlageConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'Anlage';
+                        id: string;
+                        firma: string;
+                        standort: string;
+                        anschrift?: string | null | undefined;
+                        users?:
+                          | Array<string | null | undefined>
+                          | null
+                          | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlagenUsers?:
+                          | {
+                              __typename?: 'ModelAnlagenUserConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'AnlagenUser';
+                                        anlageId: string;
+                                        userEmail: string;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        projekte?:
+                          | {
+                              __typename?: 'ModelProjektConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'Projekt';
+                                        id: string;
+                                        anlageId: string;
+                                        projektNummer: number;
+                                        users?:
+                                          | Array<string | null | undefined>
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                        referenzStueli?:
+                          | {
+                              __typename?: 'ModelReferenzStueliConnection';
+                              nextToken?: string | null | undefined;
+                              items?:
+                                | Array<
+                                    | {
+                                        __typename?: 'ReferenzStueli';
+                                        id: string;
+                                        anlageId: string;
+                                        kurzspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        lieferant?: string | null | undefined;
+                                        nennweite?: string | null | undefined;
+                                        feinspezifikation?:
+                                          | string
+                                          | null
+                                          | undefined;
+                                        createdAt: any;
+                                        updatedAt: any;
+                                      }
+                                    | null
+                                    | undefined
+                                  >
+                                | null
+                                | undefined;
+                            }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        projektStueli?:
+          | {
+              __typename?: 'ModelProjektStueliConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'ProjektStueli';
+                        id: string;
+                        projektId: string;
+                        kurzspezifikation?: string | null | undefined;
+                        lieferant?: string | null | undefined;
+                        nennweite?: string | null | undefined;
+                        feinspezifikation?: string | null | undefined;
+                        voschlagKurzspezifikation?: string | null | undefined;
+                        vorschlagLieferant?: string | null | undefined;
+                        vorschlagNennweite?: string | null | undefined;
+                        vorschlagFeinspezifikation?: string | null | undefined;
+                        createdAt: any;
+                        updatedAt: any;
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type OnCreateProjektStueliSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type OnCreateProjektStueliSubscription = {
+  __typename?: 'Subscription';
+  onCreateProjektStueli?:
+    | {
+        __typename?: 'ProjektStueli';
+        id: string;
+        projektId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        voschlagKurzspezifikation?: string | null | undefined;
+        vorschlagLieferant?: string | null | undefined;
+        vorschlagNennweite?: string | null | undefined;
+        vorschlagFeinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
+export type OnUpdateProjektStueliSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type OnUpdateProjektStueliSubscription = {
+  __typename?: 'Subscription';
+  onUpdateProjektStueli?:
+    | {
+        __typename?: 'ProjektStueli';
+        id: string;
+        projektId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        voschlagKurzspezifikation?: string | null | undefined;
+        vorschlagLieferant?: string | null | undefined;
+        vorschlagNennweite?: string | null | undefined;
+        vorschlagFeinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+      }
+    | null
+    | undefined;
+};
+
+export type OnDeleteProjektStueliSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type OnDeleteProjektStueliSubscription = {
+  __typename?: 'Subscription';
+  onDeleteProjektStueli?:
+    | {
+        __typename?: 'ProjektStueli';
+        id: string;
+        projektId: string;
+        kurzspezifikation?: string | null | undefined;
+        lieferant?: string | null | undefined;
+        nennweite?: string | null | undefined;
+        feinspezifikation?: string | null | undefined;
+        voschlagKurzspezifikation?: string | null | undefined;
+        vorschlagLieferant?: string | null | undefined;
+        vorschlagNennweite?: string | null | undefined;
+        vorschlagFeinspezifikation?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
       }
     | null
     | undefined;
@@ -3601,6 +6622,13 @@ export type OnCreateUserSubscription = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -3677,6 +6705,13 @@ export type OnUpdateUserSubscription = {
                           anlagenUsers?:
                             | {
                                 __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
                                 nextToken?: string | null | undefined;
                               }
                             | null
@@ -3761,6 +6796,13 @@ export type OnDeleteUserSubscription = {
                               }
                             | null
                             | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
                           referenzStueli?:
                             | {
                                 __typename?: 'ModelReferenzStueliConnection';
@@ -3798,7 +6840,7 @@ export type OnDeleteUserSubscription = {
 };
 
 export const CreateAnlagenUserPrimaryDocument = `
-    mutation CreateAnlagenUserPrimary($input: CreateAnlagenUserInput!) {
+    mutation CreateAnlagenUserPrimary($input: CreateAnlagenUserPrimaryInput!) {
   createAnlagenUserPrimary(input: $input) {
     anlageId
     userEmail
@@ -3832,6 +6874,23 @@ export const CreateAnlagenUserPrimaryDocument = `
             role
             createdAt
             updatedAt
+          }
+        }
+        nextToken
+      }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlagen {
+            nextToken
+          }
+          projektStueli {
+            nextToken
           }
         }
         nextToken
@@ -3909,7 +6968,7 @@ export const useCreateAnlagenUserPrimaryMutation = <
     options,
   );
 export const DeleteAnlagenUserPrimaryDocument = `
-    mutation DeleteAnlagenUserPrimary($input: DeleteAnlagenUserInput!) {
+    mutation DeleteAnlagenUserPrimary($input: DeleteAnlagenUserPrimaryInput!) {
   deleteAnlagenUserPrimary(input: $input) {
     anlageId
     userEmail
@@ -3943,6 +7002,23 @@ export const DeleteAnlagenUserPrimaryDocument = `
             role
             createdAt
             updatedAt
+          }
+        }
+        nextToken
+      }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlagen {
+            nextToken
+          }
+          projektStueli {
+            nextToken
           }
         }
         nextToken
@@ -4020,7 +7096,7 @@ export const useDeleteAnlagenUserPrimaryMutation = <
     options,
   );
 export const DeleteAnlagePrimaryDocument = `
-    mutation DeleteAnlagePrimary($input: DeleteAnlageInput!) {
+    mutation DeleteAnlagePrimary($input: DeleteAnlagePrimaryInput!) {
   deleteAnlagePrimary(input: $input) {
     id
     firma
@@ -4046,6 +7122,9 @@ export const DeleteAnlagePrimaryDocument = `
           anlagenUsers {
             nextToken
           }
+          projekte {
+            nextToken
+          }
           referenzStueli {
             nextToken
           }
@@ -4058,6 +7137,46 @@ export const DeleteAnlagePrimaryDocument = `
           anlagen {
             nextToken
           }
+        }
+      }
+      nextToken
+    }
+    projekte {
+      items {
+        id
+        anlageId
+        projektNummer
+        users
+        createdAt
+        updatedAt
+        anlagen {
+          items {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projektStueli {
+          items {
+            id
+            projektId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            voschlagKurzspezifikation
+            vorschlagLieferant
+            vorschlagNennweite
+            vorschlagFeinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
       }
       nextToken
@@ -4138,6 +7257,23 @@ export const UpdateAnlagenUserDocument = `
             role
             createdAt
             updatedAt
+          }
+        }
+        nextToken
+      }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlagen {
+            nextToken
+          }
+          projektStueli {
+            nextToken
           }
         }
         nextToken
@@ -4241,6 +7377,9 @@ export const CreateAnlageDocument = `
           anlagenUsers {
             nextToken
           }
+          projekte {
+            nextToken
+          }
           referenzStueli {
             nextToken
           }
@@ -4253,6 +7392,46 @@ export const CreateAnlageDocument = `
           anlagen {
             nextToken
           }
+        }
+      }
+      nextToken
+    }
+    projekte {
+      items {
+        id
+        anlageId
+        projektNummer
+        users
+        createdAt
+        updatedAt
+        anlagen {
+          items {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projektStueli {
+          items {
+            id
+            projektId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            voschlagKurzspezifikation
+            vorschlagLieferant
+            vorschlagNennweite
+            vorschlagFeinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
       }
       nextToken
@@ -4322,6 +7501,9 @@ export const UpdateAnlageDocument = `
           anlagenUsers {
             nextToken
           }
+          projekte {
+            nextToken
+          }
           referenzStueli {
             nextToken
           }
@@ -4334,6 +7516,46 @@ export const UpdateAnlageDocument = `
           anlagen {
             nextToken
           }
+        }
+      }
+      nextToken
+    }
+    projekte {
+      items {
+        id
+        anlageId
+        projektNummer
+        users
+        createdAt
+        updatedAt
+        anlagen {
+          items {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projektStueli {
+          items {
+            id
+            projektId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            voschlagKurzspezifikation
+            vorschlagLieferant
+            vorschlagNennweite
+            vorschlagFeinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
       }
       nextToken
@@ -4403,6 +7625,9 @@ export const DeleteAnlageDocument = `
           anlagenUsers {
             nextToken
           }
+          projekte {
+            nextToken
+          }
           referenzStueli {
             nextToken
           }
@@ -4415,6 +7640,46 @@ export const DeleteAnlageDocument = `
           anlagen {
             nextToken
           }
+        }
+      }
+      nextToken
+    }
+    projekte {
+      items {
+        id
+        anlageId
+        projektNummer
+        users
+        createdAt
+        updatedAt
+        anlagen {
+          items {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projektStueli {
+          items {
+            id
+            projektId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            voschlagKurzspezifikation
+            vorschlagLieferant
+            vorschlagNennweite
+            vorschlagFeinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
       }
       nextToken
@@ -4492,6 +7757,23 @@ export const CreateAnlagenUserDocument = `
             role
             createdAt
             updatedAt
+          }
+        }
+        nextToken
+      }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlagen {
+            nextToken
+          }
+          projektStueli {
+            nextToken
           }
         }
         nextToken
@@ -4607,6 +7889,23 @@ export const DeleteAnlagenUserDocument = `
         }
         nextToken
       }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlagen {
+            nextToken
+          }
+          projektStueli {
+            nextToken
+          }
+        }
+        nextToken
+      }
       referenzStueli {
         items {
           id
@@ -4677,6 +7976,423 @@ export const useDeleteAnlagenUserMutation = <
         DeleteAnlagenUserMutation,
         DeleteAnlagenUserMutationVariables
       >(DeleteAnlagenUserDocument, variables)(),
+    options,
+  );
+export const CreateProjektDocument = `
+    mutation CreateProjekt($input: CreateProjektInput!) {
+  createProjekt(input: $input) {
+    id
+    anlageId
+    projektNummer
+    users
+    createdAt
+    updatedAt
+    anlagen {
+      items {
+        id
+        firma
+        standort
+        anschrift
+        users
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            users
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
+      nextToken
+    }
+    projektStueli {
+      items {
+        id
+        projektId
+        kurzspezifikation
+        lieferant
+        nennweite
+        feinspezifikation
+        voschlagKurzspezifikation
+        vorschlagLieferant
+        vorschlagNennweite
+        vorschlagFeinspezifikation
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+}
+    `;
+export const useCreateProjektMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    CreateProjektMutation,
+    TError,
+    CreateProjektMutationVariables,
+    TContext
+  >,
+) =>
+  useMutation<
+    CreateProjektMutation,
+    TError,
+    CreateProjektMutationVariables,
+    TContext
+  >(
+    ['CreateProjekt'],
+    (variables?: CreateProjektMutationVariables) =>
+      amplifyFetcher<CreateProjektMutation, CreateProjektMutationVariables>(
+        CreateProjektDocument,
+        variables,
+      )(),
+    options,
+  );
+export const UpdateProjektDocument = `
+    mutation UpdateProjekt($input: UpdateProjektInput!) {
+  updateProjekt(input: $input) {
+    id
+    anlageId
+    projektNummer
+    users
+    createdAt
+    updatedAt
+    anlagen {
+      items {
+        id
+        firma
+        standort
+        anschrift
+        users
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            users
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
+      nextToken
+    }
+    projektStueli {
+      items {
+        id
+        projektId
+        kurzspezifikation
+        lieferant
+        nennweite
+        feinspezifikation
+        voschlagKurzspezifikation
+        vorschlagLieferant
+        vorschlagNennweite
+        vorschlagFeinspezifikation
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+}
+    `;
+export const useUpdateProjektMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    UpdateProjektMutation,
+    TError,
+    UpdateProjektMutationVariables,
+    TContext
+  >,
+) =>
+  useMutation<
+    UpdateProjektMutation,
+    TError,
+    UpdateProjektMutationVariables,
+    TContext
+  >(
+    ['UpdateProjekt'],
+    (variables?: UpdateProjektMutationVariables) =>
+      amplifyFetcher<UpdateProjektMutation, UpdateProjektMutationVariables>(
+        UpdateProjektDocument,
+        variables,
+      )(),
+    options,
+  );
+export const DeleteProjektDocument = `
+    mutation DeleteProjekt($input: DeleteProjektInput!) {
+  deleteProjekt(input: $input) {
+    id
+    anlageId
+    projektNummer
+    users
+    createdAt
+    updatedAt
+    anlagen {
+      items {
+        id
+        firma
+        standort
+        anschrift
+        users
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            users
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
+      nextToken
+    }
+    projektStueli {
+      items {
+        id
+        projektId
+        kurzspezifikation
+        lieferant
+        nennweite
+        feinspezifikation
+        voschlagKurzspezifikation
+        vorschlagLieferant
+        vorschlagNennweite
+        vorschlagFeinspezifikation
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+}
+    `;
+export const useDeleteProjektMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    DeleteProjektMutation,
+    TError,
+    DeleteProjektMutationVariables,
+    TContext
+  >,
+) =>
+  useMutation<
+    DeleteProjektMutation,
+    TError,
+    DeleteProjektMutationVariables,
+    TContext
+  >(
+    ['DeleteProjekt'],
+    (variables?: DeleteProjektMutationVariables) =>
+      amplifyFetcher<DeleteProjektMutation, DeleteProjektMutationVariables>(
+        DeleteProjektDocument,
+        variables,
+      )(),
+    options,
+  );
+export const CreateProjektStueliDocument = `
+    mutation CreateProjektStueli($input: CreateProjektStueliInput!) {
+  createProjektStueli(input: $input) {
+    id
+    projektId
+    kurzspezifikation
+    lieferant
+    nennweite
+    feinspezifikation
+    voschlagKurzspezifikation
+    vorschlagLieferant
+    vorschlagNennweite
+    vorschlagFeinspezifikation
+    createdAt
+    updatedAt
+  }
+}
+    `;
+export const useCreateProjektStueliMutation = <
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: UseMutationOptions<
+    CreateProjektStueliMutation,
+    TError,
+    CreateProjektStueliMutationVariables,
+    TContext
+  >,
+) =>
+  useMutation<
+    CreateProjektStueliMutation,
+    TError,
+    CreateProjektStueliMutationVariables,
+    TContext
+  >(
+    ['CreateProjektStueli'],
+    (variables?: CreateProjektStueliMutationVariables) =>
+      amplifyFetcher<
+        CreateProjektStueliMutation,
+        CreateProjektStueliMutationVariables
+      >(CreateProjektStueliDocument, variables)(),
+    options,
+  );
+export const UpdateProjektStueliDocument = `
+    mutation UpdateProjektStueli($input: UpdateProjektStueliInput!) {
+  updateProjektStueli(input: $input) {
+    id
+    projektId
+    kurzspezifikation
+    lieferant
+    nennweite
+    feinspezifikation
+    voschlagKurzspezifikation
+    vorschlagLieferant
+    vorschlagNennweite
+    vorschlagFeinspezifikation
+    createdAt
+    updatedAt
+  }
+}
+    `;
+export const useUpdateProjektStueliMutation = <
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: UseMutationOptions<
+    UpdateProjektStueliMutation,
+    TError,
+    UpdateProjektStueliMutationVariables,
+    TContext
+  >,
+) =>
+  useMutation<
+    UpdateProjektStueliMutation,
+    TError,
+    UpdateProjektStueliMutationVariables,
+    TContext
+  >(
+    ['UpdateProjektStueli'],
+    (variables?: UpdateProjektStueliMutationVariables) =>
+      amplifyFetcher<
+        UpdateProjektStueliMutation,
+        UpdateProjektStueliMutationVariables
+      >(UpdateProjektStueliDocument, variables)(),
+    options,
+  );
+export const DeleteProjektStueliDocument = `
+    mutation DeleteProjektStueli($input: DeleteProjektStueliInput!) {
+  deleteProjektStueli(input: $input) {
+    id
+    projektId
+    kurzspezifikation
+    lieferant
+    nennweite
+    feinspezifikation
+    voschlagKurzspezifikation
+    vorschlagLieferant
+    vorschlagNennweite
+    vorschlagFeinspezifikation
+    createdAt
+    updatedAt
+  }
+}
+    `;
+export const useDeleteProjektStueliMutation = <
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: UseMutationOptions<
+    DeleteProjektStueliMutation,
+    TError,
+    DeleteProjektStueliMutationVariables,
+    TContext
+  >,
+) =>
+  useMutation<
+    DeleteProjektStueliMutation,
+    TError,
+    DeleteProjektStueliMutationVariables,
+    TContext
+  >(
+    ['DeleteProjektStueli'],
+    (variables?: DeleteProjektStueliMutationVariables) =>
+      amplifyFetcher<
+        DeleteProjektStueliMutation,
+        DeleteProjektStueliMutationVariables
+      >(DeleteProjektStueliDocument, variables)(),
     options,
   );
 export const CreateReferenzStueliDocument = `
@@ -4820,6 +8536,9 @@ export const CreateUserDocument = `
           anlagenUsers {
             nextToken
           }
+          projekte {
+            nextToken
+          }
           referenzStueli {
             nextToken
           }
@@ -4885,6 +8604,9 @@ export const UpdateUserDocument = `
           anlagenUsers {
             nextToken
           }
+          projekte {
+            nextToken
+          }
           referenzStueli {
             nextToken
           }
@@ -4948,6 +8670,9 @@ export const DeleteUserDocument = `
           createdAt
           updatedAt
           anlagenUsers {
+            nextToken
+          }
+          projekte {
             nextToken
           }
           referenzStueli {
@@ -5018,6 +8743,9 @@ export const GetAnlageDocument = `
           anlagenUsers {
             nextToken
           }
+          projekte {
+            nextToken
+          }
           referenzStueli {
             nextToken
           }
@@ -5030,6 +8758,46 @@ export const GetAnlageDocument = `
           anlagen {
             nextToken
           }
+        }
+      }
+      nextToken
+    }
+    projekte {
+      items {
+        id
+        anlageId
+        projektNummer
+        users
+        createdAt
+        updatedAt
+        anlagen {
+          items {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projektStueli {
+          items {
+            id
+            projektId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            voschlagKurzspezifikation
+            vorschlagLieferant
+            vorschlagNennweite
+            vorschlagFeinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
       }
       nextToken
@@ -5063,8 +8831,14 @@ export const useGetAnlageQuery = <TData = GetAnlageQuery, TError = unknown>(
     options,
   );
 export const ListAnlagesDocument = `
-    query ListAnlages($filter: ModelAnlageFilterInput, $limit: Int, $nextToken: String) {
-  listAnlages(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    query ListAnlages($id: ID, $filter: ModelAnlageFilterInput, $limit: Int, $nextToken: String, $sortDirection: ModelSortDirection) {
+  listAnlages(
+    id: $id
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
     items {
       id
       firma
@@ -5093,6 +8867,23 @@ export const ListAnlagesDocument = `
             role
             createdAt
             updatedAt
+          }
+        }
+        nextToken
+      }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlagen {
+            nextToken
+          }
+          projektStueli {
+            nextToken
           }
         }
         nextToken
@@ -5162,6 +8953,23 @@ export const GetAnlagenUserDocument = `
             role
             createdAt
             updatedAt
+          }
+        }
+        nextToken
+      }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlagen {
+            nextToken
+          }
+          projektStueli {
+            nextToken
           }
         }
         nextToken
@@ -5260,6 +9068,17 @@ export const ListAnlagenUsersDocument = `
           }
           nextToken
         }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            users
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
         referenzStueli {
           items {
             id
@@ -5311,6 +9130,292 @@ export const useListAnlagenUsersQuery = <
     ),
     options,
   );
+export const GetProjektDocument = `
+    query GetProjekt($id: ID!) {
+  getProjekt(id: $id) {
+    id
+    anlageId
+    projektNummer
+    users
+    createdAt
+    updatedAt
+    anlagen {
+      items {
+        id
+        firma
+        standort
+        anschrift
+        users
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            users
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
+      nextToken
+    }
+    projektStueli {
+      items {
+        id
+        projektId
+        kurzspezifikation
+        lieferant
+        nennweite
+        feinspezifikation
+        voschlagKurzspezifikation
+        vorschlagLieferant
+        vorschlagNennweite
+        vorschlagFeinspezifikation
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+}
+    `;
+export const useGetProjektQuery = <TData = GetProjektQuery, TError = unknown>(
+  variables: GetProjektQueryVariables,
+  options?: UseQueryOptions<GetProjektQuery, TError, TData>,
+) =>
+  useQuery<GetProjektQuery, TError, TData>(
+    ['GetProjekt', variables],
+    amplifyFetcher<GetProjektQuery, GetProjektQueryVariables>(
+      GetProjektDocument,
+      variables,
+    ),
+    options,
+  );
+export const ListProjektsDocument = `
+    query ListProjekts($id: ID, $filter: ModelProjektFilterInput, $limit: Int, $nextToken: String, $sortDirection: ModelSortDirection) {
+  listProjekts(
+    id: $id
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      id
+      anlageId
+      projektNummer
+      users
+      createdAt
+      updatedAt
+      anlagen {
+        items {
+          id
+          firma
+          standort
+          anschrift
+          users
+          createdAt
+          updatedAt
+          anlagenUsers {
+            nextToken
+          }
+          projekte {
+            nextToken
+          }
+          referenzStueli {
+            nextToken
+          }
+        }
+        nextToken
+      }
+      projektStueli {
+        items {
+          id
+          projektId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          voschlagKurzspezifikation
+          vorschlagLieferant
+          vorschlagNennweite
+          vorschlagFeinspezifikation
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+    nextToken
+  }
+}
+    `;
+export const useListProjektsQuery = <
+  TData = ListProjektsQuery,
+  TError = unknown,
+>(
+  variables?: ListProjektsQueryVariables,
+  options?: UseQueryOptions<ListProjektsQuery, TError, TData>,
+) =>
+  useQuery<ListProjektsQuery, TError, TData>(
+    variables === undefined ? ['ListProjekts'] : ['ListProjekts', variables],
+    amplifyFetcher<ListProjektsQuery, ListProjektsQueryVariables>(
+      ListProjektsDocument,
+      variables,
+    ),
+    options,
+  );
+export const GetProjektStueliDocument = `
+    query GetProjektStueli($id: ID!) {
+  getProjektStueli(id: $id) {
+    id
+    projektId
+    kurzspezifikation
+    lieferant
+    nennweite
+    feinspezifikation
+    voschlagKurzspezifikation
+    vorschlagLieferant
+    vorschlagNennweite
+    vorschlagFeinspezifikation
+    createdAt
+    updatedAt
+  }
+}
+    `;
+export const useGetProjektStueliQuery = <
+  TData = GetProjektStueliQuery,
+  TError = unknown,
+>(
+  variables: GetProjektStueliQueryVariables,
+  options?: UseQueryOptions<GetProjektStueliQuery, TError, TData>,
+) =>
+  useQuery<GetProjektStueliQuery, TError, TData>(
+    ['GetProjektStueli', variables],
+    amplifyFetcher<GetProjektStueliQuery, GetProjektStueliQueryVariables>(
+      GetProjektStueliDocument,
+      variables,
+    ),
+    options,
+  );
+export const ListProjektStuelisDocument = `
+    query ListProjektStuelis($id: ID, $filter: ModelProjektStueliFilterInput, $limit: Int, $nextToken: String, $sortDirection: ModelSortDirection) {
+  listProjektStuelis(
+    id: $id
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      id
+      projektId
+      kurzspezifikation
+      lieferant
+      nennweite
+      feinspezifikation
+      voschlagKurzspezifikation
+      vorschlagLieferant
+      vorschlagNennweite
+      vorschlagFeinspezifikation
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}
+    `;
+export const useListProjektStuelisQuery = <
+  TData = ListProjektStuelisQuery,
+  TError = unknown,
+>(
+  variables?: ListProjektStuelisQueryVariables,
+  options?: UseQueryOptions<ListProjektStuelisQuery, TError, TData>,
+) =>
+  useQuery<ListProjektStuelisQuery, TError, TData>(
+    variables === undefined
+      ? ['ListProjektStuelis']
+      : ['ListProjektStuelis', variables],
+    amplifyFetcher<ListProjektStuelisQuery, ListProjektStuelisQueryVariables>(
+      ListProjektStuelisDocument,
+      variables,
+    ),
+    options,
+  );
+export const ProjektStueliByKurzspezifikationDocument = `
+    query ProjektStueliByKurzspezifikation($projektId: ID, $kurzspezifikation: ModelStringKeyConditionInput, $sortDirection: ModelSortDirection, $filter: ModelProjektStueliFilterInput, $limit: Int, $nextToken: String) {
+  projektStueliByKurzspezifikation(
+    projektId: $projektId
+    kurzspezifikation: $kurzspezifikation
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      projektId
+      kurzspezifikation
+      lieferant
+      nennweite
+      feinspezifikation
+      voschlagKurzspezifikation
+      vorschlagLieferant
+      vorschlagNennweite
+      vorschlagFeinspezifikation
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}
+    `;
+export const useProjektStueliByKurzspezifikationQuery = <
+  TData = ProjektStueliByKurzspezifikationQuery,
+  TError = unknown,
+>(
+  variables?: ProjektStueliByKurzspezifikationQueryVariables,
+  options?: UseQueryOptions<
+    ProjektStueliByKurzspezifikationQuery,
+    TError,
+    TData
+  >,
+) =>
+  useQuery<ProjektStueliByKurzspezifikationQuery, TError, TData>(
+    variables === undefined
+      ? ['ProjektStueliByKurzspezifikation']
+      : ['ProjektStueliByKurzspezifikation', variables],
+    amplifyFetcher<
+      ProjektStueliByKurzspezifikationQuery,
+      ProjektStueliByKurzspezifikationQueryVariables
+    >(ProjektStueliByKurzspezifikationDocument, variables),
+    options,
+  );
 export const GetReferenzStueliDocument = `
     query GetReferenzStueli($id: ID!) {
   getReferenzStueli(id: $id) {
@@ -5341,8 +9446,14 @@ export const useGetReferenzStueliQuery = <
     options,
   );
 export const ListReferenzStuelisDocument = `
-    query ListReferenzStuelis($filter: ModelReferenzStueliFilterInput, $limit: Int, $nextToken: String) {
-  listReferenzStuelis(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    query ListReferenzStuelis($id: ID, $filter: ModelReferenzStueliFilterInput, $limit: Int, $nextToken: String, $sortDirection: ModelSortDirection) {
+  listReferenzStuelis(
+    id: $id
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
     items {
       id
       anlageId
@@ -5478,6 +9589,9 @@ export const GetUserDocument = `
           anlagenUsers {
             nextToken
           }
+          projekte {
+            nextToken
+          }
           referenzStueli {
             nextToken
           }
@@ -5591,6 +9705,9 @@ export const OnCreateAnlageDocument = `
           anlagenUsers {
             nextToken
           }
+          projekte {
+            nextToken
+          }
           referenzStueli {
             nextToken
           }
@@ -5603,6 +9720,46 @@ export const OnCreateAnlageDocument = `
           anlagen {
             nextToken
           }
+        }
+      }
+      nextToken
+    }
+    projekte {
+      items {
+        id
+        anlageId
+        projektNummer
+        users
+        createdAt
+        updatedAt
+        anlagen {
+          items {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projektStueli {
+          items {
+            id
+            projektId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            voschlagKurzspezifikation
+            vorschlagLieferant
+            vorschlagNennweite
+            vorschlagFeinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
       }
       nextToken
@@ -5650,6 +9807,9 @@ export const OnUpdateAnlageDocument = `
           anlagenUsers {
             nextToken
           }
+          projekte {
+            nextToken
+          }
           referenzStueli {
             nextToken
           }
@@ -5662,6 +9822,46 @@ export const OnUpdateAnlageDocument = `
           anlagen {
             nextToken
           }
+        }
+      }
+      nextToken
+    }
+    projekte {
+      items {
+        id
+        anlageId
+        projektNummer
+        users
+        createdAt
+        updatedAt
+        anlagen {
+          items {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projektStueli {
+          items {
+            id
+            projektId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            voschlagKurzspezifikation
+            vorschlagLieferant
+            vorschlagNennweite
+            vorschlagFeinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
       }
       nextToken
@@ -5709,6 +9909,9 @@ export const OnDeleteAnlageDocument = `
           anlagenUsers {
             nextToken
           }
+          projekte {
+            nextToken
+          }
           referenzStueli {
             nextToken
           }
@@ -5721,6 +9924,46 @@ export const OnDeleteAnlageDocument = `
           anlagen {
             nextToken
           }
+        }
+      }
+      nextToken
+    }
+    projekte {
+      items {
+        id
+        anlageId
+        projektNummer
+        users
+        createdAt
+        updatedAt
+        anlagen {
+          items {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projektStueli {
+          items {
+            id
+            projektId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            voschlagKurzspezifikation
+            vorschlagLieferant
+            vorschlagNennweite
+            vorschlagFeinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
       }
       nextToken
@@ -5776,6 +10019,23 @@ export const OnCreateAnlagenUserDocument = `
             role
             createdAt
             updatedAt
+          }
+        }
+        nextToken
+      }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlagen {
+            nextToken
+          }
+          projektStueli {
+            nextToken
           }
         }
         nextToken
@@ -5866,6 +10126,23 @@ export const OnUpdateAnlagenUserDocument = `
         }
         nextToken
       }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlagen {
+            nextToken
+          }
+          projektStueli {
+            nextToken
+          }
+        }
+        nextToken
+      }
       referenzStueli {
         items {
           id
@@ -5952,6 +10229,23 @@ export const OnDeleteAnlagenUserDocument = `
         }
         nextToken
       }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlagen {
+            nextToken
+          }
+          projektStueli {
+            nextToken
+          }
+        }
+        nextToken
+      }
       referenzStueli {
         items {
           id
@@ -5996,6 +10290,282 @@ export const OnDeleteAnlagenUserDocument = `
         nextToken
       }
     }
+  }
+}
+    `;
+export const OnCreateProjektDocument = `
+    subscription OnCreateProjekt($users: String) {
+  onCreateProjekt(users: $users) {
+    id
+    anlageId
+    projektNummer
+    users
+    createdAt
+    updatedAt
+    anlagen {
+      items {
+        id
+        firma
+        standort
+        anschrift
+        users
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            users
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
+      nextToken
+    }
+    projektStueli {
+      items {
+        id
+        projektId
+        kurzspezifikation
+        lieferant
+        nennweite
+        feinspezifikation
+        voschlagKurzspezifikation
+        vorschlagLieferant
+        vorschlagNennweite
+        vorschlagFeinspezifikation
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+}
+    `;
+export const OnUpdateProjektDocument = `
+    subscription OnUpdateProjekt($users: String) {
+  onUpdateProjekt(users: $users) {
+    id
+    anlageId
+    projektNummer
+    users
+    createdAt
+    updatedAt
+    anlagen {
+      items {
+        id
+        firma
+        standort
+        anschrift
+        users
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            users
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
+      nextToken
+    }
+    projektStueli {
+      items {
+        id
+        projektId
+        kurzspezifikation
+        lieferant
+        nennweite
+        feinspezifikation
+        voschlagKurzspezifikation
+        vorschlagLieferant
+        vorschlagNennweite
+        vorschlagFeinspezifikation
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+}
+    `;
+export const OnDeleteProjektDocument = `
+    subscription OnDeleteProjekt($users: String) {
+  onDeleteProjekt(users: $users) {
+    id
+    anlageId
+    projektNummer
+    users
+    createdAt
+    updatedAt
+    anlagen {
+      items {
+        id
+        firma
+        standort
+        anschrift
+        users
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            users
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
+      nextToken
+    }
+    projektStueli {
+      items {
+        id
+        projektId
+        kurzspezifikation
+        lieferant
+        nennweite
+        feinspezifikation
+        voschlagKurzspezifikation
+        vorschlagLieferant
+        vorschlagNennweite
+        vorschlagFeinspezifikation
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+}
+    `;
+export const OnCreateProjektStueliDocument = `
+    subscription OnCreateProjektStueli {
+  onCreateProjektStueli {
+    id
+    projektId
+    kurzspezifikation
+    lieferant
+    nennweite
+    feinspezifikation
+    voschlagKurzspezifikation
+    vorschlagLieferant
+    vorschlagNennweite
+    vorschlagFeinspezifikation
+    createdAt
+    updatedAt
+  }
+}
+    `;
+export const OnUpdateProjektStueliDocument = `
+    subscription OnUpdateProjektStueli {
+  onUpdateProjektStueli {
+    id
+    projektId
+    kurzspezifikation
+    lieferant
+    nennweite
+    feinspezifikation
+    voschlagKurzspezifikation
+    vorschlagLieferant
+    vorschlagNennweite
+    vorschlagFeinspezifikation
+    createdAt
+    updatedAt
+  }
+}
+    `;
+export const OnDeleteProjektStueliDocument = `
+    subscription OnDeleteProjektStueli {
+  onDeleteProjektStueli {
+    id
+    projektId
+    kurzspezifikation
+    lieferant
+    nennweite
+    feinspezifikation
+    voschlagKurzspezifikation
+    vorschlagLieferant
+    vorschlagNennweite
+    vorschlagFeinspezifikation
+    createdAt
+    updatedAt
   }
 }
     `;
@@ -6065,6 +10635,9 @@ export const OnCreateUserDocument = `
           anlagenUsers {
             nextToken
           }
+          projekte {
+            nextToken
+          }
           referenzStueli {
             nextToken
           }
@@ -6108,6 +10681,9 @@ export const OnUpdateUserDocument = `
           anlagenUsers {
             nextToken
           }
+          projekte {
+            nextToken
+          }
           referenzStueli {
             nextToken
           }
@@ -6149,6 +10725,9 @@ export const OnDeleteUserDocument = `
           createdAt
           updatedAt
           anlagenUsers {
+            nextToken
+          }
+          projekte {
             nextToken
           }
           referenzStueli {
