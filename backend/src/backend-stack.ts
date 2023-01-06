@@ -176,21 +176,6 @@ export class BackendStack extends core.Stack {
       },
     });
 
-    const appSyncCustomDomainUrl =
-      'https://x4hydovt5ncqtfdy6owen6mmga.appsync-api.eu-central-1.amazonaws.com/graphql';
-
-    const customApiAuthorizer = new lambdajs.NodejsFunction(
-      this,
-      'customApiAuthorizer',
-      {
-        functionName: 'customApiAuthorizer',
-        timeout: core.Duration.seconds(30),
-        environment: {
-          APPSYNC_URL: appSyncCustomDomainUrl,
-        },
-      },
-    );
-
     const api = new AppSyncTransformer(this, 'plant-soh-graphql', {
       schemaPath: 'src/schema.graphql',
       authorizationConfig: {
@@ -205,18 +190,6 @@ export class BackendStack extends core.Stack {
           {
             authorizationType: appsync.AuthorizationType.IAM,
           },
-          {
-            authorizationType: appsync.AuthorizationType.LAMBDA,
-            lambdaAuthorizerConfig: {
-              handler: customApiAuthorizer,
-            },
-          },
-          // {
-          //   authorizationType: appsync.AuthorizationType.API_KEY,
-          //   apiKeyConfig: {
-          //     expires: cdk.Expiration.after(cdk.Duration.days(365)),
-          //   },
-          // },
         ],
       },
     });
@@ -240,6 +213,9 @@ export class BackendStack extends core.Stack {
       // parameterName: 'PlantSohGraphqlUrl',
       stringValue: api.appsyncAPI.graphqlUrl,
     });
+
+    const appSyncCustomDomainUrl =
+      'https://x4hydovt5ncqtfdy6owen6mmga.appsync-api.eu-central-1.amazonaws.com/graphql';
 
     new core.CfnOutput(this, 'AppSyncCustomDomainUrl', {
       value: appSyncCustomDomainUrl,
@@ -314,12 +290,31 @@ export class BackendStack extends core.Stack {
       deleteAnlage,
     );
 
+    const setCurrentAnlageId = new lambdajs.NodejsFunction(
+      this,
+      'setCurrentAnlageId',
+      {
+        functionName: 'setCurrentAnlageId',
+        timeout: core.Duration.seconds(30),
+        environment: {
+          APPSYNC_URL: appSyncCustomDomainUrl,
+        },
+      },
+    );
+
+    api.addLambdaDataSourceAndResolvers(
+      'setCurrentAnlageId',
+      'setCurrentAnlageId',
+      setCurrentAnlageId,
+    );
+
     // add AppSync access to all lambda which need it
     [
       preTokenGenerationLambda,
       createAnlagenUser,
       deleteAnlagenUser,
       deleteAnlage,
+      setCurrentAnlageId,
     ].map((lambda) => {
       lambda.addToRolePolicy(
         new iam.PolicyStatement({

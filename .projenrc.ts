@@ -139,6 +139,7 @@ const stueli = new pj.web.ReactTypeScriptProject({
   name: 'stueli',
   deps: [
     ...[
+      'amazon-cognito-identity-js',
       '@aws-amplify/auth',
       '@aws-amplify/core',
       '@aws-amplify/storage',
@@ -150,7 +151,7 @@ const stueli = new pj.web.ReactTypeScriptProject({
     ],
     ...['@aws-sdk/types'],
     ...[
-      'amplify-graphql-docs-generator@',
+      'amplify-graphql-docs-generator',
       '@graphql-codegen/add',
       '@graphql-codegen/cli',
       '@graphql-codegen/typescript',

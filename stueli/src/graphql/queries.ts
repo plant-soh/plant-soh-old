@@ -39,6 +39,7 @@ export const getAnlage = /* GraphQL */ `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
             anlagen {
@@ -145,6 +146,7 @@ export const listAnlages = /* GraphQL */ `
             user {
               email
               role
+              currentAnlageId
               createdAt
               updatedAt
             }
@@ -219,6 +221,7 @@ export const getAnlagenUser = /* GraphQL */ `
             user {
               email
               role
+              currentAnlageId
               createdAt
               updatedAt
             }
@@ -259,6 +262,7 @@ export const getAnlagenUser = /* GraphQL */ `
       user {
         email
         role
+        currentAnlageId
         createdAt
         updatedAt
         anlagen {
@@ -279,6 +283,7 @@ export const getAnlagenUser = /* GraphQL */ `
             user {
               email
               role
+              currentAnlageId
               createdAt
               updatedAt
             }
@@ -356,6 +361,7 @@ export const listAnlagenUsers = /* GraphQL */ `
         user {
           email
           role
+          currentAnlageId
           createdAt
           updatedAt
           anlagen {
@@ -706,6 +712,7 @@ export const getUser = /* GraphQL */ `
     getUser(email: $email) {
       email
       role
+      currentAnlageId
       createdAt
       updatedAt
       anlagen {
@@ -735,6 +742,7 @@ export const getUser = /* GraphQL */ `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
             anlagen {
@@ -765,6 +773,7 @@ export const listUsers = /* GraphQL */ `
       items {
         email
         role
+        currentAnlageId
         createdAt
         updatedAt
         anlagen {
@@ -785,6 +794,7 @@ export const listUsers = /* GraphQL */ `
             user {
               email
               role
+              currentAnlageId
               createdAt
               updatedAt
             }

@@ -7362,7 +7362,7 @@ almost-equal@^1.1.0:
   resolved "https://registry.yarnpkg.com/almost-equal/-/almost-equal-1.1.0.tgz#f851c631138757994276aa2efbe8dfa3066cccdd"
   integrity sha512-0V/PkoculFl5+0Lp47JoxUcO0xSxhIBvm+BxHdD/OgXNmdRpRHCFnKVuUoWyS9EzQP+otSGv0m9Lb4yVkQBn2A==
 
-amazon-cognito-identity-js@6.1.2:
+amazon-cognito-identity-js@6.1.2, amazon-cognito-identity-js@^6.1.2:
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/amazon-cognito-identity-js/-/amazon-cognito-identity-js-6.1.2.tgz#975df21b0590098c2d3f455f48dbba255560bbf5"
   integrity sha512-Ptutf9SLvKEM1Kr2kTPUvu/9THjQ0Si1l80iZYcS8NqScAAiDg8WjOOhQeJPcQDXt3Vym91luZ6zNW/3ErjEdQ==
@@ -7373,7 +7373,7 @@ amazon-cognito-identity-js@6.1.2:
     isomorphic-unfetch "^3.0.0"
     js-cookie "^2.2.1"
 
-amplify-graphql-docs-generator@:
+amplify-graphql-docs-generator@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/amplify-graphql-docs-generator/-/amplify-graphql-docs-generator-2.2.4.tgz#fca79615348cf4b230d4716a69df81e95b8ec96f"
   integrity sha512-VUFJXwX6EjqF8KckEhEfNOM2WuFoIrhxLPXEcRtyCn9g69zMMTDNJgJ76DCcdEWuC/Ju7B05mcdXxUtOAYnoNA==

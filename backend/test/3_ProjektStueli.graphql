@@ -1,0 +1,22 @@
+mutation CreateProjekt {
+  p1: createProjekt(input: { anlageId: "m1", id: "p1m1", projektNummer: 1 }) {
+    anlageId
+    id
+  }
+}
+
+mutation CreateProjektStueli {
+  createProjektStueli(
+    input: {
+      projektId: "p1m1"
+      feinspezifikation: "V/23/d"
+      kurzspezifikation: "Ventil"
+      lieferant: "venture"
+      nennweite: "D/W60"
+      vorschlagFeinspezifikation: "V/23/d"
+      vorschlagLieferant: "venture"
+      vorschlagNennweite: "D/W60"
+      voschlagKurzspezifikation: "Ventil"
+    }
+  )
+}

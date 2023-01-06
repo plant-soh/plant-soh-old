@@ -1,5 +1,5 @@
 import * as Papa from 'papaparse';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { firstBy } from 'thenby';
 
@@ -10,6 +10,7 @@ import {
   useDeleteReferenzStueliMutation,
   useGetAnlageQuery,
   useReferenzStueliByKurzspezifikationQuery,
+  useSetCurrentAnlageIdMutation,
 } from '../../lib/react-api';
 import { useAuth } from '../../providers/AuthProvider';
 
@@ -24,7 +25,7 @@ type ReferenzStueliParams = {
 const ReferenzStueckliste = () => {
   const { id = '' } = useParams<ReferenzStueliParams>();
 
-  const { role } = useAuth();
+  const { currentAnlageId, refreshSession, role } = useAuth();
 
   const [newStueck, setNewStueck] = useState<
     | {
@@ -57,6 +58,22 @@ const ReferenzStueckliste = () => {
       refetchOnWindowFocus: false,
     },
   );
+
+  const setCurrentAnlageId = useSetCurrentAnlageIdMutation();
+
+  useEffect(() => {
+    if (!id || currentAnlageId === id) return;
+    void (async () => {
+      await setCurrentAnlageId.mutateAsync({
+        input: {
+          anlageId: id,
+        },
+      });
+
+      //refresh
+      await refreshSession();
+    })();
+  }, [id]);
 
   const { data, isLoading, refetch } =
     useReferenzStueliByKurzspezifikationQuery(

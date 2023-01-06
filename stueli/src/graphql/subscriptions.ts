@@ -39,6 +39,7 @@ export const onCreateAnlage = /* GraphQL */ `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
             anlagen {
@@ -141,6 +142,7 @@ export const onUpdateAnlage = /* GraphQL */ `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
             anlagen {
@@ -243,6 +245,7 @@ export const onDeleteAnlage = /* GraphQL */ `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
             anlagen {
@@ -341,6 +344,7 @@ export const onCreateAnlagenUser = /* GraphQL */ `
             user {
               email
               role
+              currentAnlageId
               createdAt
               updatedAt
             }
@@ -381,6 +385,7 @@ export const onCreateAnlagenUser = /* GraphQL */ `
       user {
         email
         role
+        currentAnlageId
         createdAt
         updatedAt
         anlagen {
@@ -401,6 +406,7 @@ export const onCreateAnlagenUser = /* GraphQL */ `
             user {
               email
               role
+              currentAnlageId
               createdAt
               updatedAt
             }
@@ -444,6 +450,7 @@ export const onUpdateAnlagenUser = /* GraphQL */ `
             user {
               email
               role
+              currentAnlageId
               createdAt
               updatedAt
             }
@@ -484,6 +491,7 @@ export const onUpdateAnlagenUser = /* GraphQL */ `
       user {
         email
         role
+        currentAnlageId
         createdAt
         updatedAt
         anlagen {
@@ -504,6 +512,7 @@ export const onUpdateAnlagenUser = /* GraphQL */ `
             user {
               email
               role
+              currentAnlageId
               createdAt
               updatedAt
             }
@@ -547,6 +556,7 @@ export const onDeleteAnlagenUser = /* GraphQL */ `
             user {
               email
               role
+              currentAnlageId
               createdAt
               updatedAt
             }
@@ -587,6 +597,7 @@ export const onDeleteAnlagenUser = /* GraphQL */ `
       user {
         email
         role
+        currentAnlageId
         createdAt
         updatedAt
         anlagen {
@@ -607,6 +618,7 @@ export const onDeleteAnlagenUser = /* GraphQL */ `
             user {
               email
               role
+              currentAnlageId
               createdAt
               updatedAt
             }
@@ -894,8 +906,8 @@ export const onDeleteProjektStueli = /* GraphQL */ `
   }
 `;
 export const onCreateReferenzStueli = /* GraphQL */ `
-  subscription OnCreateReferenzStueli {
-    onCreateReferenzStueli {
+  subscription OnCreateReferenzStueli($anlageId: String) {
+    onCreateReferenzStueli(anlageId: $anlageId) {
       id
       anlageId
       kurzspezifikation
@@ -908,8 +920,8 @@ export const onCreateReferenzStueli = /* GraphQL */ `
   }
 `;
 export const onUpdateReferenzStueli = /* GraphQL */ `
-  subscription OnUpdateReferenzStueli {
-    onUpdateReferenzStueli {
+  subscription OnUpdateReferenzStueli($anlageId: String) {
+    onUpdateReferenzStueli(anlageId: $anlageId) {
       id
       anlageId
       kurzspezifikation
@@ -922,8 +934,8 @@ export const onUpdateReferenzStueli = /* GraphQL */ `
   }
 `;
 export const onDeleteReferenzStueli = /* GraphQL */ `
-  subscription OnDeleteReferenzStueli {
-    onDeleteReferenzStueli {
+  subscription OnDeleteReferenzStueli($anlageId: String) {
+    onDeleteReferenzStueli(anlageId: $anlageId) {
       id
       anlageId
       kurzspezifikation
@@ -940,6 +952,7 @@ export const onCreateUser = /* GraphQL */ `
     onCreateUser(email: $email) {
       email
       role
+      currentAnlageId
       createdAt
       updatedAt
       anlagen {
@@ -969,6 +982,7 @@ export const onCreateUser = /* GraphQL */ `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
             anlagen {
@@ -986,6 +1000,7 @@ export const onUpdateUser = /* GraphQL */ `
     onUpdateUser(email: $email) {
       email
       role
+      currentAnlageId
       createdAt
       updatedAt
       anlagen {
@@ -1015,6 +1030,7 @@ export const onUpdateUser = /* GraphQL */ `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
             anlagen {
@@ -1032,6 +1048,7 @@ export const onDeleteUser = /* GraphQL */ `
     onDeleteUser(email: $email) {
       email
       role
+      currentAnlageId
       createdAt
       updatedAt
       anlagen {
@@ -1061,6 +1078,7 @@ export const onDeleteUser = /* GraphQL */ `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
             anlagen {

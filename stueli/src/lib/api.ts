@@ -124,6 +124,7 @@ export type CreateReferenzStueliInput = {
 };
 
 export type CreateUserInput = {
+  currentAnlageId?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   role: Role;
 };
@@ -338,6 +339,7 @@ export type ModelUserConnection = {
 
 export type ModelUserFilterInput = {
   and?: InputMaybe<Array<InputMaybe<ModelUserFilterInput>>>;
+  currentAnlageId?: InputMaybe<ModelStringFilterInput>;
   email?: InputMaybe<ModelStringFilterInput>;
   not?: InputMaybe<ModelUserFilterInput>;
   or?: InputMaybe<Array<InputMaybe<ModelUserFilterInput>>>;
@@ -361,6 +363,7 @@ export type Mutation = {
   deleteProjektStueli?: Maybe<ProjektStueli>;
   deleteReferenzStueli?: Maybe<ReferenzStueli>;
   deleteUser?: Maybe<User>;
+  setCurrentAnlageId?: Maybe<User>;
   updateAnlage?: Maybe<Anlage>;
   updateAnlagenUser?: Maybe<AnlagenUser>;
   updateProjekt?: Maybe<Projekt>;
@@ -427,6 +430,10 @@ export type MutationDeleteReferenzStueliArgs = {
 
 export type MutationDeleteUserArgs = {
   input: DeleteUserInput;
+};
+
+export type MutationSetCurrentAnlageIdArgs = {
+  input: SetCurrentAnlageIdInput;
 };
 
 export type MutationUpdateAnlageArgs = {
@@ -632,6 +639,10 @@ export enum Role {
   Anlagenbetreiber = 'Anlagenbetreiber',
 }
 
+export type SetCurrentAnlageIdInput = {
+  anlageId: Scalars['ID'];
+};
+
 export type Subscription = {
   __typename?: 'Subscription';
   onCreateAnlage?: Maybe<Anlage>;
@@ -666,6 +677,10 @@ export type SubscriptionOnCreateProjektArgs = {
   users?: InputMaybe<Scalars['String']>;
 };
 
+export type SubscriptionOnCreateReferenzStueliArgs = {
+  anlageId?: InputMaybe<Scalars['String']>;
+};
+
 export type SubscriptionOnCreateUserArgs = {
   email?: InputMaybe<Scalars['String']>;
 };
@@ -682,6 +697,10 @@ export type SubscriptionOnDeleteProjektArgs = {
   users?: InputMaybe<Scalars['String']>;
 };
 
+export type SubscriptionOnDeleteReferenzStueliArgs = {
+  anlageId?: InputMaybe<Scalars['String']>;
+};
+
 export type SubscriptionOnDeleteUserArgs = {
   email?: InputMaybe<Scalars['String']>;
 };
@@ -696,6 +715,10 @@ export type SubscriptionOnUpdateAnlagenUserArgs = {
 
 export type SubscriptionOnUpdateProjektArgs = {
   users?: InputMaybe<Scalars['String']>;
+};
+
+export type SubscriptionOnUpdateReferenzStueliArgs = {
+  anlageId?: InputMaybe<Scalars['String']>;
 };
 
 export type SubscriptionOnUpdateUserArgs = {
@@ -745,6 +768,7 @@ export type UpdateReferenzStueliInput = {
 };
 
 export type UpdateUserInput = {
+  currentAnlageId?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   role?: InputMaybe<Role>;
 };
@@ -753,6 +777,7 @@ export type User = {
   __typename?: 'User';
   anlagen?: Maybe<ModelAnlagenUserConnection>;
   createdAt: Scalars['AWSDateTime'];
+  currentAnlageId?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   role: Role;
   updatedAt: Scalars['AWSDateTime'];
@@ -817,6 +842,7 @@ export type CreateAnlagenUserPrimaryMutation = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -899,6 +925,7 @@ export type CreateAnlagenUserPrimaryMutation = {
           __typename?: 'User';
           email: string;
           role: Role;
+          currentAnlageId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -930,6 +957,7 @@ export type CreateAnlagenUserPrimaryMutation = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -999,6 +1027,7 @@ export type DeleteAnlagenUserPrimaryMutation = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1081,6 +1110,7 @@ export type DeleteAnlagenUserPrimaryMutation = {
           __typename?: 'User';
           email: string;
           role: Role;
+          currentAnlageId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -1112,6 +1142,7 @@ export type DeleteAnlagenUserPrimaryMutation = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1196,6 +1227,7 @@ export type DeleteAnlagePrimaryMutation = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -1345,6 +1377,95 @@ export type DeleteAnlagePrimaryMutation = {
     | undefined;
 };
 
+export type SetCurrentAnlageIdMutationVariables = Exact<{
+  input: SetCurrentAnlageIdInput;
+}>;
+
+export type SetCurrentAnlageIdMutation = {
+  __typename?: 'Mutation';
+  setCurrentAnlageId?:
+    | {
+        __typename?: 'User';
+        email: string;
+        role: Role;
+        currentAnlageId?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+        anlagen?:
+          | {
+              __typename?: 'ModelAnlagenUserConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'AnlagenUser';
+                        anlageId: string;
+                        userEmail: string;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlage: {
+                          __typename?: 'Anlage';
+                          id: string;
+                          firma: string;
+                          standort: string;
+                          anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagenUsers?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
+                        user: {
+                          __typename?: 'User';
+                          email: string;
+                          role: Role;
+                          currentAnlageId?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
 export type UpdateAnlagenUserMutationVariables = Exact<{
   input: UpdateAnlagenUserInput;
 }>;
@@ -1396,6 +1517,7 @@ export type UpdateAnlagenUserMutation = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1478,6 +1600,7 @@ export type UpdateAnlagenUserMutation = {
           __typename?: 'User';
           email: string;
           role: Role;
+          currentAnlageId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -1509,6 +1632,7 @@ export type UpdateAnlagenUserMutation = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1593,6 +1717,7 @@ export type CreateAnlageMutation = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -1808,6 +1933,7 @@ export type UpdateAnlageMutation = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -2023,6 +2149,7 @@ export type DeleteAnlageMutation = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -2223,6 +2350,7 @@ export type CreateAnlagenUserMutation = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -2305,6 +2433,7 @@ export type CreateAnlagenUserMutation = {
           __typename?: 'User';
           email: string;
           role: Role;
+          currentAnlageId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -2336,6 +2465,7 @@ export type CreateAnlagenUserMutation = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -2405,6 +2535,7 @@ export type DeleteAnlagenUserMutation = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -2487,6 +2618,7 @@ export type DeleteAnlagenUserMutation = {
           __typename?: 'User';
           email: string;
           role: Role;
+          currentAnlageId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -2518,6 +2650,7 @@ export type DeleteAnlagenUserMutation = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -3153,6 +3286,7 @@ export type CreateUserMutation = {
         __typename?: 'User';
         email: string;
         role: Role;
+        currentAnlageId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -3205,6 +3339,7 @@ export type CreateUserMutation = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -3240,6 +3375,7 @@ export type UpdateUserMutation = {
         __typename?: 'User';
         email: string;
         role: Role;
+        currentAnlageId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -3292,6 +3428,7 @@ export type UpdateUserMutation = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -3327,6 +3464,7 @@ export type DeleteUserMutation = {
         __typename?: 'User';
         email: string;
         role: Role;
+        currentAnlageId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -3379,6 +3517,7 @@ export type DeleteUserMutation = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -3469,6 +3608,7 @@ export type GetAnlageQuery = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -3672,6 +3812,7 @@ export type ListAnlagesQuery = {
                                     __typename?: 'User';
                                     email: string;
                                     role: Role;
+                                    currentAnlageId?: string | null | undefined;
                                     createdAt: any;
                                     updatedAt: any;
                                   };
@@ -3812,6 +3953,7 @@ export type GetAnlagenUserQuery = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -3894,6 +4036,7 @@ export type GetAnlagenUserQuery = {
           __typename?: 'User';
           email: string;
           role: Role;
+          currentAnlageId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -3925,6 +4068,7 @@ export type GetAnlagenUserQuery = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -4058,6 +4202,7 @@ export type ListAnlagenUsersQuery = {
                     __typename?: 'User';
                     email: string;
                     role: Role;
+                    currentAnlageId?: string | null | undefined;
                     createdAt: any;
                     updatedAt: any;
                     anlagen?:
@@ -4625,6 +4770,7 @@ export type GetUserQuery = {
         __typename?: 'User';
         email: string;
         role: Role;
+        currentAnlageId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -4677,6 +4823,7 @@ export type GetUserQuery = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -4721,6 +4868,7 @@ export type ListUsersQuery = {
                   __typename?: 'User';
                   email: string;
                   role: Role;
+                  currentAnlageId?: string | null | undefined;
                   createdAt: any;
                   updatedAt: any;
                   anlagen?:
@@ -4752,6 +4900,7 @@ export type ListUsersQuery = {
                                     __typename?: 'User';
                                     email: string;
                                     role: Role;
+                                    currentAnlageId?: string | null | undefined;
                                     createdAt: any;
                                     updatedAt: any;
                                   };
@@ -4841,6 +4990,7 @@ export type OnCreateAnlageSubscription = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -5056,6 +5206,7 @@ export type OnUpdateAnlageSubscription = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -5271,6 +5422,7 @@ export type OnDeleteAnlageSubscription = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -5471,6 +5623,7 @@ export type OnCreateAnlagenUserSubscription = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -5553,6 +5706,7 @@ export type OnCreateAnlagenUserSubscription = {
           __typename?: 'User';
           email: string;
           role: Role;
+          currentAnlageId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -5584,6 +5738,7 @@ export type OnCreateAnlagenUserSubscription = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -5653,6 +5808,7 @@ export type OnUpdateAnlagenUserSubscription = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -5735,6 +5891,7 @@ export type OnUpdateAnlagenUserSubscription = {
           __typename?: 'User';
           email: string;
           role: Role;
+          currentAnlageId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -5766,6 +5923,7 @@ export type OnUpdateAnlagenUserSubscription = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -5835,6 +5993,7 @@ export type OnDeleteAnlagenUserSubscription = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -5917,6 +6076,7 @@ export type OnDeleteAnlagenUserSubscription = {
           __typename?: 'User';
           email: string;
           role: Role;
+          currentAnlageId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -5948,6 +6108,7 @@ export type OnDeleteAnlagenUserSubscription = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -6507,7 +6668,7 @@ export type OnDeleteProjektStueliSubscription = {
 };
 
 export type OnCreateReferenzStueliSubscriptionVariables = Exact<{
-  [key: string]: never;
+  anlageId?: InputMaybe<Scalars['String']>;
 }>;
 
 export type OnCreateReferenzStueliSubscription = {
@@ -6529,7 +6690,7 @@ export type OnCreateReferenzStueliSubscription = {
 };
 
 export type OnUpdateReferenzStueliSubscriptionVariables = Exact<{
-  [key: string]: never;
+  anlageId?: InputMaybe<Scalars['String']>;
 }>;
 
 export type OnUpdateReferenzStueliSubscription = {
@@ -6551,7 +6712,7 @@ export type OnUpdateReferenzStueliSubscription = {
 };
 
 export type OnDeleteReferenzStueliSubscriptionVariables = Exact<{
-  [key: string]: never;
+  anlageId?: InputMaybe<Scalars['String']>;
 }>;
 
 export type OnDeleteReferenzStueliSubscription = {
@@ -6583,6 +6744,7 @@ export type OnCreateUserSubscription = {
         __typename?: 'User';
         email: string;
         role: Role;
+        currentAnlageId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -6635,6 +6797,7 @@ export type OnCreateUserSubscription = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -6670,6 +6833,7 @@ export type OnUpdateUserSubscription = {
         __typename?: 'User';
         email: string;
         role: Role;
+        currentAnlageId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -6722,6 +6886,7 @@ export type OnUpdateUserSubscription = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -6757,6 +6922,7 @@ export type OnDeleteUserSubscription = {
         __typename?: 'User';
         email: string;
         role: Role;
+        currentAnlageId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -6809,6 +6975,7 @@ export type OnDeleteUserSubscription = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -7008,6 +7175,13 @@ export const CreateAnlagenUserPrimaryDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
+                                            value: 'currentAnlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
                                             value: 'createdAt',
                                           },
                                         },
@@ -7188,6 +7362,10 @@ export const CreateAnlagenUserPrimaryDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'role' } },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'currentAnlageId' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'createdAt' },
                       },
                       {
@@ -7293,6 +7471,13 @@ export const CreateAnlagenUserPrimaryDocument = {
                                         {
                                           kind: 'Field',
                                           name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'currentAnlageId',
+                                          },
                                         },
                                         {
                                           kind: 'Field',
@@ -7510,6 +7695,13 @@ export const DeleteAnlagenUserPrimaryDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
+                                            value: 'currentAnlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
                                             value: 'createdAt',
                                           },
                                         },
@@ -7690,6 +7882,10 @@ export const DeleteAnlagenUserPrimaryDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'role' } },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'currentAnlageId' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'createdAt' },
                       },
                       {
@@ -7795,6 +7991,13 @@ export const DeleteAnlagenUserPrimaryDocument = {
                                         {
                                           kind: 'Field',
                                           name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'currentAnlageId',
+                                          },
                                         },
                                         {
                                           kind: 'Field',
@@ -8018,6 +8221,13 @@ export const DeleteAnlagePrimaryDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'currentAnlageId',
+                                    },
                                   },
                                   {
                                     kind: 'Field',
@@ -8344,6 +8554,244 @@ export const DeleteAnlagePrimaryDocument = {
   DeleteAnlagePrimaryMutation,
   DeleteAnlagePrimaryMutationVariables
 >;
+export const SetCurrentAnlageIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'SetCurrentAnlageId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'SetCurrentAnlageIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'setCurrentAnlageId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'currentAnlageId' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlagen' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'userEmail' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlage' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'firma' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'standort' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anschrift' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'anlagenUsers',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'projekte' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'referenzStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'user' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'email' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'currentAnlageId',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  SetCurrentAnlageIdMutation,
+  SetCurrentAnlageIdMutationVariables
+>;
 export const UpdateAnlagenUserDocument = {
   kind: 'Document',
   definitions: [
@@ -8514,6 +8962,13 @@ export const UpdateAnlagenUserDocument = {
                                         {
                                           kind: 'Field',
                                           name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'currentAnlageId',
+                                          },
                                         },
                                         {
                                           kind: 'Field',
@@ -8699,6 +9154,10 @@ export const UpdateAnlagenUserDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'role' } },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'currentAnlageId' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'createdAt' },
                       },
                       {
@@ -8804,6 +9263,13 @@ export const UpdateAnlagenUserDocument = {
                                         {
                                           kind: 'Field',
                                           name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'currentAnlageId',
+                                          },
                                         },
                                         {
                                           kind: 'Field',
@@ -9027,6 +9493,13 @@ export const CreateAnlageDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'currentAnlageId',
+                                    },
                                   },
                                   {
                                     kind: 'Field',
@@ -9537,6 +10010,13 @@ export const UpdateAnlageDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'currentAnlageId',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'createdAt' },
                                   },
                                   {
@@ -10044,6 +10524,13 @@ export const DeleteAnlageDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'currentAnlageId',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'createdAt' },
                                   },
                                   {
@@ -10542,6 +11029,13 @@ export const CreateAnlagenUserDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
+                                            value: 'currentAnlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
                                             value: 'createdAt',
                                           },
                                         },
@@ -10722,6 +11216,10 @@ export const CreateAnlagenUserDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'role' } },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'currentAnlageId' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'createdAt' },
                       },
                       {
@@ -10827,6 +11325,13 @@ export const CreateAnlagenUserDocument = {
                                         {
                                           kind: 'Field',
                                           name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'currentAnlageId',
+                                          },
                                         },
                                         {
                                           kind: 'Field',
@@ -11044,6 +11549,13 @@ export const DeleteAnlagenUserDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
+                                            value: 'currentAnlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
                                             value: 'createdAt',
                                           },
                                         },
@@ -11224,6 +11736,10 @@ export const DeleteAnlagenUserDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'role' } },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'currentAnlageId' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'createdAt' },
                       },
                       {
@@ -11329,6 +11845,13 @@ export const DeleteAnlagenUserDocument = {
                                         {
                                           kind: 'Field',
                                           name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'currentAnlageId',
+                                          },
                                         },
                                         {
                                           kind: 'Field',
@@ -13023,6 +13546,10 @@ export const CreateUserDocument = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'email' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'currentAnlageId' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 {
@@ -13157,6 +13684,13 @@ export const CreateUserDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'currentAnlageId',
+                                    },
                                   },
                                   {
                                     kind: 'Field',
@@ -13247,6 +13781,10 @@ export const UpdateUserDocument = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'email' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'currentAnlageId' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 {
@@ -13381,6 +13919,13 @@ export const UpdateUserDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'currentAnlageId',
+                                    },
                                   },
                                   {
                                     kind: 'Field',
@@ -13471,6 +14016,10 @@ export const DeleteUserDocument = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'email' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'currentAnlageId' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 {
@@ -13605,6 +14154,13 @@ export const DeleteUserDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'currentAnlageId',
+                                    },
                                   },
                                   {
                                     kind: 'Field',
@@ -13826,6 +14382,13 @@ export const GetAnlageDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'currentAnlageId',
+                                    },
                                   },
                                   {
                                     kind: 'Field',
@@ -14381,6 +14944,13 @@ export const ListAnlagesDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
+                                            value: 'currentAnlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
                                             value: 'createdAt',
                                           },
                                         },
@@ -14754,6 +15324,13 @@ export const GetAnlagenUserDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
+                                            value: 'currentAnlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
                                             value: 'createdAt',
                                           },
                                         },
@@ -14934,6 +15511,10 @@ export const GetAnlagenUserDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'role' } },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'currentAnlageId' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'createdAt' },
                       },
                       {
@@ -15039,6 +15620,13 @@ export const GetAnlagenUserDocument = {
                                         {
                                           kind: 'Field',
                                           name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'currentAnlageId',
+                                          },
                                         },
                                         {
                                           kind: 'Field',
@@ -15461,6 +16049,10 @@ export const ListAnlagenUsersDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'role' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'currentAnlageId' },
                             },
                             {
                               kind: 'Field',
@@ -17281,6 +17873,10 @@ export const GetUserDocument = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'email' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'currentAnlageId' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 {
@@ -17415,6 +18011,13 @@ export const GetUserDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'currentAnlageId',
+                                    },
                                   },
                                   {
                                     kind: 'Field',
@@ -17577,6 +18180,10 @@ export const ListUsersDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'role' } },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'currentAnlageId' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'createdAt' },
                       },
                       {
@@ -17682,6 +18289,13 @@ export const ListUsersDocument = {
                                         {
                                           kind: 'Field',
                                           name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'currentAnlageId',
+                                          },
                                         },
                                         {
                                           kind: 'Field',
@@ -17897,6 +18511,13 @@ export const OnCreateAnlageDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'currentAnlageId',
+                                    },
                                   },
                                   {
                                     kind: 'Field',
@@ -18401,6 +19022,13 @@ export const OnUpdateAnlageDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'currentAnlageId',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'createdAt' },
                                   },
                                   {
@@ -18902,6 +19530,13 @@ export const OnDeleteAnlageDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'currentAnlageId',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'createdAt' },
                                   },
                                   {
@@ -19394,6 +20029,13 @@ export const OnCreateAnlagenUserDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
+                                            value: 'currentAnlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
                                             value: 'createdAt',
                                           },
                                         },
@@ -19574,6 +20216,10 @@ export const OnCreateAnlagenUserDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'role' } },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'currentAnlageId' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'createdAt' },
                       },
                       {
@@ -19679,6 +20325,13 @@ export const OnCreateAnlagenUserDocument = {
                                         {
                                           kind: 'Field',
                                           name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'currentAnlageId',
+                                          },
                                         },
                                         {
                                           kind: 'Field',
@@ -19890,6 +20543,13 @@ export const OnUpdateAnlagenUserDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
+                                            value: 'currentAnlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
                                             value: 'createdAt',
                                           },
                                         },
@@ -20070,6 +20730,10 @@ export const OnUpdateAnlagenUserDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'role' } },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'currentAnlageId' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'createdAt' },
                       },
                       {
@@ -20175,6 +20839,13 @@ export const OnUpdateAnlagenUserDocument = {
                                         {
                                           kind: 'Field',
                                           name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'currentAnlageId',
+                                          },
                                         },
                                         {
                                           kind: 'Field',
@@ -20386,6 +21057,13 @@ export const OnDeleteAnlagenUserDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
+                                            value: 'currentAnlageId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
                                             value: 'createdAt',
                                           },
                                         },
@@ -20566,6 +21244,10 @@ export const OnDeleteAnlagenUserDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'role' } },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'currentAnlageId' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'createdAt' },
                       },
                       {
@@ -20671,6 +21353,13 @@ export const OnDeleteAnlagenUserDocument = {
                                         {
                                           kind: 'Field',
                                           name: { kind: 'Name', value: 'role' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'currentAnlageId',
+                                          },
                                         },
                                         {
                                           kind: 'Field',
@@ -22031,12 +22720,32 @@ export const OnCreateReferenzStueliDocument = {
       kind: 'OperationDefinition',
       operation: 'subscription',
       name: { kind: 'Name', value: 'OnCreateReferenzStueli' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'anlageId' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'onCreateReferenzStueli' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'anlageId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'anlageId' },
+                },
+              },
+            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
@@ -22072,12 +22781,32 @@ export const OnUpdateReferenzStueliDocument = {
       kind: 'OperationDefinition',
       operation: 'subscription',
       name: { kind: 'Name', value: 'OnUpdateReferenzStueli' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'anlageId' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'onUpdateReferenzStueli' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'anlageId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'anlageId' },
+                },
+              },
+            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
@@ -22113,12 +22842,32 @@ export const OnDeleteReferenzStueliDocument = {
       kind: 'OperationDefinition',
       operation: 'subscription',
       name: { kind: 'Name', value: 'OnDeleteReferenzStueli' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'anlageId' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'onDeleteReferenzStueli' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'anlageId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'anlageId' },
+                },
+              },
+            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
@@ -22185,6 +22934,10 @@ export const OnCreateUserDocument = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'email' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'currentAnlageId' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 {
@@ -22319,6 +23072,13 @@ export const OnCreateUserDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'currentAnlageId',
+                                    },
                                   },
                                   {
                                     kind: 'Field',
@@ -22406,6 +23166,10 @@ export const OnUpdateUserDocument = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'email' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'currentAnlageId' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 {
@@ -22540,6 +23304,13 @@ export const OnUpdateUserDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'currentAnlageId',
+                                    },
                                   },
                                   {
                                     kind: 'Field',
@@ -22627,6 +23398,10 @@ export const OnDeleteUserDocument = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'email' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'currentAnlageId' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 {
@@ -22761,6 +23536,13 @@ export const OnDeleteUserDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'currentAnlageId',
+                                    },
                                   },
                                   {
                                     kind: 'Field',

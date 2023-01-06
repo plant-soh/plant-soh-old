@@ -229,8 +229,11 @@
       "type": "runtime"
     },
     {
+      "name": "amazon-cognito-identity-js",
+      "type": "runtime"
+    },
+    {
       "name": "amplify-graphql-docs-generator",
-      "version": "",
       "type": "runtime"
     },
     {

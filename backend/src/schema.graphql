@@ -105,6 +105,7 @@ type ReferenzStueli
     rules: [
       { allow: groups, groups: ["Admin"] }
       { allow: private, provider: iam }
+      { allow: owner, ownerField: "anlageId", identityClaim: "currentAnlageId" }
     ]
   )
   @key(fields: ["id"])
@@ -134,6 +135,8 @@ type User
   ) {
   email: String!
   role: Role!
+  # determines which ReferenzStueli items the user can query or mutate
+  currentAnlageId: String
   anlagen: [AnlagenUser] @connection(keyName: "byUser", fields: ["email"])
 }
 
@@ -158,6 +161,11 @@ type Mutation {
     @function(name: "deleteAnlage")
     @aws_cognito_user_pools
     @aws_iam
+
+  # For changing the
+  setCurrentAnlageId(input: SetCurrentAnlageIdInput!): User
+    @function(name: "setCurrentAnlageId")
+    @aws_cognito_user_pools
 }
 
 input DeleteAnlagePrimaryInput {
@@ -172,4 +180,8 @@ input CreateAnlagenUserPrimaryInput {
 input DeleteAnlagenUserPrimaryInput {
   anlageId: ID!
   userEmail: String!
+}
+
+input SetCurrentAnlageIdInput {
+  anlageId: ID!
 }

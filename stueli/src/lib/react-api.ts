@@ -130,6 +130,7 @@ export type CreateReferenzStueliInput = {
 };
 
 export type CreateUserInput = {
+  currentAnlageId?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   role: Role;
 };
@@ -344,6 +345,7 @@ export type ModelUserConnection = {
 
 export type ModelUserFilterInput = {
   and?: InputMaybe<Array<InputMaybe<ModelUserFilterInput>>>;
+  currentAnlageId?: InputMaybe<ModelStringFilterInput>;
   email?: InputMaybe<ModelStringFilterInput>;
   not?: InputMaybe<ModelUserFilterInput>;
   or?: InputMaybe<Array<InputMaybe<ModelUserFilterInput>>>;
@@ -367,6 +369,7 @@ export type Mutation = {
   deleteProjektStueli?: Maybe<ProjektStueli>;
   deleteReferenzStueli?: Maybe<ReferenzStueli>;
   deleteUser?: Maybe<User>;
+  setCurrentAnlageId?: Maybe<User>;
   updateAnlage?: Maybe<Anlage>;
   updateAnlagenUser?: Maybe<AnlagenUser>;
   updateProjekt?: Maybe<Projekt>;
@@ -433,6 +436,10 @@ export type MutationDeleteReferenzStueliArgs = {
 
 export type MutationDeleteUserArgs = {
   input: DeleteUserInput;
+};
+
+export type MutationSetCurrentAnlageIdArgs = {
+  input: SetCurrentAnlageIdInput;
 };
 
 export type MutationUpdateAnlageArgs = {
@@ -638,6 +645,10 @@ export enum Role {
   Anlagenbetreiber = 'Anlagenbetreiber',
 }
 
+export type SetCurrentAnlageIdInput = {
+  anlageId: Scalars['ID'];
+};
+
 export type Subscription = {
   __typename?: 'Subscription';
   onCreateAnlage?: Maybe<Anlage>;
@@ -672,6 +683,10 @@ export type SubscriptionOnCreateProjektArgs = {
   users?: InputMaybe<Scalars['String']>;
 };
 
+export type SubscriptionOnCreateReferenzStueliArgs = {
+  anlageId?: InputMaybe<Scalars['String']>;
+};
+
 export type SubscriptionOnCreateUserArgs = {
   email?: InputMaybe<Scalars['String']>;
 };
@@ -688,6 +703,10 @@ export type SubscriptionOnDeleteProjektArgs = {
   users?: InputMaybe<Scalars['String']>;
 };
 
+export type SubscriptionOnDeleteReferenzStueliArgs = {
+  anlageId?: InputMaybe<Scalars['String']>;
+};
+
 export type SubscriptionOnDeleteUserArgs = {
   email?: InputMaybe<Scalars['String']>;
 };
@@ -702,6 +721,10 @@ export type SubscriptionOnUpdateAnlagenUserArgs = {
 
 export type SubscriptionOnUpdateProjektArgs = {
   users?: InputMaybe<Scalars['String']>;
+};
+
+export type SubscriptionOnUpdateReferenzStueliArgs = {
+  anlageId?: InputMaybe<Scalars['String']>;
 };
 
 export type SubscriptionOnUpdateUserArgs = {
@@ -751,6 +774,7 @@ export type UpdateReferenzStueliInput = {
 };
 
 export type UpdateUserInput = {
+  currentAnlageId?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   role?: InputMaybe<Role>;
 };
@@ -759,6 +783,7 @@ export type User = {
   __typename?: 'User';
   anlagen?: Maybe<ModelAnlagenUserConnection>;
   createdAt: Scalars['AWSDateTime'];
+  currentAnlageId?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   role: Role;
   updatedAt: Scalars['AWSDateTime'];
@@ -823,6 +848,7 @@ export type CreateAnlagenUserPrimaryMutation = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -905,6 +931,7 @@ export type CreateAnlagenUserPrimaryMutation = {
           __typename?: 'User';
           email: string;
           role: Role;
+          currentAnlageId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -936,6 +963,7 @@ export type CreateAnlagenUserPrimaryMutation = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1005,6 +1033,7 @@ export type DeleteAnlagenUserPrimaryMutation = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1087,6 +1116,7 @@ export type DeleteAnlagenUserPrimaryMutation = {
           __typename?: 'User';
           email: string;
           role: Role;
+          currentAnlageId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -1118,6 +1148,7 @@ export type DeleteAnlagenUserPrimaryMutation = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1202,6 +1233,7 @@ export type DeleteAnlagePrimaryMutation = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -1351,6 +1383,95 @@ export type DeleteAnlagePrimaryMutation = {
     | undefined;
 };
 
+export type SetCurrentAnlageIdMutationVariables = Exact<{
+  input: SetCurrentAnlageIdInput;
+}>;
+
+export type SetCurrentAnlageIdMutation = {
+  __typename?: 'Mutation';
+  setCurrentAnlageId?:
+    | {
+        __typename?: 'User';
+        email: string;
+        role: Role;
+        currentAnlageId?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+        anlagen?:
+          | {
+              __typename?: 'ModelAnlagenUserConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'AnlagenUser';
+                        anlageId: string;
+                        userEmail: string;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlage: {
+                          __typename?: 'Anlage';
+                          id: string;
+                          firma: string;
+                          standort: string;
+                          anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagenUsers?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
+                        user: {
+                          __typename?: 'User';
+                          email: string;
+                          role: Role;
+                          currentAnlageId?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
 export type UpdateAnlagenUserMutationVariables = Exact<{
   input: UpdateAnlagenUserInput;
 }>;
@@ -1402,6 +1523,7 @@ export type UpdateAnlagenUserMutation = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1484,6 +1606,7 @@ export type UpdateAnlagenUserMutation = {
           __typename?: 'User';
           email: string;
           role: Role;
+          currentAnlageId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -1515,6 +1638,7 @@ export type UpdateAnlagenUserMutation = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1599,6 +1723,7 @@ export type CreateAnlageMutation = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -1814,6 +1939,7 @@ export type UpdateAnlageMutation = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -2029,6 +2155,7 @@ export type DeleteAnlageMutation = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -2229,6 +2356,7 @@ export type CreateAnlagenUserMutation = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -2311,6 +2439,7 @@ export type CreateAnlagenUserMutation = {
           __typename?: 'User';
           email: string;
           role: Role;
+          currentAnlageId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -2342,6 +2471,7 @@ export type CreateAnlagenUserMutation = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -2411,6 +2541,7 @@ export type DeleteAnlagenUserMutation = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -2493,6 +2624,7 @@ export type DeleteAnlagenUserMutation = {
           __typename?: 'User';
           email: string;
           role: Role;
+          currentAnlageId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -2524,6 +2656,7 @@ export type DeleteAnlagenUserMutation = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -3159,6 +3292,7 @@ export type CreateUserMutation = {
         __typename?: 'User';
         email: string;
         role: Role;
+        currentAnlageId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -3211,6 +3345,7 @@ export type CreateUserMutation = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -3246,6 +3381,7 @@ export type UpdateUserMutation = {
         __typename?: 'User';
         email: string;
         role: Role;
+        currentAnlageId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -3298,6 +3434,7 @@ export type UpdateUserMutation = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -3333,6 +3470,7 @@ export type DeleteUserMutation = {
         __typename?: 'User';
         email: string;
         role: Role;
+        currentAnlageId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -3385,6 +3523,7 @@ export type DeleteUserMutation = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -3475,6 +3614,7 @@ export type GetAnlageQuery = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -3678,6 +3818,7 @@ export type ListAnlagesQuery = {
                                     __typename?: 'User';
                                     email: string;
                                     role: Role;
+                                    currentAnlageId?: string | null | undefined;
                                     createdAt: any;
                                     updatedAt: any;
                                   };
@@ -3818,6 +3959,7 @@ export type GetAnlagenUserQuery = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -3900,6 +4042,7 @@ export type GetAnlagenUserQuery = {
           __typename?: 'User';
           email: string;
           role: Role;
+          currentAnlageId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -3931,6 +4074,7 @@ export type GetAnlagenUserQuery = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -4064,6 +4208,7 @@ export type ListAnlagenUsersQuery = {
                     __typename?: 'User';
                     email: string;
                     role: Role;
+                    currentAnlageId?: string | null | undefined;
                     createdAt: any;
                     updatedAt: any;
                     anlagen?:
@@ -4631,6 +4776,7 @@ export type GetUserQuery = {
         __typename?: 'User';
         email: string;
         role: Role;
+        currentAnlageId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -4683,6 +4829,7 @@ export type GetUserQuery = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -4727,6 +4874,7 @@ export type ListUsersQuery = {
                   __typename?: 'User';
                   email: string;
                   role: Role;
+                  currentAnlageId?: string | null | undefined;
                   createdAt: any;
                   updatedAt: any;
                   anlagen?:
@@ -4758,6 +4906,7 @@ export type ListUsersQuery = {
                                     __typename?: 'User';
                                     email: string;
                                     role: Role;
+                                    currentAnlageId?: string | null | undefined;
                                     createdAt: any;
                                     updatedAt: any;
                                   };
@@ -4847,6 +4996,7 @@ export type OnCreateAnlageSubscription = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -5062,6 +5212,7 @@ export type OnUpdateAnlageSubscription = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -5277,6 +5428,7 @@ export type OnDeleteAnlageSubscription = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -5477,6 +5629,7 @@ export type OnCreateAnlagenUserSubscription = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -5559,6 +5712,7 @@ export type OnCreateAnlagenUserSubscription = {
           __typename?: 'User';
           email: string;
           role: Role;
+          currentAnlageId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -5590,6 +5744,7 @@ export type OnCreateAnlagenUserSubscription = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -5659,6 +5814,7 @@ export type OnUpdateAnlagenUserSubscription = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -5741,6 +5897,7 @@ export type OnUpdateAnlagenUserSubscription = {
           __typename?: 'User';
           email: string;
           role: Role;
+          currentAnlageId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -5772,6 +5929,7 @@ export type OnUpdateAnlagenUserSubscription = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -5841,6 +5999,7 @@ export type OnDeleteAnlagenUserSubscription = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -5923,6 +6082,7 @@ export type OnDeleteAnlagenUserSubscription = {
           __typename?: 'User';
           email: string;
           role: Role;
+          currentAnlageId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -5954,6 +6114,7 @@ export type OnDeleteAnlagenUserSubscription = {
                             __typename?: 'User';
                             email: string;
                             role: Role;
+                            currentAnlageId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -6513,7 +6674,7 @@ export type OnDeleteProjektStueliSubscription = {
 };
 
 export type OnCreateReferenzStueliSubscriptionVariables = Exact<{
-  [key: string]: never;
+  anlageId?: InputMaybe<Scalars['String']>;
 }>;
 
 export type OnCreateReferenzStueliSubscription = {
@@ -6535,7 +6696,7 @@ export type OnCreateReferenzStueliSubscription = {
 };
 
 export type OnUpdateReferenzStueliSubscriptionVariables = Exact<{
-  [key: string]: never;
+  anlageId?: InputMaybe<Scalars['String']>;
 }>;
 
 export type OnUpdateReferenzStueliSubscription = {
@@ -6557,7 +6718,7 @@ export type OnUpdateReferenzStueliSubscription = {
 };
 
 export type OnDeleteReferenzStueliSubscriptionVariables = Exact<{
-  [key: string]: never;
+  anlageId?: InputMaybe<Scalars['String']>;
 }>;
 
 export type OnDeleteReferenzStueliSubscription = {
@@ -6589,6 +6750,7 @@ export type OnCreateUserSubscription = {
         __typename?: 'User';
         email: string;
         role: Role;
+        currentAnlageId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -6641,6 +6803,7 @@ export type OnCreateUserSubscription = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -6676,6 +6839,7 @@ export type OnUpdateUserSubscription = {
         __typename?: 'User';
         email: string;
         role: Role;
+        currentAnlageId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -6728,6 +6892,7 @@ export type OnUpdateUserSubscription = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -6763,6 +6928,7 @@ export type OnDeleteUserSubscription = {
         __typename?: 'User';
         email: string;
         role: Role;
+        currentAnlageId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -6815,6 +6981,7 @@ export type OnDeleteUserSubscription = {
                           __typename?: 'User';
                           email: string;
                           role: Role;
+                          currentAnlageId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -6872,6 +7039,7 @@ export const CreateAnlagenUserPrimaryDocument = `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
           }
@@ -6912,6 +7080,7 @@ export const CreateAnlagenUserPrimaryDocument = `
     user {
       email
       role
+      currentAnlageId
       createdAt
       updatedAt
       anlagen {
@@ -6932,6 +7101,7 @@ export const CreateAnlagenUserPrimaryDocument = `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
           }
@@ -7000,6 +7170,7 @@ export const DeleteAnlagenUserPrimaryDocument = `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
           }
@@ -7040,6 +7211,7 @@ export const DeleteAnlagenUserPrimaryDocument = `
     user {
       email
       role
+      currentAnlageId
       createdAt
       updatedAt
       anlagen {
@@ -7060,6 +7232,7 @@ export const DeleteAnlagenUserPrimaryDocument = `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
           }
@@ -7132,6 +7305,7 @@ export const DeleteAnlagePrimaryDocument = `
         user {
           email
           role
+          currentAnlageId
           createdAt
           updatedAt
           anlagen {
@@ -7222,6 +7396,79 @@ export const useDeleteAnlagePrimaryMutation = <
       >(DeleteAnlagePrimaryDocument, variables)(),
     options,
   );
+export const SetCurrentAnlageIdDocument = `
+    mutation SetCurrentAnlageId($input: SetCurrentAnlageIdInput!) {
+  setCurrentAnlageId(input: $input) {
+    email
+    role
+    currentAnlageId
+    createdAt
+    updatedAt
+    anlagen {
+      items {
+        anlageId
+        userEmail
+        createdAt
+        updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          users
+          createdAt
+          updatedAt
+          anlagenUsers {
+            nextToken
+          }
+          projekte {
+            nextToken
+          }
+          referenzStueli {
+            nextToken
+          }
+        }
+        user {
+          email
+          role
+          currentAnlageId
+          createdAt
+          updatedAt
+          anlagen {
+            nextToken
+          }
+        }
+      }
+      nextToken
+    }
+  }
+}
+    `;
+export const useSetCurrentAnlageIdMutation = <
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: UseMutationOptions<
+    SetCurrentAnlageIdMutation,
+    TError,
+    SetCurrentAnlageIdMutationVariables,
+    TContext
+  >,
+) =>
+  useMutation<
+    SetCurrentAnlageIdMutation,
+    TError,
+    SetCurrentAnlageIdMutationVariables,
+    TContext
+  >(
+    ['SetCurrentAnlageId'],
+    (variables?: SetCurrentAnlageIdMutationVariables) =>
+      amplifyFetcher<
+        SetCurrentAnlageIdMutation,
+        SetCurrentAnlageIdMutationVariables
+      >(SetCurrentAnlageIdDocument, variables)(),
+    options,
+  );
 export const UpdateAnlagenUserDocument = `
     mutation UpdateAnlagenUser($input: UpdateAnlagenUserInput!) {
   updateAnlagenUser(input: $input) {
@@ -7255,6 +7502,7 @@ export const UpdateAnlagenUserDocument = `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
           }
@@ -7295,6 +7543,7 @@ export const UpdateAnlagenUserDocument = `
     user {
       email
       role
+      currentAnlageId
       createdAt
       updatedAt
       anlagen {
@@ -7315,6 +7564,7 @@ export const UpdateAnlagenUserDocument = `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
           }
@@ -7387,6 +7637,7 @@ export const CreateAnlageDocument = `
         user {
           email
           role
+          currentAnlageId
           createdAt
           updatedAt
           anlagen {
@@ -7511,6 +7762,7 @@ export const UpdateAnlageDocument = `
         user {
           email
           role
+          currentAnlageId
           createdAt
           updatedAt
           anlagen {
@@ -7635,6 +7887,7 @@ export const DeleteAnlageDocument = `
         user {
           email
           role
+          currentAnlageId
           createdAt
           updatedAt
           anlagen {
@@ -7755,6 +8008,7 @@ export const CreateAnlagenUserDocument = `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
           }
@@ -7795,6 +8049,7 @@ export const CreateAnlagenUserDocument = `
     user {
       email
       role
+      currentAnlageId
       createdAt
       updatedAt
       anlagen {
@@ -7815,6 +8070,7 @@ export const CreateAnlagenUserDocument = `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
           }
@@ -7883,6 +8139,7 @@ export const DeleteAnlagenUserDocument = `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
           }
@@ -7923,6 +8180,7 @@ export const DeleteAnlagenUserDocument = `
     user {
       email
       role
+      currentAnlageId
       createdAt
       updatedAt
       anlagen {
@@ -7943,6 +8201,7 @@ export const DeleteAnlagenUserDocument = `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
           }
@@ -8517,6 +8776,7 @@ export const CreateUserDocument = `
   createUser(input: $input) {
     email
     role
+    currentAnlageId
     createdAt
     updatedAt
     anlagen {
@@ -8546,6 +8806,7 @@ export const CreateUserDocument = `
         user {
           email
           role
+          currentAnlageId
           createdAt
           updatedAt
           anlagen {
@@ -8585,6 +8846,7 @@ export const UpdateUserDocument = `
   updateUser(input: $input) {
     email
     role
+    currentAnlageId
     createdAt
     updatedAt
     anlagen {
@@ -8614,6 +8876,7 @@ export const UpdateUserDocument = `
         user {
           email
           role
+          currentAnlageId
           createdAt
           updatedAt
           anlagen {
@@ -8653,6 +8916,7 @@ export const DeleteUserDocument = `
   deleteUser(input: $input) {
     email
     role
+    currentAnlageId
     createdAt
     updatedAt
     anlagen {
@@ -8682,6 +8946,7 @@ export const DeleteUserDocument = `
         user {
           email
           role
+          currentAnlageId
           createdAt
           updatedAt
           anlagen {
@@ -8753,6 +9018,7 @@ export const GetAnlageDocument = `
         user {
           email
           role
+          currentAnlageId
           createdAt
           updatedAt
           anlagen {
@@ -8865,6 +9131,7 @@ export const ListAnlagesDocument = `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
           }
@@ -8951,6 +9218,7 @@ export const GetAnlagenUserDocument = `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
           }
@@ -8991,6 +9259,7 @@ export const GetAnlagenUserDocument = `
     user {
       email
       role
+      currentAnlageId
       createdAt
       updatedAt
       anlagen {
@@ -9011,6 +9280,7 @@ export const GetAnlagenUserDocument = `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
           }
@@ -9096,6 +9366,7 @@ export const ListAnlagenUsersDocument = `
       user {
         email
         role
+        currentAnlageId
         createdAt
         updatedAt
         anlagen {
@@ -9570,6 +9841,7 @@ export const GetUserDocument = `
   getUser(email: $email) {
     email
     role
+    currentAnlageId
     createdAt
     updatedAt
     anlagen {
@@ -9599,6 +9871,7 @@ export const GetUserDocument = `
         user {
           email
           role
+          currentAnlageId
           createdAt
           updatedAt
           anlagen {
@@ -9635,6 +9908,7 @@ export const ListUsersDocument = `
     items {
       email
       role
+      currentAnlageId
       createdAt
       updatedAt
       anlagen {
@@ -9655,6 +9929,7 @@ export const ListUsersDocument = `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
           }
@@ -9715,6 +9990,7 @@ export const OnCreateAnlageDocument = `
         user {
           email
           role
+          currentAnlageId
           createdAt
           updatedAt
           anlagen {
@@ -9817,6 +10093,7 @@ export const OnUpdateAnlageDocument = `
         user {
           email
           role
+          currentAnlageId
           createdAt
           updatedAt
           anlagen {
@@ -9919,6 +10196,7 @@ export const OnDeleteAnlageDocument = `
         user {
           email
           role
+          currentAnlageId
           createdAt
           updatedAt
           anlagen {
@@ -10017,6 +10295,7 @@ export const OnCreateAnlagenUserDocument = `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
           }
@@ -10057,6 +10336,7 @@ export const OnCreateAnlagenUserDocument = `
     user {
       email
       role
+      currentAnlageId
       createdAt
       updatedAt
       anlagen {
@@ -10077,6 +10357,7 @@ export const OnCreateAnlagenUserDocument = `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
           }
@@ -10120,6 +10401,7 @@ export const OnUpdateAnlagenUserDocument = `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
           }
@@ -10160,6 +10442,7 @@ export const OnUpdateAnlagenUserDocument = `
     user {
       email
       role
+      currentAnlageId
       createdAt
       updatedAt
       anlagen {
@@ -10180,6 +10463,7 @@ export const OnUpdateAnlagenUserDocument = `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
           }
@@ -10223,6 +10507,7 @@ export const OnDeleteAnlagenUserDocument = `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
           }
@@ -10263,6 +10548,7 @@ export const OnDeleteAnlagenUserDocument = `
     user {
       email
       role
+      currentAnlageId
       createdAt
       updatedAt
       anlagen {
@@ -10283,6 +10569,7 @@ export const OnDeleteAnlagenUserDocument = `
           user {
             email
             role
+            currentAnlageId
             createdAt
             updatedAt
           }
@@ -10570,8 +10857,8 @@ export const OnDeleteProjektStueliDocument = `
 }
     `;
 export const OnCreateReferenzStueliDocument = `
-    subscription OnCreateReferenzStueli {
-  onCreateReferenzStueli {
+    subscription OnCreateReferenzStueli($anlageId: String) {
+  onCreateReferenzStueli(anlageId: $anlageId) {
     id
     anlageId
     kurzspezifikation
@@ -10584,8 +10871,8 @@ export const OnCreateReferenzStueliDocument = `
 }
     `;
 export const OnUpdateReferenzStueliDocument = `
-    subscription OnUpdateReferenzStueli {
-  onUpdateReferenzStueli {
+    subscription OnUpdateReferenzStueli($anlageId: String) {
+  onUpdateReferenzStueli(anlageId: $anlageId) {
     id
     anlageId
     kurzspezifikation
@@ -10598,8 +10885,8 @@ export const OnUpdateReferenzStueliDocument = `
 }
     `;
 export const OnDeleteReferenzStueliDocument = `
-    subscription OnDeleteReferenzStueli {
-  onDeleteReferenzStueli {
+    subscription OnDeleteReferenzStueli($anlageId: String) {
+  onDeleteReferenzStueli(anlageId: $anlageId) {
     id
     anlageId
     kurzspezifikation
@@ -10616,6 +10903,7 @@ export const OnCreateUserDocument = `
   onCreateUser(email: $email) {
     email
     role
+    currentAnlageId
     createdAt
     updatedAt
     anlagen {
@@ -10645,6 +10933,7 @@ export const OnCreateUserDocument = `
         user {
           email
           role
+          currentAnlageId
           createdAt
           updatedAt
           anlagen {
@@ -10662,6 +10951,7 @@ export const OnUpdateUserDocument = `
   onUpdateUser(email: $email) {
     email
     role
+    currentAnlageId
     createdAt
     updatedAt
     anlagen {
@@ -10691,6 +10981,7 @@ export const OnUpdateUserDocument = `
         user {
           email
           role
+          currentAnlageId
           createdAt
           updatedAt
           anlagen {
@@ -10708,6 +10999,7 @@ export const OnDeleteUserDocument = `
   onDeleteUser(email: $email) {
     email
     role
+    currentAnlageId
     createdAt
     updatedAt
     anlagen {
@@ -10737,6 +11029,7 @@ export const OnDeleteUserDocument = `
         user {
           email
           role
+          currentAnlageId
           createdAt
           updatedAt
           anlagen {

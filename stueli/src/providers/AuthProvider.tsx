@@ -2,6 +2,7 @@ import { Auth } from '@aws-amplify/auth';
 import { ICredentials } from '@aws-amplify/core';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { Provider } from '@aws-sdk/types';
+import { CognitoUser } from 'amazon-cognito-identity-js';
 // import { Amplify } from 'aws-amplify';
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
 
@@ -17,6 +18,8 @@ interface AuthValue {
   getIdToken: Provider<string>;
   signOut: (data?: Record<string | number | symbol, any>) => void;
   user: ReturnType<typeof useAuthenticator>['user'];
+  currentAnlageId: string | undefined;
+  refreshSession: () => Promise<void>;
 }
 
 const AuthContext = React.createContext<AuthValue | undefined>(undefined);
@@ -44,11 +47,24 @@ export default function AuthProvider({
   }>();
 
   const [role, setRole] = useState<string | undefined>();
+  const [currentAnlageId, setCurrentAnlageId] = useState<string | undefined>();
+
+  const refreshSession = async () => {
+    console.log('Refreshing session');
+    const cognitoUser = (await Auth.currentAuthenticatedUser()) as CognitoUser;
+    const currentSession = cognitoUser.getSignInUserSession();
+
+    if (!currentSession) return;
+    const refreshToken = currentSession.getRefreshToken();
+    cognitoUser.refreshSession(refreshToken, (_err, _session) => {});
+  };
 
   useEffect(() => {
     console.debug('AuthProvider authenticated');
     if (route === 'authenticated') {
       void (async () => {
+        const payload = (await Auth.currentSession()).getIdToken().payload;
+        console.log(payload);
         setCredentials({
           credentials: Auth.essentialCredentials(
             await Auth.currentCredentials(),
@@ -58,15 +74,13 @@ export default function AuthProvider({
           },
           authToken: (await Auth.currentSession()).getIdToken().getJwtToken(),
         });
-        setRole(
-          (await Auth.currentSession()).getIdToken().payload[
-            'cognito:groups'
-          ][0],
-        );
+        setRole(payload['cognito:groups'][0]);
+        setCurrentAnlageId(payload.currentAnlageId);
       })();
     } else if (route === 'signOut') {
       setCredentials(undefined);
       setRole(undefined);
+      setCurrentAnlageId(undefined);
     }
   }, [route]);
 
@@ -76,11 +90,19 @@ export default function AuthProvider({
     const value: AuthValue = {
       // accountType: user.attributes?.['custom:accountType'] as AccountType,
       role: Role[role as keyof typeof Role],
+      currentAnlageId: currentAnlageId,
       credentials: credentials.credentials,
       getIdToken: credentials.getIdToken,
       signOut,
       user,
+      refreshSession,
     };
+    console.log(
+      `AuthValue=${JSON.stringify({
+        role: value.role,
+        currentAnlageId: value.currentAnlageId,
+      })}`,
+    );
     return (
       <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
     );
