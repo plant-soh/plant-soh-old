@@ -140,6 +140,7 @@ export default function AuthProvider({
       `AuthValue=${JSON.stringify({
         role: value.role,
         currentAnlageId: value.currentAnlageId,
+        currentProjektId: value.currentProjektId,
       })}`,
     );
     return (

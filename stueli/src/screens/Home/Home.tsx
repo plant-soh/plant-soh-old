@@ -39,27 +39,31 @@ const Home = () => {
       data-testid="home"
     >
       HOME SWEET HOME
-      <div className="flex gap-6">
-        <div>
-          <span>Zuletzt bearbeitete Referenzstückliste:</span>
-          <button
-            className={`px-4 py-2 font-bold text-white bg-blue-500 rounded 'hover:bg-blue-700'`}
-          >
-            <Link name="referenz-stueli" to={`/kunden/${currentAnlageId}`}>
-              <span>{`Firma=${getAnlage.data?.getAnlage?.firma} Standort=${getAnlage.data?.getAnlage?.standort} ID=${currentAnlageId}`}</span>
-            </Link>
-          </button>
-        </div>
-        <div>
-          <span>Zuletzt bearbeitete Projektstückliste:</span>
-          <button
-            className={`px-4 py-2 font-bold text-white bg-blue-500 rounded 'hover:bg-blue-700'`}
-          >
-            <Link name="referenz-stueli" to={`/projekte/${currentAnlageId}`}>
-              <span>{`Firma=${getProjekt.data?.getProjekt?.anlage.firma} Standort=${getProjekt.data?.getProjekt?.anlage.standort} ID=${currentProjektId}`}</span>
-            </Link>
-          </button>
-        </div>
+      <div className="flex flex-col gap-6">
+        {getAnlage.data?.getAnlage && (
+          <div className="flex gap-6">
+            <span>Zuletzt bearbeitete Referenzstückliste:</span>
+            <button
+              className={`px-4 py-2 font-bold text-white bg-blue-500 rounded 'hover:bg-blue-700'`}
+            >
+              <Link name="referenz-stueli" to={`/kunden/${currentAnlageId}`}>
+                <span>{`Firma=${getAnlage.data?.getAnlage?.firma} Standort=${getAnlage.data?.getAnlage?.standort} ID=${currentAnlageId}`}</span>
+              </Link>
+            </button>
+          </div>
+        )}
+        {getProjekt.data?.getProjekt && (
+          <div className="flex gap-6">
+            <span>Zuletzt bearbeitete Projektstückliste:</span>
+            <button
+              className={`px-4 py-2 font-bold text-white bg-blue-500 rounded 'hover:bg-blue-700'`}
+            >
+              <Link name="referenz-stueli" to={`/projekte/${currentAnlageId}`}>
+                <span>{`Firma=${getProjekt.data?.getProjekt?.anlage.firma} Standort=${getProjekt.data?.getProjekt?.anlage.standort} ID=${currentProjektId}`}</span>
+              </Link>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

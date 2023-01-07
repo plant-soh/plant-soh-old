@@ -308,6 +308,24 @@ export class BackendStack extends core.Stack {
       setCurrentAnlageId,
     );
 
+    const setCurrentProjektId = new lambdajs.NodejsFunction(
+      this,
+      'setCurrentProjektId',
+      {
+        functionName: 'setCurrentProjektId',
+        timeout: core.Duration.seconds(30),
+        environment: {
+          APPSYNC_URL: appSyncCustomDomainUrl,
+        },
+      },
+    );
+
+    api.addLambdaDataSourceAndResolvers(
+      'setCurrentProjektId',
+      'setCurrentProjektId',
+      setCurrentProjektId,
+    );
+
     // add AppSync access to all lambda which need it
     [
       preTokenGenerationLambda,
@@ -315,6 +333,7 @@ export class BackendStack extends core.Stack {
       // deleteAnlagenUser,
       // deleteAnlage,
       setCurrentAnlageId,
+      setCurrentProjektId,
     ].map((lambda) => {
       lambda.addToRolePolicy(
         new iam.PolicyStatement({
