@@ -33,6 +33,7 @@ export class API {
   }
 
   static updateAuthToken(authToken: string): void {
+    console.log('updateAuthToken');
     if (!instance) instance = new API();
     instance.authToken = authToken;
   }

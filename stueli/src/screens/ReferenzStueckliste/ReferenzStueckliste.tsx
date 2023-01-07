@@ -25,7 +25,7 @@ type ReferenzStueliParams = {
 const ReferenzStueckliste = () => {
   const { id = '' } = useParams<ReferenzStueliParams>();
 
-  const { currentAnlageId, refreshSession, role } = useAuth();
+  const { refreshSession, role } = useAuth();
 
   const [newStueck, setNewStueck] = useState<
     | {
@@ -59,10 +59,18 @@ const ReferenzStueckliste = () => {
     },
   );
 
+  const { data, isLoading, refetch } =
+    useReferenzStueliByKurzspezifikationQuery(
+      { anlageId: id },
+      {
+        refetchOnWindowFocus: false,
+      },
+    );
+
   const setCurrentAnlageId = useSetCurrentAnlageIdMutation();
 
   useEffect(() => {
-    if (!id || currentAnlageId === id) return;
+    if (!id) return;
     void (async () => {
       await setCurrentAnlageId.mutateAsync({
         input: {
@@ -72,16 +80,9 @@ const ReferenzStueckliste = () => {
 
       //refresh
       await refreshSession();
+      await refetch();
     })();
   }, [id]);
-
-  const { data, isLoading, refetch } =
-    useReferenzStueliByKurzspezifikationQuery(
-      { anlageId: id },
-      {
-        refetchOnWindowFocus: false,
-      },
-    );
 
   const deleteStueck = useDeleteReferenzStueliMutation();
   const createStueck = useCreateReferenzStueliMutation();
