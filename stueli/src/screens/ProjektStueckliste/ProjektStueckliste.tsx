@@ -2,6 +2,7 @@ import * as Papa from 'papaparse';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { firstBy } from 'thenby';
+// import { API } from '../../lib/fetcher';
 
 import {
   ProjektStueli,
@@ -10,6 +11,7 @@ import {
   useDeleteProjektStueliMutation,
   useGetProjektQuery,
   useProjektStueliByKurzspezifikationQuery,
+  useReferenzStueliByKurzspezifikationQuery,
   useSetCurrentProjektIdMutation,
 } from '../../lib/react-api';
 import { useAuth } from '../../providers/AuthProvider';
@@ -37,7 +39,6 @@ const ProjektStueckliste = () => {
     | undefined
   >(undefined);
   const [selectedFile, setSelectedFile] = useState();
-  // const [isFilePicked, setIsFilePicked] = useState(false);
 
   const isAdmin = role === Role.Admin;
 
@@ -77,6 +78,13 @@ const ProjektStueckliste = () => {
 
   const { data, isLoading, refetch } = useProjektStueliByKurzspezifikationQuery(
     { projektId: id },
+    {
+      refetchOnWindowFocus: false,
+    },
+  );
+
+  const referenzStueli = useReferenzStueliByKurzspezifikationQuery(
+    { anlageId: getProjektQuery.data?.getProjekt?.anlageId },
     {
       refetchOnWindowFocus: false,
     },
@@ -252,6 +260,33 @@ const ProjektStueckliste = () => {
                     >
                       <span>Einfügen</span>
                     </button>
+                  </td>
+                ) : col === 'kurzspezifikation' ? (
+                  <td
+                    key={`${col}_insert`}
+                    className="p-3 text-left whitespace-pre-line"
+                  >
+                    <select className="border-2 border-black">
+                      {referenzStueli.data?.referenzStueliByKurzspezifikation?.items?.map(
+                        (stueck) => (
+                          <option
+                            key="kurzspezifikation"
+                            value={stueck?.kurzspezifikation || ''}
+                          >
+                            {stueck?.kurzspezifikation}
+                          </option>
+                        ),
+                      )}
+                    </select>
+                    <input
+                      className="border-2 border-black"
+                      type="text"
+                      id={col}
+                      name={col}
+                      onChange={(e) =>
+                        setNewStueck({ ...newStueck, [col]: e.target.value })
+                      }
+                    />
                   </td>
                 ) : (
                   <td
