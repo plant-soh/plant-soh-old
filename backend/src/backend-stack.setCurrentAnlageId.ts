@@ -4,6 +4,7 @@ import AppsyncClient from 'appsync-client';
 import * as lambda from 'aws-lambda';
 import { AppSyncIdentityCognito } from 'aws-lambda';
 import {
+  GetAnlagenUserDocument,
   SetCurrentAnlageIdInput,
   UpdateUserDocument,
   User,
@@ -29,6 +30,21 @@ export async function handler(
   }
 
   const { email } = (event.identity as AppSyncIdentityCognito).claims;
+
+  const { getAnlagenUser } = await client.request({
+    query: GetAnlagenUserDocument,
+    variables: {
+      userEmail: email,
+      anlageId,
+    },
+  });
+
+  console.log(`getAnlagenUser=${JSON.stringify(getAnlagenUser)}`);
+
+  // user isn't associated to anlage
+  if (!getAnlagenUser) {
+    return;
+  }
 
   const { updateUser } = await client.request({
     query: UpdateUserDocument,

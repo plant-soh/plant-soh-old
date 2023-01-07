@@ -81,7 +81,6 @@ export default function AuthProvider({
         const idToken = (await Auth.currentSession()).getIdToken();
         const payload = idToken.payload;
         const jwtToken = idToken.getJwtToken();
-        console.log(payload);
         // setCredentials({
         //   credentials: Auth.essentialCredentials(
         //     await Auth.currentCredentials(),
@@ -93,6 +92,7 @@ export default function AuthProvider({
         // });
         setRole(payload['cognito:groups'][0]);
         setCurrentAnlageId(payload.currentAnlageId);
+        console.log('setCurrentAnlageId');
         API.updateIsSignedIn(true);
         API.updateAuthToken(jwtToken);
       })();
@@ -103,7 +103,7 @@ export default function AuthProvider({
       API.updateIsSignedIn(false);
       API.updateAuthToken('');
     }
-  }, [route]);
+  }, [route, location]);
 
   if (route === 'authenticated' && role) {
     const value: AuthValue = {

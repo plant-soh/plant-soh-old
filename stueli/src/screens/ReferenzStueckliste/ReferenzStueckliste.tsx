@@ -59,18 +59,8 @@ const ReferenzStueckliste = () => {
     },
   );
 
-  const { data, isLoading, refetch } =
-    useReferenzStueliByKurzspezifikationQuery(
-      { anlageId: id },
-      {
-        refetchOnWindowFocus: false,
-      },
-    );
-
-  const setCurrentAnlageId = useSetCurrentAnlageIdMutation();
-
   useEffect(() => {
-    if (!id) return;
+    // if (!id) return;
     void (async () => {
       await setCurrentAnlageId.mutateAsync({
         input: {
@@ -82,7 +72,17 @@ const ReferenzStueckliste = () => {
       await refreshSession();
       await refetch();
     })();
-  }, [id]);
+  }, []);
+
+  const { data, isLoading, refetch } =
+    useReferenzStueliByKurzspezifikationQuery(
+      { anlageId: id },
+      {
+        refetchOnWindowFocus: false,
+      },
+    );
+
+  const setCurrentAnlageId = useSetCurrentAnlageIdMutation();
 
   const deleteStueck = useDeleteReferenzStueliMutation();
   const createStueck = useCreateReferenzStueliMutation();
