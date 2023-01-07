@@ -7,6 +7,7 @@ import { useAuth } from '../providers/AuthProvider';
 
 const Home = lazy(() => import('../screens/Home'));
 const Projekte = lazy(() => import('../screens/Projekte'));
+const ProjektStueckliste = lazy(() => import('../screens/ProjektStueckliste'));
 const Kunde = lazy(() => import('../screens/Kunden'));
 const KundeUser = lazy(() => import('../screens/KundeUser'));
 const ReferenzStueckliste = lazy(
@@ -35,7 +36,10 @@ const MainRouter = () => {
             element={withSuspense(ReferenzStueckliste)}
           />
           <Route path="projekte" element={withSuspense(Projekte)} />
-          {/* <Route path="kunde/:id" element={withSuspense(ReferenzStueckliste)} /> */}
+          <Route
+            path="projekte/:id"
+            element={withSuspense(ProjektStueckliste)}
+          />
           {role === Role.Admin && (
             <Route path="/kundeuser" element={withSuspense(KundeUser)} />
           )}

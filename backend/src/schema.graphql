@@ -163,9 +163,12 @@ type Mutation {
     @aws_cognito_user_pools
     @aws_iam
 
-  # For changing the
   setCurrentAnlageId(input: SetCurrentAnlageIdInput!): User
     @function(name: "setCurrentAnlageId")
+    @aws_cognito_user_pools
+
+  setCurrentProjektId(input: SetCurrentProjektIdInput!): User
+    @function(name: "setCurrentProjektId")
     @aws_cognito_user_pools
 }
 
@@ -185,4 +188,8 @@ input DeleteAnlagenUserPrimaryInput {
 
 input SetCurrentAnlageIdInput {
   anlageId: ID!
+}
+
+input SetCurrentProjektIdInput {
+  projektId: ID!
 }

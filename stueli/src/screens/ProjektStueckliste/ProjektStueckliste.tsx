@@ -4,13 +4,13 @@ import { useParams } from 'react-router-dom';
 import { firstBy } from 'thenby';
 
 import {
-  ReferenzStueli,
+  ProjektStueli,
   Role,
-  useCreateReferenzStueliMutation,
-  useDeleteReferenzStueliMutation,
-  useGetAnlageQuery,
-  useReferenzStueliByKurzspezifikationQuery,
-  useSetCurrentAnlageIdMutation,
+  useCreateProjektStueliMutation,
+  useDeleteProjektStueliMutation,
+  useGetProjektQuery,
+  useProjektStueliByKurzspezifikationQuery,
+  useSetCurrentProjektIdMutation,
 } from '../../lib/react-api';
 import { useAuth } from '../../providers/AuthProvider';
 
@@ -18,14 +18,14 @@ function nameof<T>(key: keyof T): keyof T {
   return key;
 }
 
-type ReferenzStueliParams = {
+type ProjektStueliParams = {
   id: string;
 };
 
-const ReferenzStueckliste = () => {
-  const { id = '' } = useParams<ReferenzStueliParams>();
+const ProjektStueckliste = () => {
+  const { id = '' } = useParams<ProjektStueliParams>();
 
-  const { currentAnlageId, refreshSession, role } = useAuth();
+  const { currentProjektId, refreshSession, role } = useAuth();
 
   const [newStueck, setNewStueck] = useState<
     | {
@@ -42,17 +42,17 @@ const ReferenzStueckliste = () => {
   const isAdmin = role === Role.Admin;
 
   let columns = {
-    [nameof<ReferenzStueli>('kurzspezifikation')]: 'Kurzspezifikation',
-    [nameof<ReferenzStueli>('lieferant')]: 'Lieferant',
-    [nameof<ReferenzStueli>('nennweite')]: 'Nennweite',
-    [nameof<ReferenzStueli>('feinspezifikation')]: 'Feinspezifikation',
+    [nameof<ProjektStueli>('kurzspezifikation')]: 'Kurzspezifikation',
+    [nameof<ProjektStueli>('lieferant')]: 'Lieferant',
+    [nameof<ProjektStueli>('nennweite')]: 'Nennweite',
+    [nameof<ProjektStueli>('feinspezifikation')]: 'Feinspezifikation',
   };
 
   if (isAdmin) {
     columns = { ...columns, actions: 'Aktionen' };
   }
 
-  const getAnlageQuery = useGetAnlageQuery(
+  const getProjektQuery = useGetProjektQuery(
     { id: id },
     {
       refetchOnWindowFocus: false,
@@ -60,12 +60,12 @@ const ReferenzStueckliste = () => {
   );
 
   useEffect(() => {
-    if (!id || currentAnlageId === id) return;
+    if (!id || currentProjektId === id) return;
     void (async () => {
-      console.log(`anlageId=${id}`);
-      await setCurrentAnlageId.mutateAsync({
+      console.log(`projektId=${id}`);
+      await setCurrentProjektId.mutateAsync({
         input: {
-          anlageId: id,
+          projektId: id,
         },
       });
 
@@ -75,18 +75,17 @@ const ReferenzStueckliste = () => {
     })();
   }, [id]);
 
-  const { data, isLoading, refetch } =
-    useReferenzStueliByKurzspezifikationQuery(
-      { anlageId: id },
-      {
-        refetchOnWindowFocus: false,
-      },
-    );
+  const { data, isLoading, refetch } = useProjektStueliByKurzspezifikationQuery(
+    { projektId: id },
+    {
+      refetchOnWindowFocus: false,
+    },
+  );
 
-  const setCurrentAnlageId = useSetCurrentAnlageIdMutation();
+  const setCurrentProjektId = useSetCurrentProjektIdMutation();
 
-  const deleteStueck = useDeleteReferenzStueliMutation();
-  const createStueck = useCreateReferenzStueliMutation();
+  const deleteStueck = useDeleteProjektStueliMutation();
+  const createStueck = useCreateProjektStueliMutation();
 
   const changeHandler = (event: any) => {
     setSelectedFile(event.target.files[0]);
@@ -105,7 +104,7 @@ const ReferenzStueckliste = () => {
           results.data.map(async (row) => {
             await createStueck.mutateAsync({
               input: {
-                anlageId: id,
+                projektId: id,
                 kurzspezifikation: row.Kurzspezifikation,
                 lieferant: row.Lieferant,
                 nennweite: row['NW/P'],
@@ -129,13 +128,18 @@ const ReferenzStueckliste = () => {
       <h1 className="flex gap-6 text-xl">
         <div className="flex gap-2">
           <span>Kunde:</span>
-          <span>{getAnlageQuery.data?.getAnlage?.firma}</span>
+          <span>{getProjektQuery.data?.getProjekt?.anlage.firma}</span>
         </div>
         <div className="flex gap-2">
           <span>Standort:</span>
-          <span>{getAnlageQuery.data?.getAnlage?.standort}</span>
+          <span>{getProjektQuery.data?.getProjekt?.anlage.standort} </span>
+        </div>
+        <div className="flex gap-2">
+          <span>Projektnummer:</span>
+          <span>{getProjektQuery.data?.getProjekt?.projektNummer} </span>
         </div>
       </h1>
+
       <div className="flex flex-col">
         <input type="file" name="file" onChange={changeHandler} accept=".csv" />
         <div>
@@ -167,11 +171,11 @@ const ReferenzStueckliste = () => {
         </thead>
         <tbody className="bg-gray-50" data-testid="recent-calls-table-body">
           {data!
-            .referenzStueliByKurzspezifikation!.items!.sort(
-              firstBy<ReferenzStueli>((s1, s2) =>
+            .projektStueliByKurzspezifikation!.items!.sort(
+              firstBy<ProjektStueli>((s1, s2) =>
                 s1!.kurzspezifikation!.localeCompare(s2!.kurzspezifikation!),
               )
-                .thenBy<ReferenzStueli>((s1, s2) =>
+                .thenBy<ProjektStueli>((s1, s2) =>
                   s1!.lieferant!.localeCompare(s2!.lieferant!),
                 )
                 .thenBy((s1, s2) =>
@@ -239,7 +243,7 @@ const ReferenzStueckliste = () => {
                         }
                         await createStueck.mutateAsync({
                           input: {
-                            anlageId: id,
+                            projektId: id,
                             ...newStueck,
                           },
                         });
@@ -255,6 +259,7 @@ const ReferenzStueckliste = () => {
                     className="p-3 text-left whitespace-pre-line"
                   >
                     <input
+                      className="border-2 border-black"
                       type="text"
                       id={col}
                       name={col}
@@ -273,4 +278,4 @@ const ReferenzStueckliste = () => {
   );
 };
 
-export default ReferenzStueckliste;
+export default ProjektStueckliste;

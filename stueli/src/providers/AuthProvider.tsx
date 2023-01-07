@@ -19,6 +19,7 @@ interface AuthValue {
   signOut: (data?: Record<string | number | symbol, any>) => void;
   user: ReturnType<typeof useAuthenticator>['user'];
   currentAnlageId: string | undefined;
+  currentProjektId: string | undefined;
   refreshSession: () => Promise<void>;
 }
 
@@ -51,6 +52,9 @@ export default function AuthProvider({
 
   const [role, setRole] = useState<string | undefined>();
   const [currentAnlageId, setCurrentAnlageId] = useState<string | undefined>();
+  const [currentProjektId, setCurrentProjektId] = useState<
+    string | undefined
+  >();
 
   const refreshSession = async () => {
     console.log('Refreshing session');
@@ -65,7 +69,7 @@ export default function AuthProvider({
       cognitoUser.refreshSession(refreshToken, async (_err, newSession) => {
         API.updateAuthToken(newSession.getIdToken().getJwtToken());
         setCurrentSession(newSession);
-        console.log(`newSession: ${JSON.stringify(newSession)}`);
+        // console.log(`newSession: ${JSON.stringify(newSession)}`);
         resolve(newSession.getIdToken().getJwtToken());
       });
     });
@@ -105,6 +109,7 @@ export default function AuthProvider({
         // });
         setRole(payload['cognito:groups'][0]);
         setCurrentAnlageId(payload.currentAnlageId);
+        setCurrentProjektId(payload.currentProjektId);
         // console.log('setCurrentAnlageId=' + payload.currentAnlageId);
         API.updateIsSignedIn(true);
         API.updateAuthToken(jwtToken);
@@ -113,6 +118,7 @@ export default function AuthProvider({
       // setCredentials(undefined);
       setRole(undefined);
       setCurrentAnlageId(undefined);
+      setCurrentProjektId(undefined);
       API.updateIsSignedIn(false);
       API.updateAuthToken('');
     }
@@ -122,7 +128,8 @@ export default function AuthProvider({
     const value: AuthValue = {
       // accountType: user.attributes?.['custom:accountType'] as AccountType,
       role: Role[role as keyof typeof Role],
-      currentAnlageId: currentAnlageId,
+      currentAnlageId,
+      currentProjektId,
       // credentials: credentials.credentials,
       // getIdToken: credentials.getIdToken,
       signOut,

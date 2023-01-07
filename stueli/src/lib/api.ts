@@ -366,6 +366,7 @@ export type Mutation = {
   deleteReferenzStueli?: Maybe<ReferenzStueli>;
   deleteUser?: Maybe<User>;
   setCurrentAnlageId?: Maybe<User>;
+  setCurrentProjektId?: Maybe<User>;
   updateAnlage?: Maybe<Anlage>;
   updateAnlagenUser?: Maybe<AnlagenUser>;
   updateProjekt?: Maybe<Projekt>;
@@ -436,6 +437,10 @@ export type MutationDeleteUserArgs = {
 
 export type MutationSetCurrentAnlageIdArgs = {
   input: SetCurrentAnlageIdInput;
+};
+
+export type MutationSetCurrentProjektIdArgs = {
+  input: SetCurrentProjektIdInput;
 };
 
 export type MutationUpdateAnlageArgs = {
@@ -636,6 +641,10 @@ export enum Role {
 
 export type SetCurrentAnlageIdInput = {
   anlageId: Scalars['ID'];
+};
+
+export type SetCurrentProjektIdInput = {
+  projektId: Scalars['ID'];
 };
 
 export type Subscription = {
@@ -1407,6 +1416,97 @@ export type SetCurrentAnlageIdMutationVariables = Exact<{
 export type SetCurrentAnlageIdMutation = {
   __typename?: 'Mutation';
   setCurrentAnlageId?:
+    | {
+        __typename?: 'User';
+        email: string;
+        role: Role;
+        currentAnlageId?: string | null | undefined;
+        currentProjektId?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+        anlagen?:
+          | {
+              __typename?: 'ModelAnlagenUserConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'AnlagenUser';
+                        anlageId: string;
+                        userEmail: string;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlage: {
+                          __typename?: 'Anlage';
+                          id: string;
+                          firma: string;
+                          standort: string;
+                          anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagenUsers?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
+                        user: {
+                          __typename?: 'User';
+                          email: string;
+                          role: Role;
+                          currentAnlageId?: string | null | undefined;
+                          currentProjektId?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type SetCurrentProjektIdMutationVariables = Exact<{
+  input: SetCurrentProjektIdInput;
+}>;
+
+export type SetCurrentProjektIdMutation = {
+  __typename?: 'Mutation';
+  setCurrentProjektId?:
     | {
         __typename?: 'User';
         email: string;
@@ -9293,6 +9393,255 @@ export const SetCurrentAnlageIdDocument = {
 } as unknown as DocumentNode<
   SetCurrentAnlageIdMutation,
   SetCurrentAnlageIdMutationVariables
+>;
+export const SetCurrentProjektIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'SetCurrentProjektId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'SetCurrentProjektIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'setCurrentProjektId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'role' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'currentAnlageId' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'currentProjektId' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'anlagen' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'items' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlageId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'userEmail' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'updatedAt' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'anlage' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'firma' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'standort' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anschrift' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'users' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'anlagenUsers',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'projekte' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'referenzStueli',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'user' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'email' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'role' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'currentAnlageId',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'currentProjektId',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'updatedAt' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'anlagen' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'nextToken',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nextToken' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  SetCurrentProjektIdMutation,
+  SetCurrentProjektIdMutationVariables
 >;
 export const UpdateAnlagenUserDocument = {
   kind: 'Document',

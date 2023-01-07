@@ -372,6 +372,7 @@ export type Mutation = {
   deleteReferenzStueli?: Maybe<ReferenzStueli>;
   deleteUser?: Maybe<User>;
   setCurrentAnlageId?: Maybe<User>;
+  setCurrentProjektId?: Maybe<User>;
   updateAnlage?: Maybe<Anlage>;
   updateAnlagenUser?: Maybe<AnlagenUser>;
   updateProjekt?: Maybe<Projekt>;
@@ -442,6 +443,10 @@ export type MutationDeleteUserArgs = {
 
 export type MutationSetCurrentAnlageIdArgs = {
   input: SetCurrentAnlageIdInput;
+};
+
+export type MutationSetCurrentProjektIdArgs = {
+  input: SetCurrentProjektIdInput;
 };
 
 export type MutationUpdateAnlageArgs = {
@@ -642,6 +647,10 @@ export enum Role {
 
 export type SetCurrentAnlageIdInput = {
   anlageId: Scalars['ID'];
+};
+
+export type SetCurrentProjektIdInput = {
+  projektId: Scalars['ID'];
 };
 
 export type Subscription = {
@@ -1413,6 +1422,97 @@ export type SetCurrentAnlageIdMutationVariables = Exact<{
 export type SetCurrentAnlageIdMutation = {
   __typename?: 'Mutation';
   setCurrentAnlageId?:
+    | {
+        __typename?: 'User';
+        email: string;
+        role: Role;
+        currentAnlageId?: string | null | undefined;
+        currentProjektId?: string | null | undefined;
+        createdAt: any;
+        updatedAt: any;
+        anlagen?:
+          | {
+              __typename?: 'ModelAnlagenUserConnection';
+              nextToken?: string | null | undefined;
+              items?:
+                | Array<
+                    | {
+                        __typename?: 'AnlagenUser';
+                        anlageId: string;
+                        userEmail: string;
+                        createdAt: any;
+                        updatedAt: any;
+                        anlage: {
+                          __typename?: 'Anlage';
+                          id: string;
+                          firma: string;
+                          standort: string;
+                          anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagenUsers?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
+                        user: {
+                          __typename?: 'User';
+                          email: string;
+                          role: Role;
+                          currentAnlageId?: string | null | undefined;
+                          currentProjektId?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagen?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
+                      }
+                    | null
+                    | undefined
+                  >
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+};
+
+export type SetCurrentProjektIdMutationVariables = Exact<{
+  input: SetCurrentProjektIdInput;
+}>;
+
+export type SetCurrentProjektIdMutation = {
+  __typename?: 'Mutation';
+  setCurrentProjektId?:
     | {
         __typename?: 'User';
         email: string;
@@ -7841,6 +7941,81 @@ export const useSetCurrentAnlageIdMutation = <
         SetCurrentAnlageIdMutation,
         SetCurrentAnlageIdMutationVariables
       >(SetCurrentAnlageIdDocument, variables)(),
+    options,
+  );
+export const SetCurrentProjektIdDocument = `
+    mutation SetCurrentProjektId($input: SetCurrentProjektIdInput!) {
+  setCurrentProjektId(input: $input) {
+    email
+    role
+    currentAnlageId
+    currentProjektId
+    createdAt
+    updatedAt
+    anlagen {
+      items {
+        anlageId
+        userEmail
+        createdAt
+        updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          users
+          createdAt
+          updatedAt
+          anlagenUsers {
+            nextToken
+          }
+          projekte {
+            nextToken
+          }
+          referenzStueli {
+            nextToken
+          }
+        }
+        user {
+          email
+          role
+          currentAnlageId
+          currentProjektId
+          createdAt
+          updatedAt
+          anlagen {
+            nextToken
+          }
+        }
+      }
+      nextToken
+    }
+  }
+}
+    `;
+export const useSetCurrentProjektIdMutation = <
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: UseMutationOptions<
+    SetCurrentProjektIdMutation,
+    TError,
+    SetCurrentProjektIdMutationVariables,
+    TContext
+  >,
+) =>
+  useMutation<
+    SetCurrentProjektIdMutation,
+    TError,
+    SetCurrentProjektIdMutationVariables,
+    TContext
+  >(
+    ['SetCurrentProjektId'],
+    (variables?: SetCurrentProjektIdMutationVariables) =>
+      amplifyFetcher<
+        SetCurrentProjektIdMutation,
+        SetCurrentProjektIdMutationVariables
+      >(SetCurrentProjektIdDocument, variables)(),
     options,
   );
 export const UpdateAnlagenUserDocument = `

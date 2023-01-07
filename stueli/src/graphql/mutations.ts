@@ -392,6 +392,56 @@ export const setCurrentAnlageId = /* GraphQL */ `
     }
   }
 `;
+export const setCurrentProjektId = /* GraphQL */ `
+  mutation SetCurrentProjektId($input: SetCurrentProjektIdInput!) {
+    setCurrentProjektId(input: $input) {
+      email
+      role
+      currentAnlageId
+      currentProjektId
+      createdAt
+      updatedAt
+      anlagen {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+            anlagenUsers {
+              nextToken
+            }
+            projekte {
+              nextToken
+            }
+            referenzStueli {
+              nextToken
+            }
+          }
+          user {
+            email
+            role
+            currentAnlageId
+            currentProjektId
+            createdAt
+            updatedAt
+            anlagen {
+              nextToken
+            }
+          }
+        }
+        nextToken
+      }
+    }
+  }
+`;
 export const updateAnlagenUser = /* GraphQL */ `
   mutation UpdateAnlagenUser($input: UpdateAnlagenUserInput!) {
     updateAnlagenUser(input: $input) {

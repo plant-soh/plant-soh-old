@@ -96,16 +96,18 @@ const Projekte = () => {
                           <span>Löschen</span>
                         </button>
                       ) : col === 'standort' ? (
-                        <Link
-                          name="referenz-stueli"
-                          to={`/projekte/${projekt.id}`}
-                        >
-                          {/* <span>{anlage[col]}</span> */}
-                        </Link>
+                        <button className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+                          <Link
+                            name="projekt-stueli"
+                            to={`/projekte/${projekt.id}`}
+                          >
+                            {<span>{projekt.anlage[col]}</span>}
+                          </Link>
+                        </button>
                       ) : col === 'projektNummer' ? (
                         projekt[col]
                       ) : (
-                        projekt.anlage[col as 'firma' | 'standort']
+                        projekt.anlage[col as 'firma']
                       )}
                     </td>
                   ))}
@@ -120,6 +122,7 @@ const Projekte = () => {
                 colSpan={2}
               >
                 <select
+                  className="border-2 border-black"
                   onChange={(e) =>
                     setNewProjekt({
                       ...newProjekt,
@@ -140,10 +143,11 @@ const Projekte = () => {
               </td>
 
               <td
-                key="anlage_insert"
+                key="projektNummer_insert"
                 className="p-3 text-left whitespace-pre-line"
               >
                 <input
+                  className="border-2 border-black"
                   type="text"
                   id="projektNummer"
                   name="projektNummer"

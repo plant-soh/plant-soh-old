@@ -49,7 +49,7 @@ const Kunden = () => {
   return (
     <div
       className="relative flex flex-col w-full h-full gap-6 pb-10 m-6 -mb-6"
-      data-testid="kunde"
+      data-testid="kunden"
     >
       <h1 className="flex text-xl font-semibold">Kunden</h1>
       <table className="mt-4">
@@ -91,9 +91,14 @@ const Kunden = () => {
                           <span>Löschen</span>
                         </button>
                       ) : col === 'standort' ? (
-                        <Link name="referenz-stueli" to={`/kunde/${anlage.id}`}>
-                          <span>{anlage[col]}</span>
-                        </Link>
+                        <button className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+                          <Link
+                            name="referenz-stueli"
+                            to={`/kunden/${anlage.id}`}
+                          >
+                            <span>{anlage[col]}</span>
+                          </Link>
+                        </button>
                       ) : (
                         anlage[col as 'firma' | 'anschrift']
                       )}
@@ -109,6 +114,7 @@ const Kunden = () => {
                 className="p-3 text-left whitespace-pre-line"
               >
                 <input
+                  className="border-2 border-black"
                   type="text"
                   id="firma"
                   name="firma"
@@ -122,6 +128,7 @@ const Kunden = () => {
                 className="p-3 text-left whitespace-pre-line"
               >
                 <input
+                  className="border-2 border-black"
                   type="text"
                   id="standort"
                   name="standort"
@@ -135,6 +142,7 @@ const Kunden = () => {
                 className="p-3 text-left whitespace-pre-line"
               >
                 <input
+                  className="border-2 border-black"
                   type="text"
                   id="anschrift"
                   name="firma"
