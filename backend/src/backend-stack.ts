@@ -240,55 +240,55 @@ export class BackendStack extends core.Stack {
       preTokenGenerationLambda,
     );
 
-    const createAnlagenUser = new lambdajs.NodejsFunction(
-      this,
-      'createAnlagenUser',
-      {
-        functionName: 'createAnlagenUser',
-        timeout: core.Duration.seconds(30),
-        environment: {
-          APPSYNC_URL: appSyncCustomDomainUrl,
-        },
-      },
-    );
+    // const createAnlagenUser = new lambdajs.NodejsFunction(
+    //   this,
+    //   'createAnlagenUser',
+    //   {
+    //     functionName: 'createAnlagenUser',
+    //     timeout: core.Duration.seconds(30),
+    //     environment: {
+    //       APPSYNC_URL: appSyncCustomDomainUrl,
+    //     },
+    //   },
+    // );
 
-    api.addLambdaDataSourceAndResolvers(
-      'createAnlagenUser',
-      'createAnlagenUser',
-      createAnlagenUser,
-    );
+    // api.addLambdaDataSourceAndResolvers(
+    //   'createAnlagenUser',
+    //   'createAnlagenUser',
+    //   createAnlagenUser,
+    // );
 
-    const deleteAnlagenUser = new lambdajs.NodejsFunction(
-      this,
-      'deleteAnlagenUser',
-      {
-        functionName: 'deleteAnlagenUser',
-        timeout: core.Duration.seconds(30),
-        environment: {
-          APPSYNC_URL: appSyncCustomDomainUrl,
-        },
-      },
-    );
+    // const deleteAnlagenUser = new lambdajs.NodejsFunction(
+    //   this,
+    //   'deleteAnlagenUser',
+    //   {
+    //     functionName: 'deleteAnlagenUser',
+    //     timeout: core.Duration.seconds(30),
+    //     environment: {
+    //       APPSYNC_URL: appSyncCustomDomainUrl,
+    //     },
+    //   },
+    // );
 
-    api.addLambdaDataSourceAndResolvers(
-      'deleteAnlagenUser',
-      'deleteAnlagenUser',
-      deleteAnlagenUser,
-    );
+    // api.addLambdaDataSourceAndResolvers(
+    //   'deleteAnlagenUser',
+    //   'deleteAnlagenUser',
+    //   deleteAnlagenUser,
+    // );
 
-    const deleteAnlage = new lambdajs.NodejsFunction(this, 'deleteAnlage', {
-      functionName: 'deleteAnlage',
-      timeout: core.Duration.seconds(30),
-      environment: {
-        APPSYNC_URL: appSyncCustomDomainUrl,
-      },
-    });
+    // const deleteAnlage = new lambdajs.NodejsFunction(this, 'deleteAnlage', {
+    //   functionName: 'deleteAnlage',
+    //   timeout: core.Duration.seconds(30),
+    //   environment: {
+    //     APPSYNC_URL: appSyncCustomDomainUrl,
+    //   },
+    // });
 
-    api.addLambdaDataSourceAndResolvers(
-      'deleteAnlage',
-      'deleteAnlage',
-      deleteAnlage,
-    );
+    // api.addLambdaDataSourceAndResolvers(
+    //   'deleteAnlage',
+    //   'deleteAnlage',
+    //   deleteAnlage,
+    // );
 
     const setCurrentAnlageId = new lambdajs.NodejsFunction(
       this,
@@ -311,9 +311,9 @@ export class BackendStack extends core.Stack {
     // add AppSync access to all lambda which need it
     [
       preTokenGenerationLambda,
-      createAnlagenUser,
-      deleteAnlagenUser,
-      deleteAnlage,
+      // createAnlagenUser,
+      // deleteAnlagenUser,
+      // deleteAnlage,
       setCurrentAnlageId,
     ].map((lambda) => {
       lambda.addToRolePolicy(

@@ -2,346 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createAnlagenUserPrimary = /* GraphQL */ `
-  mutation CreateAnlagenUserPrimary($input: CreateAnlagenUserPrimaryInput!) {
-    createAnlagenUserPrimary(input: $input) {
-      anlageId
-      userEmail
-      createdAt
-      updatedAt
-      anlage {
-        id
-        firma
-        standort
-        anschrift
-        users
-        createdAt
-        updatedAt
-        anlagenUsers {
-          items {
-            anlageId
-            userEmail
-            createdAt
-            updatedAt
-            anlage {
-              id
-              firma
-              standort
-              anschrift
-              users
-              createdAt
-              updatedAt
-            }
-            user {
-              email
-              role
-              currentAnlageId
-              currentProjektId
-              createdAt
-              updatedAt
-            }
-          }
-          nextToken
-        }
-        projekte {
-          items {
-            id
-            anlageId
-            projektNummer
-            users
-            createdAt
-            updatedAt
-            anlage {
-              id
-              firma
-              standort
-              anschrift
-              users
-              createdAt
-              updatedAt
-            }
-            projektStueli {
-              nextToken
-            }
-          }
-          nextToken
-        }
-        referenzStueli {
-          items {
-            id
-            anlageId
-            kurzspezifikation
-            lieferant
-            nennweite
-            feinspezifikation
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-      }
-      user {
-        email
-        role
-        currentAnlageId
-        currentProjektId
-        createdAt
-        updatedAt
-        anlagen {
-          items {
-            anlageId
-            userEmail
-            createdAt
-            updatedAt
-            anlage {
-              id
-              firma
-              standort
-              anschrift
-              users
-              createdAt
-              updatedAt
-            }
-            user {
-              email
-              role
-              currentAnlageId
-              currentProjektId
-              createdAt
-              updatedAt
-            }
-          }
-          nextToken
-        }
-      }
-    }
-  }
-`;
-export const deleteAnlagenUserPrimary = /* GraphQL */ `
-  mutation DeleteAnlagenUserPrimary($input: DeleteAnlagenUserPrimaryInput!) {
-    deleteAnlagenUserPrimary(input: $input) {
-      anlageId
-      userEmail
-      createdAt
-      updatedAt
-      anlage {
-        id
-        firma
-        standort
-        anschrift
-        users
-        createdAt
-        updatedAt
-        anlagenUsers {
-          items {
-            anlageId
-            userEmail
-            createdAt
-            updatedAt
-            anlage {
-              id
-              firma
-              standort
-              anschrift
-              users
-              createdAt
-              updatedAt
-            }
-            user {
-              email
-              role
-              currentAnlageId
-              currentProjektId
-              createdAt
-              updatedAt
-            }
-          }
-          nextToken
-        }
-        projekte {
-          items {
-            id
-            anlageId
-            projektNummer
-            users
-            createdAt
-            updatedAt
-            anlage {
-              id
-              firma
-              standort
-              anschrift
-              users
-              createdAt
-              updatedAt
-            }
-            projektStueli {
-              nextToken
-            }
-          }
-          nextToken
-        }
-        referenzStueli {
-          items {
-            id
-            anlageId
-            kurzspezifikation
-            lieferant
-            nennweite
-            feinspezifikation
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-      }
-      user {
-        email
-        role
-        currentAnlageId
-        currentProjektId
-        createdAt
-        updatedAt
-        anlagen {
-          items {
-            anlageId
-            userEmail
-            createdAt
-            updatedAt
-            anlage {
-              id
-              firma
-              standort
-              anschrift
-              users
-              createdAt
-              updatedAt
-            }
-            user {
-              email
-              role
-              currentAnlageId
-              currentProjektId
-              createdAt
-              updatedAt
-            }
-          }
-          nextToken
-        }
-      }
-    }
-  }
-`;
-export const deleteAnlagePrimary = /* GraphQL */ `
-  mutation DeleteAnlagePrimary($input: DeleteAnlagePrimaryInput!) {
-    deleteAnlagePrimary(input: $input) {
-      id
-      firma
-      standort
-      anschrift
-      users
-      createdAt
-      updatedAt
-      anlagenUsers {
-        items {
-          anlageId
-          userEmail
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            users
-            createdAt
-            updatedAt
-            anlagenUsers {
-              nextToken
-            }
-            projekte {
-              nextToken
-            }
-            referenzStueli {
-              nextToken
-            }
-          }
-          user {
-            email
-            role
-            currentAnlageId
-            currentProjektId
-            createdAt
-            updatedAt
-            anlagen {
-              nextToken
-            }
-          }
-        }
-        nextToken
-      }
-      projekte {
-        items {
-          id
-          anlageId
-          projektNummer
-          users
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            users
-            createdAt
-            updatedAt
-            anlagenUsers {
-              nextToken
-            }
-            projekte {
-              nextToken
-            }
-            referenzStueli {
-              nextToken
-            }
-          }
-          projektStueli {
-            items {
-              id
-              projektId
-              kurzspezifikation
-              lieferant
-              nennweite
-              feinspezifikation
-              voschlagKurzspezifikation
-              vorschlagLieferant
-              vorschlagNennweite
-              vorschlagFeinspezifikation
-              createdAt
-              updatedAt
-            }
-            nextToken
-          }
-        }
-        nextToken
-      }
-      referenzStueli {
-        items {
-          id
-          anlageId
-          kurzspezifikation
-          lieferant
-          nennweite
-          feinspezifikation
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-    }
-  }
-`;
 export const setCurrentAnlageId = /* GraphQL */ `
   mutation SetCurrentAnlageId($input: SetCurrentAnlageIdInput!) {
     setCurrentAnlageId(input: $input) {
@@ -362,7 +22,6 @@ export const setCurrentAnlageId = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {
@@ -412,7 +71,6 @@ export const setCurrentProjektId = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {
@@ -454,7 +112,6 @@ export const updateAnlagenUser = /* GraphQL */ `
         firma
         standort
         anschrift
-        users
         createdAt
         updatedAt
         anlagenUsers {
@@ -468,7 +125,6 @@ export const updateAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -488,7 +144,6 @@ export const updateAnlagenUser = /* GraphQL */ `
             id
             anlageId
             projektNummer
-            users
             createdAt
             updatedAt
             anlage {
@@ -496,7 +151,6 @@ export const updateAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -538,7 +192,6 @@ export const updateAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -564,7 +217,6 @@ export const createAnlage = /* GraphQL */ `
       firma
       standort
       anschrift
-      users
       createdAt
       updatedAt
       anlagenUsers {
@@ -578,7 +230,6 @@ export const createAnlage = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {
@@ -610,7 +261,6 @@ export const createAnlage = /* GraphQL */ `
           id
           anlageId
           projektNummer
-          users
           createdAt
           updatedAt
           anlage {
@@ -618,7 +268,6 @@ export const createAnlage = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {
@@ -674,7 +323,6 @@ export const updateAnlage = /* GraphQL */ `
       firma
       standort
       anschrift
-      users
       createdAt
       updatedAt
       anlagenUsers {
@@ -688,7 +336,6 @@ export const updateAnlage = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {
@@ -720,7 +367,6 @@ export const updateAnlage = /* GraphQL */ `
           id
           anlageId
           projektNummer
-          users
           createdAt
           updatedAt
           anlage {
@@ -728,7 +374,6 @@ export const updateAnlage = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {
@@ -784,7 +429,6 @@ export const deleteAnlage = /* GraphQL */ `
       firma
       standort
       anschrift
-      users
       createdAt
       updatedAt
       anlagenUsers {
@@ -798,7 +442,6 @@ export const deleteAnlage = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {
@@ -830,7 +473,6 @@ export const deleteAnlage = /* GraphQL */ `
           id
           anlageId
           projektNummer
-          users
           createdAt
           updatedAt
           anlage {
@@ -838,7 +480,6 @@ export const deleteAnlage = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {
@@ -899,7 +540,6 @@ export const createAnlagenUser = /* GraphQL */ `
         firma
         standort
         anschrift
-        users
         createdAt
         updatedAt
         anlagenUsers {
@@ -913,7 +553,6 @@ export const createAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -933,7 +572,6 @@ export const createAnlagenUser = /* GraphQL */ `
             id
             anlageId
             projektNummer
-            users
             createdAt
             updatedAt
             anlage {
@@ -941,7 +579,6 @@ export const createAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -983,7 +620,6 @@ export const createAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -1014,7 +650,6 @@ export const deleteAnlagenUser = /* GraphQL */ `
         firma
         standort
         anschrift
-        users
         createdAt
         updatedAt
         anlagenUsers {
@@ -1028,7 +663,6 @@ export const deleteAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -1048,7 +682,6 @@ export const deleteAnlagenUser = /* GraphQL */ `
             id
             anlageId
             projektNummer
-            users
             createdAt
             updatedAt
             anlage {
@@ -1056,7 +689,6 @@ export const deleteAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -1098,7 +730,6 @@ export const deleteAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -1123,7 +754,6 @@ export const createProjekt = /* GraphQL */ `
       id
       anlageId
       projektNummer
-      users
       createdAt
       updatedAt
       anlage {
@@ -1131,7 +761,6 @@ export const createProjekt = /* GraphQL */ `
         firma
         standort
         anschrift
-        users
         createdAt
         updatedAt
         anlagenUsers {
@@ -1145,7 +774,6 @@ export const createProjekt = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -1165,7 +793,6 @@ export const createProjekt = /* GraphQL */ `
             id
             anlageId
             projektNummer
-            users
             createdAt
             updatedAt
             anlage {
@@ -1173,7 +800,6 @@ export const createProjekt = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -1223,7 +849,6 @@ export const updateProjekt = /* GraphQL */ `
       id
       anlageId
       projektNummer
-      users
       createdAt
       updatedAt
       anlage {
@@ -1231,7 +856,6 @@ export const updateProjekt = /* GraphQL */ `
         firma
         standort
         anschrift
-        users
         createdAt
         updatedAt
         anlagenUsers {
@@ -1245,7 +869,6 @@ export const updateProjekt = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -1265,7 +888,6 @@ export const updateProjekt = /* GraphQL */ `
             id
             anlageId
             projektNummer
-            users
             createdAt
             updatedAt
             anlage {
@@ -1273,7 +895,6 @@ export const updateProjekt = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -1323,7 +944,6 @@ export const deleteProjekt = /* GraphQL */ `
       id
       anlageId
       projektNummer
-      users
       createdAt
       updatedAt
       anlage {
@@ -1331,7 +951,6 @@ export const deleteProjekt = /* GraphQL */ `
         firma
         standort
         anschrift
-        users
         createdAt
         updatedAt
         anlagenUsers {
@@ -1345,7 +964,6 @@ export const deleteProjekt = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -1365,7 +983,6 @@ export const deleteProjekt = /* GraphQL */ `
             id
             anlageId
             projektNummer
-            users
             createdAt
             updatedAt
             anlage {
@@ -1373,7 +990,6 @@ export const deleteProjekt = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -1533,7 +1149,6 @@ export const createUser = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {
@@ -1583,7 +1198,6 @@ export const updateUser = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {
@@ -1633,7 +1247,6 @@ export const deleteUser = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {

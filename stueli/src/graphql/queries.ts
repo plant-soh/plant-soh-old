@@ -9,7 +9,6 @@ export const getAnlage = /* GraphQL */ `
       firma
       standort
       anschrift
-      users
       createdAt
       updatedAt
       anlagenUsers {
@@ -23,7 +22,6 @@ export const getAnlage = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {
@@ -55,7 +53,6 @@ export const getAnlage = /* GraphQL */ `
           id
           anlageId
           projektNummer
-          users
           createdAt
           updatedAt
           anlage {
@@ -63,7 +60,6 @@ export const getAnlage = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {
@@ -132,7 +128,6 @@ export const listAnlages = /* GraphQL */ `
         firma
         standort
         anschrift
-        users
         createdAt
         updatedAt
         anlagenUsers {
@@ -146,7 +141,6 @@ export const listAnlages = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -166,7 +160,6 @@ export const listAnlages = /* GraphQL */ `
             id
             anlageId
             projektNummer
-            users
             createdAt
             updatedAt
             anlage {
@@ -174,7 +167,6 @@ export const listAnlages = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -214,7 +206,6 @@ export const getAnlagenUser = /* GraphQL */ `
         firma
         standort
         anschrift
-        users
         createdAt
         updatedAt
         anlagenUsers {
@@ -228,7 +219,6 @@ export const getAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -248,7 +238,6 @@ export const getAnlagenUser = /* GraphQL */ `
             id
             anlageId
             projektNummer
-            users
             createdAt
             updatedAt
             anlage {
@@ -256,7 +245,6 @@ export const getAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -298,7 +286,6 @@ export const getAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -344,7 +331,6 @@ export const listAnlagenUsers = /* GraphQL */ `
           firma
           standort
           anschrift
-          users
           createdAt
           updatedAt
           anlagenUsers {
@@ -361,7 +347,6 @@ export const listAnlagenUsers = /* GraphQL */ `
               id
               anlageId
               projektNummer
-              users
               createdAt
               updatedAt
             }
@@ -409,7 +394,6 @@ export const getProjekt = /* GraphQL */ `
       id
       anlageId
       projektNummer
-      users
       createdAt
       updatedAt
       anlage {
@@ -417,7 +401,6 @@ export const getProjekt = /* GraphQL */ `
         firma
         standort
         anschrift
-        users
         createdAt
         updatedAt
         anlagenUsers {
@@ -431,7 +414,6 @@ export const getProjekt = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -451,7 +433,6 @@ export const getProjekt = /* GraphQL */ `
             id
             anlageId
             projektNummer
-            users
             createdAt
             updatedAt
             anlage {
@@ -459,7 +440,6 @@ export const getProjekt = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -522,7 +502,6 @@ export const listProjekts = /* GraphQL */ `
         id
         anlageId
         projektNummer
-        users
         createdAt
         updatedAt
         anlage {
@@ -530,7 +509,6 @@ export const listProjekts = /* GraphQL */ `
           firma
           standort
           anschrift
-          users
           createdAt
           updatedAt
           anlagenUsers {
@@ -547,7 +525,6 @@ export const listProjekts = /* GraphQL */ `
               id
               anlageId
               projektNummer
-              users
               createdAt
               updatedAt
             }
@@ -798,7 +775,6 @@ export const getUser = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {
@@ -861,7 +837,6 @@ export const listUsers = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }

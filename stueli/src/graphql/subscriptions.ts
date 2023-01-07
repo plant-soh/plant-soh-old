@@ -3,13 +3,12 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateAnlage = /* GraphQL */ `
-  subscription OnCreateAnlage($users: String) {
-    onCreateAnlage(users: $users) {
+  subscription OnCreateAnlage($id: String) {
+    onCreateAnlage(id: $id) {
       id
       firma
       standort
       anschrift
-      users
       createdAt
       updatedAt
       anlagenUsers {
@@ -23,7 +22,6 @@ export const onCreateAnlage = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {
@@ -55,7 +53,6 @@ export const onCreateAnlage = /* GraphQL */ `
           id
           anlageId
           projektNummer
-          users
           createdAt
           updatedAt
           anlage {
@@ -63,7 +60,6 @@ export const onCreateAnlage = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {
@@ -113,13 +109,12 @@ export const onCreateAnlage = /* GraphQL */ `
   }
 `;
 export const onUpdateAnlage = /* GraphQL */ `
-  subscription OnUpdateAnlage($users: String) {
-    onUpdateAnlage(users: $users) {
+  subscription OnUpdateAnlage($id: String) {
+    onUpdateAnlage(id: $id) {
       id
       firma
       standort
       anschrift
-      users
       createdAt
       updatedAt
       anlagenUsers {
@@ -133,7 +128,6 @@ export const onUpdateAnlage = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {
@@ -165,7 +159,6 @@ export const onUpdateAnlage = /* GraphQL */ `
           id
           anlageId
           projektNummer
-          users
           createdAt
           updatedAt
           anlage {
@@ -173,7 +166,6 @@ export const onUpdateAnlage = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {
@@ -223,13 +215,12 @@ export const onUpdateAnlage = /* GraphQL */ `
   }
 `;
 export const onDeleteAnlage = /* GraphQL */ `
-  subscription OnDeleteAnlage($users: String) {
-    onDeleteAnlage(users: $users) {
+  subscription OnDeleteAnlage($id: String) {
+    onDeleteAnlage(id: $id) {
       id
       firma
       standort
       anschrift
-      users
       createdAt
       updatedAt
       anlagenUsers {
@@ -243,7 +234,6 @@ export const onDeleteAnlage = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {
@@ -275,7 +265,6 @@ export const onDeleteAnlage = /* GraphQL */ `
           id
           anlageId
           projektNummer
-          users
           createdAt
           updatedAt
           anlage {
@@ -283,7 +272,6 @@ export const onDeleteAnlage = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {
@@ -344,7 +332,6 @@ export const onCreateAnlagenUser = /* GraphQL */ `
         firma
         standort
         anschrift
-        users
         createdAt
         updatedAt
         anlagenUsers {
@@ -358,7 +345,6 @@ export const onCreateAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -378,7 +364,6 @@ export const onCreateAnlagenUser = /* GraphQL */ `
             id
             anlageId
             projektNummer
-            users
             createdAt
             updatedAt
             anlage {
@@ -386,7 +371,6 @@ export const onCreateAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -428,7 +412,6 @@ export const onCreateAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -459,7 +442,6 @@ export const onUpdateAnlagenUser = /* GraphQL */ `
         firma
         standort
         anschrift
-        users
         createdAt
         updatedAt
         anlagenUsers {
@@ -473,7 +455,6 @@ export const onUpdateAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -493,7 +474,6 @@ export const onUpdateAnlagenUser = /* GraphQL */ `
             id
             anlageId
             projektNummer
-            users
             createdAt
             updatedAt
             anlage {
@@ -501,7 +481,6 @@ export const onUpdateAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -543,7 +522,6 @@ export const onUpdateAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -574,7 +552,6 @@ export const onDeleteAnlagenUser = /* GraphQL */ `
         firma
         standort
         anschrift
-        users
         createdAt
         updatedAt
         anlagenUsers {
@@ -588,7 +565,6 @@ export const onDeleteAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -608,7 +584,6 @@ export const onDeleteAnlagenUser = /* GraphQL */ `
             id
             anlageId
             projektNummer
-            users
             createdAt
             updatedAt
             anlage {
@@ -616,7 +591,6 @@ export const onDeleteAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -658,7 +632,6 @@ export const onDeleteAnlagenUser = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -678,12 +651,11 @@ export const onDeleteAnlagenUser = /* GraphQL */ `
   }
 `;
 export const onCreateProjekt = /* GraphQL */ `
-  subscription OnCreateProjekt($users: String) {
-    onCreateProjekt(users: $users) {
+  subscription OnCreateProjekt($id: String) {
+    onCreateProjekt(id: $id) {
       id
       anlageId
       projektNummer
-      users
       createdAt
       updatedAt
       anlage {
@@ -691,7 +663,6 @@ export const onCreateProjekt = /* GraphQL */ `
         firma
         standort
         anschrift
-        users
         createdAt
         updatedAt
         anlagenUsers {
@@ -705,7 +676,6 @@ export const onCreateProjekt = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -725,7 +695,6 @@ export const onCreateProjekt = /* GraphQL */ `
             id
             anlageId
             projektNummer
-            users
             createdAt
             updatedAt
             anlage {
@@ -733,7 +702,6 @@ export const onCreateProjekt = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -778,12 +746,11 @@ export const onCreateProjekt = /* GraphQL */ `
   }
 `;
 export const onUpdateProjekt = /* GraphQL */ `
-  subscription OnUpdateProjekt($users: String) {
-    onUpdateProjekt(users: $users) {
+  subscription OnUpdateProjekt($id: String) {
+    onUpdateProjekt(id: $id) {
       id
       anlageId
       projektNummer
-      users
       createdAt
       updatedAt
       anlage {
@@ -791,7 +758,6 @@ export const onUpdateProjekt = /* GraphQL */ `
         firma
         standort
         anschrift
-        users
         createdAt
         updatedAt
         anlagenUsers {
@@ -805,7 +771,6 @@ export const onUpdateProjekt = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -825,7 +790,6 @@ export const onUpdateProjekt = /* GraphQL */ `
             id
             anlageId
             projektNummer
-            users
             createdAt
             updatedAt
             anlage {
@@ -833,7 +797,6 @@ export const onUpdateProjekt = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -878,12 +841,11 @@ export const onUpdateProjekt = /* GraphQL */ `
   }
 `;
 export const onDeleteProjekt = /* GraphQL */ `
-  subscription OnDeleteProjekt($users: String) {
-    onDeleteProjekt(users: $users) {
+  subscription OnDeleteProjekt($id: String) {
+    onDeleteProjekt(id: $id) {
       id
       anlageId
       projektNummer
-      users
       createdAt
       updatedAt
       anlage {
@@ -891,7 +853,6 @@ export const onDeleteProjekt = /* GraphQL */ `
         firma
         standort
         anschrift
-        users
         createdAt
         updatedAt
         anlagenUsers {
@@ -905,7 +866,6 @@ export const onDeleteProjekt = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -925,7 +885,6 @@ export const onDeleteProjekt = /* GraphQL */ `
             id
             anlageId
             projektNummer
-            users
             createdAt
             updatedAt
             anlage {
@@ -933,7 +892,6 @@ export const onDeleteProjekt = /* GraphQL */ `
               firma
               standort
               anschrift
-              users
               createdAt
               updatedAt
             }
@@ -1093,7 +1051,6 @@ export const onCreateUser = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {
@@ -1143,7 +1100,6 @@ export const onUpdateUser = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {
@@ -1193,7 +1149,6 @@ export const onDeleteUser = /* GraphQL */ `
             firma
             standort
             anschrift
-            users
             createdAt
             updatedAt
             anlagenUsers {

@@ -67,7 +67,7 @@ export async function handler(
       input: {
         id: anlageId,
         // deduplicate
-        users: Array.from(new Set([...(getAnlage.users ?? []), userEmail])),
+        // users: Array.from(new Set([...(getAnlage.users ?? []), userEmail])),
       },
     },
   });

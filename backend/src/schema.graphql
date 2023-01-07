@@ -4,12 +4,7 @@ type Anlage
     rules: [
       { allow: groups, groups: ["Admin"], operations: [read] }
       { allow: private, provider: iam }
-      {
-        allow: owner
-        ownerField: "users"
-        identityClaim: "email"
-        operations: [read]
-      }
+      { allow: owner, ownerField: "id", identityClaim: "currentAnlageId" }
     ]
   )
   @key(fields: ["id"]) {
@@ -17,7 +12,6 @@ type Anlage
   firma: String!
   standort: String!
   anschrift: String
-  users: [String]
   anlagenUsers: [AnlagenUser] @connection(keyName: "byAnlage", fields: ["id"])
   referenzStueli: [ReferenzStueli]
     @connection(keyName: "byAnlage", fields: ["id"])
@@ -51,14 +45,9 @@ type Projekt
   @model
   @auth(
     rules: [
-      { allow: groups, groups: ["Admin"], operations: [read] }
+      { allow: groups, groups: ["Admin"] }
       { allow: private, provider: iam }
-      {
-        allow: owner
-        ownerField: "users"
-        identityClaim: "email"
-        operations: [read]
-      }
+      { allow: owner, ownerField: "id", identityClaim: "currentProjektId" }
     ]
   )
   @key(name: "byAnlage", fields: ["anlageId"])
@@ -66,7 +55,6 @@ type Projekt
   id: ID!
   anlageId: ID!
   projektNummer: Int!
-  users: [String]
   anlage: Anlage! @connection(fields: ["anlageId"])
   projektStueli: [ProjektStueli]
     @connection(keyName: "byProjekt", fields: ["id"])
@@ -148,20 +136,20 @@ enum Role {
 }
 
 type Mutation {
-  createAnlagenUserPrimary(input: CreateAnlagenUserPrimaryInput!): AnlagenUser
-    @function(name: "createAnlagenUser")
-    @aws_cognito_user_pools
-    @aws_iam
+  # createAnlagenUserPrimary(input: CreateAnlagenUserPrimaryInput!): AnlagenUser
+  #   @function(name: "createAnlagenUser")
+  #   @aws_cognito_user_pools
+  #   @aws_iam
 
-  deleteAnlagenUserPrimary(input: DeleteAnlagenUserPrimaryInput!): AnlagenUser
-    @function(name: "deleteAnlagenUser")
-    @aws_cognito_user_pools
-    @aws_iam
+  # deleteAnlagenUserPrimary(input: DeleteAnlagenUserPrimaryInput!): AnlagenUser
+  #   @function(name: "deleteAnlagenUser")
+  #   @aws_cognito_user_pools
+  #   @aws_iam
 
-  deleteAnlagePrimary(input: DeleteAnlagePrimaryInput!): Anlage
-    @function(name: "deleteAnlage")
-    @aws_cognito_user_pools
-    @aws_iam
+  # deleteAnlagePrimary(input: DeleteAnlagePrimaryInput!): Anlage
+  #   @function(name: "deleteAnlage")
+  #   @aws_cognito_user_pools
+  #   @aws_iam
 
   setCurrentAnlageId(input: SetCurrentAnlageIdInput!): User
     @function(name: "setCurrentAnlageId")
@@ -172,19 +160,19 @@ type Mutation {
     @aws_cognito_user_pools
 }
 
-input DeleteAnlagePrimaryInput {
-  anlageId: ID!
-}
+# input DeleteAnlagePrimaryInput {
+#   anlageId: ID!
+# }
 
-input CreateAnlagenUserPrimaryInput {
-  anlageId: ID!
-  userEmail: String!
-}
+# input CreateAnlagenUserPrimaryInput {
+#   anlageId: ID!
+#   userEmail: String!
+# }
 
-input DeleteAnlagenUserPrimaryInput {
-  anlageId: ID!
-  userEmail: String!
-}
+# input DeleteAnlagenUserPrimaryInput {
+#   anlageId: ID!
+#   userEmail: String!
+# }
 
 input SetCurrentAnlageIdInput {
   anlageId: ID!

@@ -7,7 +7,6 @@ import {
   DeleteAnlagenUserDocument,
   DeleteAnlagenUserInput,
   GetAnlagenUserDocument,
-  UpdateAnlageDocument,
 } from '../../stueli/src/lib/api';
 
 const { APPSYNC_URL } = process.env;
@@ -33,22 +32,22 @@ export async function handler(
 
   console.log(`deleteAnlagenUser=${JSON.stringify(deleteAnlagenUser)}`);
 
-  const { updateAnlage } = await client.request({
-    query: UpdateAnlageDocument,
-    variables: {
-      input: {
-        id: anlageId,
-        // deduplicate
-        users: [
-          ...(deleteAnlagenUser?.anlage.users ?? []).filter(
-            (email) => email !== userEmail,
-          ),
-        ],
-      },
-    },
-  });
+  // const { updateAnlage } = await client.request({
+  //   query: UpdateAnlageDocument,
+  //   variables: {
+  //     input: {
+  //       id: anlageId,
+  //       // deduplicate
+  //       users: [
+  //         ...(deleteAnlagenUser?.anlage.users ?? []).filter(
+  //           (email) => email !== userEmail,
+  //         ),
+  //       ],
+  //     },
+  //   },
+  // });
 
-  console.log(`updateAnlage=${JSON.stringify(updateAnlage)}`);
+  // console.log(`updateAnlage=${JSON.stringify(updateAnlage)}`);
 
   const getAnlagenUserUpdated = await client.request({
     query: GetAnlagenUserDocument,
