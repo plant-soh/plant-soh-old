@@ -43,9 +43,14 @@ export async function handler(event: lambda.PreTokenGenerationTriggerEvent) {
   }
 
   event.response.claimsOverrideDetails = {
-    claimsToAddOrOverride: getUser?.currentAnlageId
-      ? { currentAnlageId: getUser.currentAnlageId }
-      : undefined,
+    claimsToAddOrOverride: {
+      ...(getUser?.currentAnlageId
+        ? { currentAnlageId: getUser.currentAnlageId }
+        : {}),
+      ...(getUser?.currentProjektId
+        ? { currentProjektId: getUser.currentProjektId }
+        : {}),
+    },
     groupOverrideDetails: {
       groupsToOverride: [getUser?.role ?? Role.Anlagenbauer],
     },
