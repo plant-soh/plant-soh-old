@@ -58,8 +58,8 @@ const Home = () => {
             <button
               className={`px-4 py-2 font-bold text-white bg-blue-500 rounded 'hover:bg-blue-700'`}
             >
-              <Link name="referenz-stueli" to={`/projekte/${currentAnlageId}`}>
-                <span>{`Firma=${getProjekt.data?.getProjekt?.anlage.firma} Standort=${getProjekt.data?.getProjekt?.anlage.standort} ID=${currentProjektId}`}</span>
+              <Link name="projekt-stueli" to={`/projekte/${currentProjektId}`}>
+                <span>{`Firma=${getProjekt.data?.getProjekt?.anlage.firma} Standort=${getProjekt.data?.getProjekt?.anlage.standort} Projektnummer=${getProjekt.data?.getProjekt?.projektNummer} ID=${currentProjektId}`}</span>
               </Link>
             </button>
           </div>
