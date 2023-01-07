@@ -67,7 +67,7 @@ type Projekt
   anlageId: ID!
   projektNummer: Int!
   users: [String]
-  anlagen: [Anlage] @connection(fields: ["anlageId"])
+  anlage: Anlage! @connection(fields: ["anlageId"])
   projektStueli: [ProjektStueli]
     @connection(keyName: "byProjekt", fields: ["id"])
 }
@@ -137,6 +137,7 @@ type User
   role: Role!
   # determines which ReferenzStueli items the user can query or mutate
   currentAnlageId: String
+  currentProjektId: String
   anlagen: [AnlagenUser] @connection(keyName: "byUser", fields: ["email"])
 }
 

@@ -25,7 +25,7 @@ type ReferenzStueliParams = {
 const ReferenzStueckliste = () => {
   const { id = '' } = useParams<ReferenzStueliParams>();
 
-  const { refreshSession, role } = useAuth();
+  const { currentAnlageId, refreshSession, role } = useAuth();
 
   const [newStueck, setNewStueck] = useState<
     | {
@@ -60,8 +60,9 @@ const ReferenzStueckliste = () => {
   );
 
   useEffect(() => {
-    // if (!id) return;
+    if (!id || currentAnlageId === id) return;
     void (async () => {
+      console.log(`anlageId=${id}`);
       await setCurrentAnlageId.mutateAsync({
         input: {
           anlageId: id,
@@ -72,7 +73,7 @@ const ReferenzStueckliste = () => {
       await refreshSession();
       await refetch();
     })();
-  }, []);
+  }, [id]);
 
   const { data, isLoading, refetch } =
     useReferenzStueliByKurzspezifikationQuery(

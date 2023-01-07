@@ -6,7 +6,8 @@ import { Role } from '../lib/api';
 import { useAuth } from '../providers/AuthProvider';
 
 const Home = lazy(() => import('../screens/Home'));
-const Kunde = lazy(() => import('../screens/Kunde'));
+const Projekte = lazy(() => import('../screens/Projekte'));
+const Kunde = lazy(() => import('../screens/Kunden'));
 const KundeUser = lazy(() => import('../screens/KundeUser'));
 const ReferenzStueckliste = lazy(
   () => import('../screens/ReferenzStueckliste'),
@@ -28,8 +29,13 @@ const MainRouter = () => {
       <Routes>
         <Route path="/" element={withSuspense(NavigationLayout)}>
           <Route index element={withSuspense(Home)} />
-          <Route path="kunde" element={withSuspense(Kunde)} />
-          <Route path="kunde/:id" element={withSuspense(ReferenzStueckliste)} />
+          <Route path="kunden" element={withSuspense(Kunde)} />
+          <Route
+            path="kunden/:id"
+            element={withSuspense(ReferenzStueckliste)}
+          />
+          <Route path="projekte" element={withSuspense(Projekte)} />
+          {/* <Route path="kunde/:id" element={withSuspense(ReferenzStueckliste)} /> */}
           {role === Role.Admin && (
             <Route path="/kundeuser" element={withSuspense(KundeUser)} />
           )}

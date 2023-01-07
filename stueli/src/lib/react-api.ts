@@ -131,6 +131,7 @@ export type CreateReferenzStueliInput = {
 
 export type CreateUserInput = {
   currentAnlageId?: InputMaybe<Scalars['String']>;
+  currentProjektId?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   role: Role;
 };
@@ -346,6 +347,7 @@ export type ModelUserConnection = {
 export type ModelUserFilterInput = {
   and?: InputMaybe<Array<InputMaybe<ModelUserFilterInput>>>;
   currentAnlageId?: InputMaybe<ModelStringFilterInput>;
+  currentProjektId?: InputMaybe<ModelStringFilterInput>;
   email?: InputMaybe<ModelStringFilterInput>;
   not?: InputMaybe<ModelUserFilterInput>;
   or?: InputMaybe<Array<InputMaybe<ModelUserFilterInput>>>;
@@ -468,21 +470,14 @@ export type MutationUpdateUserArgs = {
 
 export type Projekt = {
   __typename?: 'Projekt';
+  anlage: Anlage;
   anlageId: Scalars['ID'];
-  anlagen?: Maybe<ModelAnlageConnection>;
   createdAt: Scalars['AWSDateTime'];
   id: Scalars['ID'];
   projektNummer: Scalars['Int'];
   projektStueli?: Maybe<ModelProjektStueliConnection>;
   updatedAt: Scalars['AWSDateTime'];
   users?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
-export type ProjektAnlagenArgs = {
-  filter?: InputMaybe<ModelAnlageFilterInput>;
-  limit?: InputMaybe<Scalars['Int']>;
-  nextToken?: InputMaybe<Scalars['String']>;
-  sortDirection?: InputMaybe<ModelSortDirection>;
 };
 
 export type ProjektProjektStueliArgs = {
@@ -775,6 +770,7 @@ export type UpdateReferenzStueliInput = {
 
 export type UpdateUserInput = {
   currentAnlageId?: InputMaybe<Scalars['String']>;
+  currentProjektId?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   role?: InputMaybe<Role>;
 };
@@ -784,6 +780,7 @@ export type User = {
   anlagen?: Maybe<ModelAnlagenUserConnection>;
   createdAt: Scalars['AWSDateTime'];
   currentAnlageId?: Maybe<Scalars['String']>;
+  currentProjektId?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   role: Role;
   updatedAt: Scalars['AWSDateTime'];
@@ -849,6 +846,7 @@ export type CreateAnlagenUserPrimaryMutation = {
                             email: string;
                             role: Role;
                             currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -878,13 +876,19 @@ export type CreateAnlagenUserPrimaryMutation = {
                             | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          anlagen?:
-                            | {
-                                __typename?: 'ModelAnlageConnection';
-                                nextToken?: string | null | undefined;
-                              }
-                            | null
-                            | undefined;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                           projektStueli?:
                             | {
                                 __typename?: 'ModelProjektStueliConnection';
@@ -932,6 +936,7 @@ export type CreateAnlagenUserPrimaryMutation = {
           email: string;
           role: Role;
           currentAnlageId?: string | null | undefined;
+          currentProjektId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -964,6 +969,7 @@ export type CreateAnlagenUserPrimaryMutation = {
                             email: string;
                             role: Role;
                             currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1034,6 +1040,7 @@ export type DeleteAnlagenUserPrimaryMutation = {
                             email: string;
                             role: Role;
                             currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1063,13 +1070,19 @@ export type DeleteAnlagenUserPrimaryMutation = {
                             | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          anlagen?:
-                            | {
-                                __typename?: 'ModelAnlageConnection';
-                                nextToken?: string | null | undefined;
-                              }
-                            | null
-                            | undefined;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                           projektStueli?:
                             | {
                                 __typename?: 'ModelProjektStueliConnection';
@@ -1117,6 +1130,7 @@ export type DeleteAnlagenUserPrimaryMutation = {
           email: string;
           role: Role;
           currentAnlageId?: string | null | undefined;
+          currentProjektId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -1149,6 +1163,7 @@ export type DeleteAnlagenUserPrimaryMutation = {
                             email: string;
                             role: Role;
                             currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1234,6 +1249,7 @@ export type DeleteAnlagePrimaryMutation = {
                           email: string;
                           role: Role;
                           currentAnlageId?: string | null | undefined;
+                          currentProjektId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -1270,33 +1286,40 @@ export type DeleteAnlagePrimaryMutation = {
                           | undefined;
                         createdAt: any;
                         updatedAt: any;
-                        anlagen?:
-                          | {
-                              __typename?: 'ModelAnlageConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'Anlage';
-                                        id: string;
-                                        firma: string;
-                                        standort: string;
-                                        anschrift?: string | null | undefined;
-                                        users?:
-                                          | Array<string | null | undefined>
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
+                        anlage: {
+                          __typename?: 'Anlage';
+                          id: string;
+                          firma: string;
+                          standort: string;
+                          anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagenUsers?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                         projektStueli?:
                           | {
                               __typename?: 'ModelProjektStueliConnection';
@@ -1395,6 +1418,7 @@ export type SetCurrentAnlageIdMutation = {
         email: string;
         role: Role;
         currentAnlageId?: string | null | undefined;
+        currentProjektId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -1448,6 +1472,7 @@ export type SetCurrentAnlageIdMutation = {
                           email: string;
                           role: Role;
                           currentAnlageId?: string | null | undefined;
+                          currentProjektId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -1524,6 +1549,7 @@ export type UpdateAnlagenUserMutation = {
                             email: string;
                             role: Role;
                             currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1553,13 +1579,19 @@ export type UpdateAnlagenUserMutation = {
                             | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          anlagen?:
-                            | {
-                                __typename?: 'ModelAnlageConnection';
-                                nextToken?: string | null | undefined;
-                              }
-                            | null
-                            | undefined;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                           projektStueli?:
                             | {
                                 __typename?: 'ModelProjektStueliConnection';
@@ -1607,6 +1639,7 @@ export type UpdateAnlagenUserMutation = {
           email: string;
           role: Role;
           currentAnlageId?: string | null | undefined;
+          currentProjektId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -1639,6 +1672,7 @@ export type UpdateAnlagenUserMutation = {
                             email: string;
                             role: Role;
                             currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -1724,6 +1758,7 @@ export type CreateAnlageMutation = {
                           email: string;
                           role: Role;
                           currentAnlageId?: string | null | undefined;
+                          currentProjektId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -1760,33 +1795,40 @@ export type CreateAnlageMutation = {
                           | undefined;
                         createdAt: any;
                         updatedAt: any;
-                        anlagen?:
-                          | {
-                              __typename?: 'ModelAnlageConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'Anlage';
-                                        id: string;
-                                        firma: string;
-                                        standort: string;
-                                        anschrift?: string | null | undefined;
-                                        users?:
-                                          | Array<string | null | undefined>
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
+                        anlage: {
+                          __typename?: 'Anlage';
+                          id: string;
+                          firma: string;
+                          standort: string;
+                          anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagenUsers?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                         projektStueli?:
                           | {
                               __typename?: 'ModelProjektStueliConnection';
@@ -1940,6 +1982,7 @@ export type UpdateAnlageMutation = {
                           email: string;
                           role: Role;
                           currentAnlageId?: string | null | undefined;
+                          currentProjektId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -1976,33 +2019,40 @@ export type UpdateAnlageMutation = {
                           | undefined;
                         createdAt: any;
                         updatedAt: any;
-                        anlagen?:
-                          | {
-                              __typename?: 'ModelAnlageConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'Anlage';
-                                        id: string;
-                                        firma: string;
-                                        standort: string;
-                                        anschrift?: string | null | undefined;
-                                        users?:
-                                          | Array<string | null | undefined>
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
+                        anlage: {
+                          __typename?: 'Anlage';
+                          id: string;
+                          firma: string;
+                          standort: string;
+                          anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagenUsers?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                         projektStueli?:
                           | {
                               __typename?: 'ModelProjektStueliConnection';
@@ -2156,6 +2206,7 @@ export type DeleteAnlageMutation = {
                           email: string;
                           role: Role;
                           currentAnlageId?: string | null | undefined;
+                          currentProjektId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -2192,33 +2243,40 @@ export type DeleteAnlageMutation = {
                           | undefined;
                         createdAt: any;
                         updatedAt: any;
-                        anlagen?:
-                          | {
-                              __typename?: 'ModelAnlageConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'Anlage';
-                                        id: string;
-                                        firma: string;
-                                        standort: string;
-                                        anschrift?: string | null | undefined;
-                                        users?:
-                                          | Array<string | null | undefined>
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
+                        anlage: {
+                          __typename?: 'Anlage';
+                          id: string;
+                          firma: string;
+                          standort: string;
+                          anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagenUsers?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                         projektStueli?:
                           | {
                               __typename?: 'ModelProjektStueliConnection';
@@ -2357,6 +2415,7 @@ export type CreateAnlagenUserMutation = {
                             email: string;
                             role: Role;
                             currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -2386,13 +2445,19 @@ export type CreateAnlagenUserMutation = {
                             | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          anlagen?:
-                            | {
-                                __typename?: 'ModelAnlageConnection';
-                                nextToken?: string | null | undefined;
-                              }
-                            | null
-                            | undefined;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                           projektStueli?:
                             | {
                                 __typename?: 'ModelProjektStueliConnection';
@@ -2440,6 +2505,7 @@ export type CreateAnlagenUserMutation = {
           email: string;
           role: Role;
           currentAnlageId?: string | null | undefined;
+          currentProjektId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -2472,6 +2538,7 @@ export type CreateAnlagenUserMutation = {
                             email: string;
                             role: Role;
                             currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -2542,6 +2609,7 @@ export type DeleteAnlagenUserMutation = {
                             email: string;
                             role: Role;
                             currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -2571,13 +2639,19 @@ export type DeleteAnlagenUserMutation = {
                             | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          anlagen?:
-                            | {
-                                __typename?: 'ModelAnlageConnection';
-                                nextToken?: string | null | undefined;
-                              }
-                            | null
-                            | undefined;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                           projektStueli?:
                             | {
                                 __typename?: 'ModelProjektStueliConnection';
@@ -2625,6 +2699,7 @@ export type DeleteAnlagenUserMutation = {
           email: string;
           role: Role;
           currentAnlageId?: string | null | undefined;
+          currentProjektId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -2657,6 +2732,7 @@ export type DeleteAnlagenUserMutation = {
                             email: string;
                             role: Role;
                             currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -2690,111 +2766,130 @@ export type CreateProjektMutation = {
         users?: Array<string | null | undefined> | null | undefined;
         createdAt: any;
         updatedAt: any;
-        anlagen?:
-          | {
-              __typename?: 'ModelAnlageConnection';
-              nextToken?: string | null | undefined;
-              items?:
-                | Array<
-                    | {
-                        __typename?: 'Anlage';
-                        id: string;
-                        firma: string;
-                        standort: string;
-                        anschrift?: string | null | undefined;
-                        users?:
-                          | Array<string | null | undefined>
-                          | null
-                          | undefined;
-                        createdAt: any;
-                        updatedAt: any;
-                        anlagenUsers?:
-                          | {
-                              __typename?: 'ModelAnlagenUserConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'AnlagenUser';
-                                        anlageId: string;
-                                        userEmail: string;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
-                        projekte?:
-                          | {
-                              __typename?: 'ModelProjektConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'Projekt';
-                                        id: string;
-                                        anlageId: string;
-                                        projektNummer: number;
-                                        users?:
-                                          | Array<string | null | undefined>
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
-                        referenzStueli?:
-                          | {
-                              __typename?: 'ModelReferenzStueliConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'ReferenzStueli';
-                                        id: string;
-                                        anlageId: string;
-                                        kurzspezifikation?:
-                                          | string
-                                          | null
-                                          | undefined;
-                                        lieferant?: string | null | undefined;
-                                        nennweite?: string | null | undefined;
-                                        feinspezifikation?:
-                                          | string
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
-                      }
-                    | null
-                    | undefined
-                  >
-                | null
-                | undefined;
-            }
-          | null
-          | undefined;
+        anlage: {
+          __typename?: 'Anlage';
+          id: string;
+          firma: string;
+          standort: string;
+          anschrift?: string | null | undefined;
+          users?: Array<string | null | undefined> | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlagenUsers?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          id: string;
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
         projektStueli?:
           | {
               __typename?: 'ModelProjektStueliConnection';
@@ -2844,111 +2939,130 @@ export type UpdateProjektMutation = {
         users?: Array<string | null | undefined> | null | undefined;
         createdAt: any;
         updatedAt: any;
-        anlagen?:
-          | {
-              __typename?: 'ModelAnlageConnection';
-              nextToken?: string | null | undefined;
-              items?:
-                | Array<
-                    | {
-                        __typename?: 'Anlage';
-                        id: string;
-                        firma: string;
-                        standort: string;
-                        anschrift?: string | null | undefined;
-                        users?:
-                          | Array<string | null | undefined>
-                          | null
-                          | undefined;
-                        createdAt: any;
-                        updatedAt: any;
-                        anlagenUsers?:
-                          | {
-                              __typename?: 'ModelAnlagenUserConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'AnlagenUser';
-                                        anlageId: string;
-                                        userEmail: string;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
-                        projekte?:
-                          | {
-                              __typename?: 'ModelProjektConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'Projekt';
-                                        id: string;
-                                        anlageId: string;
-                                        projektNummer: number;
-                                        users?:
-                                          | Array<string | null | undefined>
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
-                        referenzStueli?:
-                          | {
-                              __typename?: 'ModelReferenzStueliConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'ReferenzStueli';
-                                        id: string;
-                                        anlageId: string;
-                                        kurzspezifikation?:
-                                          | string
-                                          | null
-                                          | undefined;
-                                        lieferant?: string | null | undefined;
-                                        nennweite?: string | null | undefined;
-                                        feinspezifikation?:
-                                          | string
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
-                      }
-                    | null
-                    | undefined
-                  >
-                | null
-                | undefined;
-            }
-          | null
-          | undefined;
+        anlage: {
+          __typename?: 'Anlage';
+          id: string;
+          firma: string;
+          standort: string;
+          anschrift?: string | null | undefined;
+          users?: Array<string | null | undefined> | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlagenUsers?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          id: string;
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
         projektStueli?:
           | {
               __typename?: 'ModelProjektStueliConnection';
@@ -2998,111 +3112,130 @@ export type DeleteProjektMutation = {
         users?: Array<string | null | undefined> | null | undefined;
         createdAt: any;
         updatedAt: any;
-        anlagen?:
-          | {
-              __typename?: 'ModelAnlageConnection';
-              nextToken?: string | null | undefined;
-              items?:
-                | Array<
-                    | {
-                        __typename?: 'Anlage';
-                        id: string;
-                        firma: string;
-                        standort: string;
-                        anschrift?: string | null | undefined;
-                        users?:
-                          | Array<string | null | undefined>
-                          | null
-                          | undefined;
-                        createdAt: any;
-                        updatedAt: any;
-                        anlagenUsers?:
-                          | {
-                              __typename?: 'ModelAnlagenUserConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'AnlagenUser';
-                                        anlageId: string;
-                                        userEmail: string;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
-                        projekte?:
-                          | {
-                              __typename?: 'ModelProjektConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'Projekt';
-                                        id: string;
-                                        anlageId: string;
-                                        projektNummer: number;
-                                        users?:
-                                          | Array<string | null | undefined>
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
-                        referenzStueli?:
-                          | {
-                              __typename?: 'ModelReferenzStueliConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'ReferenzStueli';
-                                        id: string;
-                                        anlageId: string;
-                                        kurzspezifikation?:
-                                          | string
-                                          | null
-                                          | undefined;
-                                        lieferant?: string | null | undefined;
-                                        nennweite?: string | null | undefined;
-                                        feinspezifikation?:
-                                          | string
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
-                      }
-                    | null
-                    | undefined
-                  >
-                | null
-                | undefined;
-            }
-          | null
-          | undefined;
+        anlage: {
+          __typename?: 'Anlage';
+          id: string;
+          firma: string;
+          standort: string;
+          anschrift?: string | null | undefined;
+          users?: Array<string | null | undefined> | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlagenUsers?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          id: string;
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
         projektStueli?:
           | {
               __typename?: 'ModelProjektStueliConnection';
@@ -3293,6 +3426,7 @@ export type CreateUserMutation = {
         email: string;
         role: Role;
         currentAnlageId?: string | null | undefined;
+        currentProjektId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -3346,6 +3480,7 @@ export type CreateUserMutation = {
                           email: string;
                           role: Role;
                           currentAnlageId?: string | null | undefined;
+                          currentProjektId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -3382,6 +3517,7 @@ export type UpdateUserMutation = {
         email: string;
         role: Role;
         currentAnlageId?: string | null | undefined;
+        currentProjektId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -3435,6 +3571,7 @@ export type UpdateUserMutation = {
                           email: string;
                           role: Role;
                           currentAnlageId?: string | null | undefined;
+                          currentProjektId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -3471,6 +3608,7 @@ export type DeleteUserMutation = {
         email: string;
         role: Role;
         currentAnlageId?: string | null | undefined;
+        currentProjektId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -3524,6 +3662,7 @@ export type DeleteUserMutation = {
                           email: string;
                           role: Role;
                           currentAnlageId?: string | null | undefined;
+                          currentProjektId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -3615,6 +3754,7 @@ export type GetAnlageQuery = {
                           email: string;
                           role: Role;
                           currentAnlageId?: string | null | undefined;
+                          currentProjektId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -3651,33 +3791,40 @@ export type GetAnlageQuery = {
                           | undefined;
                         createdAt: any;
                         updatedAt: any;
-                        anlagen?:
-                          | {
-                              __typename?: 'ModelAnlageConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'Anlage';
-                                        id: string;
-                                        firma: string;
-                                        standort: string;
-                                        anschrift?: string | null | undefined;
-                                        users?:
-                                          | Array<string | null | undefined>
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
+                        anlage: {
+                          __typename?: 'Anlage';
+                          id: string;
+                          firma: string;
+                          standort: string;
+                          anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagenUsers?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                         projektStueli?:
                           | {
                               __typename?: 'ModelProjektStueliConnection';
@@ -3819,6 +3966,10 @@ export type ListAnlagesQuery = {
                                     email: string;
                                     role: Role;
                                     currentAnlageId?: string | null | undefined;
+                                    currentProjektId?:
+                                      | string
+                                      | null
+                                      | undefined;
                                     createdAt: any;
                                     updatedAt: any;
                                   };
@@ -3848,13 +3999,19 @@ export type ListAnlagesQuery = {
                                     | undefined;
                                   createdAt: any;
                                   updatedAt: any;
-                                  anlagen?:
-                                    | {
-                                        __typename?: 'ModelAnlageConnection';
-                                        nextToken?: string | null | undefined;
-                                      }
-                                    | null
-                                    | undefined;
+                                  anlage: {
+                                    __typename?: 'Anlage';
+                                    id: string;
+                                    firma: string;
+                                    standort: string;
+                                    anschrift?: string | null | undefined;
+                                    users?:
+                                      | Array<string | null | undefined>
+                                      | null
+                                      | undefined;
+                                    createdAt: any;
+                                    updatedAt: any;
+                                  };
                                   projektStueli?:
                                     | {
                                         __typename?: 'ModelProjektStueliConnection';
@@ -3960,6 +4117,7 @@ export type GetAnlagenUserQuery = {
                             email: string;
                             role: Role;
                             currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -3989,13 +4147,19 @@ export type GetAnlagenUserQuery = {
                             | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          anlagen?:
-                            | {
-                                __typename?: 'ModelAnlageConnection';
-                                nextToken?: string | null | undefined;
-                              }
-                            | null
-                            | undefined;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                           projektStueli?:
                             | {
                                 __typename?: 'ModelProjektStueliConnection';
@@ -4043,6 +4207,7 @@ export type GetAnlagenUserQuery = {
           email: string;
           role: Role;
           currentAnlageId?: string | null | undefined;
+          currentProjektId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -4075,6 +4240,7 @@ export type GetAnlagenUserQuery = {
                             email: string;
                             role: Role;
                             currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -4209,6 +4375,7 @@ export type ListAnlagenUsersQuery = {
                     email: string;
                     role: Role;
                     currentAnlageId?: string | null | undefined;
+                    currentProjektId?: string | null | undefined;
                     createdAt: any;
                     updatedAt: any;
                     anlagen?:
@@ -4259,111 +4426,130 @@ export type GetProjektQuery = {
         users?: Array<string | null | undefined> | null | undefined;
         createdAt: any;
         updatedAt: any;
-        anlagen?:
-          | {
-              __typename?: 'ModelAnlageConnection';
-              nextToken?: string | null | undefined;
-              items?:
-                | Array<
-                    | {
-                        __typename?: 'Anlage';
-                        id: string;
-                        firma: string;
-                        standort: string;
-                        anschrift?: string | null | undefined;
-                        users?:
-                          | Array<string | null | undefined>
-                          | null
-                          | undefined;
-                        createdAt: any;
-                        updatedAt: any;
-                        anlagenUsers?:
-                          | {
-                              __typename?: 'ModelAnlagenUserConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'AnlagenUser';
-                                        anlageId: string;
-                                        userEmail: string;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
-                        projekte?:
-                          | {
-                              __typename?: 'ModelProjektConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'Projekt';
-                                        id: string;
-                                        anlageId: string;
-                                        projektNummer: number;
-                                        users?:
-                                          | Array<string | null | undefined>
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
-                        referenzStueli?:
-                          | {
-                              __typename?: 'ModelReferenzStueliConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'ReferenzStueli';
-                                        id: string;
-                                        anlageId: string;
-                                        kurzspezifikation?:
-                                          | string
-                                          | null
-                                          | undefined;
-                                        lieferant?: string | null | undefined;
-                                        nennweite?: string | null | undefined;
-                                        feinspezifikation?:
-                                          | string
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
-                      }
-                    | null
-                    | undefined
-                  >
-                | null
-                | undefined;
-            }
-          | null
-          | undefined;
+        anlage: {
+          __typename?: 'Anlage';
+          id: string;
+          firma: string;
+          standort: string;
+          anschrift?: string | null | undefined;
+          users?: Array<string | null | undefined> | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlagenUsers?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          id: string;
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
         projektStueli?:
           | {
               __typename?: 'ModelProjektStueliConnection';
@@ -4422,54 +4608,94 @@ export type ListProjektsQuery = {
                   users?: Array<string | null | undefined> | null | undefined;
                   createdAt: any;
                   updatedAt: any;
-                  anlagen?:
-                    | {
-                        __typename?: 'ModelAnlageConnection';
-                        nextToken?: string | null | undefined;
-                        items?:
-                          | Array<
-                              | {
-                                  __typename?: 'Anlage';
-                                  id: string;
-                                  firma: string;
-                                  standort: string;
-                                  anschrift?: string | null | undefined;
-                                  users?:
-                                    | Array<string | null | undefined>
-                                    | null
-                                    | undefined;
-                                  createdAt: any;
-                                  updatedAt: any;
-                                  anlagenUsers?:
-                                    | {
-                                        __typename?: 'ModelAnlagenUserConnection';
-                                        nextToken?: string | null | undefined;
-                                      }
-                                    | null
-                                    | undefined;
-                                  projekte?:
-                                    | {
-                                        __typename?: 'ModelProjektConnection';
-                                        nextToken?: string | null | undefined;
-                                      }
-                                    | null
-                                    | undefined;
-                                  referenzStueli?:
-                                    | {
-                                        __typename?: 'ModelReferenzStueliConnection';
-                                        nextToken?: string | null | undefined;
-                                      }
-                                    | null
-                                    | undefined;
-                                }
-                              | null
-                              | undefined
-                            >
-                          | null
-                          | undefined;
-                      }
-                    | null
-                    | undefined;
+                  anlage: {
+                    __typename?: 'Anlage';
+                    id: string;
+                    firma: string;
+                    standort: string;
+                    anschrift?: string | null | undefined;
+                    users?: Array<string | null | undefined> | null | undefined;
+                    createdAt: any;
+                    updatedAt: any;
+                    anlagenUsers?:
+                      | {
+                          __typename?: 'ModelAnlagenUserConnection';
+                          nextToken?: string | null | undefined;
+                          items?:
+                            | Array<
+                                | {
+                                    __typename?: 'AnlagenUser';
+                                    anlageId: string;
+                                    userEmail: string;
+                                    createdAt: any;
+                                    updatedAt: any;
+                                  }
+                                | null
+                                | undefined
+                              >
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
+                    projekte?:
+                      | {
+                          __typename?: 'ModelProjektConnection';
+                          nextToken?: string | null | undefined;
+                          items?:
+                            | Array<
+                                | {
+                                    __typename?: 'Projekt';
+                                    id: string;
+                                    anlageId: string;
+                                    projektNummer: number;
+                                    users?:
+                                      | Array<string | null | undefined>
+                                      | null
+                                      | undefined;
+                                    createdAt: any;
+                                    updatedAt: any;
+                                  }
+                                | null
+                                | undefined
+                              >
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
+                    referenzStueli?:
+                      | {
+                          __typename?: 'ModelReferenzStueliConnection';
+                          nextToken?: string | null | undefined;
+                          items?:
+                            | Array<
+                                | {
+                                    __typename?: 'ReferenzStueli';
+                                    id: string;
+                                    anlageId: string;
+                                    kurzspezifikation?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    lieferant?: string | null | undefined;
+                                    nennweite?: string | null | undefined;
+                                    feinspezifikation?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    createdAt: any;
+                                    updatedAt: any;
+                                  }
+                                | null
+                                | undefined
+                              >
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
+                  };
                   projektStueli?:
                     | {
                         __typename?: 'ModelProjektStueliConnection';
@@ -4777,6 +5003,7 @@ export type GetUserQuery = {
         email: string;
         role: Role;
         currentAnlageId?: string | null | undefined;
+        currentProjektId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -4830,6 +5057,7 @@ export type GetUserQuery = {
                           email: string;
                           role: Role;
                           currentAnlageId?: string | null | undefined;
+                          currentProjektId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -4875,6 +5103,7 @@ export type ListUsersQuery = {
                   email: string;
                   role: Role;
                   currentAnlageId?: string | null | undefined;
+                  currentProjektId?: string | null | undefined;
                   createdAt: any;
                   updatedAt: any;
                   anlagen?:
@@ -4907,6 +5136,10 @@ export type ListUsersQuery = {
                                     email: string;
                                     role: Role;
                                     currentAnlageId?: string | null | undefined;
+                                    currentProjektId?:
+                                      | string
+                                      | null
+                                      | undefined;
                                     createdAt: any;
                                     updatedAt: any;
                                   };
@@ -4997,6 +5230,7 @@ export type OnCreateAnlageSubscription = {
                           email: string;
                           role: Role;
                           currentAnlageId?: string | null | undefined;
+                          currentProjektId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -5033,33 +5267,40 @@ export type OnCreateAnlageSubscription = {
                           | undefined;
                         createdAt: any;
                         updatedAt: any;
-                        anlagen?:
-                          | {
-                              __typename?: 'ModelAnlageConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'Anlage';
-                                        id: string;
-                                        firma: string;
-                                        standort: string;
-                                        anschrift?: string | null | undefined;
-                                        users?:
-                                          | Array<string | null | undefined>
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
+                        anlage: {
+                          __typename?: 'Anlage';
+                          id: string;
+                          firma: string;
+                          standort: string;
+                          anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagenUsers?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                         projektStueli?:
                           | {
                               __typename?: 'ModelProjektStueliConnection';
@@ -5213,6 +5454,7 @@ export type OnUpdateAnlageSubscription = {
                           email: string;
                           role: Role;
                           currentAnlageId?: string | null | undefined;
+                          currentProjektId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -5249,33 +5491,40 @@ export type OnUpdateAnlageSubscription = {
                           | undefined;
                         createdAt: any;
                         updatedAt: any;
-                        anlagen?:
-                          | {
-                              __typename?: 'ModelAnlageConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'Anlage';
-                                        id: string;
-                                        firma: string;
-                                        standort: string;
-                                        anschrift?: string | null | undefined;
-                                        users?:
-                                          | Array<string | null | undefined>
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
+                        anlage: {
+                          __typename?: 'Anlage';
+                          id: string;
+                          firma: string;
+                          standort: string;
+                          anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagenUsers?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                         projektStueli?:
                           | {
                               __typename?: 'ModelProjektStueliConnection';
@@ -5429,6 +5678,7 @@ export type OnDeleteAnlageSubscription = {
                           email: string;
                           role: Role;
                           currentAnlageId?: string | null | undefined;
+                          currentProjektId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -5465,33 +5715,40 @@ export type OnDeleteAnlageSubscription = {
                           | undefined;
                         createdAt: any;
                         updatedAt: any;
-                        anlagen?:
-                          | {
-                              __typename?: 'ModelAnlageConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'Anlage';
-                                        id: string;
-                                        firma: string;
-                                        standort: string;
-                                        anschrift?: string | null | undefined;
-                                        users?:
-                                          | Array<string | null | undefined>
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
+                        anlage: {
+                          __typename?: 'Anlage';
+                          id: string;
+                          firma: string;
+                          standort: string;
+                          anschrift?: string | null | undefined;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagenUsers?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                         projektStueli?:
                           | {
                               __typename?: 'ModelProjektStueliConnection';
@@ -5630,6 +5887,7 @@ export type OnCreateAnlagenUserSubscription = {
                             email: string;
                             role: Role;
                             currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -5659,13 +5917,19 @@ export type OnCreateAnlagenUserSubscription = {
                             | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          anlagen?:
-                            | {
-                                __typename?: 'ModelAnlageConnection';
-                                nextToken?: string | null | undefined;
-                              }
-                            | null
-                            | undefined;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                           projektStueli?:
                             | {
                                 __typename?: 'ModelProjektStueliConnection';
@@ -5713,6 +5977,7 @@ export type OnCreateAnlagenUserSubscription = {
           email: string;
           role: Role;
           currentAnlageId?: string | null | undefined;
+          currentProjektId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -5745,6 +6010,7 @@ export type OnCreateAnlagenUserSubscription = {
                             email: string;
                             role: Role;
                             currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -5815,6 +6081,7 @@ export type OnUpdateAnlagenUserSubscription = {
                             email: string;
                             role: Role;
                             currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -5844,13 +6111,19 @@ export type OnUpdateAnlagenUserSubscription = {
                             | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          anlagen?:
-                            | {
-                                __typename?: 'ModelAnlageConnection';
-                                nextToken?: string | null | undefined;
-                              }
-                            | null
-                            | undefined;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                           projektStueli?:
                             | {
                                 __typename?: 'ModelProjektStueliConnection';
@@ -5898,6 +6171,7 @@ export type OnUpdateAnlagenUserSubscription = {
           email: string;
           role: Role;
           currentAnlageId?: string | null | undefined;
+          currentProjektId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -5930,6 +6204,7 @@ export type OnUpdateAnlagenUserSubscription = {
                             email: string;
                             role: Role;
                             currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -6000,6 +6275,7 @@ export type OnDeleteAnlagenUserSubscription = {
                             email: string;
                             role: Role;
                             currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -6029,13 +6305,19 @@ export type OnDeleteAnlagenUserSubscription = {
                             | undefined;
                           createdAt: any;
                           updatedAt: any;
-                          anlagen?:
-                            | {
-                                __typename?: 'ModelAnlageConnection';
-                                nextToken?: string | null | undefined;
-                              }
-                            | null
-                            | undefined;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                           projektStueli?:
                             | {
                                 __typename?: 'ModelProjektStueliConnection';
@@ -6083,6 +6365,7 @@ export type OnDeleteAnlagenUserSubscription = {
           email: string;
           role: Role;
           currentAnlageId?: string | null | undefined;
+          currentProjektId?: string | null | undefined;
           createdAt: any;
           updatedAt: any;
           anlagen?:
@@ -6115,6 +6398,7 @@ export type OnDeleteAnlagenUserSubscription = {
                             email: string;
                             role: Role;
                             currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
                             createdAt: any;
                             updatedAt: any;
                           };
@@ -6148,111 +6432,130 @@ export type OnCreateProjektSubscription = {
         users?: Array<string | null | undefined> | null | undefined;
         createdAt: any;
         updatedAt: any;
-        anlagen?:
-          | {
-              __typename?: 'ModelAnlageConnection';
-              nextToken?: string | null | undefined;
-              items?:
-                | Array<
-                    | {
-                        __typename?: 'Anlage';
-                        id: string;
-                        firma: string;
-                        standort: string;
-                        anschrift?: string | null | undefined;
-                        users?:
-                          | Array<string | null | undefined>
-                          | null
-                          | undefined;
-                        createdAt: any;
-                        updatedAt: any;
-                        anlagenUsers?:
-                          | {
-                              __typename?: 'ModelAnlagenUserConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'AnlagenUser';
-                                        anlageId: string;
-                                        userEmail: string;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
-                        projekte?:
-                          | {
-                              __typename?: 'ModelProjektConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'Projekt';
-                                        id: string;
-                                        anlageId: string;
-                                        projektNummer: number;
-                                        users?:
-                                          | Array<string | null | undefined>
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
-                        referenzStueli?:
-                          | {
-                              __typename?: 'ModelReferenzStueliConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'ReferenzStueli';
-                                        id: string;
-                                        anlageId: string;
-                                        kurzspezifikation?:
-                                          | string
-                                          | null
-                                          | undefined;
-                                        lieferant?: string | null | undefined;
-                                        nennweite?: string | null | undefined;
-                                        feinspezifikation?:
-                                          | string
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
-                      }
-                    | null
-                    | undefined
-                  >
-                | null
-                | undefined;
-            }
-          | null
-          | undefined;
+        anlage: {
+          __typename?: 'Anlage';
+          id: string;
+          firma: string;
+          standort: string;
+          anschrift?: string | null | undefined;
+          users?: Array<string | null | undefined> | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlagenUsers?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          id: string;
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
         projektStueli?:
           | {
               __typename?: 'ModelProjektStueliConnection';
@@ -6302,111 +6605,130 @@ export type OnUpdateProjektSubscription = {
         users?: Array<string | null | undefined> | null | undefined;
         createdAt: any;
         updatedAt: any;
-        anlagen?:
-          | {
-              __typename?: 'ModelAnlageConnection';
-              nextToken?: string | null | undefined;
-              items?:
-                | Array<
-                    | {
-                        __typename?: 'Anlage';
-                        id: string;
-                        firma: string;
-                        standort: string;
-                        anschrift?: string | null | undefined;
-                        users?:
-                          | Array<string | null | undefined>
-                          | null
-                          | undefined;
-                        createdAt: any;
-                        updatedAt: any;
-                        anlagenUsers?:
-                          | {
-                              __typename?: 'ModelAnlagenUserConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'AnlagenUser';
-                                        anlageId: string;
-                                        userEmail: string;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
-                        projekte?:
-                          | {
-                              __typename?: 'ModelProjektConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'Projekt';
-                                        id: string;
-                                        anlageId: string;
-                                        projektNummer: number;
-                                        users?:
-                                          | Array<string | null | undefined>
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
-                        referenzStueli?:
-                          | {
-                              __typename?: 'ModelReferenzStueliConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'ReferenzStueli';
-                                        id: string;
-                                        anlageId: string;
-                                        kurzspezifikation?:
-                                          | string
-                                          | null
-                                          | undefined;
-                                        lieferant?: string | null | undefined;
-                                        nennweite?: string | null | undefined;
-                                        feinspezifikation?:
-                                          | string
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
-                      }
-                    | null
-                    | undefined
-                  >
-                | null
-                | undefined;
-            }
-          | null
-          | undefined;
+        anlage: {
+          __typename?: 'Anlage';
+          id: string;
+          firma: string;
+          standort: string;
+          anschrift?: string | null | undefined;
+          users?: Array<string | null | undefined> | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlagenUsers?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          id: string;
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
         projektStueli?:
           | {
               __typename?: 'ModelProjektStueliConnection';
@@ -6456,111 +6778,130 @@ export type OnDeleteProjektSubscription = {
         users?: Array<string | null | undefined> | null | undefined;
         createdAt: any;
         updatedAt: any;
-        anlagen?:
-          | {
-              __typename?: 'ModelAnlageConnection';
-              nextToken?: string | null | undefined;
-              items?:
-                | Array<
-                    | {
-                        __typename?: 'Anlage';
-                        id: string;
-                        firma: string;
-                        standort: string;
-                        anschrift?: string | null | undefined;
-                        users?:
-                          | Array<string | null | undefined>
-                          | null
-                          | undefined;
-                        createdAt: any;
-                        updatedAt: any;
-                        anlagenUsers?:
-                          | {
-                              __typename?: 'ModelAnlagenUserConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'AnlagenUser';
-                                        anlageId: string;
-                                        userEmail: string;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
-                        projekte?:
-                          | {
-                              __typename?: 'ModelProjektConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'Projekt';
-                                        id: string;
-                                        anlageId: string;
-                                        projektNummer: number;
-                                        users?:
-                                          | Array<string | null | undefined>
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
-                        referenzStueli?:
-                          | {
-                              __typename?: 'ModelReferenzStueliConnection';
-                              nextToken?: string | null | undefined;
-                              items?:
-                                | Array<
-                                    | {
-                                        __typename?: 'ReferenzStueli';
-                                        id: string;
-                                        anlageId: string;
-                                        kurzspezifikation?:
-                                          | string
-                                          | null
-                                          | undefined;
-                                        lieferant?: string | null | undefined;
-                                        nennweite?: string | null | undefined;
-                                        feinspezifikation?:
-                                          | string
-                                          | null
-                                          | undefined;
-                                        createdAt: any;
-                                        updatedAt: any;
-                                      }
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            }
-                          | null
-                          | undefined;
-                      }
-                    | null
-                    | undefined
-                  >
-                | null
-                | undefined;
-            }
-          | null
-          | undefined;
+        anlage: {
+          __typename?: 'Anlage';
+          id: string;
+          firma: string;
+          standort: string;
+          anschrift?: string | null | undefined;
+          users?: Array<string | null | undefined> | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlagenUsers?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          users?:
+                            | Array<string | null | undefined>
+                            | null
+                            | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            users?:
+                              | Array<string | null | undefined>
+                              | null
+                              | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          id: string;
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
         projektStueli?:
           | {
               __typename?: 'ModelProjektStueliConnection';
@@ -6751,6 +7092,7 @@ export type OnCreateUserSubscription = {
         email: string;
         role: Role;
         currentAnlageId?: string | null | undefined;
+        currentProjektId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -6804,6 +7146,7 @@ export type OnCreateUserSubscription = {
                           email: string;
                           role: Role;
                           currentAnlageId?: string | null | undefined;
+                          currentProjektId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -6840,6 +7183,7 @@ export type OnUpdateUserSubscription = {
         email: string;
         role: Role;
         currentAnlageId?: string | null | undefined;
+        currentProjektId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -6893,6 +7237,7 @@ export type OnUpdateUserSubscription = {
                           email: string;
                           role: Role;
                           currentAnlageId?: string | null | undefined;
+                          currentProjektId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -6929,6 +7274,7 @@ export type OnDeleteUserSubscription = {
         email: string;
         role: Role;
         currentAnlageId?: string | null | undefined;
+        currentProjektId?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlagen?:
@@ -6982,6 +7328,7 @@ export type OnDeleteUserSubscription = {
                           email: string;
                           role: Role;
                           currentAnlageId?: string | null | undefined;
+                          currentProjektId?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlagen?:
@@ -7040,6 +7387,7 @@ export const CreateAnlagenUserPrimaryDocument = `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
@@ -7054,8 +7402,14 @@ export const CreateAnlagenUserPrimaryDocument = `
           users
           createdAt
           updatedAt
-          anlagen {
-            nextToken
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
           }
           projektStueli {
             nextToken
@@ -7081,6 +7435,7 @@ export const CreateAnlagenUserPrimaryDocument = `
       email
       role
       currentAnlageId
+      currentProjektId
       createdAt
       updatedAt
       anlagen {
@@ -7102,6 +7457,7 @@ export const CreateAnlagenUserPrimaryDocument = `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
@@ -7171,6 +7527,7 @@ export const DeleteAnlagenUserPrimaryDocument = `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
@@ -7185,8 +7542,14 @@ export const DeleteAnlagenUserPrimaryDocument = `
           users
           createdAt
           updatedAt
-          anlagen {
-            nextToken
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
           }
           projektStueli {
             nextToken
@@ -7212,6 +7575,7 @@ export const DeleteAnlagenUserPrimaryDocument = `
       email
       role
       currentAnlageId
+      currentProjektId
       createdAt
       updatedAt
       anlagen {
@@ -7233,6 +7597,7 @@ export const DeleteAnlagenUserPrimaryDocument = `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
@@ -7306,6 +7671,7 @@ export const DeleteAnlagePrimaryDocument = `
           email
           role
           currentAnlageId
+          currentProjektId
           createdAt
           updatedAt
           anlagen {
@@ -7323,17 +7689,23 @@ export const DeleteAnlagePrimaryDocument = `
         users
         createdAt
         updatedAt
-        anlagen {
-          items {
-            id
-            firma
-            standort
-            anschrift
-            users
-            createdAt
-            updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          users
+          createdAt
+          updatedAt
+          anlagenUsers {
+            nextToken
           }
-          nextToken
+          projekte {
+            nextToken
+          }
+          referenzStueli {
+            nextToken
+          }
         }
         projektStueli {
           items {
@@ -7402,6 +7774,7 @@ export const SetCurrentAnlageIdDocument = `
     email
     role
     currentAnlageId
+    currentProjektId
     createdAt
     updatedAt
     anlagen {
@@ -7432,6 +7805,7 @@ export const SetCurrentAnlageIdDocument = `
           email
           role
           currentAnlageId
+          currentProjektId
           createdAt
           updatedAt
           anlagen {
@@ -7503,6 +7877,7 @@ export const UpdateAnlagenUserDocument = `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
@@ -7517,8 +7892,14 @@ export const UpdateAnlagenUserDocument = `
           users
           createdAt
           updatedAt
-          anlagen {
-            nextToken
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
           }
           projektStueli {
             nextToken
@@ -7544,6 +7925,7 @@ export const UpdateAnlagenUserDocument = `
       email
       role
       currentAnlageId
+      currentProjektId
       createdAt
       updatedAt
       anlagen {
@@ -7565,6 +7947,7 @@ export const UpdateAnlagenUserDocument = `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
@@ -7638,6 +8021,7 @@ export const CreateAnlageDocument = `
           email
           role
           currentAnlageId
+          currentProjektId
           createdAt
           updatedAt
           anlagen {
@@ -7655,17 +8039,23 @@ export const CreateAnlageDocument = `
         users
         createdAt
         updatedAt
-        anlagen {
-          items {
-            id
-            firma
-            standort
-            anschrift
-            users
-            createdAt
-            updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          users
+          createdAt
+          updatedAt
+          anlagenUsers {
+            nextToken
           }
-          nextToken
+          projekte {
+            nextToken
+          }
+          referenzStueli {
+            nextToken
+          }
         }
         projektStueli {
           items {
@@ -7763,6 +8153,7 @@ export const UpdateAnlageDocument = `
           email
           role
           currentAnlageId
+          currentProjektId
           createdAt
           updatedAt
           anlagen {
@@ -7780,17 +8171,23 @@ export const UpdateAnlageDocument = `
         users
         createdAt
         updatedAt
-        anlagen {
-          items {
-            id
-            firma
-            standort
-            anschrift
-            users
-            createdAt
-            updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          users
+          createdAt
+          updatedAt
+          anlagenUsers {
+            nextToken
           }
-          nextToken
+          projekte {
+            nextToken
+          }
+          referenzStueli {
+            nextToken
+          }
         }
         projektStueli {
           items {
@@ -7888,6 +8285,7 @@ export const DeleteAnlageDocument = `
           email
           role
           currentAnlageId
+          currentProjektId
           createdAt
           updatedAt
           anlagen {
@@ -7905,17 +8303,23 @@ export const DeleteAnlageDocument = `
         users
         createdAt
         updatedAt
-        anlagen {
-          items {
-            id
-            firma
-            standort
-            anschrift
-            users
-            createdAt
-            updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          users
+          createdAt
+          updatedAt
+          anlagenUsers {
+            nextToken
           }
-          nextToken
+          projekte {
+            nextToken
+          }
+          referenzStueli {
+            nextToken
+          }
         }
         projektStueli {
           items {
@@ -8009,6 +8413,7 @@ export const CreateAnlagenUserDocument = `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
@@ -8023,8 +8428,14 @@ export const CreateAnlagenUserDocument = `
           users
           createdAt
           updatedAt
-          anlagen {
-            nextToken
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
           }
           projektStueli {
             nextToken
@@ -8050,6 +8461,7 @@ export const CreateAnlagenUserDocument = `
       email
       role
       currentAnlageId
+      currentProjektId
       createdAt
       updatedAt
       anlagen {
@@ -8071,6 +8483,7 @@ export const CreateAnlagenUserDocument = `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
@@ -8140,6 +8553,7 @@ export const DeleteAnlagenUserDocument = `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
@@ -8154,8 +8568,14 @@ export const DeleteAnlagenUserDocument = `
           users
           createdAt
           updatedAt
-          anlagen {
-            nextToken
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
           }
           projektStueli {
             nextToken
@@ -8181,6 +8601,7 @@ export const DeleteAnlagenUserDocument = `
       email
       role
       currentAnlageId
+      currentProjektId
       createdAt
       updatedAt
       anlagen {
@@ -8202,6 +8623,7 @@ export const DeleteAnlagenUserDocument = `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
@@ -8246,50 +8668,76 @@ export const CreateProjektDocument = `
     users
     createdAt
     updatedAt
-    anlagen {
-      items {
-        id
-        firma
-        standort
-        anschrift
-        users
-        createdAt
-        updatedAt
-        anlagenUsers {
-          items {
-            anlageId
-            userEmail
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        projekte {
-          items {
+    anlage {
+      id
+      firma
+      standort
+      anschrift
+      users
+      createdAt
+      updatedAt
+      anlagenUsers {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
             id
-            anlageId
-            projektNummer
+            firma
+            standort
+            anschrift
             users
             createdAt
             updatedAt
           }
-          nextToken
-        }
-        referenzStueli {
-          items {
-            id
-            anlageId
-            kurzspezifikation
-            lieferant
-            nennweite
-            feinspezifikation
+          user {
+            email
+            role
+            currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
-          nextToken
         }
+        nextToken
       }
-      nextToken
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          id
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
     projektStueli {
       items {
@@ -8342,50 +8790,76 @@ export const UpdateProjektDocument = `
     users
     createdAt
     updatedAt
-    anlagen {
-      items {
-        id
-        firma
-        standort
-        anschrift
-        users
-        createdAt
-        updatedAt
-        anlagenUsers {
-          items {
-            anlageId
-            userEmail
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        projekte {
-          items {
+    anlage {
+      id
+      firma
+      standort
+      anschrift
+      users
+      createdAt
+      updatedAt
+      anlagenUsers {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
             id
-            anlageId
-            projektNummer
+            firma
+            standort
+            anschrift
             users
             createdAt
             updatedAt
           }
-          nextToken
-        }
-        referenzStueli {
-          items {
-            id
-            anlageId
-            kurzspezifikation
-            lieferant
-            nennweite
-            feinspezifikation
+          user {
+            email
+            role
+            currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
-          nextToken
         }
+        nextToken
       }
-      nextToken
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          id
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
     projektStueli {
       items {
@@ -8438,50 +8912,76 @@ export const DeleteProjektDocument = `
     users
     createdAt
     updatedAt
-    anlagen {
-      items {
-        id
-        firma
-        standort
-        anschrift
-        users
-        createdAt
-        updatedAt
-        anlagenUsers {
-          items {
-            anlageId
-            userEmail
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        projekte {
-          items {
+    anlage {
+      id
+      firma
+      standort
+      anschrift
+      users
+      createdAt
+      updatedAt
+      anlagenUsers {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
             id
-            anlageId
-            projektNummer
+            firma
+            standort
+            anschrift
             users
             createdAt
             updatedAt
           }
-          nextToken
-        }
-        referenzStueli {
-          items {
-            id
-            anlageId
-            kurzspezifikation
-            lieferant
-            nennweite
-            feinspezifikation
+          user {
+            email
+            role
+            currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
-          nextToken
         }
+        nextToken
       }
-      nextToken
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          id
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
     projektStueli {
       items {
@@ -8777,6 +9277,7 @@ export const CreateUserDocument = `
     email
     role
     currentAnlageId
+    currentProjektId
     createdAt
     updatedAt
     anlagen {
@@ -8807,6 +9308,7 @@ export const CreateUserDocument = `
           email
           role
           currentAnlageId
+          currentProjektId
           createdAt
           updatedAt
           anlagen {
@@ -8847,6 +9349,7 @@ export const UpdateUserDocument = `
     email
     role
     currentAnlageId
+    currentProjektId
     createdAt
     updatedAt
     anlagen {
@@ -8877,6 +9380,7 @@ export const UpdateUserDocument = `
           email
           role
           currentAnlageId
+          currentProjektId
           createdAt
           updatedAt
           anlagen {
@@ -8917,6 +9421,7 @@ export const DeleteUserDocument = `
     email
     role
     currentAnlageId
+    currentProjektId
     createdAt
     updatedAt
     anlagen {
@@ -8947,6 +9452,7 @@ export const DeleteUserDocument = `
           email
           role
           currentAnlageId
+          currentProjektId
           createdAt
           updatedAt
           anlagen {
@@ -9019,6 +9525,7 @@ export const GetAnlageDocument = `
           email
           role
           currentAnlageId
+          currentProjektId
           createdAt
           updatedAt
           anlagen {
@@ -9036,17 +9543,23 @@ export const GetAnlageDocument = `
         users
         createdAt
         updatedAt
-        anlagen {
-          items {
-            id
-            firma
-            standort
-            anschrift
-            users
-            createdAt
-            updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          users
+          createdAt
+          updatedAt
+          anlagenUsers {
+            nextToken
           }
-          nextToken
+          projekte {
+            nextToken
+          }
+          referenzStueli {
+            nextToken
+          }
         }
         projektStueli {
           items {
@@ -9132,6 +9645,7 @@ export const ListAnlagesDocument = `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
@@ -9146,8 +9660,14 @@ export const ListAnlagesDocument = `
           users
           createdAt
           updatedAt
-          anlagen {
-            nextToken
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
           }
           projektStueli {
             nextToken
@@ -9219,6 +9739,7 @@ export const GetAnlagenUserDocument = `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
@@ -9233,8 +9754,14 @@ export const GetAnlagenUserDocument = `
           users
           createdAt
           updatedAt
-          anlagen {
-            nextToken
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
           }
           projektStueli {
             nextToken
@@ -9260,6 +9787,7 @@ export const GetAnlagenUserDocument = `
       email
       role
       currentAnlageId
+      currentProjektId
       createdAt
       updatedAt
       anlagen {
@@ -9281,6 +9809,7 @@ export const GetAnlagenUserDocument = `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
@@ -9367,6 +9896,7 @@ export const ListAnlagenUsersDocument = `
         email
         role
         currentAnlageId
+        currentProjektId
         createdAt
         updatedAt
         anlagen {
@@ -9410,50 +9940,76 @@ export const GetProjektDocument = `
     users
     createdAt
     updatedAt
-    anlagen {
-      items {
-        id
-        firma
-        standort
-        anschrift
-        users
-        createdAt
-        updatedAt
-        anlagenUsers {
-          items {
-            anlageId
-            userEmail
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        projekte {
-          items {
+    anlage {
+      id
+      firma
+      standort
+      anschrift
+      users
+      createdAt
+      updatedAt
+      anlagenUsers {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
             id
-            anlageId
-            projektNummer
+            firma
+            standort
+            anschrift
             users
             createdAt
             updatedAt
           }
-          nextToken
-        }
-        referenzStueli {
-          items {
-            id
-            anlageId
-            kurzspezifikation
-            lieferant
-            nennweite
-            feinspezifikation
+          user {
+            email
+            role
+            currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
-          nextToken
         }
+        nextToken
       }
-      nextToken
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          id
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
     projektStueli {
       items {
@@ -9503,26 +10059,47 @@ export const ListProjektsDocument = `
       users
       createdAt
       updatedAt
-      anlagen {
-        items {
-          id
-          firma
-          standort
-          anschrift
-          users
-          createdAt
-          updatedAt
-          anlagenUsers {
-            nextToken
+      anlage {
+        id
+        firma
+        standort
+        anschrift
+        users
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
           }
-          projekte {
-            nextToken
-          }
-          referenzStueli {
-            nextToken
-          }
+          nextToken
         }
-        nextToken
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            users
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
       }
       projektStueli {
         items {
@@ -9842,6 +10419,7 @@ export const GetUserDocument = `
     email
     role
     currentAnlageId
+    currentProjektId
     createdAt
     updatedAt
     anlagen {
@@ -9872,6 +10450,7 @@ export const GetUserDocument = `
           email
           role
           currentAnlageId
+          currentProjektId
           createdAt
           updatedAt
           anlagen {
@@ -9909,6 +10488,7 @@ export const ListUsersDocument = `
       email
       role
       currentAnlageId
+      currentProjektId
       createdAt
       updatedAt
       anlagen {
@@ -9930,6 +10510,7 @@ export const ListUsersDocument = `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
@@ -9991,6 +10572,7 @@ export const OnCreateAnlageDocument = `
           email
           role
           currentAnlageId
+          currentProjektId
           createdAt
           updatedAt
           anlagen {
@@ -10008,17 +10590,23 @@ export const OnCreateAnlageDocument = `
         users
         createdAt
         updatedAt
-        anlagen {
-          items {
-            id
-            firma
-            standort
-            anschrift
-            users
-            createdAt
-            updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          users
+          createdAt
+          updatedAt
+          anlagenUsers {
+            nextToken
           }
-          nextToken
+          projekte {
+            nextToken
+          }
+          referenzStueli {
+            nextToken
+          }
         }
         projektStueli {
           items {
@@ -10094,6 +10682,7 @@ export const OnUpdateAnlageDocument = `
           email
           role
           currentAnlageId
+          currentProjektId
           createdAt
           updatedAt
           anlagen {
@@ -10111,17 +10700,23 @@ export const OnUpdateAnlageDocument = `
         users
         createdAt
         updatedAt
-        anlagen {
-          items {
-            id
-            firma
-            standort
-            anschrift
-            users
-            createdAt
-            updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          users
+          createdAt
+          updatedAt
+          anlagenUsers {
+            nextToken
           }
-          nextToken
+          projekte {
+            nextToken
+          }
+          referenzStueli {
+            nextToken
+          }
         }
         projektStueli {
           items {
@@ -10197,6 +10792,7 @@ export const OnDeleteAnlageDocument = `
           email
           role
           currentAnlageId
+          currentProjektId
           createdAt
           updatedAt
           anlagen {
@@ -10214,17 +10810,23 @@ export const OnDeleteAnlageDocument = `
         users
         createdAt
         updatedAt
-        anlagen {
-          items {
-            id
-            firma
-            standort
-            anschrift
-            users
-            createdAt
-            updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          users
+          createdAt
+          updatedAt
+          anlagenUsers {
+            nextToken
           }
-          nextToken
+          projekte {
+            nextToken
+          }
+          referenzStueli {
+            nextToken
+          }
         }
         projektStueli {
           items {
@@ -10296,6 +10898,7 @@ export const OnCreateAnlagenUserDocument = `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
@@ -10310,8 +10913,14 @@ export const OnCreateAnlagenUserDocument = `
           users
           createdAt
           updatedAt
-          anlagen {
-            nextToken
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
           }
           projektStueli {
             nextToken
@@ -10337,6 +10946,7 @@ export const OnCreateAnlagenUserDocument = `
       email
       role
       currentAnlageId
+      currentProjektId
       createdAt
       updatedAt
       anlagen {
@@ -10358,6 +10968,7 @@ export const OnCreateAnlagenUserDocument = `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
@@ -10402,6 +11013,7 @@ export const OnUpdateAnlagenUserDocument = `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
@@ -10416,8 +11028,14 @@ export const OnUpdateAnlagenUserDocument = `
           users
           createdAt
           updatedAt
-          anlagen {
-            nextToken
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
           }
           projektStueli {
             nextToken
@@ -10443,6 +11061,7 @@ export const OnUpdateAnlagenUserDocument = `
       email
       role
       currentAnlageId
+      currentProjektId
       createdAt
       updatedAt
       anlagen {
@@ -10464,6 +11083,7 @@ export const OnUpdateAnlagenUserDocument = `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
@@ -10508,6 +11128,7 @@ export const OnDeleteAnlagenUserDocument = `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
@@ -10522,8 +11143,14 @@ export const OnDeleteAnlagenUserDocument = `
           users
           createdAt
           updatedAt
-          anlagen {
-            nextToken
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
           }
           projektStueli {
             nextToken
@@ -10549,6 +11176,7 @@ export const OnDeleteAnlagenUserDocument = `
       email
       role
       currentAnlageId
+      currentProjektId
       createdAt
       updatedAt
       anlagen {
@@ -10570,6 +11198,7 @@ export const OnDeleteAnlagenUserDocument = `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
@@ -10589,50 +11218,76 @@ export const OnCreateProjektDocument = `
     users
     createdAt
     updatedAt
-    anlagen {
-      items {
-        id
-        firma
-        standort
-        anschrift
-        users
-        createdAt
-        updatedAt
-        anlagenUsers {
-          items {
-            anlageId
-            userEmail
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        projekte {
-          items {
+    anlage {
+      id
+      firma
+      standort
+      anschrift
+      users
+      createdAt
+      updatedAt
+      anlagenUsers {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
             id
-            anlageId
-            projektNummer
+            firma
+            standort
+            anschrift
             users
             createdAt
             updatedAt
           }
-          nextToken
-        }
-        referenzStueli {
-          items {
-            id
-            anlageId
-            kurzspezifikation
-            lieferant
-            nennweite
-            feinspezifikation
+          user {
+            email
+            role
+            currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
-          nextToken
         }
+        nextToken
       }
-      nextToken
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          id
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
     projektStueli {
       items {
@@ -10663,50 +11318,76 @@ export const OnUpdateProjektDocument = `
     users
     createdAt
     updatedAt
-    anlagen {
-      items {
-        id
-        firma
-        standort
-        anschrift
-        users
-        createdAt
-        updatedAt
-        anlagenUsers {
-          items {
-            anlageId
-            userEmail
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        projekte {
-          items {
+    anlage {
+      id
+      firma
+      standort
+      anschrift
+      users
+      createdAt
+      updatedAt
+      anlagenUsers {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
             id
-            anlageId
-            projektNummer
+            firma
+            standort
+            anschrift
             users
             createdAt
             updatedAt
           }
-          nextToken
-        }
-        referenzStueli {
-          items {
-            id
-            anlageId
-            kurzspezifikation
-            lieferant
-            nennweite
-            feinspezifikation
+          user {
+            email
+            role
+            currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
-          nextToken
         }
+        nextToken
       }
-      nextToken
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          id
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
     projektStueli {
       items {
@@ -10737,50 +11418,76 @@ export const OnDeleteProjektDocument = `
     users
     createdAt
     updatedAt
-    anlagen {
-      items {
-        id
-        firma
-        standort
-        anschrift
-        users
-        createdAt
-        updatedAt
-        anlagenUsers {
-          items {
-            anlageId
-            userEmail
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        projekte {
-          items {
+    anlage {
+      id
+      firma
+      standort
+      anschrift
+      users
+      createdAt
+      updatedAt
+      anlagenUsers {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
             id
-            anlageId
-            projektNummer
+            firma
+            standort
+            anschrift
             users
             createdAt
             updatedAt
           }
-          nextToken
-        }
-        referenzStueli {
-          items {
-            id
-            anlageId
-            kurzspezifikation
-            lieferant
-            nennweite
-            feinspezifikation
+          user {
+            email
+            role
+            currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
           }
-          nextToken
         }
+        nextToken
       }
-      nextToken
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          users
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          id
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
     projektStueli {
       items {
@@ -10904,6 +11611,7 @@ export const OnCreateUserDocument = `
     email
     role
     currentAnlageId
+    currentProjektId
     createdAt
     updatedAt
     anlagen {
@@ -10934,6 +11642,7 @@ export const OnCreateUserDocument = `
           email
           role
           currentAnlageId
+          currentProjektId
           createdAt
           updatedAt
           anlagen {
@@ -10952,6 +11661,7 @@ export const OnUpdateUserDocument = `
     email
     role
     currentAnlageId
+    currentProjektId
     createdAt
     updatedAt
     anlagen {
@@ -10982,6 +11692,7 @@ export const OnUpdateUserDocument = `
           email
           role
           currentAnlageId
+          currentProjektId
           createdAt
           updatedAt
           anlagen {
@@ -11000,6 +11711,7 @@ export const OnDeleteUserDocument = `
     email
     role
     currentAnlageId
+    currentProjektId
     createdAt
     updatedAt
     anlagen {
@@ -11030,6 +11742,7 @@ export const OnDeleteUserDocument = `
           email
           role
           currentAnlageId
+          currentProjektId
           createdAt
           updatedAt
           anlagen {

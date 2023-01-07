@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import Link from '../../components/Link';
+import { Projekt } from '../../lib/api';
 import {
   Anlage,
   Role,
-  useCreateAnlageMutation,
-  useDeleteAnlagePrimaryMutation,
+  useCreateProjektMutation,
+  useDeleteProjektMutation,
   useListAnlagesQuery,
+  useListProjektsQuery,
 } from '../../lib/react-api';
 import { useAuth } from '../../providers/AuthProvider';
 
@@ -13,7 +15,7 @@ function nameof<T>(key: keyof T): keyof T {
   return key;
 }
 
-const Kunde = () => {
+const Projekte = () => {
   const { role } = useAuth();
 
   const isAdmin = role === Role.Admin;
@@ -21,25 +23,28 @@ const Kunde = () => {
   let columns = {
     [nameof<Anlage>('firma')]: 'Firma',
     [nameof<Anlage>('standort')]: 'Standort',
-    [nameof<Anlage>('anschrift')]: 'Anchrift',
+    [nameof<Projekt>('projektNummer')]: 'Projektnummer',
   };
 
   if (isAdmin) {
     columns = { ...columns, actions: 'Aktionen' };
   }
 
-  const { data, isLoading, refetch } = useListAnlagesQuery(undefined, {
+  const { data, isLoading, refetch } = useListProjektsQuery(undefined, {
     refetchOnWindowFocus: false,
   });
 
-  const deleteAnlage = useDeleteAnlagePrimaryMutation();
-  const createAnlage = useCreateAnlageMutation();
+  const anlagen = useListAnlagesQuery(undefined, {
+    refetchOnWindowFocus: false,
+  });
 
-  const [newAnlage, setNewAnlage] = useState<
+  const deleteProjekt = useDeleteProjektMutation();
+  const createProjekt = useCreateProjektMutation();
+
+  const [newProjekt, setNewProjekt] = useState<
     | {
-        firma?: string;
-        standort?: string;
-        anschrift?: string;
+        anlageId?: string;
+        projektNummer?: number;
       }
     | undefined
   >(undefined);
@@ -49,9 +54,9 @@ const Kunde = () => {
   return (
     <div
       className="relative flex flex-col w-full h-full gap-6 pb-10 m-6 -mb-6"
-      data-testid="kunde"
+      data-testid="projekte"
     >
-      <h1 className="flex text-xl font-semibold">Kunden</h1>
+      <h1 className="flex text-xl font-semibold">Projekte</h1>
       <table className="mt-4">
         <thead>
           <tr>
@@ -67,9 +72,9 @@ const Kunde = () => {
           </tr>
         </thead>
         <tbody className="bg-gray-50" data-testid="recent-calls-table-body">
-          {data?.listAnlages?.items?.map(
-            (anlage, row_index) =>
-              anlage && (
+          {data?.listProjekts?.items?.map(
+            (projekt, row_index) =>
+              projekt && (
                 <tr key={row_index} className="border-b border-gray-400">
                   {Object.keys(columns).map((col, index) => (
                     <td
@@ -80,9 +85,9 @@ const Kunde = () => {
                         <button
                           className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
                           onClick={async () => {
-                            await deleteAnlage.mutateAsync({
+                            await deleteProjekt.mutateAsync({
                               input: {
-                                anlageId: anlage?.id,
+                                id: projekt.id,
                               },
                             });
                             await refetch();
@@ -91,11 +96,16 @@ const Kunde = () => {
                           <span>Löschen</span>
                         </button>
                       ) : col === 'standort' ? (
-                        <Link name="referenz-stueli" to={`/kunde/${anlage.id}`}>
-                          <span>{anlage[col]}</span>
+                        <Link
+                          name="referenz-stueli"
+                          to={`/projekte/${projekt.id}`}
+                        >
+                          {/* <span>{anlage[col]}</span> */}
                         </Link>
+                      ) : col === 'projektNummer' ? (
+                        projekt[col]
                       ) : (
-                        anlage[col as 'firma' | 'anschrift']
+                        projekt.anlage[col as 'firma' | 'standort']
                       )}
                     </td>
                   ))}
@@ -105,46 +115,49 @@ const Kunde = () => {
           {isAdmin && (
             <tr key="insert_row" className="border-b border-gray-400">
               <td
-                key="firma_insert"
+                key="anlage_insert"
                 className="p-3 text-left whitespace-pre-line"
+                colSpan={2}
               >
-                <input
-                  type="text"
-                  id="firma"
-                  name="firma"
+                <select
                   onChange={(e) =>
-                    setNewAnlage({ ...newAnlage, firma: e.target.value })
+                    setNewProjekt({
+                      ...newProjekt,
+                      anlageId: e.target.value,
+                    })
                   }
-                />
+                >
+                  {anlagen.data?.listAnlages?.items
+                    ?.sort(
+                      (a1, a2) => a1?.firma.localeCompare(a2?.firma ?? '') ?? 0,
+                    )
+                    .map((anlage) => (
+                      <option key={anlage?.id} value={anlage?.id}>
+                        {`Firma: ${anlage?.firma} Standort: ${anlage?.standort}`}
+                      </option>
+                    ))}
+                </select>
               </td>
+
               <td
-                key="standort_insert"
+                key="anlage_insert"
                 className="p-3 text-left whitespace-pre-line"
               >
                 <input
                   type="text"
-                  id="standort"
-                  name="standort"
+                  id="projektNummer"
+                  name="projektNummer"
                   onChange={(e) =>
-                    setNewAnlage({ ...newAnlage, standort: e.target.value })
+                    setNewProjekt({
+                      ...newProjekt,
+                      projektNummer: Number(e.target.value),
+                    })
                   }
                 />
               </td>
-              <td
-                key="anschrift_insert"
-                className="p-3 text-left whitespace-pre-line"
-              >
-                <input
-                  type="text"
-                  id="anschrift"
-                  name="firma"
-                  onChange={(e) =>
-                    setNewAnlage({ ...newAnlage, anschrift: e.target.value })
-                  }
-                />
-              </td>
+
               <td key="action" className="p-3 text-left whitespace-pre-line">
-                {!newAnlage?.firma || !newAnlage?.standort ? (
+                {!newProjekt?.projektNummer || !newProjekt?.anlageId ? (
                   <button className="px-4 py-2 font-bold text-white bg-blue-500 rounded opacity-50 cursor-not-allowed">
                     <span>Einfügen</span>
                   </button>
@@ -152,15 +165,14 @@ const Kunde = () => {
                   <button
                     className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
                     onClick={async () => {
-                      if (!newAnlage?.firma || !newAnlage?.standort) {
-                        console.debug('newAnlage missing');
+                      if (!newProjekt?.projektNummer || !newProjekt?.anlageId) {
+                        console.debug('newProjekt missing');
                         return;
                       }
-                      await createAnlage.mutateAsync({
+                      await createProjekt.mutateAsync({
                         input: {
-                          firma: newAnlage.firma,
-                          standort: newAnlage.standort,
-                          anschrift: newAnlage.anschrift,
+                          anlageId: newProjekt.anlageId,
+                          projektNummer: newProjekt.projektNummer,
                         },
                       });
                       await refetch();
@@ -178,4 +190,4 @@ const Kunde = () => {
   );
 };
 
-export default Kunde;
+export default Projekte;

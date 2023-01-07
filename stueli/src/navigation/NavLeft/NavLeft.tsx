@@ -17,13 +17,17 @@ const NavLeft = ({ className }: { className: string }) => {
         Home
       </NavLeftLink>
 
-      <NavLeftLink name={'kunde'} to="/kunde" icon="IoHomeOutline">
-        Kunde
+      <NavLeftLink name={'projekte'} to="/projekte" icon="IoHomeOutline">
+        Projekte
+      </NavLeftLink>
+
+      <NavLeftLink name={'kunden'} to="/kunden" icon="IoHomeOutline">
+        Kunden
       </NavLeftLink>
 
       {role === Role.Admin && (
         <NavLeftLink name={'kundeuser'} to="/kundeuser" icon="IoHomeOutline">
-          Kunde User
+          Kunden User
         </NavLeftLink>
       )}
 

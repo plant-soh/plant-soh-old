@@ -36,6 +36,7 @@ export const createAnlagenUserPrimary = /* GraphQL */ `
               email
               role
               currentAnlageId
+              currentProjektId
               createdAt
               updatedAt
             }
@@ -50,8 +51,14 @@ export const createAnlagenUserPrimary = /* GraphQL */ `
             users
             createdAt
             updatedAt
-            anlagen {
-              nextToken
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              users
+              createdAt
+              updatedAt
             }
             projektStueli {
               nextToken
@@ -77,6 +84,7 @@ export const createAnlagenUserPrimary = /* GraphQL */ `
         email
         role
         currentAnlageId
+        currentProjektId
         createdAt
         updatedAt
         anlagen {
@@ -98,6 +106,7 @@ export const createAnlagenUserPrimary = /* GraphQL */ `
               email
               role
               currentAnlageId
+              currentProjektId
               createdAt
               updatedAt
             }
@@ -142,6 +151,7 @@ export const deleteAnlagenUserPrimary = /* GraphQL */ `
               email
               role
               currentAnlageId
+              currentProjektId
               createdAt
               updatedAt
             }
@@ -156,8 +166,14 @@ export const deleteAnlagenUserPrimary = /* GraphQL */ `
             users
             createdAt
             updatedAt
-            anlagen {
-              nextToken
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              users
+              createdAt
+              updatedAt
             }
             projektStueli {
               nextToken
@@ -183,6 +199,7 @@ export const deleteAnlagenUserPrimary = /* GraphQL */ `
         email
         role
         currentAnlageId
+        currentProjektId
         createdAt
         updatedAt
         anlagen {
@@ -204,6 +221,7 @@ export const deleteAnlagenUserPrimary = /* GraphQL */ `
               email
               role
               currentAnlageId
+              currentProjektId
               createdAt
               updatedAt
             }
@@ -252,6 +270,7 @@ export const deleteAnlagePrimary = /* GraphQL */ `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
             anlagen {
@@ -269,17 +288,23 @@ export const deleteAnlagePrimary = /* GraphQL */ `
           users
           createdAt
           updatedAt
-          anlagen {
-            items {
-              id
-              firma
-              standort
-              anschrift
-              users
-              createdAt
-              updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+            anlagenUsers {
+              nextToken
             }
-            nextToken
+            projekte {
+              nextToken
+            }
+            referenzStueli {
+              nextToken
+            }
           }
           projektStueli {
             items {
@@ -323,6 +348,7 @@ export const setCurrentAnlageId = /* GraphQL */ `
       email
       role
       currentAnlageId
+      currentProjektId
       createdAt
       updatedAt
       anlagen {
@@ -353,6 +379,7 @@ export const setCurrentAnlageId = /* GraphQL */ `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
             anlagen {
@@ -399,6 +426,7 @@ export const updateAnlagenUser = /* GraphQL */ `
               email
               role
               currentAnlageId
+              currentProjektId
               createdAt
               updatedAt
             }
@@ -413,8 +441,14 @@ export const updateAnlagenUser = /* GraphQL */ `
             users
             createdAt
             updatedAt
-            anlagen {
-              nextToken
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              users
+              createdAt
+              updatedAt
             }
             projektStueli {
               nextToken
@@ -440,6 +474,7 @@ export const updateAnlagenUser = /* GraphQL */ `
         email
         role
         currentAnlageId
+        currentProjektId
         createdAt
         updatedAt
         anlagen {
@@ -461,6 +496,7 @@ export const updateAnlagenUser = /* GraphQL */ `
               email
               role
               currentAnlageId
+              currentProjektId
               createdAt
               updatedAt
             }
@@ -509,6 +545,7 @@ export const createAnlage = /* GraphQL */ `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
             anlagen {
@@ -526,17 +563,23 @@ export const createAnlage = /* GraphQL */ `
           users
           createdAt
           updatedAt
-          anlagen {
-            items {
-              id
-              firma
-              standort
-              anschrift
-              users
-              createdAt
-              updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+            anlagenUsers {
+              nextToken
             }
-            nextToken
+            projekte {
+              nextToken
+            }
+            referenzStueli {
+              nextToken
+            }
           }
           projektStueli {
             items {
@@ -612,6 +655,7 @@ export const updateAnlage = /* GraphQL */ `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
             anlagen {
@@ -629,17 +673,23 @@ export const updateAnlage = /* GraphQL */ `
           users
           createdAt
           updatedAt
-          anlagen {
-            items {
-              id
-              firma
-              standort
-              anschrift
-              users
-              createdAt
-              updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+            anlagenUsers {
+              nextToken
             }
-            nextToken
+            projekte {
+              nextToken
+            }
+            referenzStueli {
+              nextToken
+            }
           }
           projektStueli {
             items {
@@ -715,6 +765,7 @@ export const deleteAnlage = /* GraphQL */ `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
             anlagen {
@@ -732,17 +783,23 @@ export const deleteAnlage = /* GraphQL */ `
           users
           createdAt
           updatedAt
-          anlagen {
-            items {
-              id
-              firma
-              standort
-              anschrift
-              users
-              createdAt
-              updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            users
+            createdAt
+            updatedAt
+            anlagenUsers {
+              nextToken
             }
-            nextToken
+            projekte {
+              nextToken
+            }
+            referenzStueli {
+              nextToken
+            }
           }
           projektStueli {
             items {
@@ -814,6 +871,7 @@ export const createAnlagenUser = /* GraphQL */ `
               email
               role
               currentAnlageId
+              currentProjektId
               createdAt
               updatedAt
             }
@@ -828,8 +886,14 @@ export const createAnlagenUser = /* GraphQL */ `
             users
             createdAt
             updatedAt
-            anlagen {
-              nextToken
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              users
+              createdAt
+              updatedAt
             }
             projektStueli {
               nextToken
@@ -855,6 +919,7 @@ export const createAnlagenUser = /* GraphQL */ `
         email
         role
         currentAnlageId
+        currentProjektId
         createdAt
         updatedAt
         anlagen {
@@ -876,6 +941,7 @@ export const createAnlagenUser = /* GraphQL */ `
               email
               role
               currentAnlageId
+              currentProjektId
               createdAt
               updatedAt
             }
@@ -920,6 +986,7 @@ export const deleteAnlagenUser = /* GraphQL */ `
               email
               role
               currentAnlageId
+              currentProjektId
               createdAt
               updatedAt
             }
@@ -934,8 +1001,14 @@ export const deleteAnlagenUser = /* GraphQL */ `
             users
             createdAt
             updatedAt
-            anlagen {
-              nextToken
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              users
+              createdAt
+              updatedAt
             }
             projektStueli {
               nextToken
@@ -961,6 +1034,7 @@ export const deleteAnlagenUser = /* GraphQL */ `
         email
         role
         currentAnlageId
+        currentProjektId
         createdAt
         updatedAt
         anlagen {
@@ -982,6 +1056,7 @@ export const deleteAnlagenUser = /* GraphQL */ `
               email
               role
               currentAnlageId
+              currentProjektId
               createdAt
               updatedAt
             }
@@ -1001,50 +1076,76 @@ export const createProjekt = /* GraphQL */ `
       users
       createdAt
       updatedAt
-      anlagen {
-        items {
-          id
-          firma
-          standort
-          anschrift
-          users
-          createdAt
-          updatedAt
-          anlagenUsers {
-            items {
-              anlageId
-              userEmail
-              createdAt
-              updatedAt
-            }
-            nextToken
-          }
-          projekte {
-            items {
+      anlage {
+        id
+        firma
+        standort
+        anschrift
+        users
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+            anlage {
               id
-              anlageId
-              projektNummer
+              firma
+              standort
+              anschrift
               users
               createdAt
               updatedAt
             }
-            nextToken
-          }
-          referenzStueli {
-            items {
-              id
-              anlageId
-              kurzspezifikation
-              lieferant
-              nennweite
-              feinspezifikation
+            user {
+              email
+              role
+              currentAnlageId
+              currentProjektId
               createdAt
               updatedAt
             }
-            nextToken
           }
+          nextToken
         }
-        nextToken
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            users
+            createdAt
+            updatedAt
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              users
+              createdAt
+              updatedAt
+            }
+            projektStueli {
+              nextToken
+            }
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
       }
       projektStueli {
         items {
@@ -1075,50 +1176,76 @@ export const updateProjekt = /* GraphQL */ `
       users
       createdAt
       updatedAt
-      anlagen {
-        items {
-          id
-          firma
-          standort
-          anschrift
-          users
-          createdAt
-          updatedAt
-          anlagenUsers {
-            items {
-              anlageId
-              userEmail
-              createdAt
-              updatedAt
-            }
-            nextToken
-          }
-          projekte {
-            items {
+      anlage {
+        id
+        firma
+        standort
+        anschrift
+        users
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+            anlage {
               id
-              anlageId
-              projektNummer
+              firma
+              standort
+              anschrift
               users
               createdAt
               updatedAt
             }
-            nextToken
-          }
-          referenzStueli {
-            items {
-              id
-              anlageId
-              kurzspezifikation
-              lieferant
-              nennweite
-              feinspezifikation
+            user {
+              email
+              role
+              currentAnlageId
+              currentProjektId
               createdAt
               updatedAt
             }
-            nextToken
           }
+          nextToken
         }
-        nextToken
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            users
+            createdAt
+            updatedAt
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              users
+              createdAt
+              updatedAt
+            }
+            projektStueli {
+              nextToken
+            }
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
       }
       projektStueli {
         items {
@@ -1149,50 +1276,76 @@ export const deleteProjekt = /* GraphQL */ `
       users
       createdAt
       updatedAt
-      anlagen {
-        items {
-          id
-          firma
-          standort
-          anschrift
-          users
-          createdAt
-          updatedAt
-          anlagenUsers {
-            items {
-              anlageId
-              userEmail
-              createdAt
-              updatedAt
-            }
-            nextToken
-          }
-          projekte {
-            items {
+      anlage {
+        id
+        firma
+        standort
+        anschrift
+        users
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+            anlage {
               id
-              anlageId
-              projektNummer
+              firma
+              standort
+              anschrift
               users
               createdAt
               updatedAt
             }
-            nextToken
-          }
-          referenzStueli {
-            items {
-              id
-              anlageId
-              kurzspezifikation
-              lieferant
-              nennweite
-              feinspezifikation
+            user {
+              email
+              role
+              currentAnlageId
+              currentProjektId
               createdAt
               updatedAt
             }
-            nextToken
           }
+          nextToken
         }
-        nextToken
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            users
+            createdAt
+            updatedAt
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              users
+              createdAt
+              updatedAt
+            }
+            projektStueli {
+              nextToken
+            }
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
       }
       projektStueli {
         items {
@@ -1316,6 +1469,7 @@ export const createUser = /* GraphQL */ `
       email
       role
       currentAnlageId
+      currentProjektId
       createdAt
       updatedAt
       anlagen {
@@ -1346,6 +1500,7 @@ export const createUser = /* GraphQL */ `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
             anlagen {
@@ -1364,6 +1519,7 @@ export const updateUser = /* GraphQL */ `
       email
       role
       currentAnlageId
+      currentProjektId
       createdAt
       updatedAt
       anlagen {
@@ -1394,6 +1550,7 @@ export const updateUser = /* GraphQL */ `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
             anlagen {
@@ -1412,6 +1569,7 @@ export const deleteUser = /* GraphQL */ `
       email
       role
       currentAnlageId
+      currentProjektId
       createdAt
       updatedAt
       anlagen {
@@ -1442,6 +1600,7 @@ export const deleteUser = /* GraphQL */ `
             email
             role
             currentAnlageId
+            currentProjektId
             createdAt
             updatedAt
             anlagen {

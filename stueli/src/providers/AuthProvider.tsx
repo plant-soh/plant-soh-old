@@ -2,7 +2,7 @@ import { Auth } from '@aws-amplify/auth';
 // import { ICredentials } from '@aws-amplify/core';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 // import { Provider } from '@aws-sdk/types';
-import { CognitoUser } from 'amazon-cognito-identity-js';
+import { CognitoUser, CognitoUserSession } from 'amazon-cognito-identity-js';
 // import { Amplify } from 'aws-amplify';
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
 
@@ -46,22 +46,27 @@ export default function AuthProvider({
   // authToken: string;
   // }>();
 
+  const [currentSession, setCurrentSession] =
+    useState<CognitoUserSession | null>();
+
   const [role, setRole] = useState<string | undefined>();
   const [currentAnlageId, setCurrentAnlageId] = useState<string | undefined>();
 
   const refreshSession = async () => {
     console.log('Refreshing session');
     const cognitoUser = (await Auth.currentAuthenticatedUser()) as CognitoUser;
-    const currentSession = cognitoUser.getSignInUserSession();
+    // console.log(`cognitoUser: ${JSON.stringify(cognitoUser)}`);
+    const session = cognitoUser.getSignInUserSession();
+    // console.log(`session: ${JSON.stringify(session)}`);
 
-    if (!currentSession) return;
-    const refreshToken = currentSession.getRefreshToken();
+    if (!session) return;
+    const refreshToken = session.getRefreshToken();
     return new Promise<void>((resolve) => {
-      cognitoUser.refreshSession(refreshToken, async (_err, session) => {
-        API.updateAuthToken(
-          (await Auth.currentSession()).getIdToken().getJwtToken(),
-        );
-        resolve(session.getIdToken().getJwtToken());
+      cognitoUser.refreshSession(refreshToken, async (_err, newSession) => {
+        API.updateAuthToken(newSession.getIdToken().getJwtToken());
+        setCurrentSession(newSession);
+        console.log(`newSession: ${JSON.stringify(newSession)}`);
+        resolve(newSession.getIdToken().getJwtToken());
       });
     });
 
@@ -75,10 +80,18 @@ export default function AuthProvider({
   };
 
   useEffect(() => {
+    void (async () => {
+      const session = await Auth.currentSession();
+      setCurrentSession(session);
+    })();
+  }, []);
+
+  useEffect(() => {
     console.debug('AuthProvider authenticated');
     if (route === 'authenticated') {
       void (async () => {
-        const idToken = (await Auth.currentSession()).getIdToken();
+        if (!currentSession) return;
+        const idToken = currentSession.getIdToken();
         const payload = idToken.payload;
         const jwtToken = idToken.getJwtToken();
         // setCredentials({
@@ -92,7 +105,7 @@ export default function AuthProvider({
         // });
         setRole(payload['cognito:groups'][0]);
         setCurrentAnlageId(payload.currentAnlageId);
-        console.log('setCurrentAnlageId');
+        // console.log('setCurrentAnlageId=' + payload.currentAnlageId);
         API.updateIsSignedIn(true);
         API.updateAuthToken(jwtToken);
       })();
@@ -103,7 +116,7 @@ export default function AuthProvider({
       API.updateIsSignedIn(false);
       API.updateAuthToken('');
     }
-  }, [route, location]);
+  }, [route, currentSession]);
 
   if (route === 'authenticated' && role) {
     const value: AuthValue = {
