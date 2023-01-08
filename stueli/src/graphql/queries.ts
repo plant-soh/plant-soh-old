@@ -2,6 +2,13 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const listKurzspezifikationVorschlaege = /* GraphQL */ `
+  query ListKurzspezifikationVorschlaege(
+    $input: ListKurzspezifikationVorschlaegeInput!
+  ) {
+    listKurzspezifikationVorschlaege(input: $input)
+  }
+`;
 export const getAnlage = /* GraphQL */ `
   query GetAnlage($id: ID!) {
     getAnlage(id: $id) {

@@ -326,14 +326,30 @@ export class BackendStack extends core.Stack {
       setCurrentProjektId,
     );
 
+    const listKurzspezifikationVorschlaege = new lambdajs.NodejsFunction(
+      this,
+      'listKurzspezifikationVorschlaege',
+      {
+        functionName: 'listKurzspezifikationVorschlaege',
+        timeout: core.Duration.seconds(30),
+        environment: {
+          APPSYNC_URL: appSyncCustomDomainUrl,
+        },
+      },
+    );
+
+    api.addLambdaDataSourceAndResolvers(
+      'listKurzspezifikationVorschlaege',
+      'listKurzspezifikationVorschlaege',
+      listKurzspezifikationVorschlaege,
+    );
+
     // add AppSync access to all lambda which need it
     [
       preTokenGenerationLambda,
-      // createAnlagenUser,
-      // deleteAnlagenUser,
-      // deleteAnlage,
       setCurrentAnlageId,
       setCurrentProjektId,
+      listKurzspezifikationVorschlaege,
     ].map((lambda) => {
       lambda.addToRolePolicy(
         new iam.PolicyStatement({

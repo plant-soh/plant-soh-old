@@ -77,6 +77,7 @@ const backend = new pj.awscdk.AwsCdkTypeScriptApp({
       '@graphql-codegen/typescript-react-apollo',
       '@graphql-codegen/typed-document-node',
     ],
+    'thenby',
   ],
   devDeps: [
     // '@types/fs-extra',

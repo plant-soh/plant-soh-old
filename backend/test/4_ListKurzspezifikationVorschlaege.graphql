@@ -1,0 +1,3 @@
+query ListVorschlaege {
+  listKurzspezifikationVorschlaege(input: { anlageId: "m1" })
+}

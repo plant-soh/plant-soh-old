@@ -147,6 +147,10 @@ export type DeleteUserInput = {
   email: Scalars['String'];
 };
 
+export type ListKurzspezifikationVorschlaegeInput = {
+  anlageId: Scalars['String'];
+};
+
 export type ModelAnlageConnection = {
   __typename?: 'ModelAnlageConnection';
   items?: Maybe<Array<Maybe<Anlage>>>;
@@ -478,6 +482,7 @@ export type Query = {
   getUser?: Maybe<User>;
   listAnlagenUsers?: Maybe<ModelAnlagenUserConnection>;
   listAnlages?: Maybe<ModelAnlageConnection>;
+  listKurzspezifikationVorschlaege?: Maybe<Array<Maybe<Scalars['String']>>>;
   listProjektStuelis?: Maybe<ModelProjektStueliConnection>;
   listProjekts?: Maybe<ModelProjektConnection>;
   listReferenzStuelis?: Maybe<ModelReferenzStueliConnection>;
@@ -534,6 +539,10 @@ export type QueryListAnlagesArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
   sortDirection?: InputMaybe<ModelSortDirection>;
+};
+
+export type QueryListKurzspezifikationVorschlaegeArgs = {
+  input: ListKurzspezifikationVorschlaegeInput;
 };
 
 export type QueryListProjektStuelisArgs = {
@@ -2976,6 +2985,18 @@ export type DeleteUserMutation = {
           | null
           | undefined;
       }
+    | null
+    | undefined;
+};
+
+export type ListKurzspezifikationVorschlaegeQueryVariables = Exact<{
+  input: ListKurzspezifikationVorschlaegeInput;
+}>;
+
+export type ListKurzspezifikationVorschlaegeQuery = {
+  __typename?: 'Query';
+  listKurzspezifikationVorschlaege?:
+    | Array<string | null | undefined>
     | null
     | undefined;
 };
@@ -12784,6 +12805,57 @@ export const DeleteUserDocument = {
     },
   ],
 } as unknown as DocumentNode<DeleteUserMutation, DeleteUserMutationVariables>;
+export const ListKurzspezifikationVorschlaegeDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'ListKurzspezifikationVorschlaege' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value: 'ListKurzspezifikationVorschlaegeInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listKurzspezifikationVorschlaege' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  ListKurzspezifikationVorschlaegeQuery,
+  ListKurzspezifikationVorschlaegeQueryVariables
+>;
 export const GetAnlageDocument = {
   kind: 'Document',
   definitions: [

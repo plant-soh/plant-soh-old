@@ -10,6 +10,7 @@ import {
   useCreateProjektStueliMutation,
   useDeleteProjektStueliMutation,
   useGetProjektQuery,
+  useListKurzspezifikationVorschlaegeQuery,
   useProjektStueliByKurzspezifikationQuery,
   useReferenzStueliByKurzspezifikationQuery,
   useSetCurrentProjektIdMutation,
@@ -35,10 +36,18 @@ const ProjektStueckliste = () => {
         lieferant?: string;
         nennweite?: string;
         feinspezifikation?: string;
+        vorschlagKurzspezifikation?: string;
+        vorschlagLieferant?: string;
+        vorschlagNennweite?: string;
+        vorschlagFeinspezifikation?: string;
       }
     | undefined
   >(undefined);
   const [selectedFile, setSelectedFile] = useState();
+  const [
+    selectedKurzspezifikationVorschlag,
+    setSelectedKurzspezifikationVorschlag,
+  ] = useState<string | undefined>();
 
   const isAdmin = role === Role.Admin;
 
@@ -83,12 +92,54 @@ const ProjektStueckliste = () => {
     },
   );
 
-  const referenzStueli = useReferenzStueliByKurzspezifikationQuery(
-    { anlageId: getProjektQuery.data?.getProjekt?.anlageId },
+  const kurzspezifikationVorschlaege = useListKurzspezifikationVorschlaegeQuery(
+    { input: { anlageId: getProjektQuery.data?.getProjekt?.anlageId ?? '' } },
     {
       refetchOnWindowFocus: false,
     },
   );
+  // setSelectedKurzspezifikationVorschlag(
+  //   kurzspezifikationVorschlaege.data?.listKurzspezifikationVorschlaege?.[0] ??
+  //     undefined,
+  // );
+
+  const referenzStueckeByKurzspezifikation =
+    useReferenzStueliByKurzspezifikationQuery(
+      {
+        anlageId: getProjektQuery.data?.getProjekt?.anlageId ?? '',
+        kurzspezifikation: { eq: selectedKurzspezifikationVorschlag },
+      },
+      {
+        refetchOnWindowFocus: false,
+      },
+    );
+
+  const lieferantenVorschlaege = Array.from(
+    new Set(
+      referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
+        ?.filter((stueck) => stueck?.lieferant && stueck?.lieferant != '')
+        .map((stueck) => stueck?.lieferant),
+    ),
+  );
+
+  const nennweiteVorschlaege = Array.from(
+    new Set(
+      referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
+        ?.filter((stueck) => stueck?.nennweite && stueck?.nennweite != '')
+        .map((stueck) => stueck?.nennweite),
+    ),
+  ).sort();
+
+  const feinspezifikationVorschlaege = Array.from(
+    new Set(
+      referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
+        ?.filter(
+          (stueck) =>
+            stueck?.feinspezifikation && stueck?.feinspezifikation != '',
+        )
+        .map((stueck) => stueck?.feinspezifikation),
+    ),
+  ).sort();
 
   const setCurrentProjektId = useSetCurrentProjektIdMutation();
 
@@ -266,18 +317,90 @@ const ProjektStueckliste = () => {
                     key={`${col}_insert`}
                     className="p-3 text-left whitespace-pre-line"
                   >
-                    <select className="border-2 border-black">
-                      {referenzStueli.data?.referenzStueliByKurzspezifikation?.items?.map(
-                        (stueck) => (
+                    <select
+                      className="border-2 border-black"
+                      onChange={(e) => {
+                        setSelectedKurzspezifikationVorschlag(e.target.value);
+                        setNewStueck({
+                          ...newStueck,
+                          vorschlagKurzspezifikation: e.target.value,
+                          kurzspezifikation: e.target.value,
+                        });
+                      }}
+                    >
+                      <option value="" disabled selected>
+                        Kurzspezifikation Vorschlag
+                      </option>
+                      {kurzspezifikationVorschlaege.data?.listKurzspezifikationVorschlaege?.map(
+                        (kurzspezifikation) => (
                           <option
-                            key="kurzspezifikation"
-                            value={stueck?.kurzspezifikation || ''}
+                            key={kurzspezifikation}
+                            value={kurzspezifikation || ''}
                           >
-                            {stueck?.kurzspezifikation}
+                            {kurzspezifikation}
                           </option>
                         ),
                       )}
                     </select>
+                    <input
+                      className="border-2 border-black"
+                      type="text"
+                      id={col}
+                      name={col}
+                      value={newStueck?.kurzspezifikation}
+                      onChange={(e) =>
+                        setNewStueck({ ...newStueck, [col]: e.target.value })
+                      }
+                    />
+                  </td>
+                ) : col === 'lieferant' ? (
+                  <td
+                    key={`${col}_insert`}
+                    className="p-3 text-left whitespace-pre-line"
+                  >
+                    {selectedKurzspezifikationVorschlag && (
+                      <select
+                        className="border-2 border-black"
+                        onChange={(e) => {
+                          setNewStueck({
+                            ...newStueck,
+                            vorschlagLieferant: e.target.value,
+                            lieferant: e.target.value,
+                          });
+                        }}
+                      >
+                        {lieferantenVorschlaege?.map((lieferant) => (
+                          <option key={lieferant} value={lieferant || ''}>
+                            {lieferant}
+                          </option>
+                        ))}
+                      </select>
+                    )}
+                    <input
+                      className="border-2 border-black"
+                      type="text"
+                      id={col}
+                      name={col}
+                      value={newStueck?.lieferant}
+                      onChange={(e) =>
+                        setNewStueck({ ...newStueck, [col]: e.target.value })
+                      }
+                    />
+                  </td>
+                ) : col === 'nennweite' ? (
+                  <td
+                    key={`${col}_insert`}
+                    className="p-3 text-left whitespace-pre-line"
+                  >
+                    {selectedKurzspezifikationVorschlag && (
+                      <select className="border-2 border-black">
+                        {nennweiteVorschlaege?.map((nennweite) => (
+                          <option key={nennweite} value={nennweite || ''}>
+                            {nennweite}
+                          </option>
+                        ))}
+                      </select>
+                    )}
                     <input
                       className="border-2 border-black"
                       type="text"
@@ -293,6 +416,28 @@ const ProjektStueckliste = () => {
                     key={`${col}_insert`}
                     className="p-3 text-left whitespace-pre-line"
                   >
+                    {selectedKurzspezifikationVorschlag && (
+                      <select
+                        className="border-2 border-black"
+                        onChange={(e) => {
+                          setNewStueck({
+                            ...newStueck,
+                            ['vorschlag' + col]: e.target.value,
+                          });
+                        }}
+                      >
+                        {feinspezifikationVorschlaege?.map(
+                          (feinspezifikation) => (
+                            <option
+                              key={feinspezifikation}
+                              value={feinspezifikation || ''}
+                            >
+                              {feinspezifikation}
+                            </option>
+                          ),
+                        )}
+                      </select>
+                    )}
                     <input
                       className="border-2 border-black"
                       type="text"

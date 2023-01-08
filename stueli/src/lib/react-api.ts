@@ -153,6 +153,10 @@ export type DeleteUserInput = {
   email: Scalars['String'];
 };
 
+export type ListKurzspezifikationVorschlaegeInput = {
+  anlageId: Scalars['String'];
+};
+
 export type ModelAnlageConnection = {
   __typename?: 'ModelAnlageConnection';
   items?: Maybe<Array<Maybe<Anlage>>>;
@@ -484,6 +488,7 @@ export type Query = {
   getUser?: Maybe<User>;
   listAnlagenUsers?: Maybe<ModelAnlagenUserConnection>;
   listAnlages?: Maybe<ModelAnlageConnection>;
+  listKurzspezifikationVorschlaege?: Maybe<Array<Maybe<Scalars['String']>>>;
   listProjektStuelis?: Maybe<ModelProjektStueliConnection>;
   listProjekts?: Maybe<ModelProjektConnection>;
   listReferenzStuelis?: Maybe<ModelReferenzStueliConnection>;
@@ -540,6 +545,10 @@ export type QueryListAnlagesArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
   sortDirection?: InputMaybe<ModelSortDirection>;
+};
+
+export type QueryListKurzspezifikationVorschlaegeArgs = {
+  input: ListKurzspezifikationVorschlaegeInput;
 };
 
 export type QueryListProjektStuelisArgs = {
@@ -2982,6 +2991,18 @@ export type DeleteUserMutation = {
           | null
           | undefined;
       }
+    | null
+    | undefined;
+};
+
+export type ListKurzspezifikationVorschlaegeQueryVariables = Exact<{
+  input: ListKurzspezifikationVorschlaegeInput;
+}>;
+
+export type ListKurzspezifikationVorschlaegeQuery = {
+  __typename?: 'Query';
+  listKurzspezifikationVorschlaege?:
+    | Array<string | null | undefined>
     | null
     | undefined;
 };
@@ -8177,6 +8198,30 @@ export const useDeleteUserMutation = <TError = unknown, TContext = unknown>(
         DeleteUserDocument,
         variables,
       )(),
+    options,
+  );
+export const ListKurzspezifikationVorschlaegeDocument = `
+    query ListKurzspezifikationVorschlaege($input: ListKurzspezifikationVorschlaegeInput!) {
+  listKurzspezifikationVorschlaege(input: $input)
+}
+    `;
+export const useListKurzspezifikationVorschlaegeQuery = <
+  TData = ListKurzspezifikationVorschlaegeQuery,
+  TError = unknown,
+>(
+  variables: ListKurzspezifikationVorschlaegeQueryVariables,
+  options?: UseQueryOptions<
+    ListKurzspezifikationVorschlaegeQuery,
+    TError,
+    TData
+  >,
+) =>
+  useQuery<ListKurzspezifikationVorschlaegeQuery, TError, TData>(
+    ['ListKurzspezifikationVorschlaege', variables],
+    amplifyFetcher<
+      ListKurzspezifikationVorschlaegeQuery,
+      ListKurzspezifikationVorschlaegeQueryVariables
+    >(ListKurzspezifikationVorschlaegeDocument, variables),
     options,
   );
 export const GetAnlageDocument = `

@@ -136,21 +136,6 @@ enum Role {
 }
 
 type Mutation {
-  # createAnlagenUserPrimary(input: CreateAnlagenUserPrimaryInput!): AnlagenUser
-  #   @function(name: "createAnlagenUser")
-  #   @aws_cognito_user_pools
-  #   @aws_iam
-
-  # deleteAnlagenUserPrimary(input: DeleteAnlagenUserPrimaryInput!): AnlagenUser
-  #   @function(name: "deleteAnlagenUser")
-  #   @aws_cognito_user_pools
-  #   @aws_iam
-
-  # deleteAnlagePrimary(input: DeleteAnlagePrimaryInput!): Anlage
-  #   @function(name: "deleteAnlage")
-  #   @aws_cognito_user_pools
-  #   @aws_iam
-
   setCurrentAnlageId(input: SetCurrentAnlageIdInput!): User
     @function(name: "setCurrentAnlageId")
     @aws_cognito_user_pools
@@ -160,24 +145,23 @@ type Mutation {
     @aws_cognito_user_pools
 }
 
-# input DeleteAnlagePrimaryInput {
-#   anlageId: ID!
-# }
-
-# input CreateAnlagenUserPrimaryInput {
-#   anlageId: ID!
-#   userEmail: String!
-# }
-
-# input DeleteAnlagenUserPrimaryInput {
-#   anlageId: ID!
-#   userEmail: String!
-# }
-
 input SetCurrentAnlageIdInput {
   anlageId: ID!
 }
 
 input SetCurrentProjektIdInput {
   projektId: ID!
+}
+
+type Query {
+  listKurzspezifikationVorschlaege(
+    input: ListKurzspezifikationVorschlaegeInput!
+  ): [String]
+    @function(name: "listKurzspezifikationVorschlaege")
+    @aws_cognito_user_pools
+    @aws_iam
+}
+
+input ListKurzspezifikationVorschlaegeInput {
+  anlageId: String!
 }
