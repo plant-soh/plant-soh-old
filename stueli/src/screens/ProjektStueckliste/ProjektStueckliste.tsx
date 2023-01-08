@@ -94,12 +94,13 @@ const ProjektStueckliste = () => {
     },
   );
 
-  const kurzspezifikationVorschlaege = useListKurzspezifikationVorschlaegeQuery(
-    { input: { anlageId: getProjektQuery.data?.getProjekt?.anlageId ?? '' } },
-    {
-      refetchOnWindowFocus: false,
-    },
-  );
+  const listKurzspezifikationVorschlaege =
+    useListKurzspezifikationVorschlaegeQuery(
+      { input: { anlageId: getProjektQuery.data?.getProjekt?.anlageId ?? '' } },
+      {
+        refetchOnWindowFocus: false,
+      },
+    );
   // setSelectedKurzspezifikationVorschlag(
   //   kurzspezifikationVorschlaege.data?.listKurzspezifikationVorschlaege?.[0] ??
   //     undefined,
@@ -116,6 +117,25 @@ const ProjektStueckliste = () => {
       },
     );
 
+  const kurzspezifikationVorschlaege = Array.from(
+    new Set(
+      referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
+        ?.filter(
+          (stueck) =>
+            stueck?.kurzspezifikation != '' &&
+            (!newStueck.vorschlagLieferant ||
+              stueck?.lieferant === newStueck.vorschlagLieferant) &&
+            (!newStueck.vorschlagNennweite ||
+              stueck?.nennweite === newStueck.vorschlagNennweite) &&
+            (!newStueck.feinspezifikation ||
+              stueck?.feinspezifikation ===
+                newStueck.vorschlagFeinspezifikation),
+        )
+        .map((stueck) => stueck?.lieferant),
+    ),
+  );
+  kurzspezifikationVorschlaege;
+
   const lieferantenVorschlaege = Array.from(
     new Set(
       referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
@@ -127,7 +147,7 @@ const ProjektStueckliste = () => {
             stueck?.lieferant != '' &&
             (!newStueck.vorschlagNennweite ||
               stueck?.nennweite === newStueck.vorschlagNennweite) &&
-            (!newStueck.feinspezifikation ||
+            (!newStueck.vorschlagFeinspezifikation ||
               stueck?.feinspezifikation ===
                 newStueck.vorschlagFeinspezifikation),
         )
@@ -146,7 +166,7 @@ const ProjektStueckliste = () => {
             (!newStueck.vorschlagLieferant ||
               stueck?.lieferant === newStueck.vorschlagLieferant) &&
             stueck?.nennweite != '' &&
-            (!newStueck.feinspezifikation ||
+            (!newStueck.vorschlagFeinspezifikation ||
               stueck?.feinspezifikation ===
                 newStueck.vorschlagFeinspezifikation),
         )
@@ -318,19 +338,12 @@ const ProjektStueckliste = () => {
                       className={`px-4 py-2 font-bold text-white bg-blue-500 rounded ${
                         !newStueck.kurzspezifikation ||
                         !newStueck.lieferant ||
+                        !newStueck.nennweite ||
                         !newStueck.feinspezifikation
                           ? 'opacity-50 cursor-not-allowed'
                           : 'hover:bg-blue-700'
                       }`}
                       onClick={async () => {
-                        if (
-                          !newStueck.kurzspezifikation ||
-                          !newStueck.lieferant ||
-                          !newStueck.feinspezifikation
-                        ) {
-                          console.debug('newStueck missing');
-                          return;
-                        }
                         await createStueck.mutateAsync({
                           input: {
                             projektId: id,
@@ -357,11 +370,14 @@ const ProjektStueckliste = () => {
                             ...newStueck,
                             vorschlagKurzspezifikation: e.target.value,
                             kurzspezifikation: e.target.value,
+                            vorschlagLieferant: undefined,
+                            vorschlagNennweite: undefined,
+                            vorschlagFeinspezifikation: undefined,
                           });
                         }}
                       >
-                        <option value=""></option>
-                        {kurzspezifikationVorschlaege.data?.listKurzspezifikationVorschlaege?.map(
+                        <option value={undefined}></option>
+                        {listKurzspezifikationVorschlaege.data?.listKurzspezifikationVorschlaege?.map(
                           (kurzspezifikation) => (
                             <option
                               key={kurzspezifikation}
