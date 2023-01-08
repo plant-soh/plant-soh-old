@@ -101,9 +101,9 @@ export type CreateProjektStueliInput = {
   nennweite?: InputMaybe<Scalars['String']>;
   projektId: Scalars['ID'];
   vorschlagFeinspezifikation?: InputMaybe<Scalars['String']>;
+  vorschlagKurzspezifikation?: InputMaybe<Scalars['String']>;
   vorschlagLieferant?: InputMaybe<Scalars['String']>;
   vorschlagNennweite?: InputMaybe<Scalars['String']>;
-  voschlagKurzspezifikation?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateReferenzStueliInput = {
@@ -261,9 +261,9 @@ export type ModelProjektStueliFilterInput = {
   or?: InputMaybe<Array<InputMaybe<ModelProjektStueliFilterInput>>>;
   projektId?: InputMaybe<ModelIdFilterInput>;
   vorschlagFeinspezifikation?: InputMaybe<ModelStringFilterInput>;
+  vorschlagKurzspezifikation?: InputMaybe<ModelStringFilterInput>;
   vorschlagLieferant?: InputMaybe<ModelStringFilterInput>;
   vorschlagNennweite?: InputMaybe<ModelStringFilterInput>;
-  voschlagKurzspezifikation?: InputMaybe<ModelStringFilterInput>;
 };
 
 export type ModelReferenzStueliConnection = {
@@ -466,9 +466,9 @@ export type ProjektStueli = {
   projektId: Scalars['ID'];
   updatedAt: Scalars['AWSDateTime'];
   vorschlagFeinspezifikation?: Maybe<Scalars['String']>;
+  vorschlagKurzspezifikation?: Maybe<Scalars['String']>;
   vorschlagLieferant?: Maybe<Scalars['String']>;
   vorschlagNennweite?: Maybe<Scalars['String']>;
-  voschlagKurzspezifikation?: Maybe<Scalars['String']>;
 };
 
 export type Query = {
@@ -729,9 +729,9 @@ export type UpdateProjektStueliInput = {
   nennweite?: InputMaybe<Scalars['String']>;
   projektId?: InputMaybe<Scalars['ID']>;
   vorschlagFeinspezifikation?: InputMaybe<Scalars['String']>;
+  vorschlagKurzspezifikation?: InputMaybe<Scalars['String']>;
   vorschlagLieferant?: InputMaybe<Scalars['String']>;
   vorschlagNennweite?: InputMaybe<Scalars['String']>;
-  voschlagKurzspezifikation?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateReferenzStueliInput = {
@@ -1088,7 +1088,7 @@ export type CreateAnlageMutation = {
                                           | string
                                           | null
                                           | undefined;
-                                        voschlagKurzspezifikation?:
+                                        vorschlagKurzspezifikation?:
                                           | string
                                           | null
                                           | undefined;
@@ -1299,7 +1299,7 @@ export type UpdateAnlageMutation = {
                                           | string
                                           | null
                                           | undefined;
-                                        voschlagKurzspezifikation?:
+                                        vorschlagKurzspezifikation?:
                                           | string
                                           | null
                                           | undefined;
@@ -1510,7 +1510,7 @@ export type DeleteAnlageMutation = {
                                           | string
                                           | null
                                           | undefined;
-                                        voschlagKurzspezifikation?:
+                                        vorschlagKurzspezifikation?:
                                           | string
                                           | null
                                           | undefined;
@@ -2246,7 +2246,7 @@ export type CreateProjektMutation = {
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
                         feinspezifikation?: string | null | undefined;
-                        voschlagKurzspezifikation?: string | null | undefined;
+                        vorschlagKurzspezifikation?: string | null | undefined;
                         vorschlagLieferant?: string | null | undefined;
                         vorschlagNennweite?: string | null | undefined;
                         vorschlagFeinspezifikation?: string | null | undefined;
@@ -2405,7 +2405,7 @@ export type UpdateProjektMutation = {
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
                         feinspezifikation?: string | null | undefined;
-                        voschlagKurzspezifikation?: string | null | undefined;
+                        vorschlagKurzspezifikation?: string | null | undefined;
                         vorschlagLieferant?: string | null | undefined;
                         vorschlagNennweite?: string | null | undefined;
                         vorschlagFeinspezifikation?: string | null | undefined;
@@ -2564,7 +2564,7 @@ export type DeleteProjektMutation = {
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
                         feinspezifikation?: string | null | undefined;
-                        voschlagKurzspezifikation?: string | null | undefined;
+                        vorschlagKurzspezifikation?: string | null | undefined;
                         vorschlagLieferant?: string | null | undefined;
                         vorschlagNennweite?: string | null | undefined;
                         vorschlagFeinspezifikation?: string | null | undefined;
@@ -2599,7 +2599,7 @@ export type CreateProjektStueliMutation = {
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
         feinspezifikation?: string | null | undefined;
-        voschlagKurzspezifikation?: string | null | undefined;
+        vorschlagKurzspezifikation?: string | null | undefined;
         vorschlagLieferant?: string | null | undefined;
         vorschlagNennweite?: string | null | undefined;
         vorschlagFeinspezifikation?: string | null | undefined;
@@ -2625,7 +2625,7 @@ export type UpdateProjektStueliMutation = {
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
         feinspezifikation?: string | null | undefined;
-        voschlagKurzspezifikation?: string | null | undefined;
+        vorschlagKurzspezifikation?: string | null | undefined;
         vorschlagLieferant?: string | null | undefined;
         vorschlagNennweite?: string | null | undefined;
         vorschlagFeinspezifikation?: string | null | undefined;
@@ -2651,7 +2651,7 @@ export type DeleteProjektStueliMutation = {
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
         feinspezifikation?: string | null | undefined;
-        voschlagKurzspezifikation?: string | null | undefined;
+        vorschlagKurzspezifikation?: string | null | undefined;
         vorschlagLieferant?: string | null | undefined;
         vorschlagNennweite?: string | null | undefined;
         vorschlagFeinspezifikation?: string | null | undefined;
@@ -3146,7 +3146,7 @@ export type GetAnlageQuery = {
                                           | string
                                           | null
                                           | undefined;
-                                        voschlagKurzspezifikation?:
+                                        vorschlagKurzspezifikation?:
                                           | string
                                           | null
                                           | undefined;
@@ -3816,7 +3816,7 @@ export type GetProjektQuery = {
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
                         feinspezifikation?: string | null | undefined;
-                        voschlagKurzspezifikation?: string | null | undefined;
+                        vorschlagKurzspezifikation?: string | null | undefined;
                         vorschlagLieferant?: string | null | undefined;
                         vorschlagNennweite?: string | null | undefined;
                         vorschlagFeinspezifikation?: string | null | undefined;
@@ -3956,7 +3956,7 @@ export type ListProjektsQuery = {
                                   lieferant?: string | null | undefined;
                                   nennweite?: string | null | undefined;
                                   feinspezifikation?: string | null | undefined;
-                                  voschlagKurzspezifikation?:
+                                  vorschlagKurzspezifikation?:
                                     | string
                                     | null
                                     | undefined;
@@ -4009,7 +4009,7 @@ export type GetProjektStueliQuery = {
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
         feinspezifikation?: string | null | undefined;
-        voschlagKurzspezifikation?: string | null | undefined;
+        vorschlagKurzspezifikation?: string | null | undefined;
         vorschlagLieferant?: string | null | undefined;
         vorschlagNennweite?: string | null | undefined;
         vorschlagFeinspezifikation?: string | null | undefined;
@@ -4044,7 +4044,7 @@ export type ListProjektStuelisQuery = {
                   lieferant?: string | null | undefined;
                   nennweite?: string | null | undefined;
                   feinspezifikation?: string | null | undefined;
-                  voschlagKurzspezifikation?: string | null | undefined;
+                  vorschlagKurzspezifikation?: string | null | undefined;
                   vorschlagLieferant?: string | null | undefined;
                   vorschlagNennweite?: string | null | undefined;
                   vorschlagFeinspezifikation?: string | null | undefined;
@@ -4086,7 +4086,7 @@ export type ProjektStueliByKurzspezifikationQuery = {
                   lieferant?: string | null | undefined;
                   nennweite?: string | null | undefined;
                   feinspezifikation?: string | null | undefined;
-                  voschlagKurzspezifikation?: string | null | undefined;
+                  vorschlagKurzspezifikation?: string | null | undefined;
                   vorschlagLieferant?: string | null | undefined;
                   vorschlagNennweite?: string | null | undefined;
                   vorschlagFeinspezifikation?: string | null | undefined;
@@ -4546,7 +4546,7 @@ export type OnCreateAnlageSubscription = {
                                           | string
                                           | null
                                           | undefined;
-                                        voschlagKurzspezifikation?:
+                                        vorschlagKurzspezifikation?:
                                           | string
                                           | null
                                           | undefined;
@@ -4757,7 +4757,7 @@ export type OnUpdateAnlageSubscription = {
                                           | string
                                           | null
                                           | undefined;
-                                        voschlagKurzspezifikation?:
+                                        vorschlagKurzspezifikation?:
                                           | string
                                           | null
                                           | undefined;
@@ -4968,7 +4968,7 @@ export type OnDeleteAnlageSubscription = {
                                           | string
                                           | null
                                           | undefined;
-                                        voschlagKurzspezifikation?:
+                                        vorschlagKurzspezifikation?:
                                           | string
                                           | null
                                           | undefined;
@@ -5704,7 +5704,7 @@ export type OnCreateProjektSubscription = {
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
                         feinspezifikation?: string | null | undefined;
-                        voschlagKurzspezifikation?: string | null | undefined;
+                        vorschlagKurzspezifikation?: string | null | undefined;
                         vorschlagLieferant?: string | null | undefined;
                         vorschlagNennweite?: string | null | undefined;
                         vorschlagFeinspezifikation?: string | null | undefined;
@@ -5863,7 +5863,7 @@ export type OnUpdateProjektSubscription = {
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
                         feinspezifikation?: string | null | undefined;
-                        voschlagKurzspezifikation?: string | null | undefined;
+                        vorschlagKurzspezifikation?: string | null | undefined;
                         vorschlagLieferant?: string | null | undefined;
                         vorschlagNennweite?: string | null | undefined;
                         vorschlagFeinspezifikation?: string | null | undefined;
@@ -6022,7 +6022,7 @@ export type OnDeleteProjektSubscription = {
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
                         feinspezifikation?: string | null | undefined;
-                        voschlagKurzspezifikation?: string | null | undefined;
+                        vorschlagKurzspezifikation?: string | null | undefined;
                         vorschlagLieferant?: string | null | undefined;
                         vorschlagNennweite?: string | null | undefined;
                         vorschlagFeinspezifikation?: string | null | undefined;
@@ -6057,7 +6057,7 @@ export type OnCreateProjektStueliSubscription = {
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
         feinspezifikation?: string | null | undefined;
-        voschlagKurzspezifikation?: string | null | undefined;
+        vorschlagKurzspezifikation?: string | null | undefined;
         vorschlagLieferant?: string | null | undefined;
         vorschlagNennweite?: string | null | undefined;
         vorschlagFeinspezifikation?: string | null | undefined;
@@ -6083,7 +6083,7 @@ export type OnUpdateProjektStueliSubscription = {
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
         feinspezifikation?: string | null | undefined;
-        voschlagKurzspezifikation?: string | null | undefined;
+        vorschlagKurzspezifikation?: string | null | undefined;
         vorschlagLieferant?: string | null | undefined;
         vorschlagNennweite?: string | null | undefined;
         vorschlagFeinspezifikation?: string | null | undefined;
@@ -6109,7 +6109,7 @@ export type OnDeleteProjektStueliSubscription = {
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
         feinspezifikation?: string | null | undefined;
-        voschlagKurzspezifikation?: string | null | undefined;
+        vorschlagKurzspezifikation?: string | null | undefined;
         vorschlagLieferant?: string | null | undefined;
         vorschlagNennweite?: string | null | undefined;
         vorschlagFeinspezifikation?: string | null | undefined;
@@ -7339,7 +7339,7 @@ export const CreateAnlageDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
-                                            value: 'voschlagKurzspezifikation',
+                                            value: 'vorschlagKurzspezifikation',
                                           },
                                         },
                                         {
@@ -7870,7 +7870,7 @@ export const UpdateAnlageDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
-                                            value: 'voschlagKurzspezifikation',
+                                            value: 'vorschlagKurzspezifikation',
                                           },
                                         },
                                         {
@@ -8401,7 +8401,7 @@ export const DeleteAnlageDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
-                                            value: 'voschlagKurzspezifikation',
+                                            value: 'vorschlagKurzspezifikation',
                                           },
                                         },
                                         {
@@ -10612,7 +10612,7 @@ export const CreateProjektDocument = {
                               kind: 'Field',
                               name: {
                                 kind: 'Name',
-                                value: 'voschlagKurzspezifikation',
+                                value: 'vorschlagKurzspezifikation',
                               },
                             },
                             {
@@ -11094,7 +11094,7 @@ export const UpdateProjektDocument = {
                               kind: 'Field',
                               name: {
                                 kind: 'Name',
-                                value: 'voschlagKurzspezifikation',
+                                value: 'vorschlagKurzspezifikation',
                               },
                             },
                             {
@@ -11576,7 +11576,7 @@ export const DeleteProjektDocument = {
                               kind: 'Field',
                               name: {
                                 kind: 'Name',
-                                value: 'voschlagKurzspezifikation',
+                                value: 'vorschlagKurzspezifikation',
                               },
                             },
                             {
@@ -11685,7 +11685,7 @@ export const CreateProjektStueliDocument = {
                 },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'voschlagKurzspezifikation' },
+                  name: { kind: 'Name', value: 'vorschlagKurzspezifikation' },
                 },
                 {
                   kind: 'Field',
@@ -11768,7 +11768,7 @@ export const UpdateProjektStueliDocument = {
                 },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'voschlagKurzspezifikation' },
+                  name: { kind: 'Name', value: 'vorschlagKurzspezifikation' },
                 },
                 {
                   kind: 'Field',
@@ -11851,7 +11851,7 @@ export const DeleteProjektStueliDocument = {
                 },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'voschlagKurzspezifikation' },
+                  name: { kind: 'Name', value: 'vorschlagKurzspezifikation' },
                 },
                 {
                   kind: 'Field',
@@ -13252,7 +13252,7 @@ export const GetAnlageDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
-                                            value: 'voschlagKurzspezifikation',
+                                            value: 'vorschlagKurzspezifikation',
                                           },
                                         },
                                         {
@@ -15270,7 +15270,7 @@ export const GetProjektDocument = {
                               kind: 'Field',
                               name: {
                                 kind: 'Name',
-                                value: 'voschlagKurzspezifikation',
+                                value: 'vorschlagKurzspezifikation',
                               },
                             },
                             {
@@ -15704,7 +15704,7 @@ export const ListProjektsDocument = {
                                     kind: 'Field',
                                     name: {
                                       kind: 'Name',
-                                      value: 'voschlagKurzspezifikation',
+                                      value: 'vorschlagKurzspezifikation',
                                     },
                                   },
                                   {
@@ -15808,7 +15808,7 @@ export const GetProjektStueliDocument = {
                 },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'voschlagKurzspezifikation' },
+                  name: { kind: 'Name', value: 'vorschlagKurzspezifikation' },
                 },
                 {
                   kind: 'Field',
@@ -15969,7 +15969,7 @@ export const ListProjektStuelisDocument = {
                         kind: 'Field',
                         name: {
                           kind: 'Name',
-                          value: 'voschlagKurzspezifikation',
+                          value: 'vorschlagKurzspezifikation',
                         },
                       },
                       {
@@ -16166,7 +16166,7 @@ export const ProjektStueliByKurzspezifikationDocument = {
                         kind: 'Field',
                         name: {
                           kind: 'Name',
-                          value: 'voschlagKurzspezifikation',
+                          value: 'vorschlagKurzspezifikation',
                         },
                       },
                       {
@@ -17660,7 +17660,7 @@ export const OnCreateAnlageDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
-                                            value: 'voschlagKurzspezifikation',
+                                            value: 'vorschlagKurzspezifikation',
                                           },
                                         },
                                         {
@@ -18182,7 +18182,7 @@ export const OnUpdateAnlageDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
-                                            value: 'voschlagKurzspezifikation',
+                                            value: 'vorschlagKurzspezifikation',
                                           },
                                         },
                                         {
@@ -18704,7 +18704,7 @@ export const OnDeleteAnlageDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
-                                            value: 'voschlagKurzspezifikation',
+                                            value: 'vorschlagKurzspezifikation',
                                           },
                                         },
                                         {
@@ -20888,7 +20888,7 @@ export const OnCreateProjektDocument = {
                               kind: 'Field',
                               name: {
                                 kind: 'Name',
-                                value: 'voschlagKurzspezifikation',
+                                value: 'vorschlagKurzspezifikation',
                               },
                             },
                             {
@@ -21361,7 +21361,7 @@ export const OnUpdateProjektDocument = {
                               kind: 'Field',
                               name: {
                                 kind: 'Name',
-                                value: 'voschlagKurzspezifikation',
+                                value: 'vorschlagKurzspezifikation',
                               },
                             },
                             {
@@ -21834,7 +21834,7 @@ export const OnDeleteProjektDocument = {
                               kind: 'Field',
                               name: {
                                 kind: 'Name',
-                                value: 'voschlagKurzspezifikation',
+                                value: 'vorschlagKurzspezifikation',
                               },
                             },
                             {
@@ -21917,7 +21917,7 @@ export const OnCreateProjektStueliDocument = {
                 },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'voschlagKurzspezifikation' },
+                  name: { kind: 'Name', value: 'vorschlagKurzspezifikation' },
                 },
                 {
                   kind: 'Field',
@@ -21974,7 +21974,7 @@ export const OnUpdateProjektStueliDocument = {
                 },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'voschlagKurzspezifikation' },
+                  name: { kind: 'Name', value: 'vorschlagKurzspezifikation' },
                 },
                 {
                   kind: 'Field',
@@ -22031,7 +22031,7 @@ export const OnDeleteProjektStueliDocument = {
                 },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'voschlagKurzspezifikation' },
+                  name: { kind: 'Name', value: 'vorschlagKurzspezifikation' },
                 },
                 {
                   kind: 'Field',

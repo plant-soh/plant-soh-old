@@ -87,7 +87,7 @@ export const getAnlage = /* GraphQL */ `
               lieferant
               nennweite
               feinspezifikation
-              voschlagKurzspezifikation
+              vorschlagKurzspezifikation
               vorschlagLieferant
               vorschlagNennweite
               vorschlagFeinspezifikation
@@ -478,7 +478,7 @@ export const getProjekt = /* GraphQL */ `
           lieferant
           nennweite
           feinspezifikation
-          voschlagKurzspezifikation
+          vorschlagKurzspezifikation
           vorschlagLieferant
           vorschlagNennweite
           vorschlagFeinspezifikation
@@ -559,7 +559,7 @@ export const listProjekts = /* GraphQL */ `
             lieferant
             nennweite
             feinspezifikation
-            voschlagKurzspezifikation
+            vorschlagKurzspezifikation
             vorschlagLieferant
             vorschlagNennweite
             vorschlagFeinspezifikation
@@ -582,7 +582,7 @@ export const getProjektStueli = /* GraphQL */ `
       lieferant
       nennweite
       feinspezifikation
-      voschlagKurzspezifikation
+      vorschlagKurzspezifikation
       vorschlagLieferant
       vorschlagNennweite
       vorschlagFeinspezifikation
@@ -613,7 +613,7 @@ export const listProjektStuelis = /* GraphQL */ `
         lieferant
         nennweite
         feinspezifikation
-        voschlagKurzspezifikation
+        vorschlagKurzspezifikation
         vorschlagLieferant
         vorschlagNennweite
         vorschlagFeinspezifikation
@@ -648,7 +648,7 @@ export const projektStueliByKurzspezifikation = /* GraphQL */ `
         lieferant
         nennweite
         feinspezifikation
-        voschlagKurzspezifikation
+        vorschlagKurzspezifikation
         vorschlagLieferant
         vorschlagNennweite
         vorschlagFeinspezifikation

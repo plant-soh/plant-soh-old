@@ -30,19 +30,21 @@ const ProjektStueckliste = () => {
 
   const { currentProjektId, refreshSession, role } = useAuth();
 
-  const [newStueck, setNewStueck] = useState<
-    | {
-        kurzspezifikation?: string;
-        lieferant?: string;
-        nennweite?: string;
-        feinspezifikation?: string;
-        vorschlagKurzspezifikation?: string;
-        vorschlagLieferant?: string;
-        vorschlagNennweite?: string;
-        vorschlagFeinspezifikation?: string;
-      }
-    | undefined
-  >(undefined);
+  const [newStueck, setNewStueck] = useState<{
+    kurzspezifikation: string;
+    lieferant: string;
+    nennweite: string;
+    feinspezifikation: string;
+    vorschlagKurzspezifikation?: string;
+    vorschlagLieferant?: string;
+    vorschlagNennweite?: string;
+    vorschlagFeinspezifikation?: string;
+  }>({
+    kurzspezifikation: '',
+    lieferant: '',
+    nennweite: '',
+    feinspezifikation: '',
+  });
   const [selectedFile, setSelectedFile] = useState();
   const [
     selectedKurzspezifikationVorschlag,
@@ -106,8 +108,8 @@ const ProjektStueckliste = () => {
   const referenzStueckeByKurzspezifikation =
     useReferenzStueliByKurzspezifikationQuery(
       {
-        anlageId: getProjektQuery.data?.getProjekt?.anlageId ?? '',
-        kurzspezifikation: { eq: selectedKurzspezifikationVorschlag },
+        anlageId: getProjektQuery.data?.getProjekt?.anlageId ?? 'init',
+        kurzspezifikation: { eq: selectedKurzspezifikationVorschlag ?? 'init' },
       },
       {
         refetchOnWindowFocus: false,
@@ -117,7 +119,18 @@ const ProjektStueckliste = () => {
   const lieferantenVorschlaege = Array.from(
     new Set(
       referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
-        ?.filter((stueck) => stueck?.lieferant && stueck?.lieferant != '')
+        ?.filter(
+          (stueck) =>
+            (!newStueck.vorschlagKurzspezifikation ||
+              stueck?.kurzspezifikation ===
+                newStueck.vorschlagKurzspezifikation) &&
+            stueck?.lieferant != '' &&
+            (!newStueck.vorschlagNennweite ||
+              stueck?.nennweite === newStueck.vorschlagNennweite) &&
+            (!newStueck.feinspezifikation ||
+              stueck?.feinspezifikation ===
+                newStueck.vorschlagFeinspezifikation),
+        )
         .map((stueck) => stueck?.lieferant),
     ),
   );
@@ -125,7 +138,18 @@ const ProjektStueckliste = () => {
   const nennweiteVorschlaege = Array.from(
     new Set(
       referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
-        ?.filter((stueck) => stueck?.nennweite && stueck?.nennweite != '')
+        ?.filter(
+          (stueck) =>
+            (!newStueck.vorschlagKurzspezifikation ||
+              stueck?.kurzspezifikation ===
+                newStueck.vorschlagKurzspezifikation) &&
+            (!newStueck.vorschlagLieferant ||
+              stueck?.lieferant === newStueck.vorschlagLieferant) &&
+            stueck?.nennweite != '' &&
+            (!newStueck.feinspezifikation ||
+              stueck?.feinspezifikation ===
+                newStueck.vorschlagFeinspezifikation),
+        )
         .map((stueck) => stueck?.nennweite),
     ),
   ).sort();
@@ -135,7 +159,14 @@ const ProjektStueckliste = () => {
       referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
         ?.filter(
           (stueck) =>
-            stueck?.feinspezifikation && stueck?.feinspezifikation != '',
+            (!newStueck.vorschlagKurzspezifikation ||
+              stueck?.kurzspezifikation ===
+                newStueck.vorschlagKurzspezifikation) &&
+            (!newStueck.vorschlagLieferant ||
+              stueck?.lieferant === newStueck.vorschlagLieferant) &&
+            (!newStueck.vorschlagNennweite ||
+              stueck?.nennweite === newStueck.vorschlagNennweite) &&
+            stueck?.feinspezifikation != '',
         )
         .map((stueck) => stueck?.feinspezifikation),
     ),
@@ -285,17 +316,17 @@ const ProjektStueckliste = () => {
                   <td key={col} className="p-3 text-left whitespace-pre-line">
                     <button
                       className={`px-4 py-2 font-bold text-white bg-blue-500 rounded ${
-                        !newStueck?.kurzspezifikation ||
-                        !newStueck?.lieferant ||
-                        !newStueck?.feinspezifikation
+                        !newStueck.kurzspezifikation ||
+                        !newStueck.lieferant ||
+                        !newStueck.feinspezifikation
                           ? 'opacity-50 cursor-not-allowed'
                           : 'hover:bg-blue-700'
                       }`}
                       onClick={async () => {
                         if (
-                          !newStueck?.kurzspezifikation ||
-                          !newStueck?.lieferant ||
-                          !newStueck?.feinspezifikation
+                          !newStueck.kurzspezifikation ||
+                          !newStueck.lieferant ||
+                          !newStueck.feinspezifikation
                         ) {
                           console.debug('newStueck missing');
                           return;
@@ -317,186 +348,163 @@ const ProjektStueckliste = () => {
                     key={`${col}_insert`}
                     className="p-3 text-left whitespace-pre-line"
                   >
-                    <select
-                      className="border-2 border-black"
-                      onChange={(e) => {
-                        setSelectedKurzspezifikationVorschlag(e.target.value);
-                        setNewStueck({
-                          ...newStueck,
-                          vorschlagKurzspezifikation: e.target.value,
-                          kurzspezifikation: e.target.value,
-                        });
-                        if (
-                          lieferantenVorschlaege.length == 1 &&
-                          lieferantenVorschlaege[0]
-                        ) {
+                    <div className="flex flex-col ">
+                      <select
+                        className="border-2 border-black"
+                        onChange={(e) => {
+                          setSelectedKurzspezifikationVorschlag(e.target.value);
                           setNewStueck({
                             ...newStueck,
-                            vorschlagLieferant: lieferantenVorschlaege[0],
-                            lieferant: lieferantenVorschlaege[0],
+                            vorschlagKurzspezifikation: e.target.value,
+                            kurzspezifikation: e.target.value,
                           });
+                        }}
+                      >
+                        <option value=""></option>
+                        {kurzspezifikationVorschlaege.data?.listKurzspezifikationVorschlaege?.map(
+                          (kurzspezifikation) => (
+                            <option
+                              key={kurzspezifikation}
+                              value={kurzspezifikation || ''}
+                            >
+                              {kurzspezifikation}
+                            </option>
+                          ),
+                        )}
+                      </select>
+                      <input
+                        className="border-2 border-black"
+                        type="text"
+                        id={col}
+                        name={col}
+                        value={newStueck.kurzspezifikation}
+                        onChange={(e) =>
+                          setNewStueck({ ...newStueck, [col]: e.target.value })
                         }
-                        if (
-                          nennweiteVorschlaege.length == 1 &&
-                          nennweiteVorschlaege[0]
-                        ) {
-                          setNewStueck({
-                            ...newStueck,
-                            vorschlagNennweite: nennweiteVorschlaege[0],
-                            nennweite: nennweiteVorschlaege[0],
-                          });
-                        }
-                        if (
-                          feinspezifikationVorschlaege.length == 1 &&
-                          feinspezifikationVorschlaege[0]
-                        ) {
-                          setNewStueck({
-                            ...newStueck,
-                            vorschlagFeinspezifikation:
-                              feinspezifikationVorschlaege[0],
-                            feinspezifikation: feinspezifikationVorschlaege[0],
-                          });
-                        }
-                      }}
-                    >
-                      <option value="" selected></option>
-                      {kurzspezifikationVorschlaege.data?.listKurzspezifikationVorschlaege?.map(
-                        (kurzspezifikation) => (
-                          <option
-                            key={kurzspezifikation}
-                            value={kurzspezifikation || ''}
-                          >
-                            {kurzspezifikation}
-                          </option>
-                        ),
-                      )}
-                    </select>
-                    <input
-                      className="border-2 border-black"
-                      type="text"
-                      id={col}
-                      name={col}
-                      value={newStueck?.kurzspezifikation}
-                      onChange={(e) =>
-                        setNewStueck({ ...newStueck, [col]: e.target.value })
-                      }
-                    />
+                      />
+                    </div>
                   </td>
                 ) : col === 'lieferant' ? (
                   <td
                     key={`${col}_insert`}
                     className="p-3 text-left whitespace-pre-line"
                   >
-                    {selectedKurzspezifikationVorschlag && (
-                      <select
+                    <div className="flex flex-col ">
+                      {selectedKurzspezifikationVorschlag && (
+                        <select
+                          className="border-2 border-black"
+                          onChange={(e) => {
+                            setNewStueck({
+                              ...newStueck,
+                              vorschlagLieferant: e.target.value,
+                              lieferant: e.target.value,
+                            });
+                          }}
+                        >
+                          <option value={undefined}></option>
+                          {lieferantenVorschlaege?.map((lieferant) => (
+                            <option key={lieferant} value={lieferant || ''}>
+                              {lieferant}
+                            </option>
+                          ))}
+                        </select>
+                      )}
+                      <input
                         className="border-2 border-black"
-                        onChange={(e) => {
+                        type="text"
+                        id={col}
+                        name={col}
+                        value={newStueck.lieferant}
+                        onChange={(e) =>
                           setNewStueck({
                             ...newStueck,
-                            vorschlagLieferant: e.target.value,
                             lieferant: e.target.value,
-                          });
-                        }}
-                      >
-                        <option value={undefined} selected></option>
-                        {lieferantenVorschlaege?.map((lieferant) => (
-                          <option key={lieferant} value={lieferant || ''}>
-                            {lieferant}
-                          </option>
-                        ))}
-                      </select>
-                    )}
-                    <input
-                      className="border-2 border-black"
-                      type="text"
-                      id={col}
-                      name={col}
-                      value={newStueck?.lieferant}
-                      onChange={(e) =>
-                        setNewStueck({
-                          ...newStueck,
-                          lieferant: e.target.value,
-                        })
-                      }
-                    />
+                          })
+                        }
+                      />
+                    </div>
                   </td>
                 ) : col === 'nennweite' ? (
                   <td
                     key={`${col}_insert`}
                     className="p-3 text-left whitespace-pre-line"
                   >
-                    {selectedKurzspezifikationVorschlag && (
-                      <select
+                    <div className="flex flex-col ">
+                      {selectedKurzspezifikationVorschlag && (
+                        <select
+                          className="border-2 border-black"
+                          onChange={(e) =>
+                            setNewStueck({
+                              ...newStueck,
+                              vorschlagNennweite: e.target.value,
+                              nennweite: e.target.value,
+                            })
+                          }
+                        >
+                          <option value={undefined}></option>
+                          {nennweiteVorschlaege?.map((nennweite) => (
+                            <option key={nennweite} value={nennweite || ''}>
+                              {nennweite}
+                            </option>
+                          ))}
+                        </select>
+                      )}
+                      <input
                         className="border-2 border-black"
+                        type="text"
+                        id={col}
+                        name={col}
+                        value={newStueck.nennweite}
                         onChange={(e) =>
                           setNewStueck({
                             ...newStueck,
-                            vorschlagNennweite: e.target.value,
                             nennweite: e.target.value,
                           })
                         }
-                      >
-                        <option value={undefined} selected></option>
-                        {nennweiteVorschlaege?.map((nennweite) => (
-                          <option key={nennweite} value={nennweite || ''}>
-                            {nennweite}
-                          </option>
-                        ))}
-                      </select>
-                    )}
-                    <input
-                      className="border-2 border-black"
-                      type="text"
-                      id={col}
-                      name={col}
-                      value={newStueck?.nennweite}
-                      onChange={(e) =>
-                        setNewStueck({
-                          ...newStueck,
-                          nennweite: e.target.value,
-                        })
-                      }
-                    />
+                      />
+                    </div>
                   </td>
                 ) : (
                   <td
                     key={`${col}_insert`}
                     className="p-3 text-left whitespace-pre-line"
                   >
-                    {selectedKurzspezifikationVorschlag && (
-                      <select
+                    <div className="flex flex-col ">
+                      {selectedKurzspezifikationVorschlag && (
+                        <select
+                          className="border-2 border-black"
+                          onChange={(e) => {
+                            setNewStueck({
+                              ...newStueck,
+                              vorschlagFeinspezifikation: e.target.value,
+                              feinspezifikation: e.target.value,
+                            });
+                          }}
+                        >
+                          <option value={undefined}></option>
+                          {feinspezifikationVorschlaege?.map(
+                            (feinspezifikation) => (
+                              <option
+                                key={feinspezifikation}
+                                value={feinspezifikation || ''}
+                              >
+                                {feinspezifikation}
+                              </option>
+                            ),
+                          )}
+                        </select>
+                      )}
+                      <input
                         className="border-2 border-black"
-                        onChange={(e) => {
-                          setNewStueck({
-                            ...newStueck,
-                            vorschlagFeinspezifikation: e.target.value,
-                            feinspezifikation: e.target.value,
-                          });
-                        }}
-                      >
-                        <option value={undefined} selected></option>
-                        {feinspezifikationVorschlaege?.map(
-                          (feinspezifikation) => (
-                            <option
-                              key={feinspezifikation}
-                              value={feinspezifikation || ''}
-                            >
-                              {feinspezifikation}
-                            </option>
-                          ),
-                        )}
-                      </select>
-                    )}
-                    <input
-                      className="border-2 border-black"
-                      type="text"
-                      id={col}
-                      name={col}
-                      value={newStueck?.feinspezifikation}
-                      onChange={(e) =>
-                        setNewStueck({ ...newStueck, [col]: e.target.value })
-                      }
-                    />
+                        type="text"
+                        id={col}
+                        name={col}
+                        value={newStueck.feinspezifikation}
+                        onChange={(e) =>
+                          setNewStueck({ ...newStueck, [col]: e.target.value })
+                        }
+                      />
+                    </div>
                   </td>
                 ),
               )}

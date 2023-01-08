@@ -178,7 +178,7 @@ export const createAnlage = /* GraphQL */ `
               lieferant
               nennweite
               feinspezifikation
-              voschlagKurzspezifikation
+              vorschlagKurzspezifikation
               vorschlagLieferant
               vorschlagNennweite
               vorschlagFeinspezifikation
@@ -284,7 +284,7 @@ export const updateAnlage = /* GraphQL */ `
               lieferant
               nennweite
               feinspezifikation
-              voschlagKurzspezifikation
+              vorschlagKurzspezifikation
               vorschlagLieferant
               vorschlagNennweite
               vorschlagFeinspezifikation
@@ -390,7 +390,7 @@ export const deleteAnlage = /* GraphQL */ `
               lieferant
               nennweite
               feinspezifikation
-              voschlagKurzspezifikation
+              vorschlagKurzspezifikation
               vorschlagLieferant
               vorschlagNennweite
               vorschlagFeinspezifikation
@@ -831,7 +831,7 @@ export const createProjekt = /* GraphQL */ `
           lieferant
           nennweite
           feinspezifikation
-          voschlagKurzspezifikation
+          vorschlagKurzspezifikation
           vorschlagLieferant
           vorschlagNennweite
           vorschlagFeinspezifikation
@@ -926,7 +926,7 @@ export const updateProjekt = /* GraphQL */ `
           lieferant
           nennweite
           feinspezifikation
-          voschlagKurzspezifikation
+          vorschlagKurzspezifikation
           vorschlagLieferant
           vorschlagNennweite
           vorschlagFeinspezifikation
@@ -1021,7 +1021,7 @@ export const deleteProjekt = /* GraphQL */ `
           lieferant
           nennweite
           feinspezifikation
-          voschlagKurzspezifikation
+          vorschlagKurzspezifikation
           vorschlagLieferant
           vorschlagNennweite
           vorschlagFeinspezifikation
@@ -1042,7 +1042,7 @@ export const createProjektStueli = /* GraphQL */ `
       lieferant
       nennweite
       feinspezifikation
-      voschlagKurzspezifikation
+      vorschlagKurzspezifikation
       vorschlagLieferant
       vorschlagNennweite
       vorschlagFeinspezifikation
@@ -1060,7 +1060,7 @@ export const updateProjektStueli = /* GraphQL */ `
       lieferant
       nennweite
       feinspezifikation
-      voschlagKurzspezifikation
+      vorschlagKurzspezifikation
       vorschlagLieferant
       vorschlagNennweite
       vorschlagFeinspezifikation
@@ -1078,7 +1078,7 @@ export const deleteProjektStueli = /* GraphQL */ `
       lieferant
       nennweite
       feinspezifikation
-      voschlagKurzspezifikation
+      vorschlagKurzspezifikation
       vorschlagLieferant
       vorschlagNennweite
       vorschlagFeinspezifikation

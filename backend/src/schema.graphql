@@ -81,7 +81,7 @@ type ProjektStueli
   lieferant: String
   nennweite: String
   feinspezifikation: String
-  voschlagKurzspezifikation: String
+  vorschlagKurzspezifikation: String
   vorschlagLieferant: String
   vorschlagNennweite: String
   vorschlagFeinspezifikation: String
