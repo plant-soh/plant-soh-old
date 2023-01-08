@@ -949,183 +949,6 @@ export type SetCurrentProjektIdMutation = {
     | undefined;
 };
 
-export type UpdateAnlagenUserMutationVariables = Exact<{
-  input: UpdateAnlagenUserInput;
-}>;
-
-export type UpdateAnlagenUserMutation = {
-  __typename?: 'Mutation';
-  updateAnlagenUser?:
-    | {
-        __typename?: 'AnlagenUser';
-        anlageId: string;
-        userEmail: string;
-        createdAt: any;
-        updatedAt: any;
-        anlage: {
-          __typename?: 'Anlage';
-          id: string;
-          firma: string;
-          standort: string;
-          anschrift?: string | null | undefined;
-          createdAt: any;
-          updatedAt: any;
-          anlagenUsers?:
-            | {
-                __typename?: 'ModelAnlagenUserConnection';
-                nextToken?: string | null | undefined;
-                items?:
-                  | Array<
-                      | {
-                          __typename?: 'AnlagenUser';
-                          anlageId: string;
-                          userEmail: string;
-                          createdAt: any;
-                          updatedAt: any;
-                          anlage: {
-                            __typename?: 'Anlage';
-                            id: string;
-                            firma: string;
-                            standort: string;
-                            anschrift?: string | null | undefined;
-                            createdAt: any;
-                            updatedAt: any;
-                          };
-                          user: {
-                            __typename?: 'User';
-                            email: string;
-                            role: Role;
-                            currentAnlageId?: string | null | undefined;
-                            currentProjektId?: string | null | undefined;
-                            createdAt: any;
-                            updatedAt: any;
-                          };
-                        }
-                      | null
-                      | undefined
-                    >
-                  | null
-                  | undefined;
-              }
-            | null
-            | undefined;
-          projekte?:
-            | {
-                __typename?: 'ModelProjektConnection';
-                nextToken?: string | null | undefined;
-                items?:
-                  | Array<
-                      | {
-                          __typename?: 'Projekt';
-                          id: string;
-                          anlageId: string;
-                          projektNummer: number;
-                          createdAt: any;
-                          updatedAt: any;
-                          anlage: {
-                            __typename?: 'Anlage';
-                            id: string;
-                            firma: string;
-                            standort: string;
-                            anschrift?: string | null | undefined;
-                            createdAt: any;
-                            updatedAt: any;
-                          };
-                          projektStueli?:
-                            | {
-                                __typename?: 'ModelProjektStueliConnection';
-                                nextToken?: string | null | undefined;
-                              }
-                            | null
-                            | undefined;
-                        }
-                      | null
-                      | undefined
-                    >
-                  | null
-                  | undefined;
-              }
-            | null
-            | undefined;
-          referenzStueli?:
-            | {
-                __typename?: 'ModelReferenzStueliConnection';
-                nextToken?: string | null | undefined;
-                items?:
-                  | Array<
-                      | {
-                          __typename?: 'ReferenzStueli';
-                          id: string;
-                          anlageId: string;
-                          kurzspezifikation?: string | null | undefined;
-                          lieferant?: string | null | undefined;
-                          nennweite?: string | null | undefined;
-                          feinspezifikation?: string | null | undefined;
-                          createdAt: any;
-                          updatedAt: any;
-                        }
-                      | null
-                      | undefined
-                    >
-                  | null
-                  | undefined;
-              }
-            | null
-            | undefined;
-        };
-        user: {
-          __typename?: 'User';
-          email: string;
-          role: Role;
-          currentAnlageId?: string | null | undefined;
-          currentProjektId?: string | null | undefined;
-          createdAt: any;
-          updatedAt: any;
-          anlagen?:
-            | {
-                __typename?: 'ModelAnlagenUserConnection';
-                nextToken?: string | null | undefined;
-                items?:
-                  | Array<
-                      | {
-                          __typename?: 'AnlagenUser';
-                          anlageId: string;
-                          userEmail: string;
-                          createdAt: any;
-                          updatedAt: any;
-                          anlage: {
-                            __typename?: 'Anlage';
-                            id: string;
-                            firma: string;
-                            standort: string;
-                            anschrift?: string | null | undefined;
-                            createdAt: any;
-                            updatedAt: any;
-                          };
-                          user: {
-                            __typename?: 'User';
-                            email: string;
-                            role: Role;
-                            currentAnlageId?: string | null | undefined;
-                            currentProjektId?: string | null | undefined;
-                            createdAt: any;
-                            updatedAt: any;
-                          };
-                        }
-                      | null
-                      | undefined
-                    >
-                  | null
-                  | undefined;
-              }
-            | null
-            | undefined;
-        };
-      }
-    | null
-    | undefined;
-};
-
 export type CreateAnlageMutationVariables = Exact<{
   input: CreateAnlageInput;
 }>;
@@ -1766,6 +1589,183 @@ export type CreateAnlagenUserMutationVariables = Exact<{
 export type CreateAnlagenUserMutation = {
   __typename?: 'Mutation';
   createAnlagenUser?:
+    | {
+        __typename?: 'AnlagenUser';
+        anlageId: string;
+        userEmail: string;
+        createdAt: any;
+        updatedAt: any;
+        anlage: {
+          __typename?: 'Anlage';
+          id: string;
+          firma: string;
+          standort: string;
+          anschrift?: string | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlagenUsers?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          id: string;
+                          anlageId: string;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
+        user: {
+          __typename?: 'User';
+          email: string;
+          role: Role;
+          currentAnlageId?: string | null | undefined;
+          currentProjektId?: string | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlagen?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
+      }
+    | null
+    | undefined;
+};
+
+export type UpdateAnlagenUserMutationVariables = Exact<{
+  input: UpdateAnlagenUserInput;
+}>;
+
+export type UpdateAnlagenUserMutation = {
+  __typename?: 'Mutation';
+  updateAnlagenUser?:
     | {
         __typename?: 'AnlagenUser';
         anlageId: string;
@@ -6601,141 +6601,6 @@ export const useSetCurrentProjektIdMutation = <
       >(SetCurrentProjektIdDocument, variables)(),
     options,
   );
-export const UpdateAnlagenUserDocument = `
-    mutation UpdateAnlagenUser($input: UpdateAnlagenUserInput!) {
-  updateAnlagenUser(input: $input) {
-    anlageId
-    userEmail
-    createdAt
-    updatedAt
-    anlage {
-      id
-      firma
-      standort
-      anschrift
-      createdAt
-      updatedAt
-      anlagenUsers {
-        items {
-          anlageId
-          userEmail
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            createdAt
-            updatedAt
-          }
-          user {
-            email
-            role
-            currentAnlageId
-            currentProjektId
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-      projekte {
-        items {
-          id
-          anlageId
-          projektNummer
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            createdAt
-            updatedAt
-          }
-          projektStueli {
-            nextToken
-          }
-        }
-        nextToken
-      }
-      referenzStueli {
-        items {
-          id
-          anlageId
-          kurzspezifikation
-          lieferant
-          nennweite
-          feinspezifikation
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-    }
-    user {
-      email
-      role
-      currentAnlageId
-      currentProjektId
-      createdAt
-      updatedAt
-      anlagen {
-        items {
-          anlageId
-          userEmail
-          createdAt
-          updatedAt
-          anlage {
-            id
-            firma
-            standort
-            anschrift
-            createdAt
-            updatedAt
-          }
-          user {
-            email
-            role
-            currentAnlageId
-            currentProjektId
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-      }
-    }
-  }
-}
-    `;
-export const useUpdateAnlagenUserMutation = <
-  TError = unknown,
-  TContext = unknown,
->(
-  options?: UseMutationOptions<
-    UpdateAnlagenUserMutation,
-    TError,
-    UpdateAnlagenUserMutationVariables,
-    TContext
-  >,
-) =>
-  useMutation<
-    UpdateAnlagenUserMutation,
-    TError,
-    UpdateAnlagenUserMutationVariables,
-    TContext
-  >(
-    ['UpdateAnlagenUser'],
-    (variables?: UpdateAnlagenUserMutationVariables) =>
-      amplifyFetcher<
-        UpdateAnlagenUserMutation,
-        UpdateAnlagenUserMutationVariables
-      >(UpdateAnlagenUserDocument, variables)(),
-    options,
-  );
 export const CreateAnlageDocument = `
     mutation CreateAnlage($input: CreateAnlageInput!) {
   createAnlage(input: $input) {
@@ -7253,6 +7118,141 @@ export const useCreateAnlagenUserMutation = <
         CreateAnlagenUserMutation,
         CreateAnlagenUserMutationVariables
       >(CreateAnlagenUserDocument, variables)(),
+    options,
+  );
+export const UpdateAnlagenUserDocument = `
+    mutation UpdateAnlagenUser($input: UpdateAnlagenUserInput!) {
+  updateAnlagenUser(input: $input) {
+    anlageId
+    userEmail
+    createdAt
+    updatedAt
+    anlage {
+      id
+      firma
+      standort
+      anschrift
+      createdAt
+      updatedAt
+      anlagenUsers {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          user {
+            email
+            role
+            currentAnlageId
+            currentProjektId
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          id
+          anlageId
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+    user {
+      email
+      role
+      currentAnlageId
+      currentProjektId
+      createdAt
+      updatedAt
+      anlagen {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          user {
+            email
+            role
+            currentAnlageId
+            currentProjektId
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
+  }
+}
+    `;
+export const useUpdateAnlagenUserMutation = <
+  TError = unknown,
+  TContext = unknown,
+>(
+  options?: UseMutationOptions<
+    UpdateAnlagenUserMutation,
+    TError,
+    UpdateAnlagenUserMutationVariables,
+    TContext
+  >,
+) =>
+  useMutation<
+    UpdateAnlagenUserMutation,
+    TError,
+    UpdateAnlagenUserMutationVariables,
+    TContext
+  >(
+    ['UpdateAnlagenUser'],
+    (variables?: UpdateAnlagenUserMutationVariables) =>
+      amplifyFetcher<
+        UpdateAnlagenUserMutation,
+        UpdateAnlagenUserMutationVariables
+      >(UpdateAnlagenUserDocument, variables)(),
     options,
   );
 export const DeleteAnlagenUserDocument = `

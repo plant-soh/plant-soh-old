@@ -9,6 +9,7 @@ import {
   ListKurzspezifikationVorschlaegeInput,
   ReferenzStueliByKurzspezifikationDocument,
 } from '../../stueli/src/lib/api';
+import { getUserInfo } from './utils';
 
 const { APPSYNC_URL } = process.env;
 
@@ -23,24 +24,31 @@ export async function handler(
 
   const { anlageId = '' } = event.arguments.input;
 
+  if (anlageId === '') return;
+
   console.log('Checking permission');
   if ((event.identity as any).defaultAuthStrategy) {
     console.log('Invoked with cognito user identity');
-    const { email } = (event.identity as AppSyncIdentityCognito).claims;
 
-    // check if user is allowed to query anlage
-    const { getAnlagenUser } = await client.request({
-      query: GetAnlagenUserDocument,
-      variables: {
-        userEmail: email,
-        anlageId,
-      },
-    });
+    const { email, isAdmin } = getUserInfo(
+      event.identity as AppSyncIdentityCognito,
+    );
 
-    console.log(`getAnlagenUser=${JSON.stringify(getAnlagenUser)}`);
+    if (!isAdmin) {
+      // check if user is allowed to query anlage
+      const { getAnlagenUser } = await client.request({
+        query: GetAnlagenUserDocument,
+        variables: {
+          userEmail: email,
+          anlageId,
+        },
+      });
 
-    if (!getAnlagenUser) {
-      throw new Error('User not allowed');
+      console.log(`getAnlagenUser=${JSON.stringify(getAnlagenUser)}`);
+
+      if (!getAnlagenUser) {
+        throw new Error('User not allowed');
+      }
     }
   } else if ((event.identity as any).accountId) {
     console.log('Invoked with iam identity');

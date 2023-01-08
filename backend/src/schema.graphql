@@ -2,7 +2,7 @@ type Anlage
   @model
   @auth(
     rules: [
-      { allow: groups, groups: ["Admin"], operations: [read] }
+      { allow: groups, groups: ["Admin"] }
       { allow: private, provider: iam }
       { allow: owner, ownerField: "id", identityClaim: "currentAnlageId" }
     ]
@@ -23,8 +23,8 @@ type AnlagenUser
   @key(fields: ["userEmail", "anlageId"])
   @auth(
     rules: [
-      { allow: groups, groups: ["Admin"], operations: [read] }
-      { allow: private, provider: iam, operations: [create, delete, read] }
+      { allow: groups, groups: ["Admin"] }
+      { allow: private, provider: iam }
       {
         allow: owner
         ownerField: "userEmail"

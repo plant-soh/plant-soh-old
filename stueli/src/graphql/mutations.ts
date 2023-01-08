@@ -100,116 +100,6 @@ export const setCurrentProjektId = /* GraphQL */ `
     }
   }
 `;
-export const updateAnlagenUser = /* GraphQL */ `
-  mutation UpdateAnlagenUser($input: UpdateAnlagenUserInput!) {
-    updateAnlagenUser(input: $input) {
-      anlageId
-      userEmail
-      createdAt
-      updatedAt
-      anlage {
-        id
-        firma
-        standort
-        anschrift
-        createdAt
-        updatedAt
-        anlagenUsers {
-          items {
-            anlageId
-            userEmail
-            createdAt
-            updatedAt
-            anlage {
-              id
-              firma
-              standort
-              anschrift
-              createdAt
-              updatedAt
-            }
-            user {
-              email
-              role
-              currentAnlageId
-              currentProjektId
-              createdAt
-              updatedAt
-            }
-          }
-          nextToken
-        }
-        projekte {
-          items {
-            id
-            anlageId
-            projektNummer
-            createdAt
-            updatedAt
-            anlage {
-              id
-              firma
-              standort
-              anschrift
-              createdAt
-              updatedAt
-            }
-            projektStueli {
-              nextToken
-            }
-          }
-          nextToken
-        }
-        referenzStueli {
-          items {
-            id
-            anlageId
-            kurzspezifikation
-            lieferant
-            nennweite
-            feinspezifikation
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-      }
-      user {
-        email
-        role
-        currentAnlageId
-        currentProjektId
-        createdAt
-        updatedAt
-        anlagen {
-          items {
-            anlageId
-            userEmail
-            createdAt
-            updatedAt
-            anlage {
-              id
-              firma
-              standort
-              anschrift
-              createdAt
-              updatedAt
-            }
-            user {
-              email
-              role
-              currentAnlageId
-              currentProjektId
-              createdAt
-              updatedAt
-            }
-          }
-          nextToken
-        }
-      }
-    }
-  }
-`;
 export const createAnlage = /* GraphQL */ `
   mutation CreateAnlage($input: CreateAnlageInput!) {
     createAnlage(input: $input) {
@@ -531,6 +421,116 @@ export const deleteAnlage = /* GraphQL */ `
 export const createAnlagenUser = /* GraphQL */ `
   mutation CreateAnlagenUser($input: CreateAnlagenUserInput!) {
     createAnlagenUser(input: $input) {
+      anlageId
+      userEmail
+      createdAt
+      updatedAt
+      anlage {
+        id
+        firma
+        standort
+        anschrift
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              createdAt
+              updatedAt
+            }
+            user {
+              email
+              role
+              currentAnlageId
+              currentProjektId
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            createdAt
+            updatedAt
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              createdAt
+              updatedAt
+            }
+            projektStueli {
+              nextToken
+            }
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
+      user {
+        email
+        role
+        currentAnlageId
+        currentProjektId
+        createdAt
+        updatedAt
+        anlagen {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              createdAt
+              updatedAt
+            }
+            user {
+              email
+              role
+              currentAnlageId
+              currentProjektId
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const updateAnlagenUser = /* GraphQL */ `
+  mutation UpdateAnlagenUser($input: UpdateAnlagenUserInput!) {
+    updateAnlagenUser(input: $input) {
       anlageId
       userEmail
       createdAt

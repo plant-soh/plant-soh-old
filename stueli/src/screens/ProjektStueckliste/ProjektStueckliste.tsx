@@ -326,11 +326,40 @@ const ProjektStueckliste = () => {
                           vorschlagKurzspezifikation: e.target.value,
                           kurzspezifikation: e.target.value,
                         });
+                        if (
+                          lieferantenVorschlaege.length == 1 &&
+                          lieferantenVorschlaege[0]
+                        ) {
+                          setNewStueck({
+                            ...newStueck,
+                            vorschlagLieferant: lieferantenVorschlaege[0],
+                            lieferant: lieferantenVorschlaege[0],
+                          });
+                        }
+                        if (
+                          nennweiteVorschlaege.length == 1 &&
+                          nennweiteVorschlaege[0]
+                        ) {
+                          setNewStueck({
+                            ...newStueck,
+                            vorschlagNennweite: nennweiteVorschlaege[0],
+                            nennweite: nennweiteVorschlaege[0],
+                          });
+                        }
+                        if (
+                          feinspezifikationVorschlaege.length == 1 &&
+                          feinspezifikationVorschlaege[0]
+                        ) {
+                          setNewStueck({
+                            ...newStueck,
+                            vorschlagFeinspezifikation:
+                              feinspezifikationVorschlaege[0],
+                            feinspezifikation: feinspezifikationVorschlaege[0],
+                          });
+                        }
                       }}
                     >
-                      <option value="" disabled selected>
-                        Kurzspezifikation Vorschlag
-                      </option>
+                      <option value="" selected></option>
                       {kurzspezifikationVorschlaege.data?.listKurzspezifikationVorschlaege?.map(
                         (kurzspezifikation) => (
                           <option
@@ -369,6 +398,7 @@ const ProjektStueckliste = () => {
                           });
                         }}
                       >
+                        <option value={undefined} selected></option>
                         {lieferantenVorschlaege?.map((lieferant) => (
                           <option key={lieferant} value={lieferant || ''}>
                             {lieferant}
@@ -383,7 +413,10 @@ const ProjektStueckliste = () => {
                       name={col}
                       value={newStueck?.lieferant}
                       onChange={(e) =>
-                        setNewStueck({ ...newStueck, [col]: e.target.value })
+                        setNewStueck({
+                          ...newStueck,
+                          lieferant: e.target.value,
+                        })
                       }
                     />
                   </td>
@@ -393,7 +426,17 @@ const ProjektStueckliste = () => {
                     className="p-3 text-left whitespace-pre-line"
                   >
                     {selectedKurzspezifikationVorschlag && (
-                      <select className="border-2 border-black">
+                      <select
+                        className="border-2 border-black"
+                        onChange={(e) =>
+                          setNewStueck({
+                            ...newStueck,
+                            vorschlagNennweite: e.target.value,
+                            nennweite: e.target.value,
+                          })
+                        }
+                      >
+                        <option value={undefined} selected></option>
                         {nennweiteVorschlaege?.map((nennweite) => (
                           <option key={nennweite} value={nennweite || ''}>
                             {nennweite}
@@ -406,8 +449,12 @@ const ProjektStueckliste = () => {
                       type="text"
                       id={col}
                       name={col}
+                      value={newStueck?.nennweite}
                       onChange={(e) =>
-                        setNewStueck({ ...newStueck, [col]: e.target.value })
+                        setNewStueck({
+                          ...newStueck,
+                          nennweite: e.target.value,
+                        })
                       }
                     />
                   </td>
@@ -422,10 +469,12 @@ const ProjektStueckliste = () => {
                         onChange={(e) => {
                           setNewStueck({
                             ...newStueck,
-                            ['vorschlag' + col]: e.target.value,
+                            vorschlagFeinspezifikation: e.target.value,
+                            feinspezifikation: e.target.value,
                           });
                         }}
                       >
+                        <option value={undefined} selected></option>
                         {feinspezifikationVorschlaege?.map(
                           (feinspezifikation) => (
                             <option
@@ -443,6 +492,7 @@ const ProjektStueckliste = () => {
                       type="text"
                       id={col}
                       name={col}
+                      value={newStueck?.feinspezifikation}
                       onChange={(e) =>
                         setNewStueck({ ...newStueck, [col]: e.target.value })
                       }
