@@ -10,14 +10,24 @@ const EditTable = ({
   childRef,
   text,
   type,
-  placeholder,
+  onSave,
+  onCancel,
   children,
   ...rest
 }: {
   childRef: RefObject<HTMLInputElement>;
   text: string;
   type: EditTableType;
-  placeholder: string;
+  /**
+   * called when leaving the cell like with enter or tab
+   * @returns
+   */
+  onSave: () => void;
+  /**
+   * called when leaving the cell like without saving like when pressing escape
+   * @returns
+   */
+  onCancel: () => void;
   children: ReactNode;
 }) => {
   const [isEditing, setEditing] = useState(false);
@@ -33,6 +43,7 @@ const EditTable = ({
       (editTableType !== EditTableType.textarea && allKeys.indexOf(key) > -1)
     ) {
       setEditing(false);
+      key === 'Escape' ? onCancel() : onSave();
     }
   };
 
@@ -53,7 +64,7 @@ const EditTable = ({
         </div>
       ) : (
         <div onClick={() => setEditing(true)}>
-          <span>{text || placeholder || 'Editable content'}</span>
+          <span className="inline-block">{text}</span>
         </div>
       )}
     </section>

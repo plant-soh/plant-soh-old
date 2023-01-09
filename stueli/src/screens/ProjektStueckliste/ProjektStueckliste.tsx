@@ -15,6 +15,7 @@ import {
   useProjektStueliByKurzspezifikationQuery,
   useReferenzStueliByKurzspezifikationQuery,
   useSetCurrentProjektIdMutation,
+  useUpdateProjektStueliMutation,
 } from '../../lib/react-api';
 import { useAuth } from '../../providers/AuthProvider';
 
@@ -48,6 +49,8 @@ const ProjektStueckliste = () => {
     nennweite: '',
     feinspezifikation: '',
   });
+  const [editStueck, setEditStueck] = useState('');
+
   const [selectedFile, setSelectedFile] = useState();
   const [
     selectedKurzspezifikationVorschlag,
@@ -61,6 +64,7 @@ const ProjektStueckliste = () => {
     [nameof<ProjektStueli>('lieferant')]: 'Lieferant',
     [nameof<ProjektStueli>('nennweite')]: 'Nennweite',
     [nameof<ProjektStueli>('feinspezifikation')]: 'Feinspezifikation',
+    plus: '+',
   };
 
   if (isAdmin) {
@@ -104,10 +108,6 @@ const ProjektStueckliste = () => {
         refetchOnWindowFocus: false,
       },
     );
-  // setSelectedKurzspezifikationVorschlag(
-  //   kurzspezifikationVorschlaege.data?.listKurzspezifikationVorschlaege?.[0] ??
-  //     undefined,
-  // );
 
   const referenzStueckeByKurzspezifikation =
     useReferenzStueliByKurzspezifikationQuery(
@@ -199,6 +199,7 @@ const ProjektStueckliste = () => {
 
   const deleteStueck = useDeleteProjektStueliMutation();
   const createStueck = useCreateProjektStueliMutation();
+  const updateStueck = useUpdateProjektStueliMutation();
 
   const changeHandler = (event: any) => {
     setSelectedFile(event.target.files[0]);
@@ -277,7 +278,13 @@ const ProjektStueckliste = () => {
                 className="relative p-3 text-xs font-semibold text-left text-white whitespace-pre-line align-top bg-bblue-500"
                 key={index}
               >
-                {columns[col]}
+                {col === 'plus' ? (
+                  <button className="px-2 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+                    <span>+</span>
+                  </button>
+                ) : (
+                  columns[col]
+                )}
               </th>
             ))}
           </tr>
@@ -295,64 +302,80 @@ const ProjektStueckliste = () => {
                   s1!.nennweite!.localeCompare(s2!.nennweite!),
                 ),
             )
+            .map((stueck) => {
+              return {
+                id: stueck?.id ?? '',
+                kurzspezifikation: stueck?.kurzspezifikation ?? '',
+                lieferant: stueck?.lieferant ?? '',
+                nennweite: stueck?.nennweite ?? '',
+                feinspezifikation: stueck?.feinspezifikation ?? '',
+              };
+            })
             .map(
               (stueck, row_index) =>
                 stueck && (
                   <tr key={row_index} className="border-b border-gray-400">
-                    {Object.keys(columns).map((col, index) => (
-                      <td
-                        key={index}
-                        className="p-3 text-left whitespace-pre-line"
-                      >
-                        {col === 'actions' ? (
-                          <button
-                            className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
-                            onClick={async () => {
-                              await deleteStueck.mutateAsync({
-                                input: {
-                                  id: stueck.id,
-                                },
-                              });
-                              await refetch();
-                            }}
+                    {Object.keys(columns).map(
+                      (col, index) =>
+                        (col === 'actions' ||
+                          col === 'plus' ||
+                          col === 'kurzspezifikation' ||
+                          col === 'lieferant' ||
+                          col === 'nennweite' ||
+                          col === 'feinspezifikation') && (
+                          <td
+                            key={index}
+                            className="p-3 text-left whitespace-pre-line"
                           >
-                            <span>Löschen</span>
-                          </button>
-                        ) : (
-                          <EditTable
-                            text={
-                              stueck[
-                                col as
-                                  | 'kurzspezifikation'
-                                  | 'lieferant'
-                                  | 'nennweite'
-                                  | 'feinspezifikation'
-                              ] ?? ''
-                            }
-                            placeholder="Write a task name"
-                            childRef={inputRef}
-                            type={EditTableType.input}
-                          >
-                            <input
-                              ref={inputRef}
-                              type="text"
-                              name={col}
-                              placeholder="Write a task name"
-                              value={
-                                stueck[
-                                  col as
-                                    | 'kurzspezifikation'
-                                    | 'lieferant'
-                                    | 'nennweite'
-                                    | 'feinspezifikation'
-                                ] ?? ''
-                              }
-                              onChange={(_e) => {}}
-                            />
-                          </EditTable>
-                        )}
-                      </td>
-                    ))}
+                            {col === 'actions' ? (
+                              <button
+                                className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+                                onClick={async () => {
+                                  await deleteStueck.mutateAsync({
+                                    input: {
+                                      id: stueck.id,
+                                    },
+                                  });
+                                  await refetch();
+                                }}
+                              >
+                                <span>Löschen</span>
+                              </button>
+                            ) : col === 'plus' ? (
+                              <div></div>
+                            ) : (
+                              <EditTable
+                                text={stueck[col]}
+                                onSave={async () => {
+                                  await updateStueck.mutateAsync({
+                                    input: {
+                                      id: stueck.id,
+                                      [col]: editStueck,
+                                    },
+                                  });
+                                  await refetch();
+                                }}
+                                onCancel={() => {
+                                  setEditStueck(stueck[col]);
+                                }}
+                                childRef={inputRef}
+                                type={EditTableType.input}
+                              >
+                                <input
+                                  ref={inputRef}
+                                  type="text"
+                                  name={col}
+                                  placeholder={col}
+                                  defaultValue={stueck[col]}
+                                  onChange={async (e) => {
+                                    setEditStueck(e.target.value);
+                                  }}
+                                />
+                              </EditTable>
+                            )}
+                          </td>
+                        ),
+                    )}
                   </tr>
                 ),
             )}
@@ -383,6 +406,8 @@ const ProjektStueckliste = () => {
                       <span>Einfügen</span>
                     </button>
                   </td>
+                ) : col === 'plus' ? (
+                  <div></div>
                 ) : col === 'kurzspezifikation' ? (
                   <td
                     key={`${col}_insert`}
