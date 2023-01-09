@@ -15,6 +15,7 @@ import {
   useProjektStueliByKurzspezifikationQuery,
   useReferenzStueliByKurzspezifikationQuery,
   useSetCurrentProjektIdMutation,
+  useUpdateProjektMutation,
   useUpdateProjektStueliMutation,
 } from '../../lib/react-api';
 import { useAuth } from '../../providers/AuthProvider';
@@ -59,6 +60,13 @@ const ProjektStueckliste = () => {
 
   const isAdmin = role === Role.Admin;
 
+  const getProjektQuery = useGetProjektQuery(
+    { id: id },
+    {
+      refetchOnWindowFocus: false,
+    },
+  );
+
   let columns = {
     [nameof<ProjektStueli>('kurzspezifikation')]: 'Kurzspezifikation',
     [nameof<ProjektStueli>('lieferant')]: 'Lieferant',
@@ -67,16 +75,33 @@ const ProjektStueckliste = () => {
     plus: '+',
   };
 
+  if (getProjektQuery.data?.getProjekt?.custom1ColumnName) {
+    columns = {
+      ...columns,
+      [nameof<ProjektStueli>('custom1')]:
+        getProjektQuery.data?.getProjekt?.custom1ColumnName,
+    };
+  }
+
+  if (getProjektQuery.data?.getProjekt?.custom2ColumnName) {
+    columns = {
+      ...columns,
+      [nameof<ProjektStueli>('custom2')]:
+        getProjektQuery.data?.getProjekt?.custom2ColumnName,
+    };
+  }
+
+  if (getProjektQuery.data?.getProjekt?.custom3ColumnName) {
+    columns = {
+      ...columns,
+      [nameof<ProjektStueli>('custom3')]:
+        getProjektQuery.data?.getProjekt?.custom3ColumnName,
+    };
+  }
+
   if (isAdmin) {
     columns = { ...columns, actions: 'Aktionen' };
   }
-
-  const getProjektQuery = useGetProjektQuery(
-    { id: id },
-    {
-      refetchOnWindowFocus: false,
-    },
-  );
 
   useEffect(() => {
     if (!id || currentProjektId === id) return;
@@ -201,10 +226,31 @@ const ProjektStueckliste = () => {
   const createStueck = useCreateProjektStueliMutation();
   const updateStueck = useUpdateProjektStueliMutation();
 
+  const updateProjekt = useUpdateProjektMutation();
+
   const changeHandler = (event: any) => {
     setSelectedFile(event.target.files[0]);
     // setIsFilePicked(true);
   };
+
+  var availableCustomColumn: string | undefined = undefined;
+  for (const column of [
+    'custom1ColumnName',
+    'custom2ColumnName',
+    'custom3ColumnName',
+  ]) {
+    if (
+      !getProjektQuery.data?.getProjekt?.[
+        column as
+          | 'custom1ColumnName'
+          | 'custom2ColumnName'
+          | 'custom3ColumnName'
+      ]
+    ) {
+      availableCustomColumn = column;
+      break;
+    }
+  }
 
   const onClick = (_e: any) => {
     console.log('start parsing');
@@ -240,17 +286,29 @@ const ProjektStueckliste = () => {
       data-testid="kunde"
     >
       <h1 className="flex gap-6 text-xl">
-        <div className="flex gap-2">
+        <div key="kunde" className="flex gap-2">
           <span>Kunde:</span>
           <span>{getProjektQuery.data?.getProjekt?.anlage.firma}</span>
         </div>
-        <div className="flex gap-2">
+        <div key="standort" className="flex gap-2">
           <span>Standort:</span>
           <span>{getProjektQuery.data?.getProjekt?.anlage.standort} </span>
         </div>
-        <div className="flex gap-2">
+        <div key="projektnummer" className="flex gap-2">
           <span>Projektnummer:</span>
           <span>{getProjektQuery.data?.getProjekt?.projektNummer} </span>
+        </div>
+        <div key="custom1" className="flex gap-2">
+          <span>Custom1ColumnName:</span>
+          <span>{getProjektQuery.data?.getProjekt?.custom1ColumnName} </span>
+        </div>
+        <div key="custom2" className="flex gap-2">
+          <span>Custom2ColumnName:</span>
+          <span>{getProjektQuery.data?.getProjekt?.custom2ColumnName} </span>
+        </div>
+        <div key="custom3" className="flex gap-2">
+          <span>Custom3ColumnName:</span>
+          <span>{getProjektQuery.data?.getProjekt?.custom3ColumnName} </span>
         </div>
       </h1>
 
@@ -279,9 +337,59 @@ const ProjektStueckliste = () => {
                 key={index}
               >
                 {col === 'plus' ? (
-                  <button className="px-2 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
-                    <span>+</span>
-                  </button>
+                  availableCustomColumn && (
+                    <button
+                      key={col}
+                      className="px-2 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+                      onClick={async () => {
+                        await updateProjekt.mutateAsync({
+                          input: {
+                            id: getProjektQuery.data?.getProjekt?.id ?? '',
+                            [availableCustomColumn as
+                              | 'custom1ColumnName'
+                              | 'custom2ColumnName'
+                              | 'custom3ColumnName']: 'aaa',
+                          },
+                        });
+                        await refetch();
+                      }}
+                    >
+                      <span>+</span>
+                    </button>
+                  )
+                ) : col.startsWith('custom') ? (
+                  <EditTable
+                    key={col}
+                    text={
+                      columns[col] === '' ? 'Zusätzliche Spalte' : columns[col]
+                    }
+                    onSave={async () => {
+                      await updateProjekt.mutateAsync({
+                        input: {
+                          id: getProjektQuery.data?.getProjekt?.id ?? '',
+                          [col + 'ColumnName']: editStueck,
+                        },
+                      });
+                      await getProjektQuery.refetch();
+                    }}
+                    onCancel={() => {
+                      setEditStueck(columns[col] ?? '');
+                    }}
+                    childRef={inputRef}
+                    type={EditTableType.input}
+                  >
+                    <input
+                      ref={inputRef}
+                      type="text"
+                      name={col}
+                      className="text-black"
+                      placeholder={''}
+                      defaultValue={columns[col] ?? ''}
+                      onChange={async (e) => {
+                        setEditStueck(e.target.value);
+                      }}
+                    />
+                  </EditTable>
                 ) : (
                   columns[col]
                 )}
@@ -309,6 +417,9 @@ const ProjektStueckliste = () => {
                 lieferant: stueck?.lieferant ?? '',
                 nennweite: stueck?.nennweite ?? '',
                 feinspezifikation: stueck?.feinspezifikation ?? '',
+                custom1: stueck?.custom1 ?? '',
+                custom2: stueck?.custom2 ?? '',
+                custom3: stueck?.custom3 ?? '',
               };
             })
             .map(
@@ -322,13 +433,17 @@ const ProjektStueckliste = () => {
                           col === 'kurzspezifikation' ||
                           col === 'lieferant' ||
                           col === 'nennweite' ||
-                          col === 'feinspezifikation') && (
+                          col === 'feinspezifikation' ||
+                          col === 'custom1' ||
+                          col === 'custom2' ||
+                          col === 'custom3') && (
                           <td
                             key={index}
                             className="p-3 text-left whitespace-pre-line"
                           >
                             {col === 'actions' ? (
                               <button
+                                key={col}
                                 className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
                                 onClick={async () => {
                                   await deleteStueck.mutateAsync({
@@ -342,9 +457,10 @@ const ProjektStueckliste = () => {
                                 <span>Löschen</span>
                               </button>
                             ) : col === 'plus' ? (
-                              <div></div>
+                              <div key="plus"></div>
                             ) : (
                               <EditTable
+                                key={col}
                                 text={stueck[col]}
                                 onSave={async () => {
                                   await updateStueck.mutateAsync({
@@ -362,10 +478,11 @@ const ProjektStueckliste = () => {
                                 type={EditTableType.input}
                               >
                                 <input
+                                  key={col}
                                   ref={inputRef}
                                   type="text"
                                   name={col}
-                                  placeholder={col}
+                                  placeholder={''}
                                   defaultValue={stueck[col]}
                                   onChange={async (e) => {
                                     setEditStueck(e.target.value);
@@ -407,7 +524,7 @@ const ProjektStueckliste = () => {
                     </button>
                   </td>
                 ) : col === 'plus' ? (
-                  <div></div>
+                  <td key={col}></td>
                 ) : col === 'kurzspezifikation' ? (
                   <td
                     key={`${col}_insert`}

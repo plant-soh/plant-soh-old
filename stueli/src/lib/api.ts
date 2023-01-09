@@ -89,11 +89,17 @@ export type CreateAnlagenUserInput = {
 
 export type CreateProjektInput = {
   anlageId: Scalars['ID'];
+  custom1ColumnName?: InputMaybe<Scalars['String']>;
+  custom2ColumnName?: InputMaybe<Scalars['String']>;
+  custom3ColumnName?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
   projektNummer: Scalars['Int'];
 };
 
 export type CreateProjektStueliInput = {
+  custom1?: InputMaybe<Scalars['String']>;
+  custom2?: InputMaybe<Scalars['String']>;
+  custom3?: InputMaybe<Scalars['String']>;
   feinspezifikation?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
   kurzspezifikation?: InputMaybe<Scalars['String']>;
@@ -238,6 +244,9 @@ export type ModelProjektConnection = {
 export type ModelProjektFilterInput = {
   and?: InputMaybe<Array<InputMaybe<ModelProjektFilterInput>>>;
   anlageId?: InputMaybe<ModelIdFilterInput>;
+  custom1ColumnName?: InputMaybe<ModelStringFilterInput>;
+  custom2ColumnName?: InputMaybe<ModelStringFilterInput>;
+  custom3ColumnName?: InputMaybe<ModelStringFilterInput>;
   id?: InputMaybe<ModelIdFilterInput>;
   not?: InputMaybe<ModelProjektFilterInput>;
   or?: InputMaybe<Array<InputMaybe<ModelProjektFilterInput>>>;
@@ -252,6 +261,9 @@ export type ModelProjektStueliConnection = {
 
 export type ModelProjektStueliFilterInput = {
   and?: InputMaybe<Array<InputMaybe<ModelProjektStueliFilterInput>>>;
+  custom1?: InputMaybe<ModelStringFilterInput>;
+  custom2?: InputMaybe<ModelStringFilterInput>;
+  custom3?: InputMaybe<ModelStringFilterInput>;
   feinspezifikation?: InputMaybe<ModelStringFilterInput>;
   id?: InputMaybe<ModelIdFilterInput>;
   kurzspezifikation?: InputMaybe<ModelStringFilterInput>;
@@ -442,6 +454,9 @@ export type Projekt = {
   anlage: Anlage;
   anlageId: Scalars['ID'];
   createdAt: Scalars['AWSDateTime'];
+  custom1ColumnName?: Maybe<Scalars['String']>;
+  custom2ColumnName?: Maybe<Scalars['String']>;
+  custom3ColumnName?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   projektNummer: Scalars['Int'];
   projektStueli?: Maybe<ModelProjektStueliConnection>;
@@ -458,6 +473,9 @@ export type ProjektProjektStueliArgs = {
 export type ProjektStueli = {
   __typename?: 'ProjektStueli';
   createdAt: Scalars['AWSDateTime'];
+  custom1?: Maybe<Scalars['String']>;
+  custom2?: Maybe<Scalars['String']>;
+  custom3?: Maybe<Scalars['String']>;
   feinspezifikation?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   kurzspezifikation?: Maybe<Scalars['String']>;
@@ -717,11 +735,17 @@ export type UpdateAnlagenUserInput = {
 
 export type UpdateProjektInput = {
   anlageId?: InputMaybe<Scalars['ID']>;
+  custom1ColumnName?: InputMaybe<Scalars['String']>;
+  custom2ColumnName?: InputMaybe<Scalars['String']>;
+  custom3ColumnName?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];
   projektNummer?: InputMaybe<Scalars['Int']>;
 };
 
 export type UpdateProjektStueliInput = {
+  custom1?: InputMaybe<Scalars['String']>;
+  custom2?: InputMaybe<Scalars['String']>;
+  custom3?: InputMaybe<Scalars['String']>;
   feinspezifikation?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];
   kurzspezifikation?: InputMaybe<Scalars['String']>;
@@ -1036,6 +1060,9 @@ export type CreateAnlageMutation = {
                         id: string;
                         anlageId: string;
                         projektNummer: number;
+                        custom1ColumnName?: string | null | undefined;
+                        custom2ColumnName?: string | null | undefined;
+                        custom3ColumnName?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                         anlage: {
@@ -1104,6 +1131,9 @@ export type CreateAnlageMutation = {
                                           | string
                                           | null
                                           | undefined;
+                                        custom1?: string | null | undefined;
+                                        custom2?: string | null | undefined;
+                                        custom3?: string | null | undefined;
                                         createdAt: any;
                                         updatedAt: any;
                                       }
@@ -1247,6 +1277,9 @@ export type UpdateAnlageMutation = {
                         id: string;
                         anlageId: string;
                         projektNummer: number;
+                        custom1ColumnName?: string | null | undefined;
+                        custom2ColumnName?: string | null | undefined;
+                        custom3ColumnName?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                         anlage: {
@@ -1315,6 +1348,9 @@ export type UpdateAnlageMutation = {
                                           | string
                                           | null
                                           | undefined;
+                                        custom1?: string | null | undefined;
+                                        custom2?: string | null | undefined;
+                                        custom3?: string | null | undefined;
                                         createdAt: any;
                                         updatedAt: any;
                                       }
@@ -1458,6 +1494,9 @@ export type DeleteAnlageMutation = {
                         id: string;
                         anlageId: string;
                         projektNummer: number;
+                        custom1ColumnName?: string | null | undefined;
+                        custom2ColumnName?: string | null | undefined;
+                        custom3ColumnName?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                         anlage: {
@@ -1526,6 +1565,9 @@ export type DeleteAnlageMutation = {
                                           | string
                                           | null
                                           | undefined;
+                                        custom1?: string | null | undefined;
+                                        custom2?: string | null | undefined;
+                                        custom3?: string | null | undefined;
                                         createdAt: any;
                                         updatedAt: any;
                                       }
@@ -1647,6 +1689,9 @@ export type CreateAnlagenUserMutation = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -1824,6 +1869,9 @@ export type UpdateAnlagenUserMutation = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -2001,6 +2049,9 @@ export type DeleteAnlagenUserMutation = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -2119,6 +2170,9 @@ export type CreateProjektMutation = {
         id: string;
         anlageId: string;
         projektNummer: number;
+        custom1ColumnName?: string | null | undefined;
+        custom2ColumnName?: string | null | undefined;
+        custom3ColumnName?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlage: {
@@ -2179,6 +2233,9 @@ export type CreateProjektMutation = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -2250,6 +2307,9 @@ export type CreateProjektMutation = {
                         vorschlagLieferant?: string | null | undefined;
                         vorschlagNennweite?: string | null | undefined;
                         vorschlagFeinspezifikation?: string | null | undefined;
+                        custom1?: string | null | undefined;
+                        custom2?: string | null | undefined;
+                        custom3?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                       }
@@ -2278,6 +2338,9 @@ export type UpdateProjektMutation = {
         id: string;
         anlageId: string;
         projektNummer: number;
+        custom1ColumnName?: string | null | undefined;
+        custom2ColumnName?: string | null | undefined;
+        custom3ColumnName?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlage: {
@@ -2338,6 +2401,9 @@ export type UpdateProjektMutation = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -2409,6 +2475,9 @@ export type UpdateProjektMutation = {
                         vorschlagLieferant?: string | null | undefined;
                         vorschlagNennweite?: string | null | undefined;
                         vorschlagFeinspezifikation?: string | null | undefined;
+                        custom1?: string | null | undefined;
+                        custom2?: string | null | undefined;
+                        custom3?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                       }
@@ -2437,6 +2506,9 @@ export type DeleteProjektMutation = {
         id: string;
         anlageId: string;
         projektNummer: number;
+        custom1ColumnName?: string | null | undefined;
+        custom2ColumnName?: string | null | undefined;
+        custom3ColumnName?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlage: {
@@ -2497,6 +2569,9 @@ export type DeleteProjektMutation = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -2568,6 +2643,9 @@ export type DeleteProjektMutation = {
                         vorschlagLieferant?: string | null | undefined;
                         vorschlagNennweite?: string | null | undefined;
                         vorschlagFeinspezifikation?: string | null | undefined;
+                        custom1?: string | null | undefined;
+                        custom2?: string | null | undefined;
+                        custom3?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                       }
@@ -2603,6 +2681,9 @@ export type CreateProjektStueliMutation = {
         vorschlagLieferant?: string | null | undefined;
         vorschlagNennweite?: string | null | undefined;
         vorschlagFeinspezifikation?: string | null | undefined;
+        custom1?: string | null | undefined;
+        custom2?: string | null | undefined;
+        custom3?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
       }
@@ -2629,6 +2710,9 @@ export type UpdateProjektStueliMutation = {
         vorschlagLieferant?: string | null | undefined;
         vorschlagNennweite?: string | null | undefined;
         vorschlagFeinspezifikation?: string | null | undefined;
+        custom1?: string | null | undefined;
+        custom2?: string | null | undefined;
+        custom3?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
       }
@@ -2655,6 +2739,9 @@ export type DeleteProjektStueliMutation = {
         vorschlagLieferant?: string | null | undefined;
         vorschlagNennweite?: string | null | undefined;
         vorschlagFeinspezifikation?: string | null | undefined;
+        custom1?: string | null | undefined;
+        custom2?: string | null | undefined;
+        custom3?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
       }
@@ -3094,6 +3181,9 @@ export type GetAnlageQuery = {
                         id: string;
                         anlageId: string;
                         projektNummer: number;
+                        custom1ColumnName?: string | null | undefined;
+                        custom2ColumnName?: string | null | undefined;
+                        custom3ColumnName?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                         anlage: {
@@ -3162,6 +3252,9 @@ export type GetAnlageQuery = {
                                           | string
                                           | null
                                           | undefined;
+                                        custom1?: string | null | undefined;
+                                        custom2?: string | null | undefined;
+                                        custom3?: string | null | undefined;
                                         createdAt: any;
                                         updatedAt: any;
                                       }
@@ -3289,6 +3382,9 @@ export type ListAnlagesQuery = {
                                   id: string;
                                   anlageId: string;
                                   projektNummer: number;
+                                  custom1ColumnName?: string | null | undefined;
+                                  custom2ColumnName?: string | null | undefined;
+                                  custom3ColumnName?: string | null | undefined;
                                   createdAt: any;
                                   updatedAt: any;
                                   anlage: {
@@ -3424,6 +3520,9 @@ export type GetAnlagenUserQuery = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -3593,6 +3692,18 @@ export type ListAnlagenUsersQuery = {
                                     id: string;
                                     anlageId: string;
                                     projektNummer: number;
+                                    custom1ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    custom2ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    custom3ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
                                     createdAt: any;
                                     updatedAt: any;
                                   }
@@ -3689,6 +3800,9 @@ export type GetProjektQuery = {
         id: string;
         anlageId: string;
         projektNummer: number;
+        custom1ColumnName?: string | null | undefined;
+        custom2ColumnName?: string | null | undefined;
+        custom3ColumnName?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlage: {
@@ -3749,6 +3863,9 @@ export type GetProjektQuery = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -3820,6 +3937,9 @@ export type GetProjektQuery = {
                         vorschlagLieferant?: string | null | undefined;
                         vorschlagNennweite?: string | null | undefined;
                         vorschlagFeinspezifikation?: string | null | undefined;
+                        custom1?: string | null | undefined;
+                        custom2?: string | null | undefined;
+                        custom3?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                       }
@@ -3857,6 +3977,9 @@ export type ListProjektsQuery = {
                   id: string;
                   anlageId: string;
                   projektNummer: number;
+                  custom1ColumnName?: string | null | undefined;
+                  custom2ColumnName?: string | null | undefined;
+                  custom3ColumnName?: string | null | undefined;
                   createdAt: any;
                   updatedAt: any;
                   anlage: {
@@ -3899,6 +4022,18 @@ export type ListProjektsQuery = {
                                     id: string;
                                     anlageId: string;
                                     projektNummer: number;
+                                    custom1ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    custom2ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    custom3ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
                                     createdAt: any;
                                     updatedAt: any;
                                   }
@@ -3972,6 +4107,9 @@ export type ListProjektsQuery = {
                                     | string
                                     | null
                                     | undefined;
+                                  custom1?: string | null | undefined;
+                                  custom2?: string | null | undefined;
+                                  custom3?: string | null | undefined;
                                   createdAt: any;
                                   updatedAt: any;
                                 }
@@ -4013,6 +4151,9 @@ export type GetProjektStueliQuery = {
         vorschlagLieferant?: string | null | undefined;
         vorschlagNennweite?: string | null | undefined;
         vorschlagFeinspezifikation?: string | null | undefined;
+        custom1?: string | null | undefined;
+        custom2?: string | null | undefined;
+        custom3?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
       }
@@ -4048,6 +4189,9 @@ export type ListProjektStuelisQuery = {
                   vorschlagLieferant?: string | null | undefined;
                   vorschlagNennweite?: string | null | undefined;
                   vorschlagFeinspezifikation?: string | null | undefined;
+                  custom1?: string | null | undefined;
+                  custom2?: string | null | undefined;
+                  custom3?: string | null | undefined;
                   createdAt: any;
                   updatedAt: any;
                 }
@@ -4090,6 +4234,9 @@ export type ProjektStueliByKurzspezifikationQuery = {
                   vorschlagLieferant?: string | null | undefined;
                   vorschlagNennweite?: string | null | undefined;
                   vorschlagFeinspezifikation?: string | null | undefined;
+                  custom1?: string | null | undefined;
+                  custom2?: string | null | undefined;
+                  custom3?: string | null | undefined;
                   createdAt: any;
                   updatedAt: any;
                 }
@@ -4494,6 +4641,9 @@ export type OnCreateAnlageSubscription = {
                         id: string;
                         anlageId: string;
                         projektNummer: number;
+                        custom1ColumnName?: string | null | undefined;
+                        custom2ColumnName?: string | null | undefined;
+                        custom3ColumnName?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                         anlage: {
@@ -4562,6 +4712,9 @@ export type OnCreateAnlageSubscription = {
                                           | string
                                           | null
                                           | undefined;
+                                        custom1?: string | null | undefined;
+                                        custom2?: string | null | undefined;
+                                        custom3?: string | null | undefined;
                                         createdAt: any;
                                         updatedAt: any;
                                       }
@@ -4705,6 +4858,9 @@ export type OnUpdateAnlageSubscription = {
                         id: string;
                         anlageId: string;
                         projektNummer: number;
+                        custom1ColumnName?: string | null | undefined;
+                        custom2ColumnName?: string | null | undefined;
+                        custom3ColumnName?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                         anlage: {
@@ -4773,6 +4929,9 @@ export type OnUpdateAnlageSubscription = {
                                           | string
                                           | null
                                           | undefined;
+                                        custom1?: string | null | undefined;
+                                        custom2?: string | null | undefined;
+                                        custom3?: string | null | undefined;
                                         createdAt: any;
                                         updatedAt: any;
                                       }
@@ -4916,6 +5075,9 @@ export type OnDeleteAnlageSubscription = {
                         id: string;
                         anlageId: string;
                         projektNummer: number;
+                        custom1ColumnName?: string | null | undefined;
+                        custom2ColumnName?: string | null | undefined;
+                        custom3ColumnName?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                         anlage: {
@@ -4984,6 +5146,9 @@ export type OnDeleteAnlageSubscription = {
                                           | string
                                           | null
                                           | undefined;
+                                        custom1?: string | null | undefined;
+                                        custom2?: string | null | undefined;
+                                        custom3?: string | null | undefined;
                                         createdAt: any;
                                         updatedAt: any;
                                       }
@@ -5105,6 +5270,9 @@ export type OnCreateAnlagenUserSubscription = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -5282,6 +5450,9 @@ export type OnUpdateAnlagenUserSubscription = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -5459,6 +5630,9 @@ export type OnDeleteAnlagenUserSubscription = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -5577,6 +5751,9 @@ export type OnCreateProjektSubscription = {
         id: string;
         anlageId: string;
         projektNummer: number;
+        custom1ColumnName?: string | null | undefined;
+        custom2ColumnName?: string | null | undefined;
+        custom3ColumnName?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlage: {
@@ -5637,6 +5814,9 @@ export type OnCreateProjektSubscription = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -5708,6 +5888,9 @@ export type OnCreateProjektSubscription = {
                         vorschlagLieferant?: string | null | undefined;
                         vorschlagNennweite?: string | null | undefined;
                         vorschlagFeinspezifikation?: string | null | undefined;
+                        custom1?: string | null | undefined;
+                        custom2?: string | null | undefined;
+                        custom3?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                       }
@@ -5736,6 +5919,9 @@ export type OnUpdateProjektSubscription = {
         id: string;
         anlageId: string;
         projektNummer: number;
+        custom1ColumnName?: string | null | undefined;
+        custom2ColumnName?: string | null | undefined;
+        custom3ColumnName?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlage: {
@@ -5796,6 +5982,9 @@ export type OnUpdateProjektSubscription = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -5867,6 +6056,9 @@ export type OnUpdateProjektSubscription = {
                         vorschlagLieferant?: string | null | undefined;
                         vorschlagNennweite?: string | null | undefined;
                         vorschlagFeinspezifikation?: string | null | undefined;
+                        custom1?: string | null | undefined;
+                        custom2?: string | null | undefined;
+                        custom3?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                       }
@@ -5895,6 +6087,9 @@ export type OnDeleteProjektSubscription = {
         id: string;
         anlageId: string;
         projektNummer: number;
+        custom1ColumnName?: string | null | undefined;
+        custom2ColumnName?: string | null | undefined;
+        custom3ColumnName?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlage: {
@@ -5955,6 +6150,9 @@ export type OnDeleteProjektSubscription = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -6026,6 +6224,9 @@ export type OnDeleteProjektSubscription = {
                         vorschlagLieferant?: string | null | undefined;
                         vorschlagNennweite?: string | null | undefined;
                         vorschlagFeinspezifikation?: string | null | undefined;
+                        custom1?: string | null | undefined;
+                        custom2?: string | null | undefined;
+                        custom3?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                       }
@@ -6061,6 +6262,9 @@ export type OnCreateProjektStueliSubscription = {
         vorschlagLieferant?: string | null | undefined;
         vorschlagNennweite?: string | null | undefined;
         vorschlagFeinspezifikation?: string | null | undefined;
+        custom1?: string | null | undefined;
+        custom2?: string | null | undefined;
+        custom3?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
       }
@@ -6087,6 +6291,9 @@ export type OnUpdateProjektStueliSubscription = {
         vorschlagLieferant?: string | null | undefined;
         vorschlagNennweite?: string | null | undefined;
         vorschlagFeinspezifikation?: string | null | undefined;
+        custom1?: string | null | undefined;
+        custom2?: string | null | undefined;
+        custom3?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
       }
@@ -6113,6 +6320,9 @@ export type OnDeleteProjektStueliSubscription = {
         vorschlagLieferant?: string | null | undefined;
         vorschlagNennweite?: string | null | undefined;
         vorschlagFeinspezifikation?: string | null | undefined;
+        custom1?: string | null | undefined;
+        custom2?: string | null | undefined;
+        custom3?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
       }
@@ -7191,6 +7401,27 @@ export const CreateAnlageDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'custom1ColumnName',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'custom2ColumnName',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'custom3ColumnName',
+                              },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'createdAt' },
                             },
                             {
@@ -7361,6 +7592,27 @@ export const CreateAnlageDocument = {
                                           name: {
                                             kind: 'Name',
                                             value: 'vorschlagFeinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom1',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom2',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom3',
                                           },
                                         },
                                         {
@@ -7722,6 +7974,27 @@ export const UpdateAnlageDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'custom1ColumnName',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'custom2ColumnName',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'custom3ColumnName',
+                              },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'createdAt' },
                             },
                             {
@@ -7892,6 +8165,27 @@ export const UpdateAnlageDocument = {
                                           name: {
                                             kind: 'Name',
                                             value: 'vorschlagFeinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom1',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom2',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom3',
                                           },
                                         },
                                         {
@@ -8253,6 +8547,27 @@ export const DeleteAnlageDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'custom1ColumnName',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'custom2ColumnName',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'custom3ColumnName',
+                              },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'createdAt' },
                             },
                             {
@@ -8423,6 +8738,27 @@ export const DeleteAnlageDocument = {
                                           name: {
                                             kind: 'Name',
                                             value: 'vorschlagFeinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom1',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom2',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom3',
                                           },
                                         },
                                         {
@@ -8759,6 +9095,27 @@ export const CreateAnlagenUserDocument = {
                                     name: {
                                       kind: 'Name',
                                       value: 'projektNummer',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom1ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom2ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom3ColumnName',
                                     },
                                   },
                                   {
@@ -9314,6 +9671,27 @@ export const UpdateAnlagenUserDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom1ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom2ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom3ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'createdAt' },
                                   },
                                   {
@@ -9865,6 +10243,27 @@ export const DeleteAnlagenUserDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom1ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom2ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom3ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'createdAt' },
                                   },
                                   {
@@ -10231,6 +10630,18 @@ export const CreateProjektDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'projektNummer' },
                 },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'custom1ColumnName' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'custom2ColumnName' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'custom3ColumnName' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 {
@@ -10416,6 +10827,27 @@ export const CreateProjektDocument = {
                                     name: {
                                       kind: 'Name',
                                       value: 'projektNummer',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom1ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom2ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom3ColumnName',
                                     },
                                   },
                                   {
@@ -10635,6 +11067,18 @@ export const CreateProjektDocument = {
                                 kind: 'Name',
                                 value: 'vorschlagFeinspezifikation',
                               },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'custom1' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'custom2' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'custom3' },
                             },
                             {
                               kind: 'Field',
@@ -10713,6 +11157,18 @@ export const UpdateProjektDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'projektNummer' },
                 },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'custom1ColumnName' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'custom2ColumnName' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'custom3ColumnName' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 {
@@ -10898,6 +11354,27 @@ export const UpdateProjektDocument = {
                                     name: {
                                       kind: 'Name',
                                       value: 'projektNummer',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom1ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom2ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom3ColumnName',
                                     },
                                   },
                                   {
@@ -11117,6 +11594,18 @@ export const UpdateProjektDocument = {
                                 kind: 'Name',
                                 value: 'vorschlagFeinspezifikation',
                               },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'custom1' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'custom2' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'custom3' },
                             },
                             {
                               kind: 'Field',
@@ -11195,6 +11684,18 @@ export const DeleteProjektDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'projektNummer' },
                 },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'custom1ColumnName' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'custom2ColumnName' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'custom3ColumnName' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 {
@@ -11380,6 +11881,27 @@ export const DeleteProjektDocument = {
                                     name: {
                                       kind: 'Name',
                                       value: 'projektNummer',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom1ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom2ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom3ColumnName',
                                     },
                                   },
                                   {
@@ -11599,6 +12121,18 @@ export const DeleteProjektDocument = {
                                 kind: 'Name',
                                 value: 'vorschlagFeinspezifikation',
                               },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'custom1' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'custom2' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'custom3' },
                             },
                             {
                               kind: 'Field',
@@ -11699,6 +12233,9 @@ export const CreateProjektStueliDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'vorschlagFeinspezifikation' },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'custom1' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'custom2' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'custom3' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
               ],
@@ -11782,6 +12319,9 @@ export const UpdateProjektStueliDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'vorschlagFeinspezifikation' },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'custom1' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'custom2' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'custom3' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
               ],
@@ -11865,6 +12405,9 @@ export const DeleteProjektStueliDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'vorschlagFeinspezifikation' },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'custom1' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'custom2' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'custom3' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
               ],
@@ -13104,6 +13647,27 @@ export const GetAnlageDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'custom1ColumnName',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'custom2ColumnName',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'custom3ColumnName',
+                              },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'createdAt' },
                             },
                             {
@@ -13274,6 +13838,27 @@ export const GetAnlageDocument = {
                                           name: {
                                             kind: 'Name',
                                             value: 'vorschlagFeinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom1',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom2',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom3',
                                           },
                                         },
                                         {
@@ -13664,6 +14249,27 @@ export const ListAnlagesDocument = {
                                     name: {
                                       kind: 'Name',
                                       value: 'projektNummer',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom1ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom2ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom3ColumnName',
                                     },
                                   },
                                   {
@@ -14071,6 +14677,27 @@ export const GetAnlagenUserDocument = {
                                     name: {
                                       kind: 'Name',
                                       value: 'projektNummer',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom1ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom2ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom3ColumnName',
                                     },
                                   },
                                   {
@@ -14651,6 +15278,27 @@ export const ListAnlagenUsersDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
+                                            value: 'custom1ColumnName',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom2ColumnName',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom3ColumnName',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
                                             value: 'createdAt',
                                           },
                                         },
@@ -14889,6 +15537,18 @@ export const GetProjektDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'projektNummer' },
                 },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'custom1ColumnName' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'custom2ColumnName' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'custom3ColumnName' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 {
@@ -15074,6 +15734,27 @@ export const GetProjektDocument = {
                                     name: {
                                       kind: 'Name',
                                       value: 'projektNummer',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom1ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom2ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom3ColumnName',
                                     },
                                   },
                                   {
@@ -15296,6 +15977,18 @@ export const GetProjektDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'custom1' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'custom2' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'custom3' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'createdAt' },
                             },
                             {
@@ -15440,6 +16133,18 @@ export const ListProjektsDocument = {
                       },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'custom1ColumnName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'custom2ColumnName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'custom3ColumnName' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'createdAt' },
                       },
                       {
@@ -15554,6 +16259,27 @@ export const ListProjektsDocument = {
                                           name: {
                                             kind: 'Name',
                                             value: 'projektNummer',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom1ColumnName',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom2ColumnName',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom3ColumnName',
                                           },
                                         },
                                         {
@@ -15730,6 +16456,18 @@ export const ListProjektsDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'custom1' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'custom2' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'custom3' },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'createdAt' },
                                   },
                                   {
@@ -15822,6 +16560,9 @@ export const GetProjektStueliDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'vorschlagFeinspezifikation' },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'custom1' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'custom2' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'custom3' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
               ],
@@ -15986,6 +16727,18 @@ export const ListProjektStuelisDocument = {
                           kind: 'Name',
                           value: 'vorschlagFeinspezifikation',
                         },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'custom1' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'custom2' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'custom3' },
                       },
                       {
                         kind: 'Field',
@@ -16183,6 +16936,18 @@ export const ProjektStueliByKurzspezifikationDocument = {
                           kind: 'Name',
                           value: 'vorschlagFeinspezifikation',
                         },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'custom1' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'custom2' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'custom3' },
                       },
                       {
                         kind: 'Field',
@@ -17512,6 +18277,27 @@ export const OnCreateAnlageDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'custom1ColumnName',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'custom2ColumnName',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'custom3ColumnName',
+                              },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'createdAt' },
                             },
                             {
@@ -17682,6 +18468,27 @@ export const OnCreateAnlageDocument = {
                                           name: {
                                             kind: 'Name',
                                             value: 'vorschlagFeinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom1',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom2',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom3',
                                           },
                                         },
                                         {
@@ -18034,6 +18841,27 @@ export const OnUpdateAnlageDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'custom1ColumnName',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'custom2ColumnName',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'custom3ColumnName',
+                              },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'createdAt' },
                             },
                             {
@@ -18204,6 +19032,27 @@ export const OnUpdateAnlageDocument = {
                                           name: {
                                             kind: 'Name',
                                             value: 'vorschlagFeinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom1',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom2',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom3',
                                           },
                                         },
                                         {
@@ -18556,6 +19405,27 @@ export const OnDeleteAnlageDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'custom1ColumnName',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'custom2ColumnName',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'custom3ColumnName',
+                              },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'createdAt' },
                             },
                             {
@@ -18726,6 +19596,27 @@ export const OnDeleteAnlageDocument = {
                                           name: {
                                             kind: 'Name',
                                             value: 'vorschlagFeinspezifikation',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom1',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom2',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'custom3',
                                           },
                                         },
                                         {
@@ -19056,6 +19947,27 @@ export const OnCreateAnlagenUserDocument = {
                                     name: {
                                       kind: 'Name',
                                       value: 'projektNummer',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom1ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom2ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom3ColumnName',
                                     },
                                   },
                                   {
@@ -19605,6 +20517,27 @@ export const OnUpdateAnlagenUserDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom1ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom2ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom3ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'createdAt' },
                                   },
                                   {
@@ -20150,6 +21083,27 @@ export const OnDeleteAnlagenUserDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom1ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom2ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom3ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'createdAt' },
                                   },
                                   {
@@ -20507,6 +21461,18 @@ export const OnCreateProjektDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'projektNummer' },
                 },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'custom1ColumnName' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'custom2ColumnName' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'custom3ColumnName' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 {
@@ -20692,6 +21658,27 @@ export const OnCreateProjektDocument = {
                                     name: {
                                       kind: 'Name',
                                       value: 'projektNummer',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom1ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom2ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom3ColumnName',
                                     },
                                   },
                                   {
@@ -20911,6 +21898,18 @@ export const OnCreateProjektDocument = {
                                 kind: 'Name',
                                 value: 'vorschlagFeinspezifikation',
                               },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'custom1' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'custom2' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'custom3' },
                             },
                             {
                               kind: 'Field',
@@ -20980,6 +21979,18 @@ export const OnUpdateProjektDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'projektNummer' },
                 },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'custom1ColumnName' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'custom2ColumnName' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'custom3ColumnName' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 {
@@ -21165,6 +22176,27 @@ export const OnUpdateProjektDocument = {
                                     name: {
                                       kind: 'Name',
                                       value: 'projektNummer',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom1ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom2ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom3ColumnName',
                                     },
                                   },
                                   {
@@ -21384,6 +22416,18 @@ export const OnUpdateProjektDocument = {
                                 kind: 'Name',
                                 value: 'vorschlagFeinspezifikation',
                               },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'custom1' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'custom2' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'custom3' },
                             },
                             {
                               kind: 'Field',
@@ -21453,6 +22497,18 @@ export const OnDeleteProjektDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'projektNummer' },
                 },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'custom1ColumnName' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'custom2ColumnName' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'custom3ColumnName' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 {
@@ -21638,6 +22694,27 @@ export const OnDeleteProjektDocument = {
                                     name: {
                                       kind: 'Name',
                                       value: 'projektNummer',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom1ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom2ColumnName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'custom3ColumnName',
                                     },
                                   },
                                   {
@@ -21857,6 +22934,18 @@ export const OnDeleteProjektDocument = {
                                 kind: 'Name',
                                 value: 'vorschlagFeinspezifikation',
                               },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'custom1' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'custom2' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'custom3' },
                             },
                             {
                               kind: 'Field',
@@ -21931,6 +23020,9 @@ export const OnCreateProjektStueliDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'vorschlagFeinspezifikation' },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'custom1' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'custom2' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'custom3' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
               ],
@@ -21988,6 +23080,9 @@ export const OnUpdateProjektStueliDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'vorschlagFeinspezifikation' },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'custom1' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'custom2' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'custom3' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
               ],
@@ -22045,6 +23140,9 @@ export const OnDeleteProjektStueliDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'vorschlagFeinspezifikation' },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'custom1' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'custom2' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'custom3' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
               ],

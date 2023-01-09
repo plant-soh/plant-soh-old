@@ -60,6 +60,9 @@ export const getAnlage = /* GraphQL */ `
           id
           anlageId
           projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
           createdAt
           updatedAt
           anlage {
@@ -91,6 +94,9 @@ export const getAnlage = /* GraphQL */ `
               vorschlagLieferant
               vorschlagNennweite
               vorschlagFeinspezifikation
+              custom1
+              custom2
+              custom3
               createdAt
               updatedAt
             }
@@ -167,6 +173,9 @@ export const listAnlages = /* GraphQL */ `
             id
             anlageId
             projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
             createdAt
             updatedAt
             anlage {
@@ -245,6 +254,9 @@ export const getAnlagenUser = /* GraphQL */ `
             id
             anlageId
             projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
             createdAt
             updatedAt
             anlage {
@@ -354,6 +366,9 @@ export const listAnlagenUsers = /* GraphQL */ `
               id
               anlageId
               projektNummer
+              custom1ColumnName
+              custom2ColumnName
+              custom3ColumnName
               createdAt
               updatedAt
             }
@@ -401,6 +416,9 @@ export const getProjekt = /* GraphQL */ `
       id
       anlageId
       projektNummer
+      custom1ColumnName
+      custom2ColumnName
+      custom3ColumnName
       createdAt
       updatedAt
       anlage {
@@ -440,6 +458,9 @@ export const getProjekt = /* GraphQL */ `
             id
             anlageId
             projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
             createdAt
             updatedAt
             anlage {
@@ -482,6 +503,9 @@ export const getProjekt = /* GraphQL */ `
           vorschlagLieferant
           vorschlagNennweite
           vorschlagFeinspezifikation
+          custom1
+          custom2
+          custom3
           createdAt
           updatedAt
         }
@@ -509,6 +533,9 @@ export const listProjekts = /* GraphQL */ `
         id
         anlageId
         projektNummer
+        custom1ColumnName
+        custom2ColumnName
+        custom3ColumnName
         createdAt
         updatedAt
         anlage {
@@ -532,6 +559,9 @@ export const listProjekts = /* GraphQL */ `
               id
               anlageId
               projektNummer
+              custom1ColumnName
+              custom2ColumnName
+              custom3ColumnName
               createdAt
               updatedAt
             }
@@ -563,6 +593,9 @@ export const listProjekts = /* GraphQL */ `
             vorschlagLieferant
             vorschlagNennweite
             vorschlagFeinspezifikation
+            custom1
+            custom2
+            custom3
             createdAt
             updatedAt
           }
@@ -586,6 +619,9 @@ export const getProjektStueli = /* GraphQL */ `
       vorschlagLieferant
       vorschlagNennweite
       vorschlagFeinspezifikation
+      custom1
+      custom2
+      custom3
       createdAt
       updatedAt
     }
@@ -617,6 +653,9 @@ export const listProjektStuelis = /* GraphQL */ `
         vorschlagLieferant
         vorschlagNennweite
         vorschlagFeinspezifikation
+        custom1
+        custom2
+        custom3
         createdAt
         updatedAt
       }
@@ -652,6 +691,9 @@ export const projektStueliByKurzspezifikation = /* GraphQL */ `
         vorschlagLieferant
         vorschlagNennweite
         vorschlagFeinspezifikation
+        custom1
+        custom2
+        custom3
         createdAt
         updatedAt
       }

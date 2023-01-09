@@ -53,6 +53,9 @@ export const onCreateAnlage = /* GraphQL */ `
           id
           anlageId
           projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
           createdAt
           updatedAt
           anlage {
@@ -84,6 +87,9 @@ export const onCreateAnlage = /* GraphQL */ `
               vorschlagLieferant
               vorschlagNennweite
               vorschlagFeinspezifikation
+              custom1
+              custom2
+              custom3
               createdAt
               updatedAt
             }
@@ -159,6 +165,9 @@ export const onUpdateAnlage = /* GraphQL */ `
           id
           anlageId
           projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
           createdAt
           updatedAt
           anlage {
@@ -190,6 +199,9 @@ export const onUpdateAnlage = /* GraphQL */ `
               vorschlagLieferant
               vorschlagNennweite
               vorschlagFeinspezifikation
+              custom1
+              custom2
+              custom3
               createdAt
               updatedAt
             }
@@ -265,6 +277,9 @@ export const onDeleteAnlage = /* GraphQL */ `
           id
           anlageId
           projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
           createdAt
           updatedAt
           anlage {
@@ -296,6 +311,9 @@ export const onDeleteAnlage = /* GraphQL */ `
               vorschlagLieferant
               vorschlagNennweite
               vorschlagFeinspezifikation
+              custom1
+              custom2
+              custom3
               createdAt
               updatedAt
             }
@@ -364,6 +382,9 @@ export const onCreateAnlagenUser = /* GraphQL */ `
             id
             anlageId
             projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
             createdAt
             updatedAt
             anlage {
@@ -474,6 +495,9 @@ export const onUpdateAnlagenUser = /* GraphQL */ `
             id
             anlageId
             projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
             createdAt
             updatedAt
             anlage {
@@ -584,6 +608,9 @@ export const onDeleteAnlagenUser = /* GraphQL */ `
             id
             anlageId
             projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
             createdAt
             updatedAt
             anlage {
@@ -656,6 +683,9 @@ export const onCreateProjekt = /* GraphQL */ `
       id
       anlageId
       projektNummer
+      custom1ColumnName
+      custom2ColumnName
+      custom3ColumnName
       createdAt
       updatedAt
       anlage {
@@ -695,6 +725,9 @@ export const onCreateProjekt = /* GraphQL */ `
             id
             anlageId
             projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
             createdAt
             updatedAt
             anlage {
@@ -737,6 +770,9 @@ export const onCreateProjekt = /* GraphQL */ `
           vorschlagLieferant
           vorschlagNennweite
           vorschlagFeinspezifikation
+          custom1
+          custom2
+          custom3
           createdAt
           updatedAt
         }
@@ -751,6 +787,9 @@ export const onUpdateProjekt = /* GraphQL */ `
       id
       anlageId
       projektNummer
+      custom1ColumnName
+      custom2ColumnName
+      custom3ColumnName
       createdAt
       updatedAt
       anlage {
@@ -790,6 +829,9 @@ export const onUpdateProjekt = /* GraphQL */ `
             id
             anlageId
             projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
             createdAt
             updatedAt
             anlage {
@@ -832,6 +874,9 @@ export const onUpdateProjekt = /* GraphQL */ `
           vorschlagLieferant
           vorschlagNennweite
           vorschlagFeinspezifikation
+          custom1
+          custom2
+          custom3
           createdAt
           updatedAt
         }
@@ -846,6 +891,9 @@ export const onDeleteProjekt = /* GraphQL */ `
       id
       anlageId
       projektNummer
+      custom1ColumnName
+      custom2ColumnName
+      custom3ColumnName
       createdAt
       updatedAt
       anlage {
@@ -885,6 +933,9 @@ export const onDeleteProjekt = /* GraphQL */ `
             id
             anlageId
             projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
             createdAt
             updatedAt
             anlage {
@@ -927,6 +978,9 @@ export const onDeleteProjekt = /* GraphQL */ `
           vorschlagLieferant
           vorschlagNennweite
           vorschlagFeinspezifikation
+          custom1
+          custom2
+          custom3
           createdAt
           updatedAt
         }
@@ -948,6 +1002,9 @@ export const onCreateProjektStueli = /* GraphQL */ `
       vorschlagLieferant
       vorschlagNennweite
       vorschlagFeinspezifikation
+      custom1
+      custom2
+      custom3
       createdAt
       updatedAt
     }
@@ -966,6 +1023,9 @@ export const onUpdateProjektStueli = /* GraphQL */ `
       vorschlagLieferant
       vorschlagNennweite
       vorschlagFeinspezifikation
+      custom1
+      custom2
+      custom3
       createdAt
       updatedAt
     }
@@ -984,6 +1044,9 @@ export const onDeleteProjektStueli = /* GraphQL */ `
       vorschlagLieferant
       vorschlagNennweite
       vorschlagFeinspezifikation
+      custom1
+      custom2
+      custom3
       createdAt
       updatedAt
     }

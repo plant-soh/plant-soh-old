@@ -58,6 +58,9 @@ type Projekt
   anlage: Anlage! @connection(fields: ["anlageId"])
   projektStueli: [ProjektStueli]
     @connection(keyName: "byProjekt", fields: ["id"])
+  custom1ColumnName: String
+  custom2ColumnName: String
+  custom3ColumnName: String
 }
 
 type ProjektStueli
@@ -85,6 +88,9 @@ type ProjektStueli
   vorschlagLieferant: String
   vorschlagNennweite: String
   vorschlagFeinspezifikation: String
+  custom1: String
+  custom2: String
+  custom3: String
 }
 
 type ReferenzStueli

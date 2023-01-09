@@ -95,11 +95,17 @@ export type CreateAnlagenUserInput = {
 
 export type CreateProjektInput = {
   anlageId: Scalars['ID'];
+  custom1ColumnName?: InputMaybe<Scalars['String']>;
+  custom2ColumnName?: InputMaybe<Scalars['String']>;
+  custom3ColumnName?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
   projektNummer: Scalars['Int'];
 };
 
 export type CreateProjektStueliInput = {
+  custom1?: InputMaybe<Scalars['String']>;
+  custom2?: InputMaybe<Scalars['String']>;
+  custom3?: InputMaybe<Scalars['String']>;
   feinspezifikation?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
   kurzspezifikation?: InputMaybe<Scalars['String']>;
@@ -244,6 +250,9 @@ export type ModelProjektConnection = {
 export type ModelProjektFilterInput = {
   and?: InputMaybe<Array<InputMaybe<ModelProjektFilterInput>>>;
   anlageId?: InputMaybe<ModelIdFilterInput>;
+  custom1ColumnName?: InputMaybe<ModelStringFilterInput>;
+  custom2ColumnName?: InputMaybe<ModelStringFilterInput>;
+  custom3ColumnName?: InputMaybe<ModelStringFilterInput>;
   id?: InputMaybe<ModelIdFilterInput>;
   not?: InputMaybe<ModelProjektFilterInput>;
   or?: InputMaybe<Array<InputMaybe<ModelProjektFilterInput>>>;
@@ -258,6 +267,9 @@ export type ModelProjektStueliConnection = {
 
 export type ModelProjektStueliFilterInput = {
   and?: InputMaybe<Array<InputMaybe<ModelProjektStueliFilterInput>>>;
+  custom1?: InputMaybe<ModelStringFilterInput>;
+  custom2?: InputMaybe<ModelStringFilterInput>;
+  custom3?: InputMaybe<ModelStringFilterInput>;
   feinspezifikation?: InputMaybe<ModelStringFilterInput>;
   id?: InputMaybe<ModelIdFilterInput>;
   kurzspezifikation?: InputMaybe<ModelStringFilterInput>;
@@ -448,6 +460,9 @@ export type Projekt = {
   anlage: Anlage;
   anlageId: Scalars['ID'];
   createdAt: Scalars['AWSDateTime'];
+  custom1ColumnName?: Maybe<Scalars['String']>;
+  custom2ColumnName?: Maybe<Scalars['String']>;
+  custom3ColumnName?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   projektNummer: Scalars['Int'];
   projektStueli?: Maybe<ModelProjektStueliConnection>;
@@ -464,6 +479,9 @@ export type ProjektProjektStueliArgs = {
 export type ProjektStueli = {
   __typename?: 'ProjektStueli';
   createdAt: Scalars['AWSDateTime'];
+  custom1?: Maybe<Scalars['String']>;
+  custom2?: Maybe<Scalars['String']>;
+  custom3?: Maybe<Scalars['String']>;
   feinspezifikation?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   kurzspezifikation?: Maybe<Scalars['String']>;
@@ -723,11 +741,17 @@ export type UpdateAnlagenUserInput = {
 
 export type UpdateProjektInput = {
   anlageId?: InputMaybe<Scalars['ID']>;
+  custom1ColumnName?: InputMaybe<Scalars['String']>;
+  custom2ColumnName?: InputMaybe<Scalars['String']>;
+  custom3ColumnName?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];
   projektNummer?: InputMaybe<Scalars['Int']>;
 };
 
 export type UpdateProjektStueliInput = {
+  custom1?: InputMaybe<Scalars['String']>;
+  custom2?: InputMaybe<Scalars['String']>;
+  custom3?: InputMaybe<Scalars['String']>;
   feinspezifikation?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];
   kurzspezifikation?: InputMaybe<Scalars['String']>;
@@ -1042,6 +1066,9 @@ export type CreateAnlageMutation = {
                         id: string;
                         anlageId: string;
                         projektNummer: number;
+                        custom1ColumnName?: string | null | undefined;
+                        custom2ColumnName?: string | null | undefined;
+                        custom3ColumnName?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                         anlage: {
@@ -1110,6 +1137,9 @@ export type CreateAnlageMutation = {
                                           | string
                                           | null
                                           | undefined;
+                                        custom1?: string | null | undefined;
+                                        custom2?: string | null | undefined;
+                                        custom3?: string | null | undefined;
                                         createdAt: any;
                                         updatedAt: any;
                                       }
@@ -1253,6 +1283,9 @@ export type UpdateAnlageMutation = {
                         id: string;
                         anlageId: string;
                         projektNummer: number;
+                        custom1ColumnName?: string | null | undefined;
+                        custom2ColumnName?: string | null | undefined;
+                        custom3ColumnName?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                         anlage: {
@@ -1321,6 +1354,9 @@ export type UpdateAnlageMutation = {
                                           | string
                                           | null
                                           | undefined;
+                                        custom1?: string | null | undefined;
+                                        custom2?: string | null | undefined;
+                                        custom3?: string | null | undefined;
                                         createdAt: any;
                                         updatedAt: any;
                                       }
@@ -1464,6 +1500,9 @@ export type DeleteAnlageMutation = {
                         id: string;
                         anlageId: string;
                         projektNummer: number;
+                        custom1ColumnName?: string | null | undefined;
+                        custom2ColumnName?: string | null | undefined;
+                        custom3ColumnName?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                         anlage: {
@@ -1532,6 +1571,9 @@ export type DeleteAnlageMutation = {
                                           | string
                                           | null
                                           | undefined;
+                                        custom1?: string | null | undefined;
+                                        custom2?: string | null | undefined;
+                                        custom3?: string | null | undefined;
                                         createdAt: any;
                                         updatedAt: any;
                                       }
@@ -1653,6 +1695,9 @@ export type CreateAnlagenUserMutation = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -1830,6 +1875,9 @@ export type UpdateAnlagenUserMutation = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -2007,6 +2055,9 @@ export type DeleteAnlagenUserMutation = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -2125,6 +2176,9 @@ export type CreateProjektMutation = {
         id: string;
         anlageId: string;
         projektNummer: number;
+        custom1ColumnName?: string | null | undefined;
+        custom2ColumnName?: string | null | undefined;
+        custom3ColumnName?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlage: {
@@ -2185,6 +2239,9 @@ export type CreateProjektMutation = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -2256,6 +2313,9 @@ export type CreateProjektMutation = {
                         vorschlagLieferant?: string | null | undefined;
                         vorschlagNennweite?: string | null | undefined;
                         vorschlagFeinspezifikation?: string | null | undefined;
+                        custom1?: string | null | undefined;
+                        custom2?: string | null | undefined;
+                        custom3?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                       }
@@ -2284,6 +2344,9 @@ export type UpdateProjektMutation = {
         id: string;
         anlageId: string;
         projektNummer: number;
+        custom1ColumnName?: string | null | undefined;
+        custom2ColumnName?: string | null | undefined;
+        custom3ColumnName?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlage: {
@@ -2344,6 +2407,9 @@ export type UpdateProjektMutation = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -2415,6 +2481,9 @@ export type UpdateProjektMutation = {
                         vorschlagLieferant?: string | null | undefined;
                         vorschlagNennweite?: string | null | undefined;
                         vorschlagFeinspezifikation?: string | null | undefined;
+                        custom1?: string | null | undefined;
+                        custom2?: string | null | undefined;
+                        custom3?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                       }
@@ -2443,6 +2512,9 @@ export type DeleteProjektMutation = {
         id: string;
         anlageId: string;
         projektNummer: number;
+        custom1ColumnName?: string | null | undefined;
+        custom2ColumnName?: string | null | undefined;
+        custom3ColumnName?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlage: {
@@ -2503,6 +2575,9 @@ export type DeleteProjektMutation = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -2574,6 +2649,9 @@ export type DeleteProjektMutation = {
                         vorschlagLieferant?: string | null | undefined;
                         vorschlagNennweite?: string | null | undefined;
                         vorschlagFeinspezifikation?: string | null | undefined;
+                        custom1?: string | null | undefined;
+                        custom2?: string | null | undefined;
+                        custom3?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                       }
@@ -2609,6 +2687,9 @@ export type CreateProjektStueliMutation = {
         vorschlagLieferant?: string | null | undefined;
         vorschlagNennweite?: string | null | undefined;
         vorschlagFeinspezifikation?: string | null | undefined;
+        custom1?: string | null | undefined;
+        custom2?: string | null | undefined;
+        custom3?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
       }
@@ -2635,6 +2716,9 @@ export type UpdateProjektStueliMutation = {
         vorschlagLieferant?: string | null | undefined;
         vorschlagNennweite?: string | null | undefined;
         vorschlagFeinspezifikation?: string | null | undefined;
+        custom1?: string | null | undefined;
+        custom2?: string | null | undefined;
+        custom3?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
       }
@@ -2661,6 +2745,9 @@ export type DeleteProjektStueliMutation = {
         vorschlagLieferant?: string | null | undefined;
         vorschlagNennweite?: string | null | undefined;
         vorschlagFeinspezifikation?: string | null | undefined;
+        custom1?: string | null | undefined;
+        custom2?: string | null | undefined;
+        custom3?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
       }
@@ -3100,6 +3187,9 @@ export type GetAnlageQuery = {
                         id: string;
                         anlageId: string;
                         projektNummer: number;
+                        custom1ColumnName?: string | null | undefined;
+                        custom2ColumnName?: string | null | undefined;
+                        custom3ColumnName?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                         anlage: {
@@ -3168,6 +3258,9 @@ export type GetAnlageQuery = {
                                           | string
                                           | null
                                           | undefined;
+                                        custom1?: string | null | undefined;
+                                        custom2?: string | null | undefined;
+                                        custom3?: string | null | undefined;
                                         createdAt: any;
                                         updatedAt: any;
                                       }
@@ -3295,6 +3388,9 @@ export type ListAnlagesQuery = {
                                   id: string;
                                   anlageId: string;
                                   projektNummer: number;
+                                  custom1ColumnName?: string | null | undefined;
+                                  custom2ColumnName?: string | null | undefined;
+                                  custom3ColumnName?: string | null | undefined;
                                   createdAt: any;
                                   updatedAt: any;
                                   anlage: {
@@ -3430,6 +3526,9 @@ export type GetAnlagenUserQuery = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -3599,6 +3698,18 @@ export type ListAnlagenUsersQuery = {
                                     id: string;
                                     anlageId: string;
                                     projektNummer: number;
+                                    custom1ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    custom2ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    custom3ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
                                     createdAt: any;
                                     updatedAt: any;
                                   }
@@ -3695,6 +3806,9 @@ export type GetProjektQuery = {
         id: string;
         anlageId: string;
         projektNummer: number;
+        custom1ColumnName?: string | null | undefined;
+        custom2ColumnName?: string | null | undefined;
+        custom3ColumnName?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlage: {
@@ -3755,6 +3869,9 @@ export type GetProjektQuery = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -3826,6 +3943,9 @@ export type GetProjektQuery = {
                         vorschlagLieferant?: string | null | undefined;
                         vorschlagNennweite?: string | null | undefined;
                         vorschlagFeinspezifikation?: string | null | undefined;
+                        custom1?: string | null | undefined;
+                        custom2?: string | null | undefined;
+                        custom3?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                       }
@@ -3863,6 +3983,9 @@ export type ListProjektsQuery = {
                   id: string;
                   anlageId: string;
                   projektNummer: number;
+                  custom1ColumnName?: string | null | undefined;
+                  custom2ColumnName?: string | null | undefined;
+                  custom3ColumnName?: string | null | undefined;
                   createdAt: any;
                   updatedAt: any;
                   anlage: {
@@ -3905,6 +4028,18 @@ export type ListProjektsQuery = {
                                     id: string;
                                     anlageId: string;
                                     projektNummer: number;
+                                    custom1ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    custom2ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    custom3ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
                                     createdAt: any;
                                     updatedAt: any;
                                   }
@@ -3978,6 +4113,9 @@ export type ListProjektsQuery = {
                                     | string
                                     | null
                                     | undefined;
+                                  custom1?: string | null | undefined;
+                                  custom2?: string | null | undefined;
+                                  custom3?: string | null | undefined;
                                   createdAt: any;
                                   updatedAt: any;
                                 }
@@ -4019,6 +4157,9 @@ export type GetProjektStueliQuery = {
         vorschlagLieferant?: string | null | undefined;
         vorschlagNennweite?: string | null | undefined;
         vorschlagFeinspezifikation?: string | null | undefined;
+        custom1?: string | null | undefined;
+        custom2?: string | null | undefined;
+        custom3?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
       }
@@ -4054,6 +4195,9 @@ export type ListProjektStuelisQuery = {
                   vorschlagLieferant?: string | null | undefined;
                   vorschlagNennweite?: string | null | undefined;
                   vorschlagFeinspezifikation?: string | null | undefined;
+                  custom1?: string | null | undefined;
+                  custom2?: string | null | undefined;
+                  custom3?: string | null | undefined;
                   createdAt: any;
                   updatedAt: any;
                 }
@@ -4096,6 +4240,9 @@ export type ProjektStueliByKurzspezifikationQuery = {
                   vorschlagLieferant?: string | null | undefined;
                   vorschlagNennweite?: string | null | undefined;
                   vorschlagFeinspezifikation?: string | null | undefined;
+                  custom1?: string | null | undefined;
+                  custom2?: string | null | undefined;
+                  custom3?: string | null | undefined;
                   createdAt: any;
                   updatedAt: any;
                 }
@@ -4500,6 +4647,9 @@ export type OnCreateAnlageSubscription = {
                         id: string;
                         anlageId: string;
                         projektNummer: number;
+                        custom1ColumnName?: string | null | undefined;
+                        custom2ColumnName?: string | null | undefined;
+                        custom3ColumnName?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                         anlage: {
@@ -4568,6 +4718,9 @@ export type OnCreateAnlageSubscription = {
                                           | string
                                           | null
                                           | undefined;
+                                        custom1?: string | null | undefined;
+                                        custom2?: string | null | undefined;
+                                        custom3?: string | null | undefined;
                                         createdAt: any;
                                         updatedAt: any;
                                       }
@@ -4711,6 +4864,9 @@ export type OnUpdateAnlageSubscription = {
                         id: string;
                         anlageId: string;
                         projektNummer: number;
+                        custom1ColumnName?: string | null | undefined;
+                        custom2ColumnName?: string | null | undefined;
+                        custom3ColumnName?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                         anlage: {
@@ -4779,6 +4935,9 @@ export type OnUpdateAnlageSubscription = {
                                           | string
                                           | null
                                           | undefined;
+                                        custom1?: string | null | undefined;
+                                        custom2?: string | null | undefined;
+                                        custom3?: string | null | undefined;
                                         createdAt: any;
                                         updatedAt: any;
                                       }
@@ -4922,6 +5081,9 @@ export type OnDeleteAnlageSubscription = {
                         id: string;
                         anlageId: string;
                         projektNummer: number;
+                        custom1ColumnName?: string | null | undefined;
+                        custom2ColumnName?: string | null | undefined;
+                        custom3ColumnName?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                         anlage: {
@@ -4990,6 +5152,9 @@ export type OnDeleteAnlageSubscription = {
                                           | string
                                           | null
                                           | undefined;
+                                        custom1?: string | null | undefined;
+                                        custom2?: string | null | undefined;
+                                        custom3?: string | null | undefined;
                                         createdAt: any;
                                         updatedAt: any;
                                       }
@@ -5111,6 +5276,9 @@ export type OnCreateAnlagenUserSubscription = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -5288,6 +5456,9 @@ export type OnUpdateAnlagenUserSubscription = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -5465,6 +5636,9 @@ export type OnDeleteAnlagenUserSubscription = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -5583,6 +5757,9 @@ export type OnCreateProjektSubscription = {
         id: string;
         anlageId: string;
         projektNummer: number;
+        custom1ColumnName?: string | null | undefined;
+        custom2ColumnName?: string | null | undefined;
+        custom3ColumnName?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlage: {
@@ -5643,6 +5820,9 @@ export type OnCreateProjektSubscription = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -5714,6 +5894,9 @@ export type OnCreateProjektSubscription = {
                         vorschlagLieferant?: string | null | undefined;
                         vorschlagNennweite?: string | null | undefined;
                         vorschlagFeinspezifikation?: string | null | undefined;
+                        custom1?: string | null | undefined;
+                        custom2?: string | null | undefined;
+                        custom3?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                       }
@@ -5742,6 +5925,9 @@ export type OnUpdateProjektSubscription = {
         id: string;
         anlageId: string;
         projektNummer: number;
+        custom1ColumnName?: string | null | undefined;
+        custom2ColumnName?: string | null | undefined;
+        custom3ColumnName?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlage: {
@@ -5802,6 +5988,9 @@ export type OnUpdateProjektSubscription = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -5873,6 +6062,9 @@ export type OnUpdateProjektSubscription = {
                         vorschlagLieferant?: string | null | undefined;
                         vorschlagNennweite?: string | null | undefined;
                         vorschlagFeinspezifikation?: string | null | undefined;
+                        custom1?: string | null | undefined;
+                        custom2?: string | null | undefined;
+                        custom3?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                       }
@@ -5901,6 +6093,9 @@ export type OnDeleteProjektSubscription = {
         id: string;
         anlageId: string;
         projektNummer: number;
+        custom1ColumnName?: string | null | undefined;
+        custom2ColumnName?: string | null | undefined;
+        custom3ColumnName?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
         anlage: {
@@ -5961,6 +6156,9 @@ export type OnDeleteProjektSubscription = {
                           id: string;
                           anlageId: string;
                           projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
                           anlage: {
@@ -6032,6 +6230,9 @@ export type OnDeleteProjektSubscription = {
                         vorschlagLieferant?: string | null | undefined;
                         vorschlagNennweite?: string | null | undefined;
                         vorschlagFeinspezifikation?: string | null | undefined;
+                        custom1?: string | null | undefined;
+                        custom2?: string | null | undefined;
+                        custom3?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
                       }
@@ -6067,6 +6268,9 @@ export type OnCreateProjektStueliSubscription = {
         vorschlagLieferant?: string | null | undefined;
         vorschlagNennweite?: string | null | undefined;
         vorschlagFeinspezifikation?: string | null | undefined;
+        custom1?: string | null | undefined;
+        custom2?: string | null | undefined;
+        custom3?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
       }
@@ -6093,6 +6297,9 @@ export type OnUpdateProjektStueliSubscription = {
         vorschlagLieferant?: string | null | undefined;
         vorschlagNennweite?: string | null | undefined;
         vorschlagFeinspezifikation?: string | null | undefined;
+        custom1?: string | null | undefined;
+        custom2?: string | null | undefined;
+        custom3?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
       }
@@ -6119,6 +6326,9 @@ export type OnDeleteProjektStueliSubscription = {
         vorschlagLieferant?: string | null | undefined;
         vorschlagNennweite?: string | null | undefined;
         vorschlagFeinspezifikation?: string | null | undefined;
+        custom1?: string | null | undefined;
+        custom2?: string | null | undefined;
+        custom3?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
       }
@@ -6652,6 +6862,9 @@ export const CreateAnlageDocument = `
         id
         anlageId
         projektNummer
+        custom1ColumnName
+        custom2ColumnName
+        custom3ColumnName
         createdAt
         updatedAt
         anlage {
@@ -6683,6 +6896,9 @@ export const CreateAnlageDocument = `
             vorschlagLieferant
             vorschlagNennweite
             vorschlagFeinspezifikation
+            custom1
+            custom2
+            custom3
             createdAt
             updatedAt
           }
@@ -6780,6 +6996,9 @@ export const UpdateAnlageDocument = `
         id
         anlageId
         projektNummer
+        custom1ColumnName
+        custom2ColumnName
+        custom3ColumnName
         createdAt
         updatedAt
         anlage {
@@ -6811,6 +7030,9 @@ export const UpdateAnlageDocument = `
             vorschlagLieferant
             vorschlagNennweite
             vorschlagFeinspezifikation
+            custom1
+            custom2
+            custom3
             createdAt
             updatedAt
           }
@@ -6908,6 +7130,9 @@ export const DeleteAnlageDocument = `
         id
         anlageId
         projektNummer
+        custom1ColumnName
+        custom2ColumnName
+        custom3ColumnName
         createdAt
         updatedAt
         anlage {
@@ -6939,6 +7164,9 @@ export const DeleteAnlageDocument = `
             vorschlagLieferant
             vorschlagNennweite
             vorschlagFeinspezifikation
+            custom1
+            custom2
+            custom3
             createdAt
             updatedAt
           }
@@ -7029,6 +7257,9 @@ export const CreateAnlagenUserDocument = `
           id
           anlageId
           projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
           createdAt
           updatedAt
           anlage {
@@ -7164,6 +7395,9 @@ export const UpdateAnlagenUserDocument = `
           id
           anlageId
           projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
           createdAt
           updatedAt
           anlage {
@@ -7299,6 +7533,9 @@ export const DeleteAnlagenUserDocument = `
           id
           anlageId
           projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
           createdAt
           updatedAt
           anlage {
@@ -7396,6 +7633,9 @@ export const CreateProjektDocument = `
     id
     anlageId
     projektNummer
+    custom1ColumnName
+    custom2ColumnName
+    custom3ColumnName
     createdAt
     updatedAt
     anlage {
@@ -7435,6 +7675,9 @@ export const CreateProjektDocument = `
           id
           anlageId
           projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
           createdAt
           updatedAt
           anlage {
@@ -7477,6 +7720,9 @@ export const CreateProjektDocument = `
         vorschlagLieferant
         vorschlagNennweite
         vorschlagFeinspezifikation
+        custom1
+        custom2
+        custom3
         createdAt
         updatedAt
       }
@@ -7513,6 +7759,9 @@ export const UpdateProjektDocument = `
     id
     anlageId
     projektNummer
+    custom1ColumnName
+    custom2ColumnName
+    custom3ColumnName
     createdAt
     updatedAt
     anlage {
@@ -7552,6 +7801,9 @@ export const UpdateProjektDocument = `
           id
           anlageId
           projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
           createdAt
           updatedAt
           anlage {
@@ -7594,6 +7846,9 @@ export const UpdateProjektDocument = `
         vorschlagLieferant
         vorschlagNennweite
         vorschlagFeinspezifikation
+        custom1
+        custom2
+        custom3
         createdAt
         updatedAt
       }
@@ -7630,6 +7885,9 @@ export const DeleteProjektDocument = `
     id
     anlageId
     projektNummer
+    custom1ColumnName
+    custom2ColumnName
+    custom3ColumnName
     createdAt
     updatedAt
     anlage {
@@ -7669,6 +7927,9 @@ export const DeleteProjektDocument = `
           id
           anlageId
           projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
           createdAt
           updatedAt
           anlage {
@@ -7711,6 +7972,9 @@ export const DeleteProjektDocument = `
         vorschlagLieferant
         vorschlagNennweite
         vorschlagFeinspezifikation
+        custom1
+        custom2
+        custom3
         createdAt
         updatedAt
       }
@@ -7754,6 +8018,9 @@ export const CreateProjektStueliDocument = `
     vorschlagLieferant
     vorschlagNennweite
     vorschlagFeinspezifikation
+    custom1
+    custom2
+    custom3
     createdAt
     updatedAt
   }
@@ -7797,6 +8064,9 @@ export const UpdateProjektStueliDocument = `
     vorschlagLieferant
     vorschlagNennweite
     vorschlagFeinspezifikation
+    custom1
+    custom2
+    custom3
     createdAt
     updatedAt
   }
@@ -7840,6 +8110,9 @@ export const DeleteProjektStueliDocument = `
     vorschlagLieferant
     vorschlagNennweite
     vorschlagFeinspezifikation
+    custom1
+    custom2
+    custom3
     createdAt
     updatedAt
   }
@@ -8275,6 +8548,9 @@ export const GetAnlageDocument = `
         id
         anlageId
         projektNummer
+        custom1ColumnName
+        custom2ColumnName
+        custom3ColumnName
         createdAt
         updatedAt
         anlage {
@@ -8306,6 +8582,9 @@ export const GetAnlageDocument = `
             vorschlagLieferant
             vorschlagNennweite
             vorschlagFeinspezifikation
+            custom1
+            custom2
+            custom3
             createdAt
             updatedAt
           }
@@ -8388,6 +8667,9 @@ export const ListAnlagesDocument = `
           id
           anlageId
           projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
           createdAt
           updatedAt
           anlage {
@@ -8478,6 +8760,9 @@ export const GetAnlagenUserDocument = `
           id
           anlageId
           projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
           createdAt
           updatedAt
           anlage {
@@ -8595,6 +8880,9 @@ export const ListAnlagenUsersDocument = `
             id
             anlageId
             projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
             createdAt
             updatedAt
           }
@@ -8659,6 +8947,9 @@ export const GetProjektDocument = `
     id
     anlageId
     projektNummer
+    custom1ColumnName
+    custom2ColumnName
+    custom3ColumnName
     createdAt
     updatedAt
     anlage {
@@ -8698,6 +8989,9 @@ export const GetProjektDocument = `
           id
           anlageId
           projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
           createdAt
           updatedAt
           anlage {
@@ -8740,6 +9034,9 @@ export const GetProjektDocument = `
         vorschlagLieferant
         vorschlagNennweite
         vorschlagFeinspezifikation
+        custom1
+        custom2
+        custom3
         createdAt
         updatedAt
       }
@@ -8773,6 +9070,9 @@ export const ListProjektsDocument = `
       id
       anlageId
       projektNummer
+      custom1ColumnName
+      custom2ColumnName
+      custom3ColumnName
       createdAt
       updatedAt
       anlage {
@@ -8796,6 +9096,9 @@ export const ListProjektsDocument = `
             id
             anlageId
             projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
             createdAt
             updatedAt
           }
@@ -8827,6 +9130,9 @@ export const ListProjektsDocument = `
           vorschlagLieferant
           vorschlagNennweite
           vorschlagFeinspezifikation
+          custom1
+          custom2
+          custom3
           createdAt
           updatedAt
         }
@@ -8865,6 +9171,9 @@ export const GetProjektStueliDocument = `
     vorschlagLieferant
     vorschlagNennweite
     vorschlagFeinspezifikation
+    custom1
+    custom2
+    custom3
     createdAt
     updatedAt
   }
@@ -8905,6 +9214,9 @@ export const ListProjektStuelisDocument = `
       vorschlagLieferant
       vorschlagNennweite
       vorschlagFeinspezifikation
+      custom1
+      custom2
+      custom3
       createdAt
       updatedAt
     }
@@ -8950,6 +9262,9 @@ export const ProjektStueliByKurzspezifikationDocument = `
       vorschlagLieferant
       vorschlagNennweite
       vorschlagFeinspezifikation
+      custom1
+      custom2
+      custom3
       createdAt
       updatedAt
     }
@@ -9297,6 +9612,9 @@ export const OnCreateAnlageDocument = `
         id
         anlageId
         projektNummer
+        custom1ColumnName
+        custom2ColumnName
+        custom3ColumnName
         createdAt
         updatedAt
         anlage {
@@ -9328,6 +9646,9 @@ export const OnCreateAnlageDocument = `
             vorschlagLieferant
             vorschlagNennweite
             vorschlagFeinspezifikation
+            custom1
+            custom2
+            custom3
             createdAt
             updatedAt
           }
@@ -9403,6 +9724,9 @@ export const OnUpdateAnlageDocument = `
         id
         anlageId
         projektNummer
+        custom1ColumnName
+        custom2ColumnName
+        custom3ColumnName
         createdAt
         updatedAt
         anlage {
@@ -9434,6 +9758,9 @@ export const OnUpdateAnlageDocument = `
             vorschlagLieferant
             vorschlagNennweite
             vorschlagFeinspezifikation
+            custom1
+            custom2
+            custom3
             createdAt
             updatedAt
           }
@@ -9509,6 +9836,9 @@ export const OnDeleteAnlageDocument = `
         id
         anlageId
         projektNummer
+        custom1ColumnName
+        custom2ColumnName
+        custom3ColumnName
         createdAt
         updatedAt
         anlage {
@@ -9540,6 +9870,9 @@ export const OnDeleteAnlageDocument = `
             vorschlagLieferant
             vorschlagNennweite
             vorschlagFeinspezifikation
+            custom1
+            custom2
+            custom3
             createdAt
             updatedAt
           }
@@ -9608,6 +9941,9 @@ export const OnCreateAnlagenUserDocument = `
           id
           anlageId
           projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
           createdAt
           updatedAt
           anlage {
@@ -9718,6 +10054,9 @@ export const OnUpdateAnlagenUserDocument = `
           id
           anlageId
           projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
           createdAt
           updatedAt
           anlage {
@@ -9828,6 +10167,9 @@ export const OnDeleteAnlagenUserDocument = `
           id
           anlageId
           projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
           createdAt
           updatedAt
           anlage {
@@ -9900,6 +10242,9 @@ export const OnCreateProjektDocument = `
     id
     anlageId
     projektNummer
+    custom1ColumnName
+    custom2ColumnName
+    custom3ColumnName
     createdAt
     updatedAt
     anlage {
@@ -9939,6 +10284,9 @@ export const OnCreateProjektDocument = `
           id
           anlageId
           projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
           createdAt
           updatedAt
           anlage {
@@ -9981,6 +10329,9 @@ export const OnCreateProjektDocument = `
         vorschlagLieferant
         vorschlagNennweite
         vorschlagFeinspezifikation
+        custom1
+        custom2
+        custom3
         createdAt
         updatedAt
       }
@@ -9995,6 +10346,9 @@ export const OnUpdateProjektDocument = `
     id
     anlageId
     projektNummer
+    custom1ColumnName
+    custom2ColumnName
+    custom3ColumnName
     createdAt
     updatedAt
     anlage {
@@ -10034,6 +10388,9 @@ export const OnUpdateProjektDocument = `
           id
           anlageId
           projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
           createdAt
           updatedAt
           anlage {
@@ -10076,6 +10433,9 @@ export const OnUpdateProjektDocument = `
         vorschlagLieferant
         vorschlagNennweite
         vorschlagFeinspezifikation
+        custom1
+        custom2
+        custom3
         createdAt
         updatedAt
       }
@@ -10090,6 +10450,9 @@ export const OnDeleteProjektDocument = `
     id
     anlageId
     projektNummer
+    custom1ColumnName
+    custom2ColumnName
+    custom3ColumnName
     createdAt
     updatedAt
     anlage {
@@ -10129,6 +10492,9 @@ export const OnDeleteProjektDocument = `
           id
           anlageId
           projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
           createdAt
           updatedAt
           anlage {
@@ -10171,6 +10537,9 @@ export const OnDeleteProjektDocument = `
         vorschlagLieferant
         vorschlagNennweite
         vorschlagFeinspezifikation
+        custom1
+        custom2
+        custom3
         createdAt
         updatedAt
       }
@@ -10192,6 +10561,9 @@ export const OnCreateProjektStueliDocument = `
     vorschlagLieferant
     vorschlagNennweite
     vorschlagFeinspezifikation
+    custom1
+    custom2
+    custom3
     createdAt
     updatedAt
   }
@@ -10210,6 +10582,9 @@ export const OnUpdateProjektStueliDocument = `
     vorschlagLieferant
     vorschlagNennweite
     vorschlagFeinspezifikation
+    custom1
+    custom2
+    custom3
     createdAt
     updatedAt
   }
@@ -10228,6 +10603,9 @@ export const OnDeleteProjektStueliDocument = `
     vorschlagLieferant
     vorschlagNennweite
     vorschlagFeinspezifikation
+    custom1
+    custom2
+    custom3
     createdAt
     updatedAt
   }
