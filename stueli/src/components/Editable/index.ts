@@ -1,1 +1,1 @@
-export { default } from './Editable';
+export { default, EditTableType } from './Editable';

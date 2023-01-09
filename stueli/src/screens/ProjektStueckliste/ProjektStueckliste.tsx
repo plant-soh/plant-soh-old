@@ -2,7 +2,7 @@ import * as Papa from 'papaparse';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { firstBy } from 'thenby';
-import Editable from '../../components/Editable';
+import EditTable, { EditTableType } from '../../components/Editable';
 // import { API } from '../../lib/fetcher';
 
 import {
@@ -319,7 +319,7 @@ const ProjektStueckliste = () => {
                             <span>Löschen</span>
                           </button>
                         ) : (
-                          <Editable
+                          <EditTable
                             text={
                               stueck[
                                 col as
@@ -331,7 +331,7 @@ const ProjektStueckliste = () => {
                             }
                             placeholder="Write a task name"
                             childRef={inputRef}
-                            type="input"
+                            type={EditTableType.input}
                           >
                             <input
                               ref={inputRef}
@@ -349,7 +349,7 @@ const ProjektStueckliste = () => {
                               }
                               onChange={(_e) => {}}
                             />
-                          </Editable>
+                          </EditTable>
                         )}
                       </td>
                     ))}
