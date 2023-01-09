@@ -1,7 +1,8 @@
 import * as Papa from 'papaparse';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { firstBy } from 'thenby';
+import Editable from '../../components/Editable';
 // import { API } from '../../lib/fetcher';
 
 import {
@@ -29,6 +30,8 @@ const ProjektStueckliste = () => {
   const { id = '' } = useParams<ProjektStueliParams>();
 
   const { currentProjektId, refreshSession, role } = useAuth();
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [newStueck, setNewStueck] = useState<{
     kurzspezifikation: string;
@@ -316,13 +319,37 @@ const ProjektStueckliste = () => {
                             <span>Löschen</span>
                           </button>
                         ) : (
-                          stueck[
-                            col as
-                              | 'kurzspezifikation'
-                              | 'lieferant'
-                              | 'nennweite'
-                              | 'feinspezifikation'
-                          ]
+                          <Editable
+                            text={
+                              stueck[
+                                col as
+                                  | 'kurzspezifikation'
+                                  | 'lieferant'
+                                  | 'nennweite'
+                                  | 'feinspezifikation'
+                              ] ?? ''
+                            }
+                            placeholder="Write a task name"
+                            childRef={inputRef}
+                            type="input"
+                          >
+                            <input
+                              ref={inputRef}
+                              type="text"
+                              name={col}
+                              placeholder="Write a task name"
+                              value={
+                                stueck[
+                                  col as
+                                    | 'kurzspezifikation'
+                                    | 'lieferant'
+                                    | 'nennweite'
+                                    | 'feinspezifikation'
+                                ] ?? ''
+                              }
+                              onChange={(_e) => {}}
+                            />
+                          </Editable>
                         )}
                       </td>
                     ))}
