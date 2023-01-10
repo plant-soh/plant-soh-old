@@ -96,16 +96,16 @@ const Projekte = () => {
                           <span>Löschen</span>
                         </button>
                       ) : col === 'standort' ? (
-                        <button className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
-                          <Link
-                            name="projekt-stueli"
-                            to={`/projekte/${projekt.id}`}
-                          >
-                            {<span>{projekt.anlage[col]}</span>}
-                          </Link>
-                        </button>
+                        <span>{projekt.anlage[col]}</span>
                       ) : col === 'projektNummer' ? (
-                        projekt[col]
+                        <Link
+                          name="projekt-stueli"
+                          to={`/projekte/${projekt.id}`}
+                        >
+                          <button className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+                            {<span>{projekt[col]}</span>}
+                          </button>{' '}
+                        </Link>
                       ) : (
                         projekt.anlage[col as 'firma']
                       )}

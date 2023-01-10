@@ -44,11 +44,17 @@ const ProjektStueckliste = () => {
     vorschlagLieferant?: string;
     vorschlagNennweite?: string;
     vorschlagFeinspezifikation?: string;
+    custom1: string;
+    custom2: string;
+    custom3: string;
   }>({
     kurzspezifikation: '',
     lieferant: '',
     nennweite: '',
     feinspezifikation: '',
+    custom1: '',
+    custom2: '',
+    custom3: '',
   });
   const [editStueck, setEditStueck] = useState('');
 
@@ -102,6 +108,8 @@ const ProjektStueckliste = () => {
   if (isAdmin) {
     columns = { ...columns, actions: 'Aktionen' };
   }
+
+  // console.log(`columns=${JSON.stringify(columns)}`);
 
   useEffect(() => {
     if (!id || currentProjektId === id) return;
@@ -298,7 +306,7 @@ const ProjektStueckliste = () => {
           <span>Projektnummer:</span>
           <span>{getProjektQuery.data?.getProjekt?.projektNummer} </span>
         </div>
-        <div key="custom1" className="flex gap-2">
+        {/* <div key="custom1" className="flex gap-2">
           <span>Custom1ColumnName:</span>
           <span>{getProjektQuery.data?.getProjekt?.custom1ColumnName} </span>
         </div>
@@ -309,7 +317,7 @@ const ProjektStueckliste = () => {
         <div key="custom3" className="flex gap-2">
           <span>Custom3ColumnName:</span>
           <span>{getProjektQuery.data?.getProjekt?.custom3ColumnName} </span>
-        </div>
+        </div> */}
       </h1>
 
       <div className="flex flex-col">
@@ -327,20 +335,20 @@ const ProjektStueckliste = () => {
           </button>
         </div>
       </div>
-      <table className="mt-4">
+      <table className="w-full mt-4 table-fixed">
         <thead>
           <tr>
             {Object.keys(columns).map((col, index) => (
               <th
                 scope="col"
-                className="relative p-3 text-xs font-semibold text-left text-white whitespace-pre-line align-top bg-bblue-500"
+                className="relative w-20 p-3 text-xs font-semibold text-left text-white whitespace-pre-line align-top bg-bblue-500"
                 key={index}
               >
                 {col === 'plus' ? (
                   availableCustomColumn && (
                     <button
                       key={col}
-                      className="px-2 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+                      className="px-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
                       onClick={async () => {
                         await updateProjekt.mutateAsync({
                           input: {
@@ -348,9 +356,10 @@ const ProjektStueckliste = () => {
                             [availableCustomColumn as
                               | 'custom1ColumnName'
                               | 'custom2ColumnName'
-                              | 'custom3ColumnName']: 'aaa',
+                              | 'custom3ColumnName']: 'Zusätzliche Spalte',
                           },
                         });
+                        await getProjektQuery.refetch();
                         await refetch();
                       }}
                     >
@@ -371,6 +380,7 @@ const ProjektStueckliste = () => {
                         },
                       });
                       await getProjektQuery.refetch();
+                      await refetch();
                     }}
                     onCancel={() => {
                       setEditStueck(columns[col] ?? '');
@@ -439,7 +449,7 @@ const ProjektStueckliste = () => {
                           col === 'custom3') && (
                           <td
                             key={index}
-                            className="p-3 text-left whitespace-pre-line"
+                            className="w-20 p-3 text-left whitespace-pre-line"
                           >
                             {col === 'actions' ? (
                               <button
@@ -498,9 +508,12 @@ const ProjektStueckliste = () => {
             )}
           {isAdmin && (
             <tr key="insert_row" className="border-b border-gray-400">
-              {Object.keys(columns).map((col, _index) =>
-                col === 'actions' ? (
-                  <td key={col} className="p-3 text-left whitespace-pre-line">
+              {Object.keys(columns).map((col, _index) => (
+                <td
+                  key={col}
+                  className="w-20 p-3 overflow-hidden text-left whitespace-pre-line"
+                >
+                  {col === 'actions' ? (
                     <button
                       className={`px-4 py-2 font-bold text-white bg-blue-500 rounded ${
                         !newStueck.kurzspezifikation ||
@@ -522,14 +535,9 @@ const ProjektStueckliste = () => {
                     >
                       <span>Einfügen</span>
                     </button>
-                  </td>
-                ) : col === 'plus' ? (
-                  <td key={col}></td>
-                ) : col === 'kurzspezifikation' ? (
-                  <td
-                    key={`${col}_insert`}
-                    className="p-3 text-left whitespace-pre-line"
-                  >
+                  ) : col === 'plus' ? (
+                    <></>
+                  ) : col === 'kurzspezifikation' ? (
                     <div className="flex flex-col ">
                       <select
                         className="border-2 border-black"
@@ -568,12 +576,7 @@ const ProjektStueckliste = () => {
                         }
                       />
                     </div>
-                  </td>
-                ) : col === 'lieferant' ? (
-                  <td
-                    key={`${col}_insert`}
-                    className="p-3 text-left whitespace-pre-line"
-                  >
+                  ) : col === 'lieferant' ? (
                     <div className="flex flex-col ">
                       {selectedKurzspezifikationVorschlag && (
                         <select
@@ -608,12 +611,7 @@ const ProjektStueckliste = () => {
                         }
                       />
                     </div>
-                  </td>
-                ) : col === 'nennweite' ? (
-                  <td
-                    key={`${col}_insert`}
-                    className="p-3 text-left whitespace-pre-line"
-                  >
+                  ) : col === 'nennweite' ? (
                     <div className="flex flex-col ">
                       {selectedKurzspezifikationVorschlag && (
                         <select
@@ -648,12 +646,7 @@ const ProjektStueckliste = () => {
                         }
                       />
                     </div>
-                  </td>
-                ) : (
-                  <td
-                    key={`${col}_insert`}
-                    className="p-3 text-left whitespace-pre-line"
-                  >
+                  ) : col === 'feinspezifikation' ? (
                     <div className="flex flex-col ">
                       {selectedKurzspezifikationVorschlag && (
                         <select
@@ -690,9 +683,24 @@ const ProjektStueckliste = () => {
                         }
                       />
                     </div>
-                  </td>
-                ),
-              )}
+                  ) : (
+                    <div className="flex flex-col ">
+                      <input
+                        className="border-2 border-black"
+                        type="text"
+                        id={col}
+                        name={col}
+                        value={
+                          newStueck[col as 'custom1' | 'custom2' | 'custom3']
+                        }
+                        onChange={(e) =>
+                          setNewStueck({ ...newStueck, [col]: e.target.value })
+                        }
+                      />
+                    </div>
+                  )}
+                </td>
+              ))}
             </tr>
           )}
         </tbody>
