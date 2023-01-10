@@ -103,23 +103,25 @@ export type CreateProjektInput = {
 };
 
 export type CreateProjektStueliInput = {
+  bmk?: InputMaybe<Scalars['String']>;
   custom1?: InputMaybe<Scalars['String']>;
   custom2?: InputMaybe<Scalars['String']>;
   custom3?: InputMaybe<Scalars['String']>;
   feinspezifikation?: InputMaybe<Scalars['String']>;
+  feinspezifikationVorschlag?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
   kurzspezifikation?: InputMaybe<Scalars['String']>;
+  kurzspezifikationVorschlag?: InputMaybe<Scalars['String']>;
   lieferant?: InputMaybe<Scalars['String']>;
+  lieferantVorschlag?: InputMaybe<Scalars['String']>;
   nennweite?: InputMaybe<Scalars['String']>;
+  nennweiteVorschlag?: InputMaybe<Scalars['String']>;
   projektId: Scalars['ID'];
-  vorschlagFeinspezifikation?: InputMaybe<Scalars['String']>;
-  vorschlagKurzspezifikation?: InputMaybe<Scalars['String']>;
-  vorschlagLieferant?: InputMaybe<Scalars['String']>;
-  vorschlagNennweite?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateReferenzStueliInput = {
   anlageId: Scalars['ID'];
+  bmk?: InputMaybe<Scalars['String']>;
   feinspezifikation?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
   kurzspezifikation?: InputMaybe<Scalars['String']>;
@@ -267,21 +269,22 @@ export type ModelProjektStueliConnection = {
 
 export type ModelProjektStueliFilterInput = {
   and?: InputMaybe<Array<InputMaybe<ModelProjektStueliFilterInput>>>;
+  bmk?: InputMaybe<ModelStringFilterInput>;
   custom1?: InputMaybe<ModelStringFilterInput>;
   custom2?: InputMaybe<ModelStringFilterInput>;
   custom3?: InputMaybe<ModelStringFilterInput>;
   feinspezifikation?: InputMaybe<ModelStringFilterInput>;
+  feinspezifikationVorschlag?: InputMaybe<ModelStringFilterInput>;
   id?: InputMaybe<ModelIdFilterInput>;
   kurzspezifikation?: InputMaybe<ModelStringFilterInput>;
+  kurzspezifikationVorschlag?: InputMaybe<ModelStringFilterInput>;
   lieferant?: InputMaybe<ModelStringFilterInput>;
+  lieferantVorschlag?: InputMaybe<ModelStringFilterInput>;
   nennweite?: InputMaybe<ModelStringFilterInput>;
+  nennweiteVorschlag?: InputMaybe<ModelStringFilterInput>;
   not?: InputMaybe<ModelProjektStueliFilterInput>;
   or?: InputMaybe<Array<InputMaybe<ModelProjektStueliFilterInput>>>;
   projektId?: InputMaybe<ModelIdFilterInput>;
-  vorschlagFeinspezifikation?: InputMaybe<ModelStringFilterInput>;
-  vorschlagKurzspezifikation?: InputMaybe<ModelStringFilterInput>;
-  vorschlagLieferant?: InputMaybe<ModelStringFilterInput>;
-  vorschlagNennweite?: InputMaybe<ModelStringFilterInput>;
 };
 
 export type ModelReferenzStueliConnection = {
@@ -293,6 +296,7 @@ export type ModelReferenzStueliConnection = {
 export type ModelReferenzStueliFilterInput = {
   and?: InputMaybe<Array<InputMaybe<ModelReferenzStueliFilterInput>>>;
   anlageId?: InputMaybe<ModelIdFilterInput>;
+  bmk?: InputMaybe<ModelStringFilterInput>;
   feinspezifikation?: InputMaybe<ModelStringFilterInput>;
   id?: InputMaybe<ModelIdFilterInput>;
   kurzspezifikation?: InputMaybe<ModelStringFilterInput>;
@@ -478,21 +482,22 @@ export type ProjektProjektStueliArgs = {
 
 export type ProjektStueli = {
   __typename?: 'ProjektStueli';
+  bmk?: Maybe<Scalars['String']>;
   createdAt: Scalars['AWSDateTime'];
   custom1?: Maybe<Scalars['String']>;
   custom2?: Maybe<Scalars['String']>;
   custom3?: Maybe<Scalars['String']>;
   feinspezifikation?: Maybe<Scalars['String']>;
+  feinspezifikationVorschlag?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   kurzspezifikation?: Maybe<Scalars['String']>;
+  kurzspezifikationVorschlag?: Maybe<Scalars['String']>;
   lieferant?: Maybe<Scalars['String']>;
+  lieferantVorschlag?: Maybe<Scalars['String']>;
   nennweite?: Maybe<Scalars['String']>;
+  nennweiteVorschlag?: Maybe<Scalars['String']>;
   projektId: Scalars['ID'];
   updatedAt: Scalars['AWSDateTime'];
-  vorschlagFeinspezifikation?: Maybe<Scalars['String']>;
-  vorschlagKurzspezifikation?: Maybe<Scalars['String']>;
-  vorschlagLieferant?: Maybe<Scalars['String']>;
-  vorschlagNennweite?: Maybe<Scalars['String']>;
 };
 
 export type Query = {
@@ -622,6 +627,7 @@ export type QueryReferenzStueliByKurzspezifikationArgs = {
 export type ReferenzStueli = {
   __typename?: 'ReferenzStueli';
   anlageId: Scalars['ID'];
+  bmk?: Maybe<Scalars['String']>;
   createdAt: Scalars['AWSDateTime'];
   feinspezifikation?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
@@ -749,23 +755,25 @@ export type UpdateProjektInput = {
 };
 
 export type UpdateProjektStueliInput = {
+  bmk?: InputMaybe<Scalars['String']>;
   custom1?: InputMaybe<Scalars['String']>;
   custom2?: InputMaybe<Scalars['String']>;
   custom3?: InputMaybe<Scalars['String']>;
   feinspezifikation?: InputMaybe<Scalars['String']>;
+  feinspezifikationVorschlag?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];
   kurzspezifikation?: InputMaybe<Scalars['String']>;
+  kurzspezifikationVorschlag?: InputMaybe<Scalars['String']>;
   lieferant?: InputMaybe<Scalars['String']>;
+  lieferantVorschlag?: InputMaybe<Scalars['String']>;
   nennweite?: InputMaybe<Scalars['String']>;
+  nennweiteVorschlag?: InputMaybe<Scalars['String']>;
   projektId?: InputMaybe<Scalars['ID']>;
-  vorschlagFeinspezifikation?: InputMaybe<Scalars['String']>;
-  vorschlagKurzspezifikation?: InputMaybe<Scalars['String']>;
-  vorschlagLieferant?: InputMaybe<Scalars['String']>;
-  vorschlagNennweite?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateReferenzStueliInput = {
   anlageId?: InputMaybe<Scalars['ID']>;
+  bmk?: InputMaybe<Scalars['String']>;
   feinspezifikation?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];
   kurzspezifikation?: InputMaybe<Scalars['String']>;
@@ -1111,6 +1119,7 @@ export type CreateAnlageMutation = {
                                         __typename?: 'ProjektStueli';
                                         id: string;
                                         projektId: string;
+                                        bmk?: string | null | undefined;
                                         kurzspezifikation?:
                                           | string
                                           | null
@@ -1121,19 +1130,19 @@ export type CreateAnlageMutation = {
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagKurzspezifikation?:
+                                        kurzspezifikationVorschlag?:
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagLieferant?:
+                                        lieferantVorschlag?:
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagNennweite?:
+                                        nennweiteVorschlag?:
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagFeinspezifikation?:
+                                        feinspezifikationVorschlag?:
                                           | string
                                           | null
                                           | undefined;
@@ -1170,6 +1179,7 @@ export type CreateAnlageMutation = {
                         __typename?: 'ReferenzStueli';
                         id: string;
                         anlageId: string;
+                        bmk?: string | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
@@ -1328,6 +1338,7 @@ export type UpdateAnlageMutation = {
                                         __typename?: 'ProjektStueli';
                                         id: string;
                                         projektId: string;
+                                        bmk?: string | null | undefined;
                                         kurzspezifikation?:
                                           | string
                                           | null
@@ -1338,19 +1349,19 @@ export type UpdateAnlageMutation = {
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagKurzspezifikation?:
+                                        kurzspezifikationVorschlag?:
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagLieferant?:
+                                        lieferantVorschlag?:
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagNennweite?:
+                                        nennweiteVorschlag?:
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagFeinspezifikation?:
+                                        feinspezifikationVorschlag?:
                                           | string
                                           | null
                                           | undefined;
@@ -1387,6 +1398,7 @@ export type UpdateAnlageMutation = {
                         __typename?: 'ReferenzStueli';
                         id: string;
                         anlageId: string;
+                        bmk?: string | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
@@ -1545,6 +1557,7 @@ export type DeleteAnlageMutation = {
                                         __typename?: 'ProjektStueli';
                                         id: string;
                                         projektId: string;
+                                        bmk?: string | null | undefined;
                                         kurzspezifikation?:
                                           | string
                                           | null
@@ -1555,19 +1568,19 @@ export type DeleteAnlageMutation = {
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagKurzspezifikation?:
+                                        kurzspezifikationVorschlag?:
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagLieferant?:
+                                        lieferantVorschlag?:
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagNennweite?:
+                                        nennweiteVorschlag?:
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagFeinspezifikation?:
+                                        feinspezifikationVorschlag?:
                                           | string
                                           | null
                                           | undefined;
@@ -1604,6 +1617,7 @@ export type DeleteAnlageMutation = {
                         __typename?: 'ReferenzStueli';
                         id: string;
                         anlageId: string;
+                        bmk?: string | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
@@ -1735,6 +1749,7 @@ export type CreateAnlagenUserMutation = {
                           __typename?: 'ReferenzStueli';
                           id: string;
                           anlageId: string;
+                          bmk?: string | null | undefined;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
                           nennweite?: string | null | undefined;
@@ -1915,6 +1930,7 @@ export type UpdateAnlagenUserMutation = {
                           __typename?: 'ReferenzStueli';
                           id: string;
                           anlageId: string;
+                          bmk?: string | null | undefined;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
                           nennweite?: string | null | undefined;
@@ -2095,6 +2111,7 @@ export type DeleteAnlagenUserMutation = {
                           __typename?: 'ReferenzStueli';
                           id: string;
                           anlageId: string;
+                          bmk?: string | null | undefined;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
                           nennweite?: string | null | undefined;
@@ -2279,6 +2296,7 @@ export type CreateProjektMutation = {
                           __typename?: 'ReferenzStueli';
                           id: string;
                           anlageId: string;
+                          bmk?: string | null | undefined;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
                           nennweite?: string | null | undefined;
@@ -2305,14 +2323,15 @@ export type CreateProjektMutation = {
                         __typename?: 'ProjektStueli';
                         id: string;
                         projektId: string;
+                        bmk?: string | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
                         feinspezifikation?: string | null | undefined;
-                        vorschlagKurzspezifikation?: string | null | undefined;
-                        vorschlagLieferant?: string | null | undefined;
-                        vorschlagNennweite?: string | null | undefined;
-                        vorschlagFeinspezifikation?: string | null | undefined;
+                        kurzspezifikationVorschlag?: string | null | undefined;
+                        lieferantVorschlag?: string | null | undefined;
+                        nennweiteVorschlag?: string | null | undefined;
+                        feinspezifikationVorschlag?: string | null | undefined;
                         custom1?: string | null | undefined;
                         custom2?: string | null | undefined;
                         custom3?: string | null | undefined;
@@ -2447,6 +2466,7 @@ export type UpdateProjektMutation = {
                           __typename?: 'ReferenzStueli';
                           id: string;
                           anlageId: string;
+                          bmk?: string | null | undefined;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
                           nennweite?: string | null | undefined;
@@ -2473,14 +2493,15 @@ export type UpdateProjektMutation = {
                         __typename?: 'ProjektStueli';
                         id: string;
                         projektId: string;
+                        bmk?: string | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
                         feinspezifikation?: string | null | undefined;
-                        vorschlagKurzspezifikation?: string | null | undefined;
-                        vorschlagLieferant?: string | null | undefined;
-                        vorschlagNennweite?: string | null | undefined;
-                        vorschlagFeinspezifikation?: string | null | undefined;
+                        kurzspezifikationVorschlag?: string | null | undefined;
+                        lieferantVorschlag?: string | null | undefined;
+                        nennweiteVorschlag?: string | null | undefined;
+                        feinspezifikationVorschlag?: string | null | undefined;
                         custom1?: string | null | undefined;
                         custom2?: string | null | undefined;
                         custom3?: string | null | undefined;
@@ -2615,6 +2636,7 @@ export type DeleteProjektMutation = {
                           __typename?: 'ReferenzStueli';
                           id: string;
                           anlageId: string;
+                          bmk?: string | null | undefined;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
                           nennweite?: string | null | undefined;
@@ -2641,14 +2663,15 @@ export type DeleteProjektMutation = {
                         __typename?: 'ProjektStueli';
                         id: string;
                         projektId: string;
+                        bmk?: string | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
                         feinspezifikation?: string | null | undefined;
-                        vorschlagKurzspezifikation?: string | null | undefined;
-                        vorschlagLieferant?: string | null | undefined;
-                        vorschlagNennweite?: string | null | undefined;
-                        vorschlagFeinspezifikation?: string | null | undefined;
+                        kurzspezifikationVorschlag?: string | null | undefined;
+                        lieferantVorschlag?: string | null | undefined;
+                        nennweiteVorschlag?: string | null | undefined;
+                        feinspezifikationVorschlag?: string | null | undefined;
                         custom1?: string | null | undefined;
                         custom2?: string | null | undefined;
                         custom3?: string | null | undefined;
@@ -2679,14 +2702,15 @@ export type CreateProjektStueliMutation = {
         __typename?: 'ProjektStueli';
         id: string;
         projektId: string;
+        bmk?: string | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
         feinspezifikation?: string | null | undefined;
-        vorschlagKurzspezifikation?: string | null | undefined;
-        vorschlagLieferant?: string | null | undefined;
-        vorschlagNennweite?: string | null | undefined;
-        vorschlagFeinspezifikation?: string | null | undefined;
+        kurzspezifikationVorschlag?: string | null | undefined;
+        lieferantVorschlag?: string | null | undefined;
+        nennweiteVorschlag?: string | null | undefined;
+        feinspezifikationVorschlag?: string | null | undefined;
         custom1?: string | null | undefined;
         custom2?: string | null | undefined;
         custom3?: string | null | undefined;
@@ -2708,14 +2732,15 @@ export type UpdateProjektStueliMutation = {
         __typename?: 'ProjektStueli';
         id: string;
         projektId: string;
+        bmk?: string | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
         feinspezifikation?: string | null | undefined;
-        vorschlagKurzspezifikation?: string | null | undefined;
-        vorschlagLieferant?: string | null | undefined;
-        vorschlagNennweite?: string | null | undefined;
-        vorschlagFeinspezifikation?: string | null | undefined;
+        kurzspezifikationVorschlag?: string | null | undefined;
+        lieferantVorschlag?: string | null | undefined;
+        nennweiteVorschlag?: string | null | undefined;
+        feinspezifikationVorschlag?: string | null | undefined;
         custom1?: string | null | undefined;
         custom2?: string | null | undefined;
         custom3?: string | null | undefined;
@@ -2737,14 +2762,15 @@ export type DeleteProjektStueliMutation = {
         __typename?: 'ProjektStueli';
         id: string;
         projektId: string;
+        bmk?: string | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
         feinspezifikation?: string | null | undefined;
-        vorschlagKurzspezifikation?: string | null | undefined;
-        vorschlagLieferant?: string | null | undefined;
-        vorschlagNennweite?: string | null | undefined;
-        vorschlagFeinspezifikation?: string | null | undefined;
+        kurzspezifikationVorschlag?: string | null | undefined;
+        lieferantVorschlag?: string | null | undefined;
+        nennweiteVorschlag?: string | null | undefined;
+        feinspezifikationVorschlag?: string | null | undefined;
         custom1?: string | null | undefined;
         custom2?: string | null | undefined;
         custom3?: string | null | undefined;
@@ -2766,6 +2792,7 @@ export type CreateReferenzStueliMutation = {
         __typename?: 'ReferenzStueli';
         id: string;
         anlageId: string;
+        bmk?: string | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
@@ -2788,6 +2815,7 @@ export type UpdateReferenzStueliMutation = {
         __typename?: 'ReferenzStueli';
         id: string;
         anlageId: string;
+        bmk?: string | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
@@ -2810,6 +2838,7 @@ export type DeleteReferenzStueliMutation = {
         __typename?: 'ReferenzStueli';
         id: string;
         anlageId: string;
+        bmk?: string | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
@@ -3232,6 +3261,7 @@ export type GetAnlageQuery = {
                                         __typename?: 'ProjektStueli';
                                         id: string;
                                         projektId: string;
+                                        bmk?: string | null | undefined;
                                         kurzspezifikation?:
                                           | string
                                           | null
@@ -3242,19 +3272,19 @@ export type GetAnlageQuery = {
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagKurzspezifikation?:
+                                        kurzspezifikationVorschlag?:
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagLieferant?:
+                                        lieferantVorschlag?:
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagNennweite?:
+                                        nennweiteVorschlag?:
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagFeinspezifikation?:
+                                        feinspezifikationVorschlag?:
                                           | string
                                           | null
                                           | undefined;
@@ -3291,6 +3321,7 @@ export type GetAnlageQuery = {
                         __typename?: 'ReferenzStueli';
                         id: string;
                         anlageId: string;
+                        bmk?: string | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
@@ -3428,6 +3459,7 @@ export type ListAnlagesQuery = {
                                   __typename?: 'ReferenzStueli';
                                   id: string;
                                   anlageId: string;
+                                  bmk?: string | null | undefined;
                                   kurzspezifikation?: string | null | undefined;
                                   lieferant?: string | null | undefined;
                                   nennweite?: string | null | undefined;
@@ -3566,6 +3598,7 @@ export type GetAnlagenUserQuery = {
                           __typename?: 'ReferenzStueli';
                           id: string;
                           anlageId: string;
+                          bmk?: string | null | undefined;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
                           nennweite?: string | null | undefined;
@@ -3731,6 +3764,7 @@ export type ListAnlagenUsersQuery = {
                                     __typename?: 'ReferenzStueli';
                                     id: string;
                                     anlageId: string;
+                                    bmk?: string | null | undefined;
                                     kurzspezifikation?:
                                       | string
                                       | null
@@ -3909,6 +3943,7 @@ export type GetProjektQuery = {
                           __typename?: 'ReferenzStueli';
                           id: string;
                           anlageId: string;
+                          bmk?: string | null | undefined;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
                           nennweite?: string | null | undefined;
@@ -3935,14 +3970,15 @@ export type GetProjektQuery = {
                         __typename?: 'ProjektStueli';
                         id: string;
                         projektId: string;
+                        bmk?: string | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
                         feinspezifikation?: string | null | undefined;
-                        vorschlagKurzspezifikation?: string | null | undefined;
-                        vorschlagLieferant?: string | null | undefined;
-                        vorschlagNennweite?: string | null | undefined;
-                        vorschlagFeinspezifikation?: string | null | undefined;
+                        kurzspezifikationVorschlag?: string | null | undefined;
+                        lieferantVorschlag?: string | null | undefined;
+                        nennweiteVorschlag?: string | null | undefined;
+                        feinspezifikationVorschlag?: string | null | undefined;
                         custom1?: string | null | undefined;
                         custom2?: string | null | undefined;
                         custom3?: string | null | undefined;
@@ -4061,6 +4097,7 @@ export type ListProjektsQuery = {
                                     __typename?: 'ReferenzStueli';
                                     id: string;
                                     anlageId: string;
+                                    bmk?: string | null | undefined;
                                     kurzspezifikation?:
                                       | string
                                       | null
@@ -4093,23 +4130,24 @@ export type ListProjektsQuery = {
                                   __typename?: 'ProjektStueli';
                                   id: string;
                                   projektId: string;
+                                  bmk?: string | null | undefined;
                                   kurzspezifikation?: string | null | undefined;
                                   lieferant?: string | null | undefined;
                                   nennweite?: string | null | undefined;
                                   feinspezifikation?: string | null | undefined;
-                                  vorschlagKurzspezifikation?:
+                                  kurzspezifikationVorschlag?:
                                     | string
                                     | null
                                     | undefined;
-                                  vorschlagLieferant?:
+                                  lieferantVorschlag?:
                                     | string
                                     | null
                                     | undefined;
-                                  vorschlagNennweite?:
+                                  nennweiteVorschlag?:
                                     | string
                                     | null
                                     | undefined;
-                                  vorschlagFeinspezifikation?:
+                                  feinspezifikationVorschlag?:
                                     | string
                                     | null
                                     | undefined;
@@ -4149,14 +4187,15 @@ export type GetProjektStueliQuery = {
         __typename?: 'ProjektStueli';
         id: string;
         projektId: string;
+        bmk?: string | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
         feinspezifikation?: string | null | undefined;
-        vorschlagKurzspezifikation?: string | null | undefined;
-        vorschlagLieferant?: string | null | undefined;
-        vorschlagNennweite?: string | null | undefined;
-        vorschlagFeinspezifikation?: string | null | undefined;
+        kurzspezifikationVorschlag?: string | null | undefined;
+        lieferantVorschlag?: string | null | undefined;
+        nennweiteVorschlag?: string | null | undefined;
+        feinspezifikationVorschlag?: string | null | undefined;
         custom1?: string | null | undefined;
         custom2?: string | null | undefined;
         custom3?: string | null | undefined;
@@ -4187,14 +4226,15 @@ export type ListProjektStuelisQuery = {
                   __typename?: 'ProjektStueli';
                   id: string;
                   projektId: string;
+                  bmk?: string | null | undefined;
                   kurzspezifikation?: string | null | undefined;
                   lieferant?: string | null | undefined;
                   nennweite?: string | null | undefined;
                   feinspezifikation?: string | null | undefined;
-                  vorschlagKurzspezifikation?: string | null | undefined;
-                  vorschlagLieferant?: string | null | undefined;
-                  vorschlagNennweite?: string | null | undefined;
-                  vorschlagFeinspezifikation?: string | null | undefined;
+                  kurzspezifikationVorschlag?: string | null | undefined;
+                  lieferantVorschlag?: string | null | undefined;
+                  nennweiteVorschlag?: string | null | undefined;
+                  feinspezifikationVorschlag?: string | null | undefined;
                   custom1?: string | null | undefined;
                   custom2?: string | null | undefined;
                   custom3?: string | null | undefined;
@@ -4232,14 +4272,15 @@ export type ProjektStueliByKurzspezifikationQuery = {
                   __typename?: 'ProjektStueli';
                   id: string;
                   projektId: string;
+                  bmk?: string | null | undefined;
                   kurzspezifikation?: string | null | undefined;
                   lieferant?: string | null | undefined;
                   nennweite?: string | null | undefined;
                   feinspezifikation?: string | null | undefined;
-                  vorschlagKurzspezifikation?: string | null | undefined;
-                  vorschlagLieferant?: string | null | undefined;
-                  vorschlagNennweite?: string | null | undefined;
-                  vorschlagFeinspezifikation?: string | null | undefined;
+                  kurzspezifikationVorschlag?: string | null | undefined;
+                  lieferantVorschlag?: string | null | undefined;
+                  nennweiteVorschlag?: string | null | undefined;
+                  feinspezifikationVorschlag?: string | null | undefined;
                   custom1?: string | null | undefined;
                   custom2?: string | null | undefined;
                   custom3?: string | null | undefined;
@@ -4267,6 +4308,7 @@ export type GetReferenzStueliQuery = {
         __typename?: 'ReferenzStueli';
         id: string;
         anlageId: string;
+        bmk?: string | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
@@ -4298,6 +4340,7 @@ export type ListReferenzStuelisQuery = {
                   __typename?: 'ReferenzStueli';
                   id: string;
                   anlageId: string;
+                  bmk?: string | null | undefined;
                   kurzspezifikation?: string | null | undefined;
                   lieferant?: string | null | undefined;
                   nennweite?: string | null | undefined;
@@ -4336,6 +4379,7 @@ export type ReferenzStueliByKurzspezifikationQuery = {
                   __typename?: 'ReferenzStueli';
                   id: string;
                   anlageId: string;
+                  bmk?: string | null | undefined;
                   kurzspezifikation?: string | null | undefined;
                   lieferant?: string | null | undefined;
                   nennweite?: string | null | undefined;
@@ -4373,6 +4417,7 @@ export type ByAnlageQuery = {
                   __typename?: 'ReferenzStueli';
                   id: string;
                   anlageId: string;
+                  bmk?: string | null | undefined;
                   kurzspezifikation?: string | null | undefined;
                   lieferant?: string | null | undefined;
                   nennweite?: string | null | undefined;
@@ -4692,6 +4737,7 @@ export type OnCreateAnlageSubscription = {
                                         __typename?: 'ProjektStueli';
                                         id: string;
                                         projektId: string;
+                                        bmk?: string | null | undefined;
                                         kurzspezifikation?:
                                           | string
                                           | null
@@ -4702,19 +4748,19 @@ export type OnCreateAnlageSubscription = {
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagKurzspezifikation?:
+                                        kurzspezifikationVorschlag?:
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagLieferant?:
+                                        lieferantVorschlag?:
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagNennweite?:
+                                        nennweiteVorschlag?:
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagFeinspezifikation?:
+                                        feinspezifikationVorschlag?:
                                           | string
                                           | null
                                           | undefined;
@@ -4751,6 +4797,7 @@ export type OnCreateAnlageSubscription = {
                         __typename?: 'ReferenzStueli';
                         id: string;
                         anlageId: string;
+                        bmk?: string | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
@@ -4909,6 +4956,7 @@ export type OnUpdateAnlageSubscription = {
                                         __typename?: 'ProjektStueli';
                                         id: string;
                                         projektId: string;
+                                        bmk?: string | null | undefined;
                                         kurzspezifikation?:
                                           | string
                                           | null
@@ -4919,19 +4967,19 @@ export type OnUpdateAnlageSubscription = {
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagKurzspezifikation?:
+                                        kurzspezifikationVorschlag?:
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagLieferant?:
+                                        lieferantVorschlag?:
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagNennweite?:
+                                        nennweiteVorschlag?:
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagFeinspezifikation?:
+                                        feinspezifikationVorschlag?:
                                           | string
                                           | null
                                           | undefined;
@@ -4968,6 +5016,7 @@ export type OnUpdateAnlageSubscription = {
                         __typename?: 'ReferenzStueli';
                         id: string;
                         anlageId: string;
+                        bmk?: string | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
@@ -5126,6 +5175,7 @@ export type OnDeleteAnlageSubscription = {
                                         __typename?: 'ProjektStueli';
                                         id: string;
                                         projektId: string;
+                                        bmk?: string | null | undefined;
                                         kurzspezifikation?:
                                           | string
                                           | null
@@ -5136,19 +5186,19 @@ export type OnDeleteAnlageSubscription = {
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagKurzspezifikation?:
+                                        kurzspezifikationVorschlag?:
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagLieferant?:
+                                        lieferantVorschlag?:
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagNennweite?:
+                                        nennweiteVorschlag?:
                                           | string
                                           | null
                                           | undefined;
-                                        vorschlagFeinspezifikation?:
+                                        feinspezifikationVorschlag?:
                                           | string
                                           | null
                                           | undefined;
@@ -5185,6 +5235,7 @@ export type OnDeleteAnlageSubscription = {
                         __typename?: 'ReferenzStueli';
                         id: string;
                         anlageId: string;
+                        bmk?: string | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
@@ -5316,6 +5367,7 @@ export type OnCreateAnlagenUserSubscription = {
                           __typename?: 'ReferenzStueli';
                           id: string;
                           anlageId: string;
+                          bmk?: string | null | undefined;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
                           nennweite?: string | null | undefined;
@@ -5496,6 +5548,7 @@ export type OnUpdateAnlagenUserSubscription = {
                           __typename?: 'ReferenzStueli';
                           id: string;
                           anlageId: string;
+                          bmk?: string | null | undefined;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
                           nennweite?: string | null | undefined;
@@ -5676,6 +5729,7 @@ export type OnDeleteAnlagenUserSubscription = {
                           __typename?: 'ReferenzStueli';
                           id: string;
                           anlageId: string;
+                          bmk?: string | null | undefined;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
                           nennweite?: string | null | undefined;
@@ -5860,6 +5914,7 @@ export type OnCreateProjektSubscription = {
                           __typename?: 'ReferenzStueli';
                           id: string;
                           anlageId: string;
+                          bmk?: string | null | undefined;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
                           nennweite?: string | null | undefined;
@@ -5886,14 +5941,15 @@ export type OnCreateProjektSubscription = {
                         __typename?: 'ProjektStueli';
                         id: string;
                         projektId: string;
+                        bmk?: string | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
                         feinspezifikation?: string | null | undefined;
-                        vorschlagKurzspezifikation?: string | null | undefined;
-                        vorschlagLieferant?: string | null | undefined;
-                        vorschlagNennweite?: string | null | undefined;
-                        vorschlagFeinspezifikation?: string | null | undefined;
+                        kurzspezifikationVorschlag?: string | null | undefined;
+                        lieferantVorschlag?: string | null | undefined;
+                        nennweiteVorschlag?: string | null | undefined;
+                        feinspezifikationVorschlag?: string | null | undefined;
                         custom1?: string | null | undefined;
                         custom2?: string | null | undefined;
                         custom3?: string | null | undefined;
@@ -6028,6 +6084,7 @@ export type OnUpdateProjektSubscription = {
                           __typename?: 'ReferenzStueli';
                           id: string;
                           anlageId: string;
+                          bmk?: string | null | undefined;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
                           nennweite?: string | null | undefined;
@@ -6054,14 +6111,15 @@ export type OnUpdateProjektSubscription = {
                         __typename?: 'ProjektStueli';
                         id: string;
                         projektId: string;
+                        bmk?: string | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
                         feinspezifikation?: string | null | undefined;
-                        vorschlagKurzspezifikation?: string | null | undefined;
-                        vorschlagLieferant?: string | null | undefined;
-                        vorschlagNennweite?: string | null | undefined;
-                        vorschlagFeinspezifikation?: string | null | undefined;
+                        kurzspezifikationVorschlag?: string | null | undefined;
+                        lieferantVorschlag?: string | null | undefined;
+                        nennweiteVorschlag?: string | null | undefined;
+                        feinspezifikationVorschlag?: string | null | undefined;
                         custom1?: string | null | undefined;
                         custom2?: string | null | undefined;
                         custom3?: string | null | undefined;
@@ -6196,6 +6254,7 @@ export type OnDeleteProjektSubscription = {
                           __typename?: 'ReferenzStueli';
                           id: string;
                           anlageId: string;
+                          bmk?: string | null | undefined;
                           kurzspezifikation?: string | null | undefined;
                           lieferant?: string | null | undefined;
                           nennweite?: string | null | undefined;
@@ -6222,14 +6281,15 @@ export type OnDeleteProjektSubscription = {
                         __typename?: 'ProjektStueli';
                         id: string;
                         projektId: string;
+                        bmk?: string | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
                         feinspezifikation?: string | null | undefined;
-                        vorschlagKurzspezifikation?: string | null | undefined;
-                        vorschlagLieferant?: string | null | undefined;
-                        vorschlagNennweite?: string | null | undefined;
-                        vorschlagFeinspezifikation?: string | null | undefined;
+                        kurzspezifikationVorschlag?: string | null | undefined;
+                        lieferantVorschlag?: string | null | undefined;
+                        nennweiteVorschlag?: string | null | undefined;
+                        feinspezifikationVorschlag?: string | null | undefined;
                         custom1?: string | null | undefined;
                         custom2?: string | null | undefined;
                         custom3?: string | null | undefined;
@@ -6260,14 +6320,15 @@ export type OnCreateProjektStueliSubscription = {
         __typename?: 'ProjektStueli';
         id: string;
         projektId: string;
+        bmk?: string | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
         feinspezifikation?: string | null | undefined;
-        vorschlagKurzspezifikation?: string | null | undefined;
-        vorschlagLieferant?: string | null | undefined;
-        vorschlagNennweite?: string | null | undefined;
-        vorschlagFeinspezifikation?: string | null | undefined;
+        kurzspezifikationVorschlag?: string | null | undefined;
+        lieferantVorschlag?: string | null | undefined;
+        nennweiteVorschlag?: string | null | undefined;
+        feinspezifikationVorschlag?: string | null | undefined;
         custom1?: string | null | undefined;
         custom2?: string | null | undefined;
         custom3?: string | null | undefined;
@@ -6289,14 +6350,15 @@ export type OnUpdateProjektStueliSubscription = {
         __typename?: 'ProjektStueli';
         id: string;
         projektId: string;
+        bmk?: string | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
         feinspezifikation?: string | null | undefined;
-        vorschlagKurzspezifikation?: string | null | undefined;
-        vorschlagLieferant?: string | null | undefined;
-        vorschlagNennweite?: string | null | undefined;
-        vorschlagFeinspezifikation?: string | null | undefined;
+        kurzspezifikationVorschlag?: string | null | undefined;
+        lieferantVorschlag?: string | null | undefined;
+        nennweiteVorschlag?: string | null | undefined;
+        feinspezifikationVorschlag?: string | null | undefined;
         custom1?: string | null | undefined;
         custom2?: string | null | undefined;
         custom3?: string | null | undefined;
@@ -6318,14 +6380,15 @@ export type OnDeleteProjektStueliSubscription = {
         __typename?: 'ProjektStueli';
         id: string;
         projektId: string;
+        bmk?: string | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
         feinspezifikation?: string | null | undefined;
-        vorschlagKurzspezifikation?: string | null | undefined;
-        vorschlagLieferant?: string | null | undefined;
-        vorschlagNennweite?: string | null | undefined;
-        vorschlagFeinspezifikation?: string | null | undefined;
+        kurzspezifikationVorschlag?: string | null | undefined;
+        lieferantVorschlag?: string | null | undefined;
+        nennweiteVorschlag?: string | null | undefined;
+        feinspezifikationVorschlag?: string | null | undefined;
         custom1?: string | null | undefined;
         custom2?: string | null | undefined;
         custom3?: string | null | undefined;
@@ -6347,6 +6410,7 @@ export type OnCreateReferenzStueliSubscription = {
         __typename?: 'ReferenzStueli';
         id: string;
         anlageId: string;
+        bmk?: string | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
@@ -6369,6 +6433,7 @@ export type OnUpdateReferenzStueliSubscription = {
         __typename?: 'ReferenzStueli';
         id: string;
         anlageId: string;
+        bmk?: string | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
@@ -6391,6 +6456,7 @@ export type OnDeleteReferenzStueliSubscription = {
         __typename?: 'ReferenzStueli';
         id: string;
         anlageId: string;
+        bmk?: string | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
@@ -6888,14 +6954,15 @@ export const CreateAnlageDocument = `
           items {
             id
             projektId
+            bmk
             kurzspezifikation
             lieferant
             nennweite
             feinspezifikation
-            vorschlagKurzspezifikation
-            vorschlagLieferant
-            vorschlagNennweite
-            vorschlagFeinspezifikation
+            kurzspezifikationVorschlag
+            lieferantVorschlag
+            nennweiteVorschlag
+            feinspezifikationVorschlag
             custom1
             custom2
             custom3
@@ -6911,6 +6978,7 @@ export const CreateAnlageDocument = `
       items {
         id
         anlageId
+        bmk
         kurzspezifikation
         lieferant
         nennweite
@@ -7022,14 +7090,15 @@ export const UpdateAnlageDocument = `
           items {
             id
             projektId
+            bmk
             kurzspezifikation
             lieferant
             nennweite
             feinspezifikation
-            vorschlagKurzspezifikation
-            vorschlagLieferant
-            vorschlagNennweite
-            vorschlagFeinspezifikation
+            kurzspezifikationVorschlag
+            lieferantVorschlag
+            nennweiteVorschlag
+            feinspezifikationVorschlag
             custom1
             custom2
             custom3
@@ -7045,6 +7114,7 @@ export const UpdateAnlageDocument = `
       items {
         id
         anlageId
+        bmk
         kurzspezifikation
         lieferant
         nennweite
@@ -7156,14 +7226,15 @@ export const DeleteAnlageDocument = `
           items {
             id
             projektId
+            bmk
             kurzspezifikation
             lieferant
             nennweite
             feinspezifikation
-            vorschlagKurzspezifikation
-            vorschlagLieferant
-            vorschlagNennweite
-            vorschlagFeinspezifikation
+            kurzspezifikationVorschlag
+            lieferantVorschlag
+            nennweiteVorschlag
+            feinspezifikationVorschlag
             custom1
             custom2
             custom3
@@ -7179,6 +7250,7 @@ export const DeleteAnlageDocument = `
       items {
         id
         anlageId
+        bmk
         kurzspezifikation
         lieferant
         nennweite
@@ -7280,6 +7352,7 @@ export const CreateAnlagenUserDocument = `
         items {
           id
           anlageId
+          bmk
           kurzspezifikation
           lieferant
           nennweite
@@ -7418,6 +7491,7 @@ export const UpdateAnlagenUserDocument = `
         items {
           id
           anlageId
+          bmk
           kurzspezifikation
           lieferant
           nennweite
@@ -7556,6 +7630,7 @@ export const DeleteAnlagenUserDocument = `
         items {
           id
           anlageId
+          bmk
           kurzspezifikation
           lieferant
           nennweite
@@ -7698,6 +7773,7 @@ export const CreateProjektDocument = `
         items {
           id
           anlageId
+          bmk
           kurzspezifikation
           lieferant
           nennweite
@@ -7712,14 +7788,15 @@ export const CreateProjektDocument = `
       items {
         id
         projektId
+        bmk
         kurzspezifikation
         lieferant
         nennweite
         feinspezifikation
-        vorschlagKurzspezifikation
-        vorschlagLieferant
-        vorschlagNennweite
-        vorschlagFeinspezifikation
+        kurzspezifikationVorschlag
+        lieferantVorschlag
+        nennweiteVorschlag
+        feinspezifikationVorschlag
         custom1
         custom2
         custom3
@@ -7824,6 +7901,7 @@ export const UpdateProjektDocument = `
         items {
           id
           anlageId
+          bmk
           kurzspezifikation
           lieferant
           nennweite
@@ -7838,14 +7916,15 @@ export const UpdateProjektDocument = `
       items {
         id
         projektId
+        bmk
         kurzspezifikation
         lieferant
         nennweite
         feinspezifikation
-        vorschlagKurzspezifikation
-        vorschlagLieferant
-        vorschlagNennweite
-        vorschlagFeinspezifikation
+        kurzspezifikationVorschlag
+        lieferantVorschlag
+        nennweiteVorschlag
+        feinspezifikationVorschlag
         custom1
         custom2
         custom3
@@ -7950,6 +8029,7 @@ export const DeleteProjektDocument = `
         items {
           id
           anlageId
+          bmk
           kurzspezifikation
           lieferant
           nennweite
@@ -7964,14 +8044,15 @@ export const DeleteProjektDocument = `
       items {
         id
         projektId
+        bmk
         kurzspezifikation
         lieferant
         nennweite
         feinspezifikation
-        vorschlagKurzspezifikation
-        vorschlagLieferant
-        vorschlagNennweite
-        vorschlagFeinspezifikation
+        kurzspezifikationVorschlag
+        lieferantVorschlag
+        nennweiteVorschlag
+        feinspezifikationVorschlag
         custom1
         custom2
         custom3
@@ -8010,14 +8091,15 @@ export const CreateProjektStueliDocument = `
   createProjektStueli(input: $input) {
     id
     projektId
+    bmk
     kurzspezifikation
     lieferant
     nennweite
     feinspezifikation
-    vorschlagKurzspezifikation
-    vorschlagLieferant
-    vorschlagNennweite
-    vorschlagFeinspezifikation
+    kurzspezifikationVorschlag
+    lieferantVorschlag
+    nennweiteVorschlag
+    feinspezifikationVorschlag
     custom1
     custom2
     custom3
@@ -8056,14 +8138,15 @@ export const UpdateProjektStueliDocument = `
   updateProjektStueli(input: $input) {
     id
     projektId
+    bmk
     kurzspezifikation
     lieferant
     nennweite
     feinspezifikation
-    vorschlagKurzspezifikation
-    vorschlagLieferant
-    vorschlagNennweite
-    vorschlagFeinspezifikation
+    kurzspezifikationVorschlag
+    lieferantVorschlag
+    nennweiteVorschlag
+    feinspezifikationVorschlag
     custom1
     custom2
     custom3
@@ -8102,14 +8185,15 @@ export const DeleteProjektStueliDocument = `
   deleteProjektStueli(input: $input) {
     id
     projektId
+    bmk
     kurzspezifikation
     lieferant
     nennweite
     feinspezifikation
-    vorschlagKurzspezifikation
-    vorschlagLieferant
-    vorschlagNennweite
-    vorschlagFeinspezifikation
+    kurzspezifikationVorschlag
+    lieferantVorschlag
+    nennweiteVorschlag
+    feinspezifikationVorschlag
     custom1
     custom2
     custom3
@@ -8148,6 +8232,7 @@ export const CreateReferenzStueliDocument = `
   createReferenzStueli(input: $input) {
     id
     anlageId
+    bmk
     kurzspezifikation
     lieferant
     nennweite
@@ -8187,6 +8272,7 @@ export const UpdateReferenzStueliDocument = `
   updateReferenzStueli(input: $input) {
     id
     anlageId
+    bmk
     kurzspezifikation
     lieferant
     nennweite
@@ -8226,6 +8312,7 @@ export const DeleteReferenzStueliDocument = `
   deleteReferenzStueli(input: $input) {
     id
     anlageId
+    bmk
     kurzspezifikation
     lieferant
     nennweite
@@ -8574,14 +8661,15 @@ export const GetAnlageDocument = `
           items {
             id
             projektId
+            bmk
             kurzspezifikation
             lieferant
             nennweite
             feinspezifikation
-            vorschlagKurzspezifikation
-            vorschlagLieferant
-            vorschlagNennweite
-            vorschlagFeinspezifikation
+            kurzspezifikationVorschlag
+            lieferantVorschlag
+            nennweiteVorschlag
+            feinspezifikationVorschlag
             custom1
             custom2
             custom3
@@ -8597,6 +8685,7 @@ export const GetAnlageDocument = `
       items {
         id
         anlageId
+        bmk
         kurzspezifikation
         lieferant
         nennweite
@@ -8690,6 +8779,7 @@ export const ListAnlagesDocument = `
         items {
           id
           anlageId
+          bmk
           kurzspezifikation
           lieferant
           nennweite
@@ -8783,6 +8873,7 @@ export const GetAnlagenUserDocument = `
         items {
           id
           anlageId
+          bmk
           kurzspezifikation
           lieferant
           nennweite
@@ -8892,6 +8983,7 @@ export const ListAnlagenUsersDocument = `
           items {
             id
             anlageId
+            bmk
             kurzspezifikation
             lieferant
             nennweite
@@ -9012,6 +9104,7 @@ export const GetProjektDocument = `
         items {
           id
           anlageId
+          bmk
           kurzspezifikation
           lieferant
           nennweite
@@ -9026,14 +9119,15 @@ export const GetProjektDocument = `
       items {
         id
         projektId
+        bmk
         kurzspezifikation
         lieferant
         nennweite
         feinspezifikation
-        vorschlagKurzspezifikation
-        vorschlagLieferant
-        vorschlagNennweite
-        vorschlagFeinspezifikation
+        kurzspezifikationVorschlag
+        lieferantVorschlag
+        nennweiteVorschlag
+        feinspezifikationVorschlag
         custom1
         custom2
         custom3
@@ -9108,6 +9202,7 @@ export const ListProjektsDocument = `
           items {
             id
             anlageId
+            bmk
             kurzspezifikation
             lieferant
             nennweite
@@ -9122,14 +9217,15 @@ export const ListProjektsDocument = `
         items {
           id
           projektId
+          bmk
           kurzspezifikation
           lieferant
           nennweite
           feinspezifikation
-          vorschlagKurzspezifikation
-          vorschlagLieferant
-          vorschlagNennweite
-          vorschlagFeinspezifikation
+          kurzspezifikationVorschlag
+          lieferantVorschlag
+          nennweiteVorschlag
+          feinspezifikationVorschlag
           custom1
           custom2
           custom3
@@ -9163,14 +9259,15 @@ export const GetProjektStueliDocument = `
   getProjektStueli(id: $id) {
     id
     projektId
+    bmk
     kurzspezifikation
     lieferant
     nennweite
     feinspezifikation
-    vorschlagKurzspezifikation
-    vorschlagLieferant
-    vorschlagNennweite
-    vorschlagFeinspezifikation
+    kurzspezifikationVorschlag
+    lieferantVorschlag
+    nennweiteVorschlag
+    feinspezifikationVorschlag
     custom1
     custom2
     custom3
@@ -9206,14 +9303,15 @@ export const ListProjektStuelisDocument = `
     items {
       id
       projektId
+      bmk
       kurzspezifikation
       lieferant
       nennweite
       feinspezifikation
-      vorschlagKurzspezifikation
-      vorschlagLieferant
-      vorschlagNennweite
-      vorschlagFeinspezifikation
+      kurzspezifikationVorschlag
+      lieferantVorschlag
+      nennweiteVorschlag
+      feinspezifikationVorschlag
       custom1
       custom2
       custom3
@@ -9254,14 +9352,15 @@ export const ProjektStueliByKurzspezifikationDocument = `
     items {
       id
       projektId
+      bmk
       kurzspezifikation
       lieferant
       nennweite
       feinspezifikation
-      vorschlagKurzspezifikation
-      vorschlagLieferant
-      vorschlagNennweite
-      vorschlagFeinspezifikation
+      kurzspezifikationVorschlag
+      lieferantVorschlag
+      nennweiteVorschlag
+      feinspezifikationVorschlag
       custom1
       custom2
       custom3
@@ -9298,6 +9397,7 @@ export const GetReferenzStueliDocument = `
   getReferenzStueli(id: $id) {
     id
     anlageId
+    bmk
     kurzspezifikation
     lieferant
     nennweite
@@ -9334,6 +9434,7 @@ export const ListReferenzStuelisDocument = `
     items {
       id
       anlageId
+      bmk
       kurzspezifikation
       lieferant
       nennweite
@@ -9375,6 +9476,7 @@ export const ReferenzStueliByKurzspezifikationDocument = `
     items {
       id
       anlageId
+      bmk
       kurzspezifikation
       lieferant
       nennweite
@@ -9419,6 +9521,7 @@ export const ByAnlageDocument = `
     items {
       id
       anlageId
+      bmk
       kurzspezifikation
       lieferant
       nennweite
@@ -9638,14 +9741,15 @@ export const OnCreateAnlageDocument = `
           items {
             id
             projektId
+            bmk
             kurzspezifikation
             lieferant
             nennweite
             feinspezifikation
-            vorschlagKurzspezifikation
-            vorschlagLieferant
-            vorschlagNennweite
-            vorschlagFeinspezifikation
+            kurzspezifikationVorschlag
+            lieferantVorschlag
+            nennweiteVorschlag
+            feinspezifikationVorschlag
             custom1
             custom2
             custom3
@@ -9661,6 +9765,7 @@ export const OnCreateAnlageDocument = `
       items {
         id
         anlageId
+        bmk
         kurzspezifikation
         lieferant
         nennweite
@@ -9750,14 +9855,15 @@ export const OnUpdateAnlageDocument = `
           items {
             id
             projektId
+            bmk
             kurzspezifikation
             lieferant
             nennweite
             feinspezifikation
-            vorschlagKurzspezifikation
-            vorschlagLieferant
-            vorschlagNennweite
-            vorschlagFeinspezifikation
+            kurzspezifikationVorschlag
+            lieferantVorschlag
+            nennweiteVorschlag
+            feinspezifikationVorschlag
             custom1
             custom2
             custom3
@@ -9773,6 +9879,7 @@ export const OnUpdateAnlageDocument = `
       items {
         id
         anlageId
+        bmk
         kurzspezifikation
         lieferant
         nennweite
@@ -9862,14 +9969,15 @@ export const OnDeleteAnlageDocument = `
           items {
             id
             projektId
+            bmk
             kurzspezifikation
             lieferant
             nennweite
             feinspezifikation
-            vorschlagKurzspezifikation
-            vorschlagLieferant
-            vorschlagNennweite
-            vorschlagFeinspezifikation
+            kurzspezifikationVorschlag
+            lieferantVorschlag
+            nennweiteVorschlag
+            feinspezifikationVorschlag
             custom1
             custom2
             custom3
@@ -9885,6 +9993,7 @@ export const OnDeleteAnlageDocument = `
       items {
         id
         anlageId
+        bmk
         kurzspezifikation
         lieferant
         nennweite
@@ -9964,6 +10073,7 @@ export const OnCreateAnlagenUserDocument = `
         items {
           id
           anlageId
+          bmk
           kurzspezifikation
           lieferant
           nennweite
@@ -10077,6 +10187,7 @@ export const OnUpdateAnlagenUserDocument = `
         items {
           id
           anlageId
+          bmk
           kurzspezifikation
           lieferant
           nennweite
@@ -10190,6 +10301,7 @@ export const OnDeleteAnlagenUserDocument = `
         items {
           id
           anlageId
+          bmk
           kurzspezifikation
           lieferant
           nennweite
@@ -10307,6 +10419,7 @@ export const OnCreateProjektDocument = `
         items {
           id
           anlageId
+          bmk
           kurzspezifikation
           lieferant
           nennweite
@@ -10321,14 +10434,15 @@ export const OnCreateProjektDocument = `
       items {
         id
         projektId
+        bmk
         kurzspezifikation
         lieferant
         nennweite
         feinspezifikation
-        vorschlagKurzspezifikation
-        vorschlagLieferant
-        vorschlagNennweite
-        vorschlagFeinspezifikation
+        kurzspezifikationVorschlag
+        lieferantVorschlag
+        nennweiteVorschlag
+        feinspezifikationVorschlag
         custom1
         custom2
         custom3
@@ -10411,6 +10525,7 @@ export const OnUpdateProjektDocument = `
         items {
           id
           anlageId
+          bmk
           kurzspezifikation
           lieferant
           nennweite
@@ -10425,14 +10540,15 @@ export const OnUpdateProjektDocument = `
       items {
         id
         projektId
+        bmk
         kurzspezifikation
         lieferant
         nennweite
         feinspezifikation
-        vorschlagKurzspezifikation
-        vorschlagLieferant
-        vorschlagNennweite
-        vorschlagFeinspezifikation
+        kurzspezifikationVorschlag
+        lieferantVorschlag
+        nennweiteVorschlag
+        feinspezifikationVorschlag
         custom1
         custom2
         custom3
@@ -10515,6 +10631,7 @@ export const OnDeleteProjektDocument = `
         items {
           id
           anlageId
+          bmk
           kurzspezifikation
           lieferant
           nennweite
@@ -10529,14 +10646,15 @@ export const OnDeleteProjektDocument = `
       items {
         id
         projektId
+        bmk
         kurzspezifikation
         lieferant
         nennweite
         feinspezifikation
-        vorschlagKurzspezifikation
-        vorschlagLieferant
-        vorschlagNennweite
-        vorschlagFeinspezifikation
+        kurzspezifikationVorschlag
+        lieferantVorschlag
+        nennweiteVorschlag
+        feinspezifikationVorschlag
         custom1
         custom2
         custom3
@@ -10553,14 +10671,15 @@ export const OnCreateProjektStueliDocument = `
   onCreateProjektStueli {
     id
     projektId
+    bmk
     kurzspezifikation
     lieferant
     nennweite
     feinspezifikation
-    vorschlagKurzspezifikation
-    vorschlagLieferant
-    vorschlagNennweite
-    vorschlagFeinspezifikation
+    kurzspezifikationVorschlag
+    lieferantVorschlag
+    nennweiteVorschlag
+    feinspezifikationVorschlag
     custom1
     custom2
     custom3
@@ -10574,14 +10693,15 @@ export const OnUpdateProjektStueliDocument = `
   onUpdateProjektStueli {
     id
     projektId
+    bmk
     kurzspezifikation
     lieferant
     nennweite
     feinspezifikation
-    vorschlagKurzspezifikation
-    vorschlagLieferant
-    vorschlagNennweite
-    vorschlagFeinspezifikation
+    kurzspezifikationVorschlag
+    lieferantVorschlag
+    nennweiteVorschlag
+    feinspezifikationVorschlag
     custom1
     custom2
     custom3
@@ -10595,14 +10715,15 @@ export const OnDeleteProjektStueliDocument = `
   onDeleteProjektStueli {
     id
     projektId
+    bmk
     kurzspezifikation
     lieferant
     nennweite
     feinspezifikation
-    vorschlagKurzspezifikation
-    vorschlagLieferant
-    vorschlagNennweite
-    vorschlagFeinspezifikation
+    kurzspezifikationVorschlag
+    lieferantVorschlag
+    nennweiteVorschlag
+    feinspezifikationVorschlag
     custom1
     custom2
     custom3
@@ -10616,6 +10737,7 @@ export const OnCreateReferenzStueliDocument = `
   onCreateReferenzStueli(anlageId: $anlageId) {
     id
     anlageId
+    bmk
     kurzspezifikation
     lieferant
     nennweite
@@ -10630,6 +10752,7 @@ export const OnUpdateReferenzStueliDocument = `
   onUpdateReferenzStueli(anlageId: $anlageId) {
     id
     anlageId
+    bmk
     kurzspezifikation
     lieferant
     nennweite
@@ -10644,6 +10767,7 @@ export const OnDeleteReferenzStueliDocument = `
   onDeleteReferenzStueli(anlageId: $anlageId) {
     id
     anlageId
+    bmk
     kurzspezifikation
     lieferant
     nennweite

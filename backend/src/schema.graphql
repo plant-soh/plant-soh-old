@@ -80,14 +80,15 @@ type ProjektStueli
   ) {
   id: ID!
   projektId: ID!
+  bmk: String
   kurzspezifikation: String
   lieferant: String
   nennweite: String
   feinspezifikation: String
-  vorschlagKurzspezifikation: String
-  vorschlagLieferant: String
-  vorschlagNennweite: String
-  vorschlagFeinspezifikation: String
+  kurzspezifikationVorschlag: String
+  lieferantVorschlag: String
+  nennweiteVorschlag: String
+  feinspezifikationVorschlag: String
   custom1: String
   custom2: String
   custom3: String
@@ -111,6 +112,7 @@ type ReferenzStueli
   @key(name: "byAnlage", fields: ["anlageId"], queryField: "byAnlage") {
   id: ID!
   anlageId: ID!
+  bmk: String
   kurzspezifikation: String
   lieferant: String
   nennweite: String

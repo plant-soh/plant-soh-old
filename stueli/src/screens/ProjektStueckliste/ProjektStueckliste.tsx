@@ -36,18 +36,20 @@ const ProjektStueckliste = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [newStueck, setNewStueck] = useState<{
+    bmk: string;
     kurzspezifikation: string;
     lieferant: string;
     nennweite: string;
     feinspezifikation: string;
-    vorschlagKurzspezifikation?: string;
-    vorschlagLieferant?: string;
-    vorschlagNennweite?: string;
-    vorschlagFeinspezifikation?: string;
+    kurzspezifikationVorschlag?: string;
+    lieferantVorschlag?: string;
+    nennweiteVorschlag?: string;
+    feinspezifikationVorschlag?: string;
     custom1: string;
     custom2: string;
     custom3: string;
   }>({
+    bmk: '',
     kurzspezifikation: '',
     lieferant: '',
     nennweite: '',
@@ -74,12 +76,38 @@ const ProjektStueckliste = () => {
   );
 
   let columns = {
+    [nameof<ProjektStueli>('bmk')]: 'BMK',
     [nameof<ProjektStueli>('kurzspezifikation')]: 'Kurzspezifikation',
     [nameof<ProjektStueli>('lieferant')]: 'Lieferant',
     [nameof<ProjektStueli>('nennweite')]: 'Nennweite',
     [nameof<ProjektStueli>('feinspezifikation')]: 'Feinspezifikation',
-    plus: '+',
   };
+
+  var availableCustomColumn: string | undefined = undefined;
+  for (const column of [
+    'custom1ColumnName',
+    'custom2ColumnName',
+    'custom3ColumnName',
+  ]) {
+    if (
+      !getProjektQuery.data?.getProjekt?.[
+        column as
+          | 'custom1ColumnName'
+          | 'custom2ColumnName'
+          | 'custom3ColumnName'
+      ]
+    ) {
+      availableCustomColumn = column;
+      break;
+    }
+  }
+
+  if (availableCustomColumn) {
+    columns = {
+      ...columns,
+      plus: '+',
+    };
+  }
 
   if (getProjektQuery.data?.getProjekt?.custom1ColumnName) {
     columns = {
@@ -134,6 +162,31 @@ const ProjektStueckliste = () => {
     },
   );
 
+  let sortedProjektStueli: { [key: string]: string }[] | undefined =
+    data?.projektStueliByKurzspezifikation?.items
+      ?.sort(
+        firstBy<ProjektStueli>((s1, s2) =>
+          s1!.kurzspezifikation!.localeCompare(s2!.kurzspezifikation!),
+        )
+          .thenBy<ProjektStueli>((s1, s2) =>
+            s1!.lieferant!.localeCompare(s2!.lieferant!),
+          )
+          .thenBy((s1, s2) => s1!.nennweite!.localeCompare(s2!.nennweite!)),
+      )
+      .map((stueck) => {
+        return {
+          id: stueck?.id ?? '',
+          bmk: stueck?.bmk ?? '',
+          kurzspezifikation: stueck?.kurzspezifikation ?? '',
+          lieferant: stueck?.lieferant ?? '',
+          nennweite: stueck?.nennweite ?? '',
+          feinspezifikation: stueck?.feinspezifikation ?? '',
+          custom1: stueck?.custom1 ?? '',
+          custom2: stueck?.custom2 ?? '',
+          custom3: stueck?.custom3 ?? '',
+        };
+      });
+
   const listKurzspezifikationVorschlaege =
     useListKurzspezifikationVorschlaegeQuery(
       { input: { anlageId: getProjektQuery.data?.getProjekt?.anlageId ?? '' } },
@@ -159,33 +212,33 @@ const ProjektStueckliste = () => {
         ?.filter(
           (stueck) =>
             stueck?.kurzspezifikation != '' &&
-            (!newStueck.vorschlagLieferant ||
-              stueck?.lieferant === newStueck.vorschlagLieferant) &&
-            (!newStueck.vorschlagNennweite ||
-              stueck?.nennweite === newStueck.vorschlagNennweite) &&
+            (!newStueck.lieferantVorschlag ||
+              stueck?.lieferant === newStueck.lieferantVorschlag) &&
+            (!newStueck.nennweiteVorschlag ||
+              stueck?.nennweite === newStueck.nennweiteVorschlag) &&
             (!newStueck.feinspezifikation ||
               stueck?.feinspezifikation ===
-                newStueck.vorschlagFeinspezifikation),
+                newStueck.feinspezifikationVorschlag),
         )
         .map((stueck) => stueck?.lieferant),
     ),
   );
   kurzspezifikationVorschlaege;
 
-  const lieferantenVorschlaege = Array.from(
+  const lieferantVorschlaege = Array.from(
     new Set(
       referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
         ?.filter(
           (stueck) =>
-            (!newStueck.vorschlagKurzspezifikation ||
+            (!newStueck.kurzspezifikationVorschlag ||
               stueck?.kurzspezifikation ===
-                newStueck.vorschlagKurzspezifikation) &&
+                newStueck.kurzspezifikationVorschlag) &&
             stueck?.lieferant != '' &&
-            (!newStueck.vorschlagNennweite ||
-              stueck?.nennweite === newStueck.vorschlagNennweite) &&
-            (!newStueck.vorschlagFeinspezifikation ||
+            (!newStueck.nennweiteVorschlag ||
+              stueck?.nennweite === newStueck.nennweiteVorschlag) &&
+            (!newStueck.feinspezifikationVorschlag ||
               stueck?.feinspezifikation ===
-                newStueck.vorschlagFeinspezifikation),
+                newStueck.feinspezifikationVorschlag),
         )
         .map((stueck) => stueck?.lieferant),
     ),
@@ -196,15 +249,15 @@ const ProjektStueckliste = () => {
       referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
         ?.filter(
           (stueck) =>
-            (!newStueck.vorschlagKurzspezifikation ||
+            (!newStueck.kurzspezifikationVorschlag ||
               stueck?.kurzspezifikation ===
-                newStueck.vorschlagKurzspezifikation) &&
-            (!newStueck.vorschlagLieferant ||
-              stueck?.lieferant === newStueck.vorschlagLieferant) &&
+                newStueck.kurzspezifikationVorschlag) &&
+            (!newStueck.lieferantVorschlag ||
+              stueck?.lieferant === newStueck.lieferantVorschlag) &&
             stueck?.nennweite != '' &&
-            (!newStueck.vorschlagFeinspezifikation ||
+            (!newStueck.feinspezifikationVorschlag ||
               stueck?.feinspezifikation ===
-                newStueck.vorschlagFeinspezifikation),
+                newStueck.feinspezifikationVorschlag),
         )
         .map((stueck) => stueck?.nennweite),
     ),
@@ -215,18 +268,24 @@ const ProjektStueckliste = () => {
       referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
         ?.filter(
           (stueck) =>
-            (!newStueck.vorschlagKurzspezifikation ||
+            (!newStueck.kurzspezifikationVorschlag ||
               stueck?.kurzspezifikation ===
-                newStueck.vorschlagKurzspezifikation) &&
-            (!newStueck.vorschlagLieferant ||
-              stueck?.lieferant === newStueck.vorschlagLieferant) &&
-            (!newStueck.vorschlagNennweite ||
-              stueck?.nennweite === newStueck.vorschlagNennweite) &&
+                newStueck.kurzspezifikationVorschlag) &&
+            (!newStueck.lieferantVorschlag ||
+              stueck?.lieferant === newStueck.lieferantVorschlag) &&
+            (!newStueck.nennweiteVorschlag ||
+              stueck?.nennweite === newStueck.nennweiteVorschlag) &&
             stueck?.feinspezifikation != '',
         )
         .map((stueck) => stueck?.feinspezifikation),
     ),
   ).sort();
+
+  const vorschlaege = {
+    lieferant: lieferantVorschlaege,
+    nennweite: nennweiteVorschlaege,
+    feinspezifikation: feinspezifikationVorschlaege,
+  };
 
   const setCurrentProjektId = useSetCurrentProjektIdMutation();
 
@@ -238,27 +297,7 @@ const ProjektStueckliste = () => {
 
   const changeHandler = (event: any) => {
     setSelectedFile(event.target.files[0]);
-    // setIsFilePicked(true);
   };
-
-  var availableCustomColumn: string | undefined = undefined;
-  for (const column of [
-    'custom1ColumnName',
-    'custom2ColumnName',
-    'custom3ColumnName',
-  ]) {
-    if (
-      !getProjektQuery.data?.getProjekt?.[
-        column as
-          | 'custom1ColumnName'
-          | 'custom2ColumnName'
-          | 'custom3ColumnName'
-      ]
-    ) {
-      availableCustomColumn = column;
-      break;
-    }
-  }
 
   const onClick = (_e: any) => {
     console.log('start parsing');
@@ -345,27 +384,25 @@ const ProjektStueckliste = () => {
                 key={index}
               >
                 {col === 'plus' ? (
-                  availableCustomColumn && (
-                    <button
-                      key={col}
-                      className="px-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
-                      onClick={async () => {
-                        await updateProjekt.mutateAsync({
-                          input: {
-                            id: getProjektQuery.data?.getProjekt?.id ?? '',
-                            [availableCustomColumn as
-                              | 'custom1ColumnName'
-                              | 'custom2ColumnName'
-                              | 'custom3ColumnName']: 'Zusätzliche Spalte',
-                          },
-                        });
-                        await getProjektQuery.refetch();
-                        await refetch();
-                      }}
-                    >
-                      <span>+</span>
-                    </button>
-                  )
+                  <button
+                    key={col}
+                    className="px-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+                    onClick={async () => {
+                      await updateProjekt.mutateAsync({
+                        input: {
+                          id: getProjektQuery.data?.getProjekt?.id ?? '',
+                          [availableCustomColumn as
+                            | 'custom1ColumnName'
+                            | 'custom2ColumnName'
+                            | 'custom3ColumnName']: 'Zusätzliche Spalte',
+                        },
+                      });
+                      await getProjektQuery.refetch();
+                      await refetch();
+                    }}
+                  >
+                    <span>+</span>
+                  </button>
                 ) : col.startsWith('custom') ? (
                   <EditTable
                     key={col}
@@ -408,104 +445,69 @@ const ProjektStueckliste = () => {
           </tr>
         </thead>
         <tbody className="bg-gray-50" data-testid="recent-calls-table-body">
-          {data!
-            .projektStueliByKurzspezifikation!.items!.sort(
-              firstBy<ProjektStueli>((s1, s2) =>
-                s1!.kurzspezifikation!.localeCompare(s2!.kurzspezifikation!),
-              )
-                .thenBy<ProjektStueli>((s1, s2) =>
-                  s1!.lieferant!.localeCompare(s2!.lieferant!),
-                )
-                .thenBy((s1, s2) =>
-                  s1!.nennweite!.localeCompare(s2!.nennweite!),
-                ),
-            )
-            .map((stueck) => {
-              return {
-                id: stueck?.id ?? '',
-                kurzspezifikation: stueck?.kurzspezifikation ?? '',
-                lieferant: stueck?.lieferant ?? '',
-                nennweite: stueck?.nennweite ?? '',
-                feinspezifikation: stueck?.feinspezifikation ?? '',
-                custom1: stueck?.custom1 ?? '',
-                custom2: stueck?.custom2 ?? '',
-                custom3: stueck?.custom3 ?? '',
-              };
-            })
-            .map(
-              (stueck, row_index) =>
-                stueck && (
-                  <tr key={row_index} className="border-b border-gray-400">
-                    {Object.keys(columns).map(
-                      (col, index) =>
-                        (col === 'actions' ||
-                          col === 'plus' ||
-                          col === 'kurzspezifikation' ||
-                          col === 'lieferant' ||
-                          col === 'nennweite' ||
-                          col === 'feinspezifikation' ||
-                          col === 'custom1' ||
-                          col === 'custom2' ||
-                          col === 'custom3') && (
-                          <td
-                            key={index}
-                            className="w-20 p-3 text-left whitespace-pre-line"
-                          >
-                            {col === 'actions' ? (
-                              <button
-                                key={col}
-                                className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
-                                onClick={async () => {
-                                  await deleteStueck.mutateAsync({
-                                    input: {
-                                      id: stueck.id,
-                                    },
-                                  });
-                                  await refetch();
-                                }}
-                              >
-                                <span>Löschen</span>
-                              </button>
-                            ) : col === 'plus' ? (
-                              <div key="plus"></div>
-                            ) : (
-                              <EditTable
-                                key={col}
-                                text={stueck[col]}
-                                onSave={async () => {
-                                  await updateStueck.mutateAsync({
-                                    input: {
-                                      id: stueck.id,
-                                      [col]: editStueck,
-                                    },
-                                  });
-                                  await refetch();
-                                }}
-                                onCancel={() => {
-                                  setEditStueck(stueck[col]);
-                                }}
-                                childRef={inputRef}
-                                type={EditTableType.input}
-                              >
-                                <input
-                                  key={col}
-                                  ref={inputRef}
-                                  type="text"
-                                  name={col}
-                                  placeholder={''}
-                                  defaultValue={stueck[col]}
-                                  onChange={async (e) => {
-                                    setEditStueck(e.target.value);
-                                  }}
-                                />
-                              </EditTable>
-                            )}
-                          </td>
-                        ),
-                    )}
-                  </tr>
-                ),
-            )}
+          {sortedProjektStueli?.map(
+            (stueck, row_index) =>
+              stueck && (
+                <tr key={row_index} className="border-b border-gray-400">
+                  {Object.keys(columns).map((col, index) => (
+                    <td
+                      key={index}
+                      className="w-20 p-3 text-left whitespace-pre-line"
+                    >
+                      {col === 'actions' ? (
+                        <button
+                          key={col}
+                          className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+                          onClick={async () => {
+                            await deleteStueck.mutateAsync({
+                              input: {
+                                id: stueck.id,
+                              },
+                            });
+                            await refetch();
+                          }}
+                        >
+                          <span>Löschen</span>
+                        </button>
+                      ) : col === 'plus' ? (
+                        <div key="plus"></div>
+                      ) : (
+                        <EditTable
+                          key={col}
+                          text={stueck[col]}
+                          onSave={async () => {
+                            await updateStueck.mutateAsync({
+                              input: {
+                                id: stueck.id,
+                                [col]: editStueck,
+                              },
+                            });
+                            await refetch();
+                          }}
+                          onCancel={() => {
+                            setEditStueck(stueck[col]);
+                          }}
+                          childRef={inputRef}
+                          type={EditTableType.input}
+                        >
+                          <input
+                            key={col}
+                            ref={inputRef}
+                            type="text"
+                            name={col}
+                            placeholder={''}
+                            defaultValue={stueck[col]}
+                            onChange={async (e) => {
+                              setEditStueck(e.target.value);
+                            }}
+                          />
+                        </EditTable>
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ),
+          )}
           {isAdmin && (
             <tr key="insert_row" className="border-b border-gray-400">
               {Object.keys(columns).map((col, _index) => (
@@ -545,11 +547,11 @@ const ProjektStueckliste = () => {
                           setSelectedKurzspezifikationVorschlag(e.target.value);
                           setNewStueck({
                             ...newStueck,
-                            vorschlagKurzspezifikation: e.target.value,
+                            kurzspezifikationVorschlag: e.target.value,
                             kurzspezifikation: e.target.value,
-                            vorschlagLieferant: undefined,
-                            vorschlagNennweite: undefined,
-                            vorschlagFeinspezifikation: undefined,
+                            lieferantVorschlag: undefined,
+                            nennweiteVorschlag: undefined,
+                            feinspezifikationVorschlag: undefined,
                           });
                         }}
                       >
@@ -576,7 +578,9 @@ const ProjektStueckliste = () => {
                         }
                       />
                     </div>
-                  ) : col === 'lieferant' ? (
+                  ) : col === 'lieferant' ||
+                    col === 'nennweite' ||
+                    col === 'feinspezifikation' ? (
                     <div className="flex flex-col ">
                       {selectedKurzspezifikationVorschlag && (
                         <select
@@ -584,15 +588,15 @@ const ProjektStueckliste = () => {
                           onChange={(e) => {
                             setNewStueck({
                               ...newStueck,
-                              vorschlagLieferant: e.target.value,
-                              lieferant: e.target.value,
+                              [`${col}Vorschlag`]: e.target.value,
+                              [col]: e.target.value,
                             });
                           }}
                         >
                           <option value={undefined}></option>
-                          {lieferantenVorschlaege?.map((lieferant) => (
-                            <option key={lieferant} value={lieferant || ''}>
-                              {lieferant}
+                          {vorschlaege[col]?.map((vorschlag) => (
+                            <option key={vorschlag} value={vorschlag || ''}>
+                              {vorschlag}
                             </option>
                           ))}
                         </select>
@@ -602,84 +606,12 @@ const ProjektStueckliste = () => {
                         type="text"
                         id={col}
                         name={col}
-                        value={newStueck.lieferant}
+                        value={newStueck[col]}
                         onChange={(e) =>
                           setNewStueck({
                             ...newStueck,
-                            lieferant: e.target.value,
+                            [col]: e.target.value,
                           })
-                        }
-                      />
-                    </div>
-                  ) : col === 'nennweite' ? (
-                    <div className="flex flex-col ">
-                      {selectedKurzspezifikationVorschlag && (
-                        <select
-                          className="border-2 border-black"
-                          onChange={(e) =>
-                            setNewStueck({
-                              ...newStueck,
-                              vorschlagNennweite: e.target.value,
-                              nennweite: e.target.value,
-                            })
-                          }
-                        >
-                          <option value={undefined}></option>
-                          {nennweiteVorschlaege?.map((nennweite) => (
-                            <option key={nennweite} value={nennweite || ''}>
-                              {nennweite}
-                            </option>
-                          ))}
-                        </select>
-                      )}
-                      <input
-                        className="border-2 border-black"
-                        type="text"
-                        id={col}
-                        name={col}
-                        value={newStueck.nennweite}
-                        onChange={(e) =>
-                          setNewStueck({
-                            ...newStueck,
-                            nennweite: e.target.value,
-                          })
-                        }
-                      />
-                    </div>
-                  ) : col === 'feinspezifikation' ? (
-                    <div className="flex flex-col ">
-                      {selectedKurzspezifikationVorschlag && (
-                        <select
-                          className="border-2 border-black"
-                          onChange={(e) => {
-                            setNewStueck({
-                              ...newStueck,
-                              vorschlagFeinspezifikation: e.target.value,
-                              feinspezifikation: e.target.value,
-                            });
-                          }}
-                        >
-                          <option value={undefined}></option>
-                          {feinspezifikationVorschlaege?.map(
-                            (feinspezifikation) => (
-                              <option
-                                key={feinspezifikation}
-                                value={feinspezifikation || ''}
-                              >
-                                {feinspezifikation}
-                              </option>
-                            ),
-                          )}
-                        </select>
-                      )}
-                      <input
-                        className="border-2 border-black"
-                        type="text"
-                        id={col}
-                        name={col}
-                        value={newStueck.feinspezifikation}
-                        onChange={(e) =>
-                          setNewStueck({ ...newStueck, [col]: e.target.value })
                         }
                       />
                     </div>

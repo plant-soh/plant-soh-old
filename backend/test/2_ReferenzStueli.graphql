@@ -2,6 +2,7 @@ mutation CreateStuecklisten {
   createReferenzStueli(
     input: {
       anlageId: "m1"
+      bmk: "123-12"
       feinspezifikation: "V/23/d"
       kurzspezifikation: "Ventil"
       lieferant: "venture"
@@ -24,6 +25,7 @@ query ListAnlagenWithStueli {
       standort
       referenzStueli {
         items {
+          bmk
           feinspezifikation
           kurzspezifikation
           nennweite

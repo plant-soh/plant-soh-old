@@ -86,14 +86,15 @@ export const getAnlage = /* GraphQL */ `
             items {
               id
               projektId
+              bmk
               kurzspezifikation
               lieferant
               nennweite
               feinspezifikation
-              vorschlagKurzspezifikation
-              vorschlagLieferant
-              vorschlagNennweite
-              vorschlagFeinspezifikation
+              kurzspezifikationVorschlag
+              lieferantVorschlag
+              nennweiteVorschlag
+              feinspezifikationVorschlag
               custom1
               custom2
               custom3
@@ -109,6 +110,7 @@ export const getAnlage = /* GraphQL */ `
         items {
           id
           anlageId
+          bmk
           kurzspezifikation
           lieferant
           nennweite
@@ -196,6 +198,7 @@ export const listAnlages = /* GraphQL */ `
           items {
             id
             anlageId
+            bmk
             kurzspezifikation
             lieferant
             nennweite
@@ -277,6 +280,7 @@ export const getAnlagenUser = /* GraphQL */ `
           items {
             id
             anlageId
+            bmk
             kurzspezifikation
             lieferant
             nennweite
@@ -378,6 +382,7 @@ export const listAnlagenUsers = /* GraphQL */ `
             items {
               id
               anlageId
+              bmk
               kurzspezifikation
               lieferant
               nennweite
@@ -481,6 +486,7 @@ export const getProjekt = /* GraphQL */ `
           items {
             id
             anlageId
+            bmk
             kurzspezifikation
             lieferant
             nennweite
@@ -495,14 +501,15 @@ export const getProjekt = /* GraphQL */ `
         items {
           id
           projektId
+          bmk
           kurzspezifikation
           lieferant
           nennweite
           feinspezifikation
-          vorschlagKurzspezifikation
-          vorschlagLieferant
-          vorschlagNennweite
-          vorschlagFeinspezifikation
+          kurzspezifikationVorschlag
+          lieferantVorschlag
+          nennweiteVorschlag
+          feinspezifikationVorschlag
           custom1
           custom2
           custom3
@@ -571,6 +578,7 @@ export const listProjekts = /* GraphQL */ `
             items {
               id
               anlageId
+              bmk
               kurzspezifikation
               lieferant
               nennweite
@@ -585,14 +593,15 @@ export const listProjekts = /* GraphQL */ `
           items {
             id
             projektId
+            bmk
             kurzspezifikation
             lieferant
             nennweite
             feinspezifikation
-            vorschlagKurzspezifikation
-            vorschlagLieferant
-            vorschlagNennweite
-            vorschlagFeinspezifikation
+            kurzspezifikationVorschlag
+            lieferantVorschlag
+            nennweiteVorschlag
+            feinspezifikationVorschlag
             custom1
             custom2
             custom3
@@ -611,14 +620,15 @@ export const getProjektStueli = /* GraphQL */ `
     getProjektStueli(id: $id) {
       id
       projektId
+      bmk
       kurzspezifikation
       lieferant
       nennweite
       feinspezifikation
-      vorschlagKurzspezifikation
-      vorschlagLieferant
-      vorschlagNennweite
-      vorschlagFeinspezifikation
+      kurzspezifikationVorschlag
+      lieferantVorschlag
+      nennweiteVorschlag
+      feinspezifikationVorschlag
       custom1
       custom2
       custom3
@@ -645,14 +655,15 @@ export const listProjektStuelis = /* GraphQL */ `
       items {
         id
         projektId
+        bmk
         kurzspezifikation
         lieferant
         nennweite
         feinspezifikation
-        vorschlagKurzspezifikation
-        vorschlagLieferant
-        vorschlagNennweite
-        vorschlagFeinspezifikation
+        kurzspezifikationVorschlag
+        lieferantVorschlag
+        nennweiteVorschlag
+        feinspezifikationVorschlag
         custom1
         custom2
         custom3
@@ -683,14 +694,15 @@ export const projektStueliByKurzspezifikation = /* GraphQL */ `
       items {
         id
         projektId
+        bmk
         kurzspezifikation
         lieferant
         nennweite
         feinspezifikation
-        vorschlagKurzspezifikation
-        vorschlagLieferant
-        vorschlagNennweite
-        vorschlagFeinspezifikation
+        kurzspezifikationVorschlag
+        lieferantVorschlag
+        nennweiteVorschlag
+        feinspezifikationVorschlag
         custom1
         custom2
         custom3
@@ -706,6 +718,7 @@ export const getReferenzStueli = /* GraphQL */ `
     getReferenzStueli(id: $id) {
       id
       anlageId
+      bmk
       kurzspezifikation
       lieferant
       nennweite
@@ -733,6 +746,7 @@ export const listReferenzStuelis = /* GraphQL */ `
       items {
         id
         anlageId
+        bmk
         kurzspezifikation
         lieferant
         nennweite
@@ -764,6 +778,7 @@ export const referenzStueliByKurzspezifikation = /* GraphQL */ `
       items {
         id
         anlageId
+        bmk
         kurzspezifikation
         lieferant
         nennweite
@@ -793,6 +808,7 @@ export const byAnlage = /* GraphQL */ `
       items {
         id
         anlageId
+        bmk
         kurzspezifikation
         lieferant
         nennweite
