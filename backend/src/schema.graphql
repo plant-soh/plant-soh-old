@@ -80,6 +80,7 @@ type ProjektStueli
   ) {
   id: ID!
   projektId: ID!
+  projekt: Projekt! @connection(fields: ["projektId"])
   bmk: String
   bmkDouble: Boolean
   kurzspezifikation: String
@@ -113,6 +114,7 @@ type ReferenzStueli
   @key(name: "byAnlage", fields: ["anlageId"], queryField: "byAnlage") {
   id: ID!
   anlageId: ID!
+  anlage: Anlage! @connection(fields: ["anlageId"])
   bmk: String
   kurzspezifikation: String
   lieferant: String

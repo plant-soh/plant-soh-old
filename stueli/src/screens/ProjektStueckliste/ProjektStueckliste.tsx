@@ -3,9 +3,16 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { firstBy } from 'thenby';
 import EditTable, { EditTableType } from '../../components/Editable';
+import { amplifyFetcher } from '../../lib/fetcher';
 // import { API } from '../../lib/fetcher';
 
 import {
+  ListProjektStuelisDocument,
+  ListProjektStuelisQuery,
+  ListProjektStuelisQueryVariables,
+  ListReferenzStuelisDocument,
+  ListReferenzStuelisQuery,
+  ListReferenzStuelisQueryVariables,
   ProjektStueli,
   Role,
   useCreateProjektStueliMutation,
@@ -16,6 +23,7 @@ import {
   useReferenzStueliByKurzspezifikationQuery,
   useSetCurrentProjektIdMutation,
   useUpdateProjektMutation,
+  useUpdateProjektStueliMutation,
 } from '../../lib/react-api';
 import { useAuth } from '../../providers/AuthProvider';
 import { useModal } from '../../providers/ModalProvider';
@@ -179,6 +187,7 @@ const ProjektStueckliste = () => {
         return {
           id: stueck?.id ?? '',
           bmk: stueck?.bmk ?? '',
+          bmkDouble: String(stueck?.bmkDouble ?? false),
           kurzspezifikation: stueck?.kurzspezifikation ?? '',
           lieferant: stueck?.lieferant ?? '',
           nennweite: stueck?.nennweite ?? '',
@@ -293,7 +302,7 @@ const ProjektStueckliste = () => {
 
   const deleteStueck = useDeleteProjektStueliMutation();
   const createStueck = useCreateProjektStueliMutation();
-  // const updateStueck = useUpdateProjektStueliMutation();
+  const updateStueck = useUpdateProjektStueliMutation();
 
   const updateProjekt = useUpdateProjektMutation();
 
@@ -475,17 +484,74 @@ const ProjektStueckliste = () => {
                         <div key="plus"></div>
                       ) : (
                         <EditTable
+                          className={
+                            col === 'bmk' && stueck.bmkDouble === 'true'
+                              ? 'text-red-500'
+                              : ''
+                          }
                           key={col}
                           text={stueck[col]}
                           onSave={async () => {
-                            handleModal('This is component modal content');
-                            // await updateStueck.mutateAsync({
-                            //   input: {
-                            //     id: stueck.id,
-                            //     [col]: editStueck,
-                            //   },
-                            // });
-                            // await refetch();
+                            // Check ob gleiche BMK in einem Projekt bereits existiert
+                            const foundStueckeInProjekten =
+                              await amplifyFetcher<
+                                ListProjektStuelisQuery,
+                                ListProjektStuelisQueryVariables
+                              >(ListProjektStuelisDocument, {
+                                filter: { bmk: { eq: editStueck } },
+                              }).call(undefined);
+
+                            let projektStueckExist =
+                              (foundStueckeInProjekten.listProjektStuelis?.items
+                                ?.length ?? 0) > 0;
+
+                            if (projektStueckExist) {
+                              await handleModal(
+                                `BMK existiert bereits im Projektstückliste: ${Array.from(
+                                  new Set(
+                                    foundStueckeInProjekten.listProjektStuelis?.items?.map(
+                                      (foundStueck) =>
+                                        `Firma: ${foundStueck?.projekt.anlage.firma} Standort: ${foundStueck?.projekt.anlage.standort} Projektnummer: ${foundStueck?.projekt.projektNummer} `,
+                                    ),
+                                  ),
+                                ).join(', ')}!`,
+                              );
+                            }
+
+                            // Check ob gleiche BMK in einer Referenzstueli bereits existiert
+                            const foundStueckeInReferenz = await amplifyFetcher<
+                              ListReferenzStuelisQuery,
+                              ListReferenzStuelisQueryVariables
+                            >(ListReferenzStuelisDocument, {
+                              filter: { bmk: { eq: editStueck } },
+                            }).call(undefined);
+
+                            const referenzStueckExist =
+                              (foundStueckeInReferenz.listReferenzStuelis?.items
+                                ?.length ?? 0) > 0;
+
+                            if (referenzStueckExist) {
+                              await handleModal(
+                                `BMK existiert bereits in Referenzstückliste: ${Array.from(
+                                  new Set(
+                                    foundStueckeInReferenz.listReferenzStuelis?.items?.map(
+                                      (foundStueck) =>
+                                        `Firma: ${foundStueck?.anlage.firma} Standort: ${foundStueck?.anlage.standort} `,
+                                    ),
+                                  ),
+                                ).join(', ')}!`,
+                              );
+                            }
+
+                            await updateStueck.mutateAsync({
+                              input: {
+                                id: stueck.id,
+                                [col]: editStueck,
+                                bmkDouble:
+                                  projektStueckExist || referenzStueckExist,
+                              },
+                            });
+                            await refetch();
                           }}
                           onCancel={() => {
                             setEditStueck(stueck[col]);

@@ -118,6 +118,23 @@ export const getAnlage = /* GraphQL */ `
           feinspezifikation
           createdAt
           updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+            anlagenUsers {
+              nextToken
+            }
+            projekte {
+              nextToken
+            }
+            referenzStueli {
+              nextToken
+            }
+          }
         }
         nextToken
       }
@@ -206,6 +223,14 @@ export const listAnlages = /* GraphQL */ `
             feinspezifikation
             createdAt
             updatedAt
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              createdAt
+              updatedAt
+            }
           }
           nextToken
         }
@@ -288,6 +313,14 @@ export const getAnlagenUser = /* GraphQL */ `
             feinspezifikation
             createdAt
             updatedAt
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              createdAt
+              updatedAt
+            }
           }
           nextToken
         }
@@ -494,6 +527,14 @@ export const getProjekt = /* GraphQL */ `
             feinspezifikation
             createdAt
             updatedAt
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              createdAt
+              updatedAt
+            }
           }
           nextToken
         }
@@ -517,6 +558,27 @@ export const getProjekt = /* GraphQL */ `
           custom3
           createdAt
           updatedAt
+          projekt {
+            id
+            anlageId
+            projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
+            createdAt
+            updatedAt
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              createdAt
+              updatedAt
+            }
+            projektStueli {
+              nextToken
+            }
+          }
         }
         nextToken
       }
@@ -610,6 +672,16 @@ export const listProjekts = /* GraphQL */ `
             custom3
             createdAt
             updatedAt
+            projekt {
+              id
+              anlageId
+              projektNummer
+              custom1ColumnName
+              custom2ColumnName
+              custom3ColumnName
+              createdAt
+              updatedAt
+            }
           }
           nextToken
         }
@@ -638,6 +710,92 @@ export const getProjektStueli = /* GraphQL */ `
       custom3
       createdAt
       updatedAt
+      projekt {
+        id
+        anlageId
+        projektNummer
+        custom1ColumnName
+        custom2ColumnName
+        custom3ColumnName
+        createdAt
+        updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          createdAt
+          updatedAt
+          anlagenUsers {
+            items {
+              anlageId
+              userEmail
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          projekte {
+            items {
+              id
+              anlageId
+              projektNummer
+              custom1ColumnName
+              custom2ColumnName
+              custom3ColumnName
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          referenzStueli {
+            items {
+              id
+              anlageId
+              bmk
+              kurzspezifikation
+              lieferant
+              nennweite
+              feinspezifikation
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+        }
+        projektStueli {
+          items {
+            id
+            projektId
+            bmk
+            bmkDouble
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            kurzspezifikationVorschlag
+            lieferantVorschlag
+            nennweiteVorschlag
+            feinspezifikationVorschlag
+            custom1
+            custom2
+            custom3
+            createdAt
+            updatedAt
+            projekt {
+              id
+              anlageId
+              projektNummer
+              custom1ColumnName
+              custom2ColumnName
+              custom3ColumnName
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+        }
+      }
     }
   }
 `;
@@ -674,6 +832,55 @@ export const listProjektStuelis = /* GraphQL */ `
         custom3
         createdAt
         updatedAt
+        projekt {
+          id
+          anlageId
+          projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+            anlagenUsers {
+              nextToken
+            }
+            projekte {
+              nextToken
+            }
+            referenzStueli {
+              nextToken
+            }
+          }
+          projektStueli {
+            items {
+              id
+              projektId
+              bmk
+              bmkDouble
+              kurzspezifikation
+              lieferant
+              nennweite
+              feinspezifikation
+              kurzspezifikationVorschlag
+              lieferantVorschlag
+              nennweiteVorschlag
+              feinspezifikationVorschlag
+              custom1
+              custom2
+              custom3
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -714,6 +921,55 @@ export const projektStueliByKurzspezifikation = /* GraphQL */ `
         custom3
         createdAt
         updatedAt
+        projekt {
+          id
+          anlageId
+          projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+            anlagenUsers {
+              nextToken
+            }
+            projekte {
+              nextToken
+            }
+            referenzStueli {
+              nextToken
+            }
+          }
+          projektStueli {
+            items {
+              id
+              projektId
+              bmk
+              bmkDouble
+              kurzspezifikation
+              lieferant
+              nennweite
+              feinspezifikation
+              kurzspezifikationVorschlag
+              lieferantVorschlag
+              nennweiteVorschlag
+              feinspezifikationVorschlag
+              custom1
+              custom2
+              custom3
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -731,6 +987,85 @@ export const getReferenzStueli = /* GraphQL */ `
       feinspezifikation
       createdAt
       updatedAt
+      anlage {
+        id
+        firma
+        standort
+        anschrift
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              createdAt
+              updatedAt
+            }
+            user {
+              email
+              role
+              currentAnlageId
+              currentProjektId
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
+            createdAt
+            updatedAt
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              createdAt
+              updatedAt
+            }
+            projektStueli {
+              nextToken
+            }
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            bmk
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+            anlage {
+              id
+              firma
+              standort
+              anschrift
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+        }
+      }
     }
   }
 `;
@@ -759,6 +1094,50 @@ export const listReferenzStuelis = /* GraphQL */ `
         feinspezifikation
         createdAt
         updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          createdAt
+          updatedAt
+          anlagenUsers {
+            items {
+              anlageId
+              userEmail
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          projekte {
+            items {
+              id
+              anlageId
+              projektNummer
+              custom1ColumnName
+              custom2ColumnName
+              custom3ColumnName
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          referenzStueli {
+            items {
+              id
+              anlageId
+              bmk
+              kurzspezifikation
+              lieferant
+              nennweite
+              feinspezifikation
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -791,6 +1170,50 @@ export const referenzStueliByKurzspezifikation = /* GraphQL */ `
         feinspezifikation
         createdAt
         updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          createdAt
+          updatedAt
+          anlagenUsers {
+            items {
+              anlageId
+              userEmail
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          projekte {
+            items {
+              id
+              anlageId
+              projektNummer
+              custom1ColumnName
+              custom2ColumnName
+              custom3ColumnName
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          referenzStueli {
+            items {
+              id
+              anlageId
+              bmk
+              kurzspezifikation
+              lieferant
+              nennweite
+              feinspezifikation
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -821,6 +1244,50 @@ export const byAnlage = /* GraphQL */ `
         feinspezifikation
         createdAt
         updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          createdAt
+          updatedAt
+          anlagenUsers {
+            items {
+              anlageId
+              userEmail
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          projekte {
+            items {
+              id
+              anlageId
+              projektNummer
+              custom1ColumnName
+              custom2ColumnName
+              custom3ColumnName
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+          referenzStueli {
+            items {
+              id
+              anlageId
+              bmk
+              kurzspezifikation
+              lieferant
+              nennweite
+              feinspezifikation
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
+        }
       }
       nextToken
     }

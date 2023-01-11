@@ -499,6 +499,7 @@ export type ProjektStueli = {
   lieferantVorschlag?: Maybe<Scalars['String']>;
   nennweite?: Maybe<Scalars['String']>;
   nennweiteVorschlag?: Maybe<Scalars['String']>;
+  projekt: Projekt;
   projektId: Scalars['ID'];
   updatedAt: Scalars['AWSDateTime'];
 };
@@ -629,6 +630,7 @@ export type QueryReferenzStueliByKurzspezifikationArgs = {
 
 export type ReferenzStueli = {
   __typename?: 'ReferenzStueli';
+  anlage: Anlage;
   anlageId: Scalars['ID'];
   bmk?: Maybe<Scalars['String']>;
   createdAt: Scalars['AWSDateTime'];
@@ -1191,6 +1193,36 @@ export type CreateAnlageMutation = {
                         feinspezifikation?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
+                        anlage: {
+                          __typename?: 'Anlage';
+                          id: string;
+                          firma: string;
+                          standort: string;
+                          anschrift?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagenUsers?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                       }
                     | null
                     | undefined
@@ -1411,6 +1443,36 @@ export type UpdateAnlageMutation = {
                         feinspezifikation?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
+                        anlage: {
+                          __typename?: 'Anlage';
+                          id: string;
+                          firma: string;
+                          standort: string;
+                          anschrift?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagenUsers?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                       }
                     | null
                     | undefined
@@ -1631,6 +1693,36 @@ export type DeleteAnlageMutation = {
                         feinspezifikation?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
+                        anlage: {
+                          __typename?: 'Anlage';
+                          id: string;
+                          firma: string;
+                          standort: string;
+                          anschrift?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagenUsers?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                       }
                     | null
                     | undefined
@@ -1763,6 +1855,15 @@ export type CreateAnlagenUserMutation = {
                           feinspezifikation?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                         }
                       | null
                       | undefined
@@ -1944,6 +2045,15 @@ export type UpdateAnlagenUserMutation = {
                           feinspezifikation?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                         }
                       | null
                       | undefined
@@ -2125,6 +2235,15 @@ export type DeleteAnlagenUserMutation = {
                           feinspezifikation?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                         }
                       | null
                       | undefined
@@ -2310,6 +2429,15 @@ export type CreateProjektMutation = {
                           feinspezifikation?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                         }
                       | null
                       | undefined
@@ -2345,6 +2473,33 @@ export type CreateProjektMutation = {
                         custom3?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
+                        projekt: {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                       }
                     | null
                     | undefined
@@ -2481,6 +2636,15 @@ export type UpdateProjektMutation = {
                           feinspezifikation?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                         }
                       | null
                       | undefined
@@ -2516,6 +2680,33 @@ export type UpdateProjektMutation = {
                         custom3?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
+                        projekt: {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                       }
                     | null
                     | undefined
@@ -2652,6 +2843,15 @@ export type DeleteProjektMutation = {
                           feinspezifikation?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                         }
                       | null
                       | undefined
@@ -2687,6 +2887,33 @@ export type DeleteProjektMutation = {
                         custom3?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
+                        projekt: {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                       }
                     | null
                     | undefined
@@ -2727,6 +2954,149 @@ export type CreateProjektStueliMutation = {
         custom3?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
+        projekt: {
+          __typename?: 'Projekt';
+          id: string;
+          anlageId: string;
+          projektNummer: number;
+          custom1ColumnName?: string | null | undefined;
+          custom2ColumnName?: string | null | undefined;
+          custom3ColumnName?: string | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlage: {
+            __typename?: 'Anlage';
+            id: string;
+            firma: string;
+            standort: string;
+            anschrift?: string | null | undefined;
+            createdAt: any;
+            updatedAt: any;
+            anlagenUsers?:
+              | {
+                  __typename?: 'ModelAnlagenUserConnection';
+                  nextToken?: string | null | undefined;
+                  items?:
+                    | Array<
+                        | {
+                            __typename?: 'AnlagenUser';
+                            anlageId: string;
+                            userEmail: string;
+                            createdAt: any;
+                            updatedAt: any;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            projekte?:
+              | {
+                  __typename?: 'ModelProjektConnection';
+                  nextToken?: string | null | undefined;
+                  items?:
+                    | Array<
+                        | {
+                            __typename?: 'Projekt';
+                            id: string;
+                            anlageId: string;
+                            projektNummer: number;
+                            custom1ColumnName?: string | null | undefined;
+                            custom2ColumnName?: string | null | undefined;
+                            custom3ColumnName?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            referenzStueli?:
+              | {
+                  __typename?: 'ModelReferenzStueliConnection';
+                  nextToken?: string | null | undefined;
+                  items?:
+                    | Array<
+                        | {
+                            __typename?: 'ReferenzStueli';
+                            id: string;
+                            anlageId: string;
+                            bmk?: string | null | undefined;
+                            kurzspezifikation?: string | null | undefined;
+                            lieferant?: string | null | undefined;
+                            nennweite?: string | null | undefined;
+                            feinspezifikation?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+          };
+          projektStueli?:
+            | {
+                __typename?: 'ModelProjektStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ProjektStueli';
+                          id: string;
+                          projektId: string;
+                          bmk?: string | null | undefined;
+                          bmkDouble?: boolean | null | undefined;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          kurzspezifikationVorschlag?:
+                            | string
+                            | null
+                            | undefined;
+                          lieferantVorschlag?: string | null | undefined;
+                          nennweiteVorschlag?: string | null | undefined;
+                          feinspezifikationVorschlag?:
+                            | string
+                            | null
+                            | undefined;
+                          custom1?: string | null | undefined;
+                          custom2?: string | null | undefined;
+                          custom3?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          projekt: {
+                            __typename?: 'Projekt';
+                            id: string;
+                            anlageId: string;
+                            projektNummer: number;
+                            custom1ColumnName?: string | null | undefined;
+                            custom2ColumnName?: string | null | undefined;
+                            custom3ColumnName?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
       }
     | null
     | undefined;
@@ -2758,6 +3128,149 @@ export type UpdateProjektStueliMutation = {
         custom3?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
+        projekt: {
+          __typename?: 'Projekt';
+          id: string;
+          anlageId: string;
+          projektNummer: number;
+          custom1ColumnName?: string | null | undefined;
+          custom2ColumnName?: string | null | undefined;
+          custom3ColumnName?: string | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlage: {
+            __typename?: 'Anlage';
+            id: string;
+            firma: string;
+            standort: string;
+            anschrift?: string | null | undefined;
+            createdAt: any;
+            updatedAt: any;
+            anlagenUsers?:
+              | {
+                  __typename?: 'ModelAnlagenUserConnection';
+                  nextToken?: string | null | undefined;
+                  items?:
+                    | Array<
+                        | {
+                            __typename?: 'AnlagenUser';
+                            anlageId: string;
+                            userEmail: string;
+                            createdAt: any;
+                            updatedAt: any;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            projekte?:
+              | {
+                  __typename?: 'ModelProjektConnection';
+                  nextToken?: string | null | undefined;
+                  items?:
+                    | Array<
+                        | {
+                            __typename?: 'Projekt';
+                            id: string;
+                            anlageId: string;
+                            projektNummer: number;
+                            custom1ColumnName?: string | null | undefined;
+                            custom2ColumnName?: string | null | undefined;
+                            custom3ColumnName?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            referenzStueli?:
+              | {
+                  __typename?: 'ModelReferenzStueliConnection';
+                  nextToken?: string | null | undefined;
+                  items?:
+                    | Array<
+                        | {
+                            __typename?: 'ReferenzStueli';
+                            id: string;
+                            anlageId: string;
+                            bmk?: string | null | undefined;
+                            kurzspezifikation?: string | null | undefined;
+                            lieferant?: string | null | undefined;
+                            nennweite?: string | null | undefined;
+                            feinspezifikation?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+          };
+          projektStueli?:
+            | {
+                __typename?: 'ModelProjektStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ProjektStueli';
+                          id: string;
+                          projektId: string;
+                          bmk?: string | null | undefined;
+                          bmkDouble?: boolean | null | undefined;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          kurzspezifikationVorschlag?:
+                            | string
+                            | null
+                            | undefined;
+                          lieferantVorschlag?: string | null | undefined;
+                          nennweiteVorschlag?: string | null | undefined;
+                          feinspezifikationVorschlag?:
+                            | string
+                            | null
+                            | undefined;
+                          custom1?: string | null | undefined;
+                          custom2?: string | null | undefined;
+                          custom3?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          projekt: {
+                            __typename?: 'Projekt';
+                            id: string;
+                            anlageId: string;
+                            projektNummer: number;
+                            custom1ColumnName?: string | null | undefined;
+                            custom2ColumnName?: string | null | undefined;
+                            custom3ColumnName?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
       }
     | null
     | undefined;
@@ -2789,6 +3302,149 @@ export type DeleteProjektStueliMutation = {
         custom3?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
+        projekt: {
+          __typename?: 'Projekt';
+          id: string;
+          anlageId: string;
+          projektNummer: number;
+          custom1ColumnName?: string | null | undefined;
+          custom2ColumnName?: string | null | undefined;
+          custom3ColumnName?: string | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlage: {
+            __typename?: 'Anlage';
+            id: string;
+            firma: string;
+            standort: string;
+            anschrift?: string | null | undefined;
+            createdAt: any;
+            updatedAt: any;
+            anlagenUsers?:
+              | {
+                  __typename?: 'ModelAnlagenUserConnection';
+                  nextToken?: string | null | undefined;
+                  items?:
+                    | Array<
+                        | {
+                            __typename?: 'AnlagenUser';
+                            anlageId: string;
+                            userEmail: string;
+                            createdAt: any;
+                            updatedAt: any;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            projekte?:
+              | {
+                  __typename?: 'ModelProjektConnection';
+                  nextToken?: string | null | undefined;
+                  items?:
+                    | Array<
+                        | {
+                            __typename?: 'Projekt';
+                            id: string;
+                            anlageId: string;
+                            projektNummer: number;
+                            custom1ColumnName?: string | null | undefined;
+                            custom2ColumnName?: string | null | undefined;
+                            custom3ColumnName?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            referenzStueli?:
+              | {
+                  __typename?: 'ModelReferenzStueliConnection';
+                  nextToken?: string | null | undefined;
+                  items?:
+                    | Array<
+                        | {
+                            __typename?: 'ReferenzStueli';
+                            id: string;
+                            anlageId: string;
+                            bmk?: string | null | undefined;
+                            kurzspezifikation?: string | null | undefined;
+                            lieferant?: string | null | undefined;
+                            nennweite?: string | null | undefined;
+                            feinspezifikation?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+          };
+          projektStueli?:
+            | {
+                __typename?: 'ModelProjektStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ProjektStueli';
+                          id: string;
+                          projektId: string;
+                          bmk?: string | null | undefined;
+                          bmkDouble?: boolean | null | undefined;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          kurzspezifikationVorschlag?:
+                            | string
+                            | null
+                            | undefined;
+                          lieferantVorschlag?: string | null | undefined;
+                          nennweiteVorschlag?: string | null | undefined;
+                          feinspezifikationVorschlag?:
+                            | string
+                            | null
+                            | undefined;
+                          custom1?: string | null | undefined;
+                          custom2?: string | null | undefined;
+                          custom3?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          projekt: {
+                            __typename?: 'Projekt';
+                            id: string;
+                            anlageId: string;
+                            projektNummer: number;
+                            custom1ColumnName?: string | null | undefined;
+                            custom2ColumnName?: string | null | undefined;
+                            custom3ColumnName?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
       }
     | null
     | undefined;
@@ -2812,6 +3468,130 @@ export type CreateReferenzStueliMutation = {
         feinspezifikation?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
+        anlage: {
+          __typename?: 'Anlage';
+          id: string;
+          firma: string;
+          standort: string;
+          anschrift?: string | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlagenUsers?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          id: string;
+                          anlageId: string;
+                          bmk?: string | null | undefined;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
       }
     | null
     | undefined;
@@ -2835,6 +3615,130 @@ export type UpdateReferenzStueliMutation = {
         feinspezifikation?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
+        anlage: {
+          __typename?: 'Anlage';
+          id: string;
+          firma: string;
+          standort: string;
+          anschrift?: string | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlagenUsers?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          id: string;
+                          anlageId: string;
+                          bmk?: string | null | undefined;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
       }
     | null
     | undefined;
@@ -2858,6 +3762,130 @@ export type DeleteReferenzStueliMutation = {
         feinspezifikation?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
+        anlage: {
+          __typename?: 'Anlage';
+          id: string;
+          firma: string;
+          standort: string;
+          anschrift?: string | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlagenUsers?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          id: string;
+                          anlageId: string;
+                          bmk?: string | null | undefined;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
       }
     | null
     | undefined;
@@ -3342,6 +4370,36 @@ export type GetAnlageQuery = {
                         feinspezifikation?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
+                        anlage: {
+                          __typename?: 'Anlage';
+                          id: string;
+                          firma: string;
+                          standort: string;
+                          anschrift?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagenUsers?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                       }
                     | null
                     | undefined
@@ -3480,6 +4538,15 @@ export type ListAnlagesQuery = {
                                   feinspezifikation?: string | null | undefined;
                                   createdAt: any;
                                   updatedAt: any;
+                                  anlage: {
+                                    __typename?: 'Anlage';
+                                    id: string;
+                                    firma: string;
+                                    standort: string;
+                                    anschrift?: string | null | undefined;
+                                    createdAt: any;
+                                    updatedAt: any;
+                                  };
                                 }
                               | null
                               | undefined
@@ -3619,6 +4686,15 @@ export type GetAnlagenUserQuery = {
                           feinspezifikation?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                         }
                       | null
                       | undefined
@@ -3964,6 +5040,15 @@ export type GetProjektQuery = {
                           feinspezifikation?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                         }
                       | null
                       | undefined
@@ -3999,6 +5084,33 @@ export type GetProjektQuery = {
                         custom3?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
+                        projekt: {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                       }
                     | null
                     | undefined
@@ -4172,6 +5284,26 @@ export type ListProjektsQuery = {
                                   custom3?: string | null | undefined;
                                   createdAt: any;
                                   updatedAt: any;
+                                  projekt: {
+                                    __typename?: 'Projekt';
+                                    id: string;
+                                    anlageId: string;
+                                    projektNummer: number;
+                                    custom1ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    custom2ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    custom3ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    createdAt: any;
+                                    updatedAt: any;
+                                  };
                                 }
                               | null
                               | undefined
@@ -4218,6 +5350,149 @@ export type GetProjektStueliQuery = {
         custom3?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
+        projekt: {
+          __typename?: 'Projekt';
+          id: string;
+          anlageId: string;
+          projektNummer: number;
+          custom1ColumnName?: string | null | undefined;
+          custom2ColumnName?: string | null | undefined;
+          custom3ColumnName?: string | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlage: {
+            __typename?: 'Anlage';
+            id: string;
+            firma: string;
+            standort: string;
+            anschrift?: string | null | undefined;
+            createdAt: any;
+            updatedAt: any;
+            anlagenUsers?:
+              | {
+                  __typename?: 'ModelAnlagenUserConnection';
+                  nextToken?: string | null | undefined;
+                  items?:
+                    | Array<
+                        | {
+                            __typename?: 'AnlagenUser';
+                            anlageId: string;
+                            userEmail: string;
+                            createdAt: any;
+                            updatedAt: any;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            projekte?:
+              | {
+                  __typename?: 'ModelProjektConnection';
+                  nextToken?: string | null | undefined;
+                  items?:
+                    | Array<
+                        | {
+                            __typename?: 'Projekt';
+                            id: string;
+                            anlageId: string;
+                            projektNummer: number;
+                            custom1ColumnName?: string | null | undefined;
+                            custom2ColumnName?: string | null | undefined;
+                            custom3ColumnName?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            referenzStueli?:
+              | {
+                  __typename?: 'ModelReferenzStueliConnection';
+                  nextToken?: string | null | undefined;
+                  items?:
+                    | Array<
+                        | {
+                            __typename?: 'ReferenzStueli';
+                            id: string;
+                            anlageId: string;
+                            bmk?: string | null | undefined;
+                            kurzspezifikation?: string | null | undefined;
+                            lieferant?: string | null | undefined;
+                            nennweite?: string | null | undefined;
+                            feinspezifikation?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+          };
+          projektStueli?:
+            | {
+                __typename?: 'ModelProjektStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ProjektStueli';
+                          id: string;
+                          projektId: string;
+                          bmk?: string | null | undefined;
+                          bmkDouble?: boolean | null | undefined;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          kurzspezifikationVorschlag?:
+                            | string
+                            | null
+                            | undefined;
+                          lieferantVorschlag?: string | null | undefined;
+                          nennweiteVorschlag?: string | null | undefined;
+                          feinspezifikationVorschlag?:
+                            | string
+                            | null
+                            | undefined;
+                          custom1?: string | null | undefined;
+                          custom2?: string | null | undefined;
+                          custom3?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          projekt: {
+                            __typename?: 'Projekt';
+                            id: string;
+                            anlageId: string;
+                            projektNummer: number;
+                            custom1ColumnName?: string | null | undefined;
+                            custom2ColumnName?: string | null | undefined;
+                            custom3ColumnName?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
       }
     | null
     | undefined;
@@ -4258,6 +5533,99 @@ export type ListProjektStuelisQuery = {
                   custom3?: string | null | undefined;
                   createdAt: any;
                   updatedAt: any;
+                  projekt: {
+                    __typename?: 'Projekt';
+                    id: string;
+                    anlageId: string;
+                    projektNummer: number;
+                    custom1ColumnName?: string | null | undefined;
+                    custom2ColumnName?: string | null | undefined;
+                    custom3ColumnName?: string | null | undefined;
+                    createdAt: any;
+                    updatedAt: any;
+                    anlage: {
+                      __typename?: 'Anlage';
+                      id: string;
+                      firma: string;
+                      standort: string;
+                      anschrift?: string | null | undefined;
+                      createdAt: any;
+                      updatedAt: any;
+                      anlagenUsers?:
+                        | {
+                            __typename?: 'ModelAnlagenUserConnection';
+                            nextToken?: string | null | undefined;
+                          }
+                        | null
+                        | undefined;
+                      projekte?:
+                        | {
+                            __typename?: 'ModelProjektConnection';
+                            nextToken?: string | null | undefined;
+                          }
+                        | null
+                        | undefined;
+                      referenzStueli?:
+                        | {
+                            __typename?: 'ModelReferenzStueliConnection';
+                            nextToken?: string | null | undefined;
+                          }
+                        | null
+                        | undefined;
+                    };
+                    projektStueli?:
+                      | {
+                          __typename?: 'ModelProjektStueliConnection';
+                          nextToken?: string | null | undefined;
+                          items?:
+                            | Array<
+                                | {
+                                    __typename?: 'ProjektStueli';
+                                    id: string;
+                                    projektId: string;
+                                    bmk?: string | null | undefined;
+                                    bmkDouble?: boolean | null | undefined;
+                                    kurzspezifikation?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    lieferant?: string | null | undefined;
+                                    nennweite?: string | null | undefined;
+                                    feinspezifikation?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    kurzspezifikationVorschlag?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    lieferantVorschlag?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    nennweiteVorschlag?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    feinspezifikationVorschlag?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    custom1?: string | null | undefined;
+                                    custom2?: string | null | undefined;
+                                    custom3?: string | null | undefined;
+                                    createdAt: any;
+                                    updatedAt: any;
+                                  }
+                                | null
+                                | undefined
+                              >
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
+                  };
                 }
               | null
               | undefined
@@ -4305,6 +5673,99 @@ export type ProjektStueliByKurzspezifikationQuery = {
                   custom3?: string | null | undefined;
                   createdAt: any;
                   updatedAt: any;
+                  projekt: {
+                    __typename?: 'Projekt';
+                    id: string;
+                    anlageId: string;
+                    projektNummer: number;
+                    custom1ColumnName?: string | null | undefined;
+                    custom2ColumnName?: string | null | undefined;
+                    custom3ColumnName?: string | null | undefined;
+                    createdAt: any;
+                    updatedAt: any;
+                    anlage: {
+                      __typename?: 'Anlage';
+                      id: string;
+                      firma: string;
+                      standort: string;
+                      anschrift?: string | null | undefined;
+                      createdAt: any;
+                      updatedAt: any;
+                      anlagenUsers?:
+                        | {
+                            __typename?: 'ModelAnlagenUserConnection';
+                            nextToken?: string | null | undefined;
+                          }
+                        | null
+                        | undefined;
+                      projekte?:
+                        | {
+                            __typename?: 'ModelProjektConnection';
+                            nextToken?: string | null | undefined;
+                          }
+                        | null
+                        | undefined;
+                      referenzStueli?:
+                        | {
+                            __typename?: 'ModelReferenzStueliConnection';
+                            nextToken?: string | null | undefined;
+                          }
+                        | null
+                        | undefined;
+                    };
+                    projektStueli?:
+                      | {
+                          __typename?: 'ModelProjektStueliConnection';
+                          nextToken?: string | null | undefined;
+                          items?:
+                            | Array<
+                                | {
+                                    __typename?: 'ProjektStueli';
+                                    id: string;
+                                    projektId: string;
+                                    bmk?: string | null | undefined;
+                                    bmkDouble?: boolean | null | undefined;
+                                    kurzspezifikation?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    lieferant?: string | null | undefined;
+                                    nennweite?: string | null | undefined;
+                                    feinspezifikation?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    kurzspezifikationVorschlag?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    lieferantVorschlag?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    nennweiteVorschlag?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    feinspezifikationVorschlag?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    custom1?: string | null | undefined;
+                                    custom2?: string | null | undefined;
+                                    custom3?: string | null | undefined;
+                                    createdAt: any;
+                                    updatedAt: any;
+                                  }
+                                | null
+                                | undefined
+                              >
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
+                  };
                 }
               | null
               | undefined
@@ -4334,6 +5795,130 @@ export type GetReferenzStueliQuery = {
         feinspezifikation?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
+        anlage: {
+          __typename?: 'Anlage';
+          id: string;
+          firma: string;
+          standort: string;
+          anschrift?: string | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlagenUsers?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          id: string;
+                          anlageId: string;
+                          bmk?: string | null | undefined;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
       }
     | null
     | undefined;
@@ -4366,6 +5951,102 @@ export type ListReferenzStuelisQuery = {
                   feinspezifikation?: string | null | undefined;
                   createdAt: any;
                   updatedAt: any;
+                  anlage: {
+                    __typename?: 'Anlage';
+                    id: string;
+                    firma: string;
+                    standort: string;
+                    anschrift?: string | null | undefined;
+                    createdAt: any;
+                    updatedAt: any;
+                    anlagenUsers?:
+                      | {
+                          __typename?: 'ModelAnlagenUserConnection';
+                          nextToken?: string | null | undefined;
+                          items?:
+                            | Array<
+                                | {
+                                    __typename?: 'AnlagenUser';
+                                    anlageId: string;
+                                    userEmail: string;
+                                    createdAt: any;
+                                    updatedAt: any;
+                                  }
+                                | null
+                                | undefined
+                              >
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
+                    projekte?:
+                      | {
+                          __typename?: 'ModelProjektConnection';
+                          nextToken?: string | null | undefined;
+                          items?:
+                            | Array<
+                                | {
+                                    __typename?: 'Projekt';
+                                    id: string;
+                                    anlageId: string;
+                                    projektNummer: number;
+                                    custom1ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    custom2ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    custom3ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    createdAt: any;
+                                    updatedAt: any;
+                                  }
+                                | null
+                                | undefined
+                              >
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
+                    referenzStueli?:
+                      | {
+                          __typename?: 'ModelReferenzStueliConnection';
+                          nextToken?: string | null | undefined;
+                          items?:
+                            | Array<
+                                | {
+                                    __typename?: 'ReferenzStueli';
+                                    id: string;
+                                    anlageId: string;
+                                    bmk?: string | null | undefined;
+                                    kurzspezifikation?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    lieferant?: string | null | undefined;
+                                    nennweite?: string | null | undefined;
+                                    feinspezifikation?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    createdAt: any;
+                                    updatedAt: any;
+                                  }
+                                | null
+                                | undefined
+                              >
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
+                  };
                 }
               | null
               | undefined
@@ -4405,6 +6086,102 @@ export type ReferenzStueliByKurzspezifikationQuery = {
                   feinspezifikation?: string | null | undefined;
                   createdAt: any;
                   updatedAt: any;
+                  anlage: {
+                    __typename?: 'Anlage';
+                    id: string;
+                    firma: string;
+                    standort: string;
+                    anschrift?: string | null | undefined;
+                    createdAt: any;
+                    updatedAt: any;
+                    anlagenUsers?:
+                      | {
+                          __typename?: 'ModelAnlagenUserConnection';
+                          nextToken?: string | null | undefined;
+                          items?:
+                            | Array<
+                                | {
+                                    __typename?: 'AnlagenUser';
+                                    anlageId: string;
+                                    userEmail: string;
+                                    createdAt: any;
+                                    updatedAt: any;
+                                  }
+                                | null
+                                | undefined
+                              >
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
+                    projekte?:
+                      | {
+                          __typename?: 'ModelProjektConnection';
+                          nextToken?: string | null | undefined;
+                          items?:
+                            | Array<
+                                | {
+                                    __typename?: 'Projekt';
+                                    id: string;
+                                    anlageId: string;
+                                    projektNummer: number;
+                                    custom1ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    custom2ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    custom3ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    createdAt: any;
+                                    updatedAt: any;
+                                  }
+                                | null
+                                | undefined
+                              >
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
+                    referenzStueli?:
+                      | {
+                          __typename?: 'ModelReferenzStueliConnection';
+                          nextToken?: string | null | undefined;
+                          items?:
+                            | Array<
+                                | {
+                                    __typename?: 'ReferenzStueli';
+                                    id: string;
+                                    anlageId: string;
+                                    bmk?: string | null | undefined;
+                                    kurzspezifikation?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    lieferant?: string | null | undefined;
+                                    nennweite?: string | null | undefined;
+                                    feinspezifikation?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    createdAt: any;
+                                    updatedAt: any;
+                                  }
+                                | null
+                                | undefined
+                              >
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
+                  };
                 }
               | null
               | undefined
@@ -4443,6 +6220,102 @@ export type ByAnlageQuery = {
                   feinspezifikation?: string | null | undefined;
                   createdAt: any;
                   updatedAt: any;
+                  anlage: {
+                    __typename?: 'Anlage';
+                    id: string;
+                    firma: string;
+                    standort: string;
+                    anschrift?: string | null | undefined;
+                    createdAt: any;
+                    updatedAt: any;
+                    anlagenUsers?:
+                      | {
+                          __typename?: 'ModelAnlagenUserConnection';
+                          nextToken?: string | null | undefined;
+                          items?:
+                            | Array<
+                                | {
+                                    __typename?: 'AnlagenUser';
+                                    anlageId: string;
+                                    userEmail: string;
+                                    createdAt: any;
+                                    updatedAt: any;
+                                  }
+                                | null
+                                | undefined
+                              >
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
+                    projekte?:
+                      | {
+                          __typename?: 'ModelProjektConnection';
+                          nextToken?: string | null | undefined;
+                          items?:
+                            | Array<
+                                | {
+                                    __typename?: 'Projekt';
+                                    id: string;
+                                    anlageId: string;
+                                    projektNummer: number;
+                                    custom1ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    custom2ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    custom3ColumnName?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    createdAt: any;
+                                    updatedAt: any;
+                                  }
+                                | null
+                                | undefined
+                              >
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
+                    referenzStueli?:
+                      | {
+                          __typename?: 'ModelReferenzStueliConnection';
+                          nextToken?: string | null | undefined;
+                          items?:
+                            | Array<
+                                | {
+                                    __typename?: 'ReferenzStueli';
+                                    id: string;
+                                    anlageId: string;
+                                    bmk?: string | null | undefined;
+                                    kurzspezifikation?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    lieferant?: string | null | undefined;
+                                    nennweite?: string | null | undefined;
+                                    feinspezifikation?:
+                                      | string
+                                      | null
+                                      | undefined;
+                                    createdAt: any;
+                                    updatedAt: any;
+                                  }
+                                | null
+                                | undefined
+                              >
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
+                  };
                 }
               | null
               | undefined
@@ -4824,6 +6697,36 @@ export type OnCreateAnlageSubscription = {
                         feinspezifikation?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
+                        anlage: {
+                          __typename?: 'Anlage';
+                          id: string;
+                          firma: string;
+                          standort: string;
+                          anschrift?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagenUsers?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                       }
                     | null
                     | undefined
@@ -5044,6 +6947,36 @@ export type OnUpdateAnlageSubscription = {
                         feinspezifikation?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
+                        anlage: {
+                          __typename?: 'Anlage';
+                          id: string;
+                          firma: string;
+                          standort: string;
+                          anschrift?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagenUsers?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                       }
                     | null
                     | undefined
@@ -5264,6 +7197,36 @@ export type OnDeleteAnlageSubscription = {
                         feinspezifikation?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
+                        anlage: {
+                          __typename?: 'Anlage';
+                          id: string;
+                          firma: string;
+                          standort: string;
+                          anschrift?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlagenUsers?:
+                            | {
+                                __typename?: 'ModelAnlagenUserConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          projekte?:
+                            | {
+                                __typename?: 'ModelProjektConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                          referenzStueli?:
+                            | {
+                                __typename?: 'ModelReferenzStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                       }
                     | null
                     | undefined
@@ -5396,6 +7359,15 @@ export type OnCreateAnlagenUserSubscription = {
                           feinspezifikation?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                         }
                       | null
                       | undefined
@@ -5577,6 +7549,15 @@ export type OnUpdateAnlagenUserSubscription = {
                           feinspezifikation?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                         }
                       | null
                       | undefined
@@ -5758,6 +7739,15 @@ export type OnDeleteAnlagenUserSubscription = {
                           feinspezifikation?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                         }
                       | null
                       | undefined
@@ -5943,6 +7933,15 @@ export type OnCreateProjektSubscription = {
                           feinspezifikation?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                         }
                       | null
                       | undefined
@@ -5978,6 +7977,33 @@ export type OnCreateProjektSubscription = {
                         custom3?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
+                        projekt: {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                       }
                     | null
                     | undefined
@@ -6114,6 +8140,15 @@ export type OnUpdateProjektSubscription = {
                           feinspezifikation?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                         }
                       | null
                       | undefined
@@ -6149,6 +8184,33 @@ export type OnUpdateProjektSubscription = {
                         custom3?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
+                        projekt: {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                       }
                     | null
                     | undefined
@@ -6285,6 +8347,15 @@ export type OnDeleteProjektSubscription = {
                           feinspezifikation?: string | null | undefined;
                           createdAt: any;
                           updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
                         }
                       | null
                       | undefined
@@ -6320,6 +8391,33 @@ export type OnDeleteProjektSubscription = {
                         custom3?: string | null | undefined;
                         createdAt: any;
                         updatedAt: any;
+                        projekt: {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        };
                       }
                     | null
                     | undefined
@@ -6360,6 +8458,149 @@ export type OnCreateProjektStueliSubscription = {
         custom3?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
+        projekt: {
+          __typename?: 'Projekt';
+          id: string;
+          anlageId: string;
+          projektNummer: number;
+          custom1ColumnName?: string | null | undefined;
+          custom2ColumnName?: string | null | undefined;
+          custom3ColumnName?: string | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlage: {
+            __typename?: 'Anlage';
+            id: string;
+            firma: string;
+            standort: string;
+            anschrift?: string | null | undefined;
+            createdAt: any;
+            updatedAt: any;
+            anlagenUsers?:
+              | {
+                  __typename?: 'ModelAnlagenUserConnection';
+                  nextToken?: string | null | undefined;
+                  items?:
+                    | Array<
+                        | {
+                            __typename?: 'AnlagenUser';
+                            anlageId: string;
+                            userEmail: string;
+                            createdAt: any;
+                            updatedAt: any;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            projekte?:
+              | {
+                  __typename?: 'ModelProjektConnection';
+                  nextToken?: string | null | undefined;
+                  items?:
+                    | Array<
+                        | {
+                            __typename?: 'Projekt';
+                            id: string;
+                            anlageId: string;
+                            projektNummer: number;
+                            custom1ColumnName?: string | null | undefined;
+                            custom2ColumnName?: string | null | undefined;
+                            custom3ColumnName?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            referenzStueli?:
+              | {
+                  __typename?: 'ModelReferenzStueliConnection';
+                  nextToken?: string | null | undefined;
+                  items?:
+                    | Array<
+                        | {
+                            __typename?: 'ReferenzStueli';
+                            id: string;
+                            anlageId: string;
+                            bmk?: string | null | undefined;
+                            kurzspezifikation?: string | null | undefined;
+                            lieferant?: string | null | undefined;
+                            nennweite?: string | null | undefined;
+                            feinspezifikation?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+          };
+          projektStueli?:
+            | {
+                __typename?: 'ModelProjektStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ProjektStueli';
+                          id: string;
+                          projektId: string;
+                          bmk?: string | null | undefined;
+                          bmkDouble?: boolean | null | undefined;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          kurzspezifikationVorschlag?:
+                            | string
+                            | null
+                            | undefined;
+                          lieferantVorschlag?: string | null | undefined;
+                          nennweiteVorschlag?: string | null | undefined;
+                          feinspezifikationVorschlag?:
+                            | string
+                            | null
+                            | undefined;
+                          custom1?: string | null | undefined;
+                          custom2?: string | null | undefined;
+                          custom3?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          projekt: {
+                            __typename?: 'Projekt';
+                            id: string;
+                            anlageId: string;
+                            projektNummer: number;
+                            custom1ColumnName?: string | null | undefined;
+                            custom2ColumnName?: string | null | undefined;
+                            custom3ColumnName?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
       }
     | null
     | undefined;
@@ -6391,6 +8632,149 @@ export type OnUpdateProjektStueliSubscription = {
         custom3?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
+        projekt: {
+          __typename?: 'Projekt';
+          id: string;
+          anlageId: string;
+          projektNummer: number;
+          custom1ColumnName?: string | null | undefined;
+          custom2ColumnName?: string | null | undefined;
+          custom3ColumnName?: string | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlage: {
+            __typename?: 'Anlage';
+            id: string;
+            firma: string;
+            standort: string;
+            anschrift?: string | null | undefined;
+            createdAt: any;
+            updatedAt: any;
+            anlagenUsers?:
+              | {
+                  __typename?: 'ModelAnlagenUserConnection';
+                  nextToken?: string | null | undefined;
+                  items?:
+                    | Array<
+                        | {
+                            __typename?: 'AnlagenUser';
+                            anlageId: string;
+                            userEmail: string;
+                            createdAt: any;
+                            updatedAt: any;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            projekte?:
+              | {
+                  __typename?: 'ModelProjektConnection';
+                  nextToken?: string | null | undefined;
+                  items?:
+                    | Array<
+                        | {
+                            __typename?: 'Projekt';
+                            id: string;
+                            anlageId: string;
+                            projektNummer: number;
+                            custom1ColumnName?: string | null | undefined;
+                            custom2ColumnName?: string | null | undefined;
+                            custom3ColumnName?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            referenzStueli?:
+              | {
+                  __typename?: 'ModelReferenzStueliConnection';
+                  nextToken?: string | null | undefined;
+                  items?:
+                    | Array<
+                        | {
+                            __typename?: 'ReferenzStueli';
+                            id: string;
+                            anlageId: string;
+                            bmk?: string | null | undefined;
+                            kurzspezifikation?: string | null | undefined;
+                            lieferant?: string | null | undefined;
+                            nennweite?: string | null | undefined;
+                            feinspezifikation?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+          };
+          projektStueli?:
+            | {
+                __typename?: 'ModelProjektStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ProjektStueli';
+                          id: string;
+                          projektId: string;
+                          bmk?: string | null | undefined;
+                          bmkDouble?: boolean | null | undefined;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          kurzspezifikationVorschlag?:
+                            | string
+                            | null
+                            | undefined;
+                          lieferantVorschlag?: string | null | undefined;
+                          nennweiteVorschlag?: string | null | undefined;
+                          feinspezifikationVorschlag?:
+                            | string
+                            | null
+                            | undefined;
+                          custom1?: string | null | undefined;
+                          custom2?: string | null | undefined;
+                          custom3?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          projekt: {
+                            __typename?: 'Projekt';
+                            id: string;
+                            anlageId: string;
+                            projektNummer: number;
+                            custom1ColumnName?: string | null | undefined;
+                            custom2ColumnName?: string | null | undefined;
+                            custom3ColumnName?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
       }
     | null
     | undefined;
@@ -6422,6 +8806,149 @@ export type OnDeleteProjektStueliSubscription = {
         custom3?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
+        projekt: {
+          __typename?: 'Projekt';
+          id: string;
+          anlageId: string;
+          projektNummer: number;
+          custom1ColumnName?: string | null | undefined;
+          custom2ColumnName?: string | null | undefined;
+          custom3ColumnName?: string | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlage: {
+            __typename?: 'Anlage';
+            id: string;
+            firma: string;
+            standort: string;
+            anschrift?: string | null | undefined;
+            createdAt: any;
+            updatedAt: any;
+            anlagenUsers?:
+              | {
+                  __typename?: 'ModelAnlagenUserConnection';
+                  nextToken?: string | null | undefined;
+                  items?:
+                    | Array<
+                        | {
+                            __typename?: 'AnlagenUser';
+                            anlageId: string;
+                            userEmail: string;
+                            createdAt: any;
+                            updatedAt: any;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            projekte?:
+              | {
+                  __typename?: 'ModelProjektConnection';
+                  nextToken?: string | null | undefined;
+                  items?:
+                    | Array<
+                        | {
+                            __typename?: 'Projekt';
+                            id: string;
+                            anlageId: string;
+                            projektNummer: number;
+                            custom1ColumnName?: string | null | undefined;
+                            custom2ColumnName?: string | null | undefined;
+                            custom3ColumnName?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            referenzStueli?:
+              | {
+                  __typename?: 'ModelReferenzStueliConnection';
+                  nextToken?: string | null | undefined;
+                  items?:
+                    | Array<
+                        | {
+                            __typename?: 'ReferenzStueli';
+                            id: string;
+                            anlageId: string;
+                            bmk?: string | null | undefined;
+                            kurzspezifikation?: string | null | undefined;
+                            lieferant?: string | null | undefined;
+                            nennweite?: string | null | undefined;
+                            feinspezifikation?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+          };
+          projektStueli?:
+            | {
+                __typename?: 'ModelProjektStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ProjektStueli';
+                          id: string;
+                          projektId: string;
+                          bmk?: string | null | undefined;
+                          bmkDouble?: boolean | null | undefined;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          kurzspezifikationVorschlag?:
+                            | string
+                            | null
+                            | undefined;
+                          lieferantVorschlag?: string | null | undefined;
+                          nennweiteVorschlag?: string | null | undefined;
+                          feinspezifikationVorschlag?:
+                            | string
+                            | null
+                            | undefined;
+                          custom1?: string | null | undefined;
+                          custom2?: string | null | undefined;
+                          custom3?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          projekt: {
+                            __typename?: 'Projekt';
+                            id: string;
+                            anlageId: string;
+                            projektNummer: number;
+                            custom1ColumnName?: string | null | undefined;
+                            custom2ColumnName?: string | null | undefined;
+                            custom3ColumnName?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
       }
     | null
     | undefined;
@@ -6445,6 +8972,130 @@ export type OnCreateReferenzStueliSubscription = {
         feinspezifikation?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
+        anlage: {
+          __typename?: 'Anlage';
+          id: string;
+          firma: string;
+          standort: string;
+          anschrift?: string | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlagenUsers?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          id: string;
+                          anlageId: string;
+                          bmk?: string | null | undefined;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
       }
     | null
     | undefined;
@@ -6468,6 +9119,130 @@ export type OnUpdateReferenzStueliSubscription = {
         feinspezifikation?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
+        anlage: {
+          __typename?: 'Anlage';
+          id: string;
+          firma: string;
+          standort: string;
+          anschrift?: string | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlagenUsers?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          id: string;
+                          anlageId: string;
+                          bmk?: string | null | undefined;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
       }
     | null
     | undefined;
@@ -6491,6 +9266,130 @@ export type OnDeleteReferenzStueliSubscription = {
         feinspezifikation?: string | null | undefined;
         createdAt: any;
         updatedAt: any;
+        anlage: {
+          __typename?: 'Anlage';
+          id: string;
+          firma: string;
+          standort: string;
+          anschrift?: string | null | undefined;
+          createdAt: any;
+          updatedAt: any;
+          anlagenUsers?:
+            | {
+                __typename?: 'ModelAnlagenUserConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'AnlagenUser';
+                          anlageId: string;
+                          userEmail: string;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          user: {
+                            __typename?: 'User';
+                            email: string;
+                            role: Role;
+                            currentAnlageId?: string | null | undefined;
+                            currentProjektId?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          projekte?:
+            | {
+                __typename?: 'ModelProjektConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'Projekt';
+                          id: string;
+                          anlageId: string;
+                          projektNummer: number;
+                          custom1ColumnName?: string | null | undefined;
+                          custom2ColumnName?: string | null | undefined;
+                          custom3ColumnName?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                          projektStueli?:
+                            | {
+                                __typename?: 'ModelProjektStueliConnection';
+                                nextToken?: string | null | undefined;
+                              }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          referenzStueli?:
+            | {
+                __typename?: 'ModelReferenzStueliConnection';
+                nextToken?: string | null | undefined;
+                items?:
+                  | Array<
+                      | {
+                          __typename?: 'ReferenzStueli';
+                          id: string;
+                          anlageId: string;
+                          bmk?: string | null | undefined;
+                          kurzspezifikation?: string | null | undefined;
+                          lieferant?: string | null | undefined;
+                          nennweite?: string | null | undefined;
+                          feinspezifikation?: string | null | undefined;
+                          createdAt: any;
+                          updatedAt: any;
+                          anlage: {
+                            __typename?: 'Anlage';
+                            id: string;
+                            firma: string;
+                            standort: string;
+                            anschrift?: string | null | undefined;
+                            createdAt: any;
+                            updatedAt: any;
+                          };
+                        }
+                      | null
+                      | undefined
+                    >
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+        };
       }
     | null
     | undefined;
@@ -7014,6 +9913,23 @@ export const CreateAnlageDocument = `
         feinspezifikation
         createdAt
         updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          createdAt
+          updatedAt
+          anlagenUsers {
+            nextToken
+          }
+          projekte {
+            nextToken
+          }
+          referenzStueli {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -7151,6 +10067,23 @@ export const UpdateAnlageDocument = `
         feinspezifikation
         createdAt
         updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          createdAt
+          updatedAt
+          anlagenUsers {
+            nextToken
+          }
+          projekte {
+            nextToken
+          }
+          referenzStueli {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -7288,6 +10221,23 @@ export const DeleteAnlageDocument = `
         feinspezifikation
         createdAt
         updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          createdAt
+          updatedAt
+          anlagenUsers {
+            nextToken
+          }
+          projekte {
+            nextToken
+          }
+          referenzStueli {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -7390,6 +10340,14 @@ export const CreateAnlagenUserDocument = `
           feinspezifikation
           createdAt
           updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
@@ -7529,6 +10487,14 @@ export const UpdateAnlagenUserDocument = `
           feinspezifikation
           createdAt
           updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
@@ -7668,6 +10634,14 @@ export const DeleteAnlagenUserDocument = `
           feinspezifikation
           createdAt
           updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
@@ -7811,6 +10785,14 @@ export const CreateProjektDocument = `
           feinspezifikation
           createdAt
           updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
@@ -7834,6 +10816,27 @@ export const CreateProjektDocument = `
         custom3
         createdAt
         updatedAt
+        projekt {
+          id
+          anlageId
+          projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -7940,6 +10943,14 @@ export const UpdateProjektDocument = `
           feinspezifikation
           createdAt
           updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
@@ -7963,6 +10974,27 @@ export const UpdateProjektDocument = `
         custom3
         createdAt
         updatedAt
+        projekt {
+          id
+          anlageId
+          projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -8069,6 +11101,14 @@ export const DeleteProjektDocument = `
           feinspezifikation
           createdAt
           updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
@@ -8092,6 +11132,27 @@ export const DeleteProjektDocument = `
         custom3
         createdAt
         updatedAt
+        projekt {
+          id
+          anlageId
+          projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -8140,6 +11201,92 @@ export const CreateProjektStueliDocument = `
     custom3
     createdAt
     updatedAt
+    projekt {
+      id
+      anlageId
+      projektNummer
+      custom1ColumnName
+      custom2ColumnName
+      custom3ColumnName
+      createdAt
+      updatedAt
+      anlage {
+        id
+        firma
+        standort
+        anschrift
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            bmk
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
+      projektStueli {
+        items {
+          id
+          projektId
+          bmk
+          bmkDouble
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          kurzspezifikationVorschlag
+          lieferantVorschlag
+          nennweiteVorschlag
+          feinspezifikationVorschlag
+          custom1
+          custom2
+          custom3
+          createdAt
+          updatedAt
+          projekt {
+            id
+            anlageId
+            projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
   }
 }
     `;
@@ -8188,6 +11335,92 @@ export const UpdateProjektStueliDocument = `
     custom3
     createdAt
     updatedAt
+    projekt {
+      id
+      anlageId
+      projektNummer
+      custom1ColumnName
+      custom2ColumnName
+      custom3ColumnName
+      createdAt
+      updatedAt
+      anlage {
+        id
+        firma
+        standort
+        anschrift
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            bmk
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
+      projektStueli {
+        items {
+          id
+          projektId
+          bmk
+          bmkDouble
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          kurzspezifikationVorschlag
+          lieferantVorschlag
+          nennweiteVorschlag
+          feinspezifikationVorschlag
+          custom1
+          custom2
+          custom3
+          createdAt
+          updatedAt
+          projekt {
+            id
+            anlageId
+            projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
   }
 }
     `;
@@ -8236,6 +11469,92 @@ export const DeleteProjektStueliDocument = `
     custom3
     createdAt
     updatedAt
+    projekt {
+      id
+      anlageId
+      projektNummer
+      custom1ColumnName
+      custom2ColumnName
+      custom3ColumnName
+      createdAt
+      updatedAt
+      anlage {
+        id
+        firma
+        standort
+        anschrift
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            bmk
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
+      projektStueli {
+        items {
+          id
+          projektId
+          bmk
+          bmkDouble
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          kurzspezifikationVorschlag
+          lieferantVorschlag
+          nennweiteVorschlag
+          feinspezifikationVorschlag
+          custom1
+          custom2
+          custom3
+          createdAt
+          updatedAt
+          projekt {
+            id
+            anlageId
+            projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
   }
 }
     `;
@@ -8276,6 +11595,85 @@ export const CreateReferenzStueliDocument = `
     feinspezifikation
     createdAt
     updatedAt
+    anlage {
+      id
+      firma
+      standort
+      anschrift
+      createdAt
+      updatedAt
+      anlagenUsers {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          user {
+            email
+            role
+            currentAnlageId
+            currentProjektId
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          id
+          anlageId
+          bmk
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
   }
 }
     `;
@@ -8316,6 +11714,85 @@ export const UpdateReferenzStueliDocument = `
     feinspezifikation
     createdAt
     updatedAt
+    anlage {
+      id
+      firma
+      standort
+      anschrift
+      createdAt
+      updatedAt
+      anlagenUsers {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          user {
+            email
+            role
+            currentAnlageId
+            currentProjektId
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          id
+          anlageId
+          bmk
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
   }
 }
     `;
@@ -8356,6 +11833,85 @@ export const DeleteReferenzStueliDocument = `
     feinspezifikation
     createdAt
     updatedAt
+    anlage {
+      id
+      firma
+      standort
+      anschrift
+      createdAt
+      updatedAt
+      anlagenUsers {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          user {
+            email
+            role
+            currentAnlageId
+            currentProjektId
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          id
+          anlageId
+          bmk
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
   }
 }
     `;
@@ -8730,6 +12286,23 @@ export const GetAnlageDocument = `
         feinspezifikation
         createdAt
         updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          createdAt
+          updatedAt
+          anlagenUsers {
+            nextToken
+          }
+          projekte {
+            nextToken
+          }
+          referenzStueli {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -8824,6 +12397,14 @@ export const ListAnlagesDocument = `
           feinspezifikation
           createdAt
           updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
@@ -8918,6 +12499,14 @@ export const GetAnlagenUserDocument = `
           feinspezifikation
           createdAt
           updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
@@ -9149,6 +12738,14 @@ export const GetProjektDocument = `
           feinspezifikation
           createdAt
           updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
@@ -9172,6 +12769,27 @@ export const GetProjektDocument = `
         custom3
         createdAt
         updatedAt
+        projekt {
+          id
+          anlageId
+          projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -9271,6 +12889,16 @@ export const ListProjektsDocument = `
           custom3
           createdAt
           updatedAt
+          projekt {
+            id
+            anlageId
+            projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
@@ -9314,6 +12942,92 @@ export const GetProjektStueliDocument = `
     custom3
     createdAt
     updatedAt
+    projekt {
+      id
+      anlageId
+      projektNummer
+      custom1ColumnName
+      custom2ColumnName
+      custom3ColumnName
+      createdAt
+      updatedAt
+      anlage {
+        id
+        firma
+        standort
+        anschrift
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            bmk
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
+      projektStueli {
+        items {
+          id
+          projektId
+          bmk
+          bmkDouble
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          kurzspezifikationVorschlag
+          lieferantVorschlag
+          nennweiteVorschlag
+          feinspezifikationVorschlag
+          custom1
+          custom2
+          custom3
+          createdAt
+          updatedAt
+          projekt {
+            id
+            anlageId
+            projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
   }
 }
     `;
@@ -9359,6 +13073,55 @@ export const ListProjektStuelisDocument = `
       custom3
       createdAt
       updatedAt
+      projekt {
+        id
+        anlageId
+        projektNummer
+        custom1ColumnName
+        custom2ColumnName
+        custom3ColumnName
+        createdAt
+        updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          createdAt
+          updatedAt
+          anlagenUsers {
+            nextToken
+          }
+          projekte {
+            nextToken
+          }
+          referenzStueli {
+            nextToken
+          }
+        }
+        projektStueli {
+          items {
+            id
+            projektId
+            bmk
+            bmkDouble
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            kurzspezifikationVorschlag
+            lieferantVorschlag
+            nennweiteVorschlag
+            feinspezifikationVorschlag
+            custom1
+            custom2
+            custom3
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
     }
     nextToken
   }
@@ -9409,6 +13172,55 @@ export const ProjektStueliByKurzspezifikationDocument = `
       custom3
       createdAt
       updatedAt
+      projekt {
+        id
+        anlageId
+        projektNummer
+        custom1ColumnName
+        custom2ColumnName
+        custom3ColumnName
+        createdAt
+        updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          createdAt
+          updatedAt
+          anlagenUsers {
+            nextToken
+          }
+          projekte {
+            nextToken
+          }
+          referenzStueli {
+            nextToken
+          }
+        }
+        projektStueli {
+          items {
+            id
+            projektId
+            bmk
+            bmkDouble
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            kurzspezifikationVorschlag
+            lieferantVorschlag
+            nennweiteVorschlag
+            feinspezifikationVorschlag
+            custom1
+            custom2
+            custom3
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
     }
     nextToken
   }
@@ -9447,6 +13259,85 @@ export const GetReferenzStueliDocument = `
     feinspezifikation
     createdAt
     updatedAt
+    anlage {
+      id
+      firma
+      standort
+      anschrift
+      createdAt
+      updatedAt
+      anlagenUsers {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          user {
+            email
+            role
+            currentAnlageId
+            currentProjektId
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          id
+          anlageId
+          bmk
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
   }
 }
     `;
@@ -9484,6 +13375,50 @@ export const ListReferenzStuelisDocument = `
       feinspezifikation
       createdAt
       updatedAt
+      anlage {
+        id
+        firma
+        standort
+        anschrift
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            bmk
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
     }
     nextToken
   }
@@ -9526,6 +13461,50 @@ export const ReferenzStueliByKurzspezifikationDocument = `
       feinspezifikation
       createdAt
       updatedAt
+      anlage {
+        id
+        firma
+        standort
+        anschrift
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            bmk
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
     }
     nextToken
   }
@@ -9571,6 +13550,50 @@ export const ByAnlageDocument = `
       feinspezifikation
       createdAt
       updatedAt
+      anlage {
+        id
+        firma
+        standort
+        anschrift
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            bmk
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
     }
     nextToken
   }
@@ -9816,6 +13839,23 @@ export const OnCreateAnlageDocument = `
         feinspezifikation
         createdAt
         updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          createdAt
+          updatedAt
+          anlagenUsers {
+            nextToken
+          }
+          projekte {
+            nextToken
+          }
+          referenzStueli {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -9931,6 +13971,23 @@ export const OnUpdateAnlageDocument = `
         feinspezifikation
         createdAt
         updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          createdAt
+          updatedAt
+          anlagenUsers {
+            nextToken
+          }
+          projekte {
+            nextToken
+          }
+          referenzStueli {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -10046,6 +14103,23 @@ export const OnDeleteAnlageDocument = `
         feinspezifikation
         createdAt
         updatedAt
+        anlage {
+          id
+          firma
+          standort
+          anschrift
+          createdAt
+          updatedAt
+          anlagenUsers {
+            nextToken
+          }
+          projekte {
+            nextToken
+          }
+          referenzStueli {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -10126,6 +14200,14 @@ export const OnCreateAnlagenUserDocument = `
           feinspezifikation
           createdAt
           updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
@@ -10240,6 +14322,14 @@ export const OnUpdateAnlagenUserDocument = `
           feinspezifikation
           createdAt
           updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
@@ -10354,6 +14444,14 @@ export const OnDeleteAnlagenUserDocument = `
           feinspezifikation
           createdAt
           updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
@@ -10472,6 +14570,14 @@ export const OnCreateProjektDocument = `
           feinspezifikation
           createdAt
           updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
@@ -10495,6 +14601,27 @@ export const OnCreateProjektDocument = `
         custom3
         createdAt
         updatedAt
+        projekt {
+          id
+          anlageId
+          projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -10579,6 +14706,14 @@ export const OnUpdateProjektDocument = `
           feinspezifikation
           createdAt
           updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
@@ -10602,6 +14737,27 @@ export const OnUpdateProjektDocument = `
         custom3
         createdAt
         updatedAt
+        projekt {
+          id
+          anlageId
+          projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -10686,6 +14842,14 @@ export const OnDeleteProjektDocument = `
           feinspezifikation
           createdAt
           updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
@@ -10709,6 +14873,27 @@ export const OnDeleteProjektDocument = `
         custom3
         createdAt
         updatedAt
+        projekt {
+          id
+          anlageId
+          projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -10735,6 +14920,92 @@ export const OnCreateProjektStueliDocument = `
     custom3
     createdAt
     updatedAt
+    projekt {
+      id
+      anlageId
+      projektNummer
+      custom1ColumnName
+      custom2ColumnName
+      custom3ColumnName
+      createdAt
+      updatedAt
+      anlage {
+        id
+        firma
+        standort
+        anschrift
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            bmk
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
+      projektStueli {
+        items {
+          id
+          projektId
+          bmk
+          bmkDouble
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          kurzspezifikationVorschlag
+          lieferantVorschlag
+          nennweiteVorschlag
+          feinspezifikationVorschlag
+          custom1
+          custom2
+          custom3
+          createdAt
+          updatedAt
+          projekt {
+            id
+            anlageId
+            projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
   }
 }
     `;
@@ -10758,6 +15029,92 @@ export const OnUpdateProjektStueliDocument = `
     custom3
     createdAt
     updatedAt
+    projekt {
+      id
+      anlageId
+      projektNummer
+      custom1ColumnName
+      custom2ColumnName
+      custom3ColumnName
+      createdAt
+      updatedAt
+      anlage {
+        id
+        firma
+        standort
+        anschrift
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            bmk
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
+      projektStueli {
+        items {
+          id
+          projektId
+          bmk
+          bmkDouble
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          kurzspezifikationVorschlag
+          lieferantVorschlag
+          nennweiteVorschlag
+          feinspezifikationVorschlag
+          custom1
+          custom2
+          custom3
+          createdAt
+          updatedAt
+          projekt {
+            id
+            anlageId
+            projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
   }
 }
     `;
@@ -10781,6 +15138,92 @@ export const OnDeleteProjektStueliDocument = `
     custom3
     createdAt
     updatedAt
+    projekt {
+      id
+      anlageId
+      projektNummer
+      custom1ColumnName
+      custom2ColumnName
+      custom3ColumnName
+      createdAt
+      updatedAt
+      anlage {
+        id
+        firma
+        standort
+        anschrift
+        createdAt
+        updatedAt
+        anlagenUsers {
+          items {
+            anlageId
+            userEmail
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        projekte {
+          items {
+            id
+            anlageId
+            projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        referenzStueli {
+          items {
+            id
+            anlageId
+            bmk
+            kurzspezifikation
+            lieferant
+            nennweite
+            feinspezifikation
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
+      projektStueli {
+        items {
+          id
+          projektId
+          bmk
+          bmkDouble
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          kurzspezifikationVorschlag
+          lieferantVorschlag
+          nennweiteVorschlag
+          feinspezifikationVorschlag
+          custom1
+          custom2
+          custom3
+          createdAt
+          updatedAt
+          projekt {
+            id
+            anlageId
+            projektNummer
+            custom1ColumnName
+            custom2ColumnName
+            custom3ColumnName
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
   }
 }
     `;
@@ -10796,6 +15239,85 @@ export const OnCreateReferenzStueliDocument = `
     feinspezifikation
     createdAt
     updatedAt
+    anlage {
+      id
+      firma
+      standort
+      anschrift
+      createdAt
+      updatedAt
+      anlagenUsers {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          user {
+            email
+            role
+            currentAnlageId
+            currentProjektId
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          id
+          anlageId
+          bmk
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
   }
 }
     `;
@@ -10811,6 +15333,85 @@ export const OnUpdateReferenzStueliDocument = `
     feinspezifikation
     createdAt
     updatedAt
+    anlage {
+      id
+      firma
+      standort
+      anschrift
+      createdAt
+      updatedAt
+      anlagenUsers {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          user {
+            email
+            role
+            currentAnlageId
+            currentProjektId
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          id
+          anlageId
+          bmk
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
   }
 }
     `;
@@ -10826,6 +15427,85 @@ export const OnDeleteReferenzStueliDocument = `
     feinspezifikation
     createdAt
     updatedAt
+    anlage {
+      id
+      firma
+      standort
+      anschrift
+      createdAt
+      updatedAt
+      anlagenUsers {
+        items {
+          anlageId
+          userEmail
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          user {
+            email
+            role
+            currentAnlageId
+            currentProjektId
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+      projekte {
+        items {
+          id
+          anlageId
+          projektNummer
+          custom1ColumnName
+          custom2ColumnName
+          custom3ColumnName
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+          projektStueli {
+            nextToken
+          }
+        }
+        nextToken
+      }
+      referenzStueli {
+        items {
+          id
+          anlageId
+          bmk
+          kurzspezifikation
+          lieferant
+          nennweite
+          feinspezifikation
+          createdAt
+          updatedAt
+          anlage {
+            id
+            firma
+            standort
+            anschrift
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
   }
 }
     `;

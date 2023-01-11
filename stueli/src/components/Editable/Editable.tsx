@@ -13,6 +13,7 @@ const EditTable = ({
   onSave,
   onCancel,
   children,
+  className,
   ...rest
 }: {
   childRef: RefObject<HTMLInputElement>;
@@ -28,6 +29,7 @@ const EditTable = ({
    * @returns
    */
   onCancel: () => void;
+  className?: string;
   children: ReactNode;
 }) => {
   const [isEditing, setEditing] = useState(false);
@@ -64,7 +66,7 @@ const EditTable = ({
         </div>
       ) : (
         <div onClick={() => setEditing(true)}>
-          <span className="inline-block">{text}</span>
+          <span className={'inline-block ' + className}>{text}</span>
         </div>
       )}
     </section>

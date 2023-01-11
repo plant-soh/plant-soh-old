@@ -6,7 +6,7 @@ const Modal = ({
   modal,
 }: {
   modal: boolean;
-  handleModal: (content?: string | undefined) => void;
+  handleModal: (content?: string) => Promise<boolean>;
   modalContent: string;
 }) => {
   const modalDiv = document.querySelector('#modal-root');

@@ -4,7 +4,7 @@ import Modal from '../components/Modal';
 
 export interface ModalValue {
   modal: boolean;
-  handleModal: (content?: string | undefined) => void;
+  handleModal: (content?: string) => Promise<boolean>;
   modalContent: string;
 }
 
@@ -28,11 +28,14 @@ export default function ModalProvider({
   let [modal, setModal] = React.useState(false);
   let [modalContent, setModalContent] = React.useState("I'm the Modal Content");
 
-  let handleModal = (content?: string) => {
+  let handleModal = async (content?: string): Promise<boolean> => {
     setModal(!modal);
     if (content) {
       setModalContent(content);
     }
+
+    // await new Promise((res) => setTimeout(res, 5000));
+    return true;
   };
 
   const value: ModalValue = {
