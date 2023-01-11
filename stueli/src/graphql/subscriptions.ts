@@ -80,6 +80,7 @@ export const onCreateAnlage = /* GraphQL */ `
               id
               projektId
               bmk
+              bmkDouble
               kurzspezifikation
               lieferant
               nennweite
@@ -194,6 +195,7 @@ export const onUpdateAnlage = /* GraphQL */ `
               id
               projektId
               bmk
+              bmkDouble
               kurzspezifikation
               lieferant
               nennweite
@@ -308,6 +310,7 @@ export const onDeleteAnlage = /* GraphQL */ `
               id
               projektId
               bmk
+              bmkDouble
               kurzspezifikation
               lieferant
               nennweite
@@ -773,6 +776,7 @@ export const onCreateProjekt = /* GraphQL */ `
           id
           projektId
           bmk
+          bmkDouble
           kurzspezifikation
           lieferant
           nennweite
@@ -879,6 +883,7 @@ export const onUpdateProjekt = /* GraphQL */ `
           id
           projektId
           bmk
+          bmkDouble
           kurzspezifikation
           lieferant
           nennweite
@@ -985,6 +990,7 @@ export const onDeleteProjekt = /* GraphQL */ `
           id
           projektId
           bmk
+          bmkDouble
           kurzspezifikation
           lieferant
           nennweite
@@ -1010,6 +1016,7 @@ export const onCreateProjektStueli = /* GraphQL */ `
       id
       projektId
       bmk
+      bmkDouble
       kurzspezifikation
       lieferant
       nennweite
@@ -1032,6 +1039,7 @@ export const onUpdateProjektStueli = /* GraphQL */ `
       id
       projektId
       bmk
+      bmkDouble
       kurzspezifikation
       lieferant
       nennweite
@@ -1054,6 +1062,7 @@ export const onDeleteProjektStueli = /* GraphQL */ `
       id
       projektId
       bmk
+      bmkDouble
       kurzspezifikation
       lieferant
       nennweite

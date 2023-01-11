@@ -87,6 +87,7 @@ export const getAnlage = /* GraphQL */ `
               id
               projektId
               bmk
+              bmkDouble
               kurzspezifikation
               lieferant
               nennweite
@@ -502,6 +503,7 @@ export const getProjekt = /* GraphQL */ `
           id
           projektId
           bmk
+          bmkDouble
           kurzspezifikation
           lieferant
           nennweite
@@ -594,6 +596,7 @@ export const listProjekts = /* GraphQL */ `
             id
             projektId
             bmk
+            bmkDouble
             kurzspezifikation
             lieferant
             nennweite
@@ -621,6 +624,7 @@ export const getProjektStueli = /* GraphQL */ `
       id
       projektId
       bmk
+      bmkDouble
       kurzspezifikation
       lieferant
       nennweite
@@ -656,6 +660,7 @@ export const listProjektStuelis = /* GraphQL */ `
         id
         projektId
         bmk
+        bmkDouble
         kurzspezifikation
         lieferant
         nennweite
@@ -695,6 +700,7 @@ export const projektStueliByKurzspezifikation = /* GraphQL */ `
         id
         projektId
         bmk
+        bmkDouble
         kurzspezifikation
         lieferant
         nennweite

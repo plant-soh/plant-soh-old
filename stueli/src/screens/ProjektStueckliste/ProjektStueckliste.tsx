@@ -16,9 +16,9 @@ import {
   useReferenzStueliByKurzspezifikationQuery,
   useSetCurrentProjektIdMutation,
   useUpdateProjektMutation,
-  useUpdateProjektStueliMutation,
 } from '../../lib/react-api';
 import { useAuth } from '../../providers/AuthProvider';
+import { useModal } from '../../providers/ModalProvider';
 
 function nameof<T>(key: keyof T): keyof T {
   return key;
@@ -34,6 +34,8 @@ const ProjektStueckliste = () => {
   const { currentProjektId, refreshSession, role } = useAuth();
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  let { handleModal } = useModal();
 
   const [newStueck, setNewStueck] = useState<{
     bmk: string;
@@ -291,7 +293,7 @@ const ProjektStueckliste = () => {
 
   const deleteStueck = useDeleteProjektStueliMutation();
   const createStueck = useCreateProjektStueliMutation();
-  const updateStueck = useUpdateProjektStueliMutation();
+  // const updateStueck = useUpdateProjektStueliMutation();
 
   const updateProjekt = useUpdateProjektMutation();
 
@@ -476,13 +478,14 @@ const ProjektStueckliste = () => {
                           key={col}
                           text={stueck[col]}
                           onSave={async () => {
-                            await updateStueck.mutateAsync({
-                              input: {
-                                id: stueck.id,
-                                [col]: editStueck,
-                              },
-                            });
-                            await refetch();
+                            handleModal('This is component modal content');
+                            // await updateStueck.mutateAsync({
+                            //   input: {
+                            //     id: stueck.id,
+                            //     [col]: editStueck,
+                            //   },
+                            // });
+                            // await refetch();
                           }}
                           onCancel={() => {
                             setEditStueck(stueck[col]);

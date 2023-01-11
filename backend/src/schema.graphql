@@ -81,6 +81,7 @@ type ProjektStueli
   id: ID!
   projektId: ID!
   bmk: String
+  bmkDouble: Boolean
   kurzspezifikation: String
   lieferant: String
   nennweite: String

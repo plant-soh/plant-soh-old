@@ -13,7 +13,6 @@ import {
 } from '../../stueli/src/lib/api';
 
 const { APPSYNC_URL } = process.env;
-
 const client = new AppsyncClient({ apiUrl: APPSYNC_URL });
 
 export async function handler(

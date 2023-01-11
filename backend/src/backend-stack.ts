@@ -4,6 +4,7 @@ import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as iam from 'aws-cdk-lib/aws-iam';
 // import * as ddb from 'aws-cdk-lib/aws-dynamodb';
 import * as lambdajs from 'aws-cdk-lib/aws-lambda-nodejs';
+import * as logs from 'aws-cdk-lib/aws-logs';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 import { AppSyncTransformer } from 'cdk-appsync-transformer';
 import * as constructs from 'constructs';
@@ -229,6 +230,7 @@ export class BackendStack extends core.Stack {
       this,
       'preTokenGenerationLambda',
       {
+        logRetention: logs.RetentionDays.ONE_DAY,
         environment: {
           APPSYNC_URL: appSyncCustomDomainUrl,
         },
@@ -240,61 +242,12 @@ export class BackendStack extends core.Stack {
       preTokenGenerationLambda,
     );
 
-    // const createAnlagenUser = new lambdajs.NodejsFunction(
-    //   this,
-    //   'createAnlagenUser',
-    //   {
-    //     functionName: 'createAnlagenUser',
-    //     timeout: core.Duration.seconds(30),
-    //     environment: {
-    //       APPSYNC_URL: appSyncCustomDomainUrl,
-    //     },
-    //   },
-    // );
-
-    // api.addLambdaDataSourceAndResolvers(
-    //   'createAnlagenUser',
-    //   'createAnlagenUser',
-    //   createAnlagenUser,
-    // );
-
-    // const deleteAnlagenUser = new lambdajs.NodejsFunction(
-    //   this,
-    //   'deleteAnlagenUser',
-    //   {
-    //     functionName: 'deleteAnlagenUser',
-    //     timeout: core.Duration.seconds(30),
-    //     environment: {
-    //       APPSYNC_URL: appSyncCustomDomainUrl,
-    //     },
-    //   },
-    // );
-
-    // api.addLambdaDataSourceAndResolvers(
-    //   'deleteAnlagenUser',
-    //   'deleteAnlagenUser',
-    //   deleteAnlagenUser,
-    // );
-
-    // const deleteAnlage = new lambdajs.NodejsFunction(this, 'deleteAnlage', {
-    //   functionName: 'deleteAnlage',
-    //   timeout: core.Duration.seconds(30),
-    //   environment: {
-    //     APPSYNC_URL: appSyncCustomDomainUrl,
-    //   },
-    // });
-
-    // api.addLambdaDataSourceAndResolvers(
-    //   'deleteAnlage',
-    //   'deleteAnlage',
-    //   deleteAnlage,
-    // );
-
     const setCurrentAnlageId = new lambdajs.NodejsFunction(
       this,
       'setCurrentAnlageId',
       {
         functionName: 'setCurrentAnlageId',
+        logRetention: logs.RetentionDays.ONE_DAY,
         timeout: core.Duration.seconds(30),
         environment: {
           APPSYNC_URL: appSyncCustomDomainUrl,
@@ -313,6 +266,7 @@ export class BackendStack extends core.Stack {
       'setCurrentProjektId',
       {
         functionName: 'setCurrentProjektId',
+        logRetention: logs.RetentionDays.ONE_DAY,
         timeout: core.Duration.seconds(30),
         environment: {
           APPSYNC_URL: appSyncCustomDomainUrl,
@@ -331,6 +285,7 @@ export class BackendStack extends core.Stack {
       'listKurzspezifikationVorschlaege',
       {
         functionName: 'listKurzspezifikationVorschlaege',
+        logRetention: logs.RetentionDays.ONE_DAY,
         timeout: core.Duration.seconds(30),
         environment: {
           APPSYNC_URL: appSyncCustomDomainUrl,
@@ -344,12 +299,36 @@ export class BackendStack extends core.Stack {
       listKurzspezifikationVorschlaege,
     );
 
+    const bmkChecker = new lambdajs.NodejsFunction(this, 'bmkChecker', {
+      logRetention: logs.RetentionDays.ONE_DAY,
+      timeout: core.Duration.seconds(30),
+      environment: {
+        APPSYNC_URL: appSyncCustomDomainUrl,
+      },
+    });
+
+    // bmkChecker.addToRolePolicy(new iam.PolicyStatement({ actions: ['ddb:'] }))
+
+    // const streamArn = api.addDynamoDBStream({
+    //   modelTypeName: 'ProjektStueli',
+    //   streamViewType: ddb.StreamViewType.NEW_IMAGE,
+    // });
+
+    // bmkChecker.addEventSourceMapping('bmkChecker', {
+    //   eventSourceArn: streamArn,
+    //   // batchSize: 1,
+    //   startingPosition: lambda.StartingPosition.TRIM_HORIZON,
+    //   // bisectBatchOnError: true,
+    //   retryAttempts: 0,
+    // });
+
     // add AppSync access to all lambda which need it
     [
       preTokenGenerationLambda,
       setCurrentAnlageId,
       setCurrentProjektId,
       listKurzspezifikationVorschlaege,
+      bmkChecker,
     ].map((lambda) => {
       lambda.addToRolePolicy(
         new iam.PolicyStatement({

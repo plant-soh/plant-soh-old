@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import MainRouter from './navigation/MainRouter';
 import AuthProvider from './providers/AuthProvider';
+import ModalProvider from './providers/ModalProvider';
 import RuntimeProvider from './providers/RuntimeProvider';
 
 const queryClient = new QueryClient();
@@ -91,7 +92,9 @@ function App() {
       <Authenticator.Provider>
         <RuntimeProvider runtimeContext={runtimeContext}>
           <AuthProvider>
-            <MainRouter />
+            <ModalProvider>
+              <MainRouter />
+            </ModalProvider>
           </AuthProvider>{' '}
         </RuntimeProvider>
       </Authenticator.Provider>

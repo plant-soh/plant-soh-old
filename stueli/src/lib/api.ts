@@ -98,6 +98,7 @@ export type CreateProjektInput = {
 
 export type CreateProjektStueliInput = {
   bmk?: InputMaybe<Scalars['String']>;
+  bmkDouble?: InputMaybe<Scalars['Boolean']>;
   custom1?: InputMaybe<Scalars['String']>;
   custom2?: InputMaybe<Scalars['String']>;
   custom3?: InputMaybe<Scalars['String']>;
@@ -264,6 +265,7 @@ export type ModelProjektStueliConnection = {
 export type ModelProjektStueliFilterInput = {
   and?: InputMaybe<Array<InputMaybe<ModelProjektStueliFilterInput>>>;
   bmk?: InputMaybe<ModelStringFilterInput>;
+  bmkDouble?: InputMaybe<ModelBooleanFilterInput>;
   custom1?: InputMaybe<ModelStringFilterInput>;
   custom2?: InputMaybe<ModelStringFilterInput>;
   custom3?: InputMaybe<ModelStringFilterInput>;
@@ -477,6 +479,7 @@ export type ProjektProjektStueliArgs = {
 export type ProjektStueli = {
   __typename?: 'ProjektStueli';
   bmk?: Maybe<Scalars['String']>;
+  bmkDouble?: Maybe<Scalars['Boolean']>;
   createdAt: Scalars['AWSDateTime'];
   custom1?: Maybe<Scalars['String']>;
   custom2?: Maybe<Scalars['String']>;
@@ -750,6 +753,7 @@ export type UpdateProjektInput = {
 
 export type UpdateProjektStueliInput = {
   bmk?: InputMaybe<Scalars['String']>;
+  bmkDouble?: InputMaybe<Scalars['Boolean']>;
   custom1?: InputMaybe<Scalars['String']>;
   custom2?: InputMaybe<Scalars['String']>;
   custom3?: InputMaybe<Scalars['String']>;
@@ -1114,6 +1118,7 @@ export type CreateAnlageMutation = {
                                         id: string;
                                         projektId: string;
                                         bmk?: string | null | undefined;
+                                        bmkDouble?: boolean | null | undefined;
                                         kurzspezifikation?:
                                           | string
                                           | null
@@ -1333,6 +1338,7 @@ export type UpdateAnlageMutation = {
                                         id: string;
                                         projektId: string;
                                         bmk?: string | null | undefined;
+                                        bmkDouble?: boolean | null | undefined;
                                         kurzspezifikation?:
                                           | string
                                           | null
@@ -1552,6 +1558,7 @@ export type DeleteAnlageMutation = {
                                         id: string;
                                         projektId: string;
                                         bmk?: string | null | undefined;
+                                        bmkDouble?: boolean | null | undefined;
                                         kurzspezifikation?:
                                           | string
                                           | null
@@ -2318,6 +2325,7 @@ export type CreateProjektMutation = {
                         id: string;
                         projektId: string;
                         bmk?: string | null | undefined;
+                        bmkDouble?: boolean | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
@@ -2488,6 +2496,7 @@ export type UpdateProjektMutation = {
                         id: string;
                         projektId: string;
                         bmk?: string | null | undefined;
+                        bmkDouble?: boolean | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
@@ -2658,6 +2667,7 @@ export type DeleteProjektMutation = {
                         id: string;
                         projektId: string;
                         bmk?: string | null | undefined;
+                        bmkDouble?: boolean | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
@@ -2697,6 +2707,7 @@ export type CreateProjektStueliMutation = {
         id: string;
         projektId: string;
         bmk?: string | null | undefined;
+        bmkDouble?: boolean | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
@@ -2727,6 +2738,7 @@ export type UpdateProjektStueliMutation = {
         id: string;
         projektId: string;
         bmk?: string | null | undefined;
+        bmkDouble?: boolean | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
@@ -2757,6 +2769,7 @@ export type DeleteProjektStueliMutation = {
         id: string;
         projektId: string;
         bmk?: string | null | undefined;
+        bmkDouble?: boolean | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
@@ -3256,6 +3269,7 @@ export type GetAnlageQuery = {
                                         id: string;
                                         projektId: string;
                                         bmk?: string | null | undefined;
+                                        bmkDouble?: boolean | null | undefined;
                                         kurzspezifikation?:
                                           | string
                                           | null
@@ -3965,6 +3979,7 @@ export type GetProjektQuery = {
                         id: string;
                         projektId: string;
                         bmk?: string | null | undefined;
+                        bmkDouble?: boolean | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
@@ -4125,6 +4140,7 @@ export type ListProjektsQuery = {
                                   id: string;
                                   projektId: string;
                                   bmk?: string | null | undefined;
+                                  bmkDouble?: boolean | null | undefined;
                                   kurzspezifikation?: string | null | undefined;
                                   lieferant?: string | null | undefined;
                                   nennweite?: string | null | undefined;
@@ -4182,6 +4198,7 @@ export type GetProjektStueliQuery = {
         id: string;
         projektId: string;
         bmk?: string | null | undefined;
+        bmkDouble?: boolean | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
@@ -4221,6 +4238,7 @@ export type ListProjektStuelisQuery = {
                   id: string;
                   projektId: string;
                   bmk?: string | null | undefined;
+                  bmkDouble?: boolean | null | undefined;
                   kurzspezifikation?: string | null | undefined;
                   lieferant?: string | null | undefined;
                   nennweite?: string | null | undefined;
@@ -4267,6 +4285,7 @@ export type ProjektStueliByKurzspezifikationQuery = {
                   id: string;
                   projektId: string;
                   bmk?: string | null | undefined;
+                  bmkDouble?: boolean | null | undefined;
                   kurzspezifikation?: string | null | undefined;
                   lieferant?: string | null | undefined;
                   nennweite?: string | null | undefined;
@@ -4732,6 +4751,7 @@ export type OnCreateAnlageSubscription = {
                                         id: string;
                                         projektId: string;
                                         bmk?: string | null | undefined;
+                                        bmkDouble?: boolean | null | undefined;
                                         kurzspezifikation?:
                                           | string
                                           | null
@@ -4951,6 +4971,7 @@ export type OnUpdateAnlageSubscription = {
                                         id: string;
                                         projektId: string;
                                         bmk?: string | null | undefined;
+                                        bmkDouble?: boolean | null | undefined;
                                         kurzspezifikation?:
                                           | string
                                           | null
@@ -5170,6 +5191,7 @@ export type OnDeleteAnlageSubscription = {
                                         id: string;
                                         projektId: string;
                                         bmk?: string | null | undefined;
+                                        bmkDouble?: boolean | null | undefined;
                                         kurzspezifikation?:
                                           | string
                                           | null
@@ -5936,6 +5958,7 @@ export type OnCreateProjektSubscription = {
                         id: string;
                         projektId: string;
                         bmk?: string | null | undefined;
+                        bmkDouble?: boolean | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
@@ -6106,6 +6129,7 @@ export type OnUpdateProjektSubscription = {
                         id: string;
                         projektId: string;
                         bmk?: string | null | undefined;
+                        bmkDouble?: boolean | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
@@ -6276,6 +6300,7 @@ export type OnDeleteProjektSubscription = {
                         id: string;
                         projektId: string;
                         bmk?: string | null | undefined;
+                        bmkDouble?: boolean | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
@@ -6315,6 +6340,7 @@ export type OnCreateProjektStueliSubscription = {
         id: string;
         projektId: string;
         bmk?: string | null | undefined;
+        bmkDouble?: boolean | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
@@ -6345,6 +6371,7 @@ export type OnUpdateProjektStueliSubscription = {
         id: string;
         projektId: string;
         bmk?: string | null | undefined;
+        bmkDouble?: boolean | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
@@ -6375,6 +6402,7 @@ export type OnDeleteProjektStueliSubscription = {
         id: string;
         projektId: string;
         bmk?: string | null | undefined;
+        bmkDouble?: boolean | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
@@ -7612,6 +7640,13 @@ export const CreateAnlageDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
+                                            value: 'bmkDouble',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
                                             value: 'kurzspezifikation',
                                           },
                                         },
@@ -8193,6 +8228,13 @@ export const UpdateAnlageDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
+                                            value: 'bmkDouble',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
                                             value: 'kurzspezifikation',
                                           },
                                         },
@@ -8769,6 +8811,13 @@ export const DeleteAnlageDocument = {
                                         {
                                           kind: 'Field',
                                           name: { kind: 'Name', value: 'bmk' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'bmkDouble',
+                                          },
                                         },
                                         {
                                           kind: 'Field',
@@ -11130,6 +11179,10 @@ export const CreateProjektDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'bmkDouble' },
+                            },
+                            {
+                              kind: 'Field',
                               name: {
                                 kind: 'Name',
                                 value: 'kurzspezifikation',
@@ -11662,6 +11715,10 @@ export const UpdateProjektDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'bmk' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'bmkDouble' },
                             },
                             {
                               kind: 'Field',
@@ -12200,6 +12257,10 @@ export const DeleteProjektDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'bmkDouble' },
+                            },
+                            {
+                              kind: 'Field',
                               name: {
                                 kind: 'Name',
                                 value: 'kurzspezifikation',
@@ -12334,6 +12395,7 @@ export const CreateProjektStueliDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'projektId' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'bmk' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bmkDouble' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'kurzspezifikation' },
@@ -12421,6 +12483,7 @@ export const UpdateProjektStueliDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'projektId' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'bmk' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bmkDouble' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'kurzspezifikation' },
@@ -12508,6 +12571,7 @@ export const DeleteProjektStueliDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'projektId' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'bmk' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bmkDouble' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'kurzspezifikation' },
@@ -13919,6 +13983,13 @@ export const GetAnlageDocument = {
                                         {
                                           kind: 'Field',
                                           name: { kind: 'Name', value: 'bmk' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'bmkDouble',
+                                          },
                                         },
                                         {
                                           kind: 'Field',
@@ -16087,6 +16158,10 @@ export const GetProjektDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'bmkDouble' },
+                            },
+                            {
+                              kind: 'Field',
                               name: {
                                 kind: 'Name',
                                 value: 'kurzspezifikation',
@@ -16574,6 +16649,10 @@ export const ListProjektsDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'bmkDouble' },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: {
                                       kind: 'Name',
                                       value: 'kurzspezifikation',
@@ -16703,6 +16782,7 @@ export const GetProjektStueliDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'projektId' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'bmk' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bmkDouble' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'kurzspezifikation' },
@@ -16860,6 +16940,10 @@ export const ListProjektStuelisDocument = {
                         name: { kind: 'Name', value: 'projektId' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'bmk' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'bmkDouble' },
+                      },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'kurzspezifikation' },
@@ -17070,6 +17154,10 @@ export const ProjektStueliByKurzspezifikationDocument = {
                         name: { kind: 'Name', value: 'projektId' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'bmk' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'bmkDouble' },
+                      },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'kurzspezifikation' },
@@ -18597,6 +18685,13 @@ export const OnCreateAnlageDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
+                                            value: 'bmkDouble',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
                                             value: 'kurzspezifikation',
                                           },
                                         },
@@ -19169,6 +19264,13 @@ export const OnUpdateAnlageDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
+                                            value: 'bmkDouble',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
                                             value: 'kurzspezifikation',
                                           },
                                         },
@@ -19736,6 +19838,13 @@ export const OnDeleteAnlageDocument = {
                                         {
                                           kind: 'Field',
                                           name: { kind: 'Name', value: 'bmk' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'bmkDouble',
+                                          },
                                         },
                                         {
                                           kind: 'Field',
@@ -22070,6 +22179,10 @@ export const OnCreateProjektDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'bmkDouble' },
+                            },
+                            {
+                              kind: 'Field',
                               name: {
                                 kind: 'Name',
                                 value: 'kurzspezifikation',
@@ -22593,6 +22706,10 @@ export const OnUpdateProjektDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'bmk' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'bmkDouble' },
                             },
                             {
                               kind: 'Field',
@@ -23122,6 +23239,10 @@ export const OnDeleteProjektDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'bmkDouble' },
+                            },
+                            {
+                              kind: 'Field',
                               name: {
                                 kind: 'Name',
                                 value: 'kurzspezifikation',
@@ -23230,6 +23351,7 @@ export const OnCreateProjektStueliDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'projektId' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'bmk' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bmkDouble' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'kurzspezifikation' },
@@ -23291,6 +23413,7 @@ export const OnUpdateProjektStueliDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'projektId' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'bmk' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bmkDouble' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'kurzspezifikation' },
@@ -23352,6 +23475,7 @@ export const OnDeleteProjektStueliDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'projektId' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'bmk' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bmkDouble' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'kurzspezifikation' },

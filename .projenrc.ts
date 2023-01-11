@@ -64,6 +64,7 @@ const backend = new pj.awscdk.AwsCdkTypeScriptApp({
   name: 'backend',
   cdkVersion,
   deps: [
+    'esbuild@^0',
     'cdk-appsync-transformer@2.0.0-alpha.0',
     'appsync-client',
     `@aws-cdk/aws-appsync-alpha@${cdkVersion}-alpha.0`,
@@ -79,11 +80,7 @@ const backend = new pj.awscdk.AwsCdkTypeScriptApp({
     ],
     'thenby',
   ],
-  devDeps: [
-    // '@types/fs-extra',
-    // '@types/lodash',
-    '@types/aws-lambda',
-  ],
+  devDeps: ['aws-sdk', '@types/aws-lambda'],
   gitignore: ['appsync', './schema.graphql'],
   // release: true,
   tsconfig: {

@@ -104,6 +104,7 @@ export type CreateProjektInput = {
 
 export type CreateProjektStueliInput = {
   bmk?: InputMaybe<Scalars['String']>;
+  bmkDouble?: InputMaybe<Scalars['Boolean']>;
   custom1?: InputMaybe<Scalars['String']>;
   custom2?: InputMaybe<Scalars['String']>;
   custom3?: InputMaybe<Scalars['String']>;
@@ -270,6 +271,7 @@ export type ModelProjektStueliConnection = {
 export type ModelProjektStueliFilterInput = {
   and?: InputMaybe<Array<InputMaybe<ModelProjektStueliFilterInput>>>;
   bmk?: InputMaybe<ModelStringFilterInput>;
+  bmkDouble?: InputMaybe<ModelBooleanFilterInput>;
   custom1?: InputMaybe<ModelStringFilterInput>;
   custom2?: InputMaybe<ModelStringFilterInput>;
   custom3?: InputMaybe<ModelStringFilterInput>;
@@ -483,6 +485,7 @@ export type ProjektProjektStueliArgs = {
 export type ProjektStueli = {
   __typename?: 'ProjektStueli';
   bmk?: Maybe<Scalars['String']>;
+  bmkDouble?: Maybe<Scalars['Boolean']>;
   createdAt: Scalars['AWSDateTime'];
   custom1?: Maybe<Scalars['String']>;
   custom2?: Maybe<Scalars['String']>;
@@ -756,6 +759,7 @@ export type UpdateProjektInput = {
 
 export type UpdateProjektStueliInput = {
   bmk?: InputMaybe<Scalars['String']>;
+  bmkDouble?: InputMaybe<Scalars['Boolean']>;
   custom1?: InputMaybe<Scalars['String']>;
   custom2?: InputMaybe<Scalars['String']>;
   custom3?: InputMaybe<Scalars['String']>;
@@ -1120,6 +1124,7 @@ export type CreateAnlageMutation = {
                                         id: string;
                                         projektId: string;
                                         bmk?: string | null | undefined;
+                                        bmkDouble?: boolean | null | undefined;
                                         kurzspezifikation?:
                                           | string
                                           | null
@@ -1339,6 +1344,7 @@ export type UpdateAnlageMutation = {
                                         id: string;
                                         projektId: string;
                                         bmk?: string | null | undefined;
+                                        bmkDouble?: boolean | null | undefined;
                                         kurzspezifikation?:
                                           | string
                                           | null
@@ -1558,6 +1564,7 @@ export type DeleteAnlageMutation = {
                                         id: string;
                                         projektId: string;
                                         bmk?: string | null | undefined;
+                                        bmkDouble?: boolean | null | undefined;
                                         kurzspezifikation?:
                                           | string
                                           | null
@@ -2324,6 +2331,7 @@ export type CreateProjektMutation = {
                         id: string;
                         projektId: string;
                         bmk?: string | null | undefined;
+                        bmkDouble?: boolean | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
@@ -2494,6 +2502,7 @@ export type UpdateProjektMutation = {
                         id: string;
                         projektId: string;
                         bmk?: string | null | undefined;
+                        bmkDouble?: boolean | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
@@ -2664,6 +2673,7 @@ export type DeleteProjektMutation = {
                         id: string;
                         projektId: string;
                         bmk?: string | null | undefined;
+                        bmkDouble?: boolean | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
@@ -2703,6 +2713,7 @@ export type CreateProjektStueliMutation = {
         id: string;
         projektId: string;
         bmk?: string | null | undefined;
+        bmkDouble?: boolean | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
@@ -2733,6 +2744,7 @@ export type UpdateProjektStueliMutation = {
         id: string;
         projektId: string;
         bmk?: string | null | undefined;
+        bmkDouble?: boolean | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
@@ -2763,6 +2775,7 @@ export type DeleteProjektStueliMutation = {
         id: string;
         projektId: string;
         bmk?: string | null | undefined;
+        bmkDouble?: boolean | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
@@ -3262,6 +3275,7 @@ export type GetAnlageQuery = {
                                         id: string;
                                         projektId: string;
                                         bmk?: string | null | undefined;
+                                        bmkDouble?: boolean | null | undefined;
                                         kurzspezifikation?:
                                           | string
                                           | null
@@ -3971,6 +3985,7 @@ export type GetProjektQuery = {
                         id: string;
                         projektId: string;
                         bmk?: string | null | undefined;
+                        bmkDouble?: boolean | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
@@ -4131,6 +4146,7 @@ export type ListProjektsQuery = {
                                   id: string;
                                   projektId: string;
                                   bmk?: string | null | undefined;
+                                  bmkDouble?: boolean | null | undefined;
                                   kurzspezifikation?: string | null | undefined;
                                   lieferant?: string | null | undefined;
                                   nennweite?: string | null | undefined;
@@ -4188,6 +4204,7 @@ export type GetProjektStueliQuery = {
         id: string;
         projektId: string;
         bmk?: string | null | undefined;
+        bmkDouble?: boolean | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
@@ -4227,6 +4244,7 @@ export type ListProjektStuelisQuery = {
                   id: string;
                   projektId: string;
                   bmk?: string | null | undefined;
+                  bmkDouble?: boolean | null | undefined;
                   kurzspezifikation?: string | null | undefined;
                   lieferant?: string | null | undefined;
                   nennweite?: string | null | undefined;
@@ -4273,6 +4291,7 @@ export type ProjektStueliByKurzspezifikationQuery = {
                   id: string;
                   projektId: string;
                   bmk?: string | null | undefined;
+                  bmkDouble?: boolean | null | undefined;
                   kurzspezifikation?: string | null | undefined;
                   lieferant?: string | null | undefined;
                   nennweite?: string | null | undefined;
@@ -4738,6 +4757,7 @@ export type OnCreateAnlageSubscription = {
                                         id: string;
                                         projektId: string;
                                         bmk?: string | null | undefined;
+                                        bmkDouble?: boolean | null | undefined;
                                         kurzspezifikation?:
                                           | string
                                           | null
@@ -4957,6 +4977,7 @@ export type OnUpdateAnlageSubscription = {
                                         id: string;
                                         projektId: string;
                                         bmk?: string | null | undefined;
+                                        bmkDouble?: boolean | null | undefined;
                                         kurzspezifikation?:
                                           | string
                                           | null
@@ -5176,6 +5197,7 @@ export type OnDeleteAnlageSubscription = {
                                         id: string;
                                         projektId: string;
                                         bmk?: string | null | undefined;
+                                        bmkDouble?: boolean | null | undefined;
                                         kurzspezifikation?:
                                           | string
                                           | null
@@ -5942,6 +5964,7 @@ export type OnCreateProjektSubscription = {
                         id: string;
                         projektId: string;
                         bmk?: string | null | undefined;
+                        bmkDouble?: boolean | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
@@ -6112,6 +6135,7 @@ export type OnUpdateProjektSubscription = {
                         id: string;
                         projektId: string;
                         bmk?: string | null | undefined;
+                        bmkDouble?: boolean | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
@@ -6282,6 +6306,7 @@ export type OnDeleteProjektSubscription = {
                         id: string;
                         projektId: string;
                         bmk?: string | null | undefined;
+                        bmkDouble?: boolean | null | undefined;
                         kurzspezifikation?: string | null | undefined;
                         lieferant?: string | null | undefined;
                         nennweite?: string | null | undefined;
@@ -6321,6 +6346,7 @@ export type OnCreateProjektStueliSubscription = {
         id: string;
         projektId: string;
         bmk?: string | null | undefined;
+        bmkDouble?: boolean | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
@@ -6351,6 +6377,7 @@ export type OnUpdateProjektStueliSubscription = {
         id: string;
         projektId: string;
         bmk?: string | null | undefined;
+        bmkDouble?: boolean | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
@@ -6381,6 +6408,7 @@ export type OnDeleteProjektStueliSubscription = {
         id: string;
         projektId: string;
         bmk?: string | null | undefined;
+        bmkDouble?: boolean | null | undefined;
         kurzspezifikation?: string | null | undefined;
         lieferant?: string | null | undefined;
         nennweite?: string | null | undefined;
@@ -6955,6 +6983,7 @@ export const CreateAnlageDocument = `
             id
             projektId
             bmk
+            bmkDouble
             kurzspezifikation
             lieferant
             nennweite
@@ -7091,6 +7120,7 @@ export const UpdateAnlageDocument = `
             id
             projektId
             bmk
+            bmkDouble
             kurzspezifikation
             lieferant
             nennweite
@@ -7227,6 +7257,7 @@ export const DeleteAnlageDocument = `
             id
             projektId
             bmk
+            bmkDouble
             kurzspezifikation
             lieferant
             nennweite
@@ -7789,6 +7820,7 @@ export const CreateProjektDocument = `
         id
         projektId
         bmk
+        bmkDouble
         kurzspezifikation
         lieferant
         nennweite
@@ -7917,6 +7949,7 @@ export const UpdateProjektDocument = `
         id
         projektId
         bmk
+        bmkDouble
         kurzspezifikation
         lieferant
         nennweite
@@ -8045,6 +8078,7 @@ export const DeleteProjektDocument = `
         id
         projektId
         bmk
+        bmkDouble
         kurzspezifikation
         lieferant
         nennweite
@@ -8092,6 +8126,7 @@ export const CreateProjektStueliDocument = `
     id
     projektId
     bmk
+    bmkDouble
     kurzspezifikation
     lieferant
     nennweite
@@ -8139,6 +8174,7 @@ export const UpdateProjektStueliDocument = `
     id
     projektId
     bmk
+    bmkDouble
     kurzspezifikation
     lieferant
     nennweite
@@ -8186,6 +8222,7 @@ export const DeleteProjektStueliDocument = `
     id
     projektId
     bmk
+    bmkDouble
     kurzspezifikation
     lieferant
     nennweite
@@ -8662,6 +8699,7 @@ export const GetAnlageDocument = `
             id
             projektId
             bmk
+            bmkDouble
             kurzspezifikation
             lieferant
             nennweite
@@ -9120,6 +9158,7 @@ export const GetProjektDocument = `
         id
         projektId
         bmk
+        bmkDouble
         kurzspezifikation
         lieferant
         nennweite
@@ -9218,6 +9257,7 @@ export const ListProjektsDocument = `
           id
           projektId
           bmk
+          bmkDouble
           kurzspezifikation
           lieferant
           nennweite
@@ -9260,6 +9300,7 @@ export const GetProjektStueliDocument = `
     id
     projektId
     bmk
+    bmkDouble
     kurzspezifikation
     lieferant
     nennweite
@@ -9304,6 +9345,7 @@ export const ListProjektStuelisDocument = `
       id
       projektId
       bmk
+      bmkDouble
       kurzspezifikation
       lieferant
       nennweite
@@ -9353,6 +9395,7 @@ export const ProjektStueliByKurzspezifikationDocument = `
       id
       projektId
       bmk
+      bmkDouble
       kurzspezifikation
       lieferant
       nennweite
@@ -9742,6 +9785,7 @@ export const OnCreateAnlageDocument = `
             id
             projektId
             bmk
+            bmkDouble
             kurzspezifikation
             lieferant
             nennweite
@@ -9856,6 +9900,7 @@ export const OnUpdateAnlageDocument = `
             id
             projektId
             bmk
+            bmkDouble
             kurzspezifikation
             lieferant
             nennweite
@@ -9970,6 +10015,7 @@ export const OnDeleteAnlageDocument = `
             id
             projektId
             bmk
+            bmkDouble
             kurzspezifikation
             lieferant
             nennweite
@@ -10435,6 +10481,7 @@ export const OnCreateProjektDocument = `
         id
         projektId
         bmk
+        bmkDouble
         kurzspezifikation
         lieferant
         nennweite
@@ -10541,6 +10588,7 @@ export const OnUpdateProjektDocument = `
         id
         projektId
         bmk
+        bmkDouble
         kurzspezifikation
         lieferant
         nennweite
@@ -10647,6 +10695,7 @@ export const OnDeleteProjektDocument = `
         id
         projektId
         bmk
+        bmkDouble
         kurzspezifikation
         lieferant
         nennweite
@@ -10672,6 +10721,7 @@ export const OnCreateProjektStueliDocument = `
     id
     projektId
     bmk
+    bmkDouble
     kurzspezifikation
     lieferant
     nennweite
@@ -10694,6 +10744,7 @@ export const OnUpdateProjektStueliDocument = `
     id
     projektId
     bmk
+    bmkDouble
     kurzspezifikation
     lieferant
     nennweite
@@ -10716,6 +10767,7 @@ export const OnDeleteProjektStueliDocument = `
     id
     projektId
     bmk
+    bmkDouble
     kurzspezifikation
     lieferant
     nennweite
