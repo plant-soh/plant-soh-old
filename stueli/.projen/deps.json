@@ -229,6 +229,10 @@
       "type": "runtime"
     },
     {
+      "name": "@tanstack/react-table",
+      "type": "runtime"
+    },
+    {
       "name": "amazon-cognito-identity-js",
       "type": "runtime"
     },
@@ -338,7 +342,15 @@
       "type": "runtime"
     },
     {
+      "name": "react-virtual",
+      "type": "runtime"
+    },
+    {
       "name": "react-zoom-pan-pinch",
+      "type": "runtime"
+    },
+    {
+      "name": "reakit",
       "type": "runtime"
     },
     {

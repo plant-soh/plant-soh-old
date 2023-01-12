@@ -188,6 +188,9 @@ const stueli = new pj.web.ReactTypeScriptProject({
     'moment',
     'stream',
     'thenby',
+    '@tanstack/react-table',
+    'reakit',
+    'react-virtual',
   ],
   devDeps: [
     // '@types/react-router-dom',
