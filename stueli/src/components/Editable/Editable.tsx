@@ -45,7 +45,8 @@ const EditTable = ({
       (editTableType !== EditTableType.textarea && allKeys.indexOf(key) > -1)
     ) {
       setEditing(false);
-      // key === 'Escape' ? await onCancel() : await onSave();
+      if (onCancel && onSave)
+        key === 'Escape' ? await onCancel() : await onSave();
     }
   };
 

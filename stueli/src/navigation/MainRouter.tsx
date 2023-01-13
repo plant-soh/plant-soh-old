@@ -37,7 +37,7 @@ const MainRouter = () => {
           />
           <Route path="projekte" element={withSuspense(Projekte)} />
           <Route
-            path="projekte/:id"
+            path="projekte/:projektId"
             element={withSuspense(ProjektStueckliste)}
           />
           {role === Role.Admin && (
