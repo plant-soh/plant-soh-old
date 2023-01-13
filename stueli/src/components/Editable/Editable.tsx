@@ -23,18 +23,18 @@ const EditTable = ({
    * called when leaving the cell like with enter or tab
    * @returns
    */
-  onSave: () => void;
+  onSave?: () => Promise<void>;
   /**
    * called when leaving the cell like without saving like when pressing escape
    * @returns
    */
-  onCancel: () => void;
+  onCancel?: () => void;
   className?: string;
   children: ReactNode;
 }) => {
   const [isEditing, setEditing] = useState(false);
 
-  const handleKeyDown = (event: any, editTableType: EditTableType) => {
+  const handleKeyDown = async (event: any, editTableType: EditTableType) => {
     const { key } = event;
     const keys = ['Escape', 'Tab'];
     const enterKey = 'Enter';
@@ -45,7 +45,7 @@ const EditTable = ({
       (editTableType !== EditTableType.textarea && allKeys.indexOf(key) > -1)
     ) {
       setEditing(false);
-      key === 'Escape' ? onCancel() : onSave();
+      // key === 'Escape' ? await onCancel() : await onSave();
     }
   };
 

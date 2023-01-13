@@ -301,6 +301,10 @@
       "type": "runtime"
     },
     {
+      "name": "react-aria",
+      "type": "runtime"
+    },
+    {
       "name": "react-color",
       "type": "runtime"
     },
@@ -310,6 +314,10 @@
     },
     {
       "name": "react-hook-form",
+      "type": "runtime"
+    },
+    {
+      "name": "react-icons",
       "type": "runtime"
     },
     {

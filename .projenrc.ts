@@ -190,6 +190,8 @@ const stueli = new pj.web.ReactTypeScriptProject({
     'thenby',
     '@tanstack/react-table',
     'reakit',
+    'react-aria',
+    'react-icons',
     'react-virtual',
   ],
   devDeps: [
