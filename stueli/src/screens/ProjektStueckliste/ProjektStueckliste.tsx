@@ -15,16 +15,9 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { MdAdd, MdDelete, MdInfo } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 import { Clickable } from 'reakit/Clickable';
-import { firstBy } from 'thenby';
 import { DataGrid } from '../../components/DataGrid';
 import EditTable, { EditTableType } from '../../components/Editable';
 import { amplifyFetcher } from '../../lib/fetcher';
-
-declare module '@tanstack/react-table' {
-  interface TableMeta<TData extends RowData> {
-    refreshData: () => Promise<void>;
-  }
-}
 
 import {
   ListProjektStuelisDocument,
@@ -33,7 +26,6 @@ import {
   ListReferenzStuelisDocument,
   ListReferenzStuelisQuery,
   ListReferenzStuelisQueryVariables,
-  ProjektStueli,
   ProjektStueliByKurzspezifikationQuery,
   useCreateProjektStueliMutation,
   useDeleteProjektStueliMutation,
@@ -45,6 +37,13 @@ import {
 } from '../../lib/react-api';
 import { useAuth } from '../../providers/AuthProvider';
 import { useModal } from '../../providers/ModalProvider';
+
+declare module '@tanstack/react-table' {
+  interface TableMeta<TData extends RowData> {
+    updateData: (rowIndex: number, columnId: string, value: unknown) => void;
+    addNewStueck: () => void;
+  }
+}
 
 type ProjektStueck = {
   id: string;
@@ -67,7 +66,6 @@ type ProjektStueliParams = {
 const ProjektStueckCell = ({
   cell,
   refetch,
-  projektId,
 }: {
   cell: CellContext<ProjektStueck, unknown>;
   refetch: <TPageData>(
@@ -77,10 +75,17 @@ const ProjektStueckCell = ({
   >;
   projektId: string;
 }) => {
+  const {
+    getValue,
+    row: { index },
+    column: { id },
+    table,
+  } = cell;
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   // console.log(`cell=${JSON.stringify(cell)}`);
-  const initialValue = cell.getValue() as string;
+  const initialValue = getValue() as string;
   // We need to keep and update the state of the cell normally
   const [value, setValue] = useState(initialValue);
 
@@ -88,7 +93,7 @@ const ProjektStueckCell = ({
 
   const updateStueck = useUpdateProjektStueliMutation();
   const deleteStueck = useDeleteProjektStueliMutation();
-  const createStueck = useCreateProjektStueliMutation();
+  // const createStueck = useCreateProjektStueliMutation();
 
   // When the input is blurred, we'll call our table meta's updateData function
   // const onBlur = () => {
@@ -96,8 +101,9 @@ const ProjektStueckCell = ({
   // };
 
   const onSave = async () => {
+    table.options.meta?.updateData(index, id, value);
     let bmkDouble = false;
-    if (cell.column.id === 'bmk' && cell.cell.getValue()) {
+    if (cell.column.id === 'bmk' && getValue()) {
       const foundStueckeInProjekten = await amplifyFetcher<
         ListProjektStuelisQuery,
         ListProjektStuelisQueryVariables
@@ -179,17 +185,17 @@ const ProjektStueckCell = ({
           as="button"
           className="flex items-center justify-center mx-auto font-medium text-gray-500 transition-colors rounded-full outline-none focus:bg-gray-200 w-7 h-7"
           onClick={async () => {
-            await createStueck.mutateAsync({
-              input: {
-                projektId,
-                kurzspezifikation: '',
-                lieferant: '',
-                nennweite: '',
-                feinspezifikation: '',
-              },
-            });
-
-            await refetch();
+            table.options.meta?.addNewStueck();
+            // await createStueck.mutateAsync({
+            //   input: {
+            //     projektId,
+            //     kurzspezifikation: '',
+            //     lieferant: '',
+            //     nennweite: '',
+            //     feinspezifikation: '',
+            //   },
+            // });
+            // await refetch();
           }}
         >
           <MdAdd size={18} />
@@ -252,7 +258,11 @@ const ProjektStueckliste = () => {
   // Give our default column cell renderer editing superpowers!
   const defaultColumn: Partial<ColumnDef<ProjektStueck>> = {
     cell: (cell) => (
-      <ProjektStueckCell cell={cell} refetch={refetch} projektId={projektId} />
+      <ProjektStueckCell
+        cell={cell}
+        refetch={projektStueli.refetch}
+        projektId={projektId}
+      />
     ),
   };
 
@@ -333,30 +343,6 @@ const ProjektStueckliste = () => {
 
   // let { handleModal } = useModal();
 
-  // const [newStueck, _setNewStueck] = useState<{
-  //   bmk: string;
-  //   kurzspezifikation: string;
-  //   lieferant: string;
-  //   nennweite: string;
-  //   feinspezifikation: string;
-  //   kurzspezifikationVorschlag?: string;
-  //   lieferantVorschlag?: string;
-  //   nennweiteVorschlag?: string;
-  //   feinspezifikationVorschlag?: string;
-  //   custom1: string;
-  //   custom2: string;
-  //   custom3: string;
-  // }>({
-  //   bmk: '',
-  //   kurzspezifikation: '',
-  //   lieferant: '',
-  //   nennweite: '',
-  //   feinspezifikation: '',
-  //   custom1: '',
-  //   custom2: '',
-  //   custom3: '',
-  // });
-
   // const [
   //   selectedKurzspezifikationVorschlag,
   //   _setSelectedKurzspezifikationVorschlag,
@@ -385,11 +371,11 @@ const ProjektStueckliste = () => {
 
       //refresh
       await refreshSession();
-      await refetch();
+      await projektStueli.refetch();
     })();
   }, [projektId]);
 
-  const { data, isLoading, refetch } = useProjektStueliByKurzspezifikationQuery(
+  const projektStueli = useProjektStueliByKurzspezifikationQuery(
     { projektId: projektId },
     {
       refetchOnWindowFocus: false,
@@ -397,24 +383,21 @@ const ProjektStueckliste = () => {
     },
   );
 
-  const defaultData = useMemo(() => [], []);
+  // const defaultData = useMemo(() => [], []);
 
-  const table = useReactTable({
-    data: [
-      ...(data?.projektStueliByKurzspezifikation?.items
-        ?.sort(
-          firstBy<ProjektStueli>((s1, s2) =>
-            s1!.kurzspezifikation!.localeCompare(s2!.kurzspezifikation!),
-          )
-            .thenBy<ProjektStueli>((s1, s2) =>
-              s1!.lieferant!.localeCompare(s2!.lieferant!),
-            )
-            .thenBy((s1, s2) => s1!.nennweite!.localeCompare(s2!.nennweite!)),
-        )
-        ?.map((stueck, index): ProjektStueck => {
+  const [data, setData] = useState<ProjektStueck[]>([]);
+
+  useEffect(() => {
+    if (!projektStueli.data?.projektStueliByKurzspezifikation?.items) {
+      return;
+    }
+
+    setData([
+      ...projektStueli.data.projektStueliByKurzspezifikation.items.map(
+        (stueck, index) => {
           return {
             id: stueck?.id ?? '',
-            index,
+            index: index,
             bmk: stueck?.bmk ?? '',
             bmkDouble: stueck?.bmkDouble ?? false,
             kurzspezifikation: stueck?.kurzspezifikation ?? '',
@@ -422,10 +405,11 @@ const ProjektStueckliste = () => {
             nennweite: stueck?.nennweite ?? '',
             feinspezifikation: stueck?.feinspezifikation ?? '',
           };
-        }) ?? defaultData),
+        },
+      ),
       {
         id: '-1',
-        index: data?.projektStueliByKurzspezifikation?.items?.length ?? 1,
+        index: projektStueli.data.projektStueliByKurzspezifikation.items.length,
         bmk: '',
         bmkDouble: false,
         kurzspezifikation: '',
@@ -433,11 +417,87 @@ const ProjektStueckliste = () => {
         nennweite: '',
         feinspezifikation: '',
       },
-    ],
+    ]);
+  }, [projektStueli.data]);
+
+  useEffect(() => {
+    if (!data) return;
+    console.log(`data=${JSON.stringify(data)}`);
+  }, [data]);
+
+  const createStueck = useCreateProjektStueliMutation();
+
+  const table = useReactTable({
+    data: data,
+    // [
+    //   ...(projektStueli.data?.projektStueliByKurzspezifikation?.items
+    //     ?.sort(
+    //       firstBy<ProjektStueli>((s1, s2) =>
+    //         s1!.kurzspezifikation!.localeCompare(s2!.kurzspezifikation!),
+    //       )
+    //         .thenBy<ProjektStueli>((s1, s2) =>
+    //           s1!.lieferant!.localeCompare(s2!.lieferant!),
+    //         )
+    //         .thenBy((s1, s2) => s1!.nennweite!.localeCompare(s2!.nennweite!)),
+    //     )
+    //     ?.map((stueck, index): ProjektStueck => {
+    //       return {
+    //         id: stueck?.id ?? '',
+    //         index,
+    //         bmk: stueck?.bmk ?? '',
+    //         bmkDouble: stueck?.bmkDouble ?? false,
+    //         kurzspezifikation: stueck?.kurzspezifikation ?? '',
+    //         lieferant: stueck?.lieferant ?? '',
+    //         nennweite: stueck?.nennweite ?? '',
+    //         feinspezifikation: stueck?.feinspezifikation ?? '',
+    //       };
+    //     }) ?? defaultData),
+    //   {
+    //     id: '-1',
+    //     index: data?.projektStueliByKurzspezifikation?.items?.length ?? 1,
+    //     bmk: '',
+    //     bmkDouble: false,
+    //     kurzspezifikation: '',
+    //     lieferant: '',
+    //     nennweite: '',
+    //     feinspezifikation: '',
+    //   },
+    // ],
     columns: columnss,
     defaultColumn,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    meta: {
+      updateData: (rowIndex, columnId, value) => {
+        // Skip age index reset until after next rerender
+        // skipAutoResetPageIndex()
+        setData((old) =>
+          old.map((row, index) => {
+            if (index === rowIndex) {
+              return {
+                ...old[rowIndex]!,
+                [columnId]: value,
+              };
+            }
+            return row;
+          }),
+        );
+      },
+      addNewStueck: async () => {
+        const newStueck = data.at(-1);
+        await createStueck.mutateAsync({
+          input: {
+            projektId,
+            kurzspezifikation: newStueck?.kurzspezifikation,
+            lieferant: newStueck?.lieferant,
+            nennweite: newStueck?.nennweite,
+            feinspezifikation: newStueck?.feinspezifikation,
+          },
+        });
+
+        await projektStueli.refetch();
+      },
+    },
     debugTable: false,
   });
 
@@ -545,7 +605,7 @@ const ProjektStueckliste = () => {
 
   const setCurrentProjektId = useSetCurrentProjektIdMutation();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (projektStueli.isLoading) return <div>Loading...</div>;
 
   return (
     <>
