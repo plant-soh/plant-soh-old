@@ -1,4 +1,10 @@
 import {
+  QueryObserverResult,
+  RefetchOptions,
+  RefetchQueryFilters,
+} from '@tanstack/react-query';
+import {
+  CellContext,
   ColumnDef,
   getCoreRowModel,
   getSortedRowModel,
@@ -6,7 +12,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { MdDelete, MdInfo } from 'react-icons/md';
+import { MdAdd, MdDelete, MdInfo } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 import { Clickable } from 'reakit/Clickable';
 import { firstBy } from 'thenby';
@@ -20,8 +26,6 @@ declare module '@tanstack/react-table' {
   }
 }
 
-// import { API } from '../../lib/fetcher';
-
 import {
   ListProjektStuelisDocument,
   ListProjektStuelisQuery,
@@ -30,12 +34,12 @@ import {
   ListReferenzStuelisQuery,
   ListReferenzStuelisQueryVariables,
   ProjektStueli,
+  ProjektStueliByKurzspezifikationQuery,
   useCreateProjektStueliMutation,
   useDeleteProjektStueliMutation,
   useGetProjektQuery,
   useListKurzspezifikationVorschlaegeQuery,
   useProjektStueliByKurzspezifikationQuery,
-  useReferenzStueliByKurzspezifikationQuery,
   useSetCurrentProjektIdMutation,
   useUpdateProjektStueliMutation,
 } from '../../lib/react-api';
@@ -60,131 +64,196 @@ type ProjektStueliParams = {
   projektId: string;
 };
 
-const ProjektStueckliste = () => {
+const ProjektStueckCell = ({
+  cell,
+  refetch,
+  projektId,
+}: {
+  cell: CellContext<ProjektStueck, unknown>;
+  refetch: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
+  ) => Promise<
+    QueryObserverResult<ProjektStueliByKurzspezifikationQuery, unknown>
+  >;
+  projektId: string;
+}) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // console.log(`cell=${JSON.stringify(cell)}`);
+  const initialValue = cell.getValue() as string;
+  // We need to keep and update the state of the cell normally
+  const [value, setValue] = useState(initialValue);
+
+  let { handleModal } = useModal();
+
+  const updateStueck = useUpdateProjektStueliMutation();
+  const deleteStueck = useDeleteProjektStueliMutation();
+  const createStueck = useCreateProjektStueliMutation();
+
+  // When the input is blurred, we'll call our table meta's updateData function
+  // const onBlur = () => {
+  //   table.options.meta?.updateData(index, id, value);
+  // };
+
+  const onSave = async () => {
+    let bmkDouble = false;
+    if (cell.column.id === 'bmk' && cell.cell.getValue()) {
+      const foundStueckeInProjekten = await amplifyFetcher<
+        ListProjektStuelisQuery,
+        ListProjektStuelisQueryVariables
+      >(ListProjektStuelisDocument, {
+        filter: { bmk: { eq: value } },
+      }).call(undefined);
+
+      let projektStueckExist =
+        (foundStueckeInProjekten.listProjektStuelis?.items?.length ?? 0) > 0;
+
+      if (projektStueckExist) {
+        await handleModal(
+          `BMK existiert bereits im Projektstückliste: ${Array.from(
+            new Set(
+              foundStueckeInProjekten.listProjektStuelis?.items?.map(
+                (foundStueck) =>
+                  `Firma: ${foundStueck?.projekt.anlage.firma} Standort: ${foundStueck?.projekt.anlage.standort} Projektnummer: ${foundStueck?.projekt.projektNummer} `,
+              ),
+            ),
+          ).join(', ')}!`,
+        );
+      }
+
+      // Check ob gleiche BMK in einer Referenzstueli bereits existiert
+      const foundStueckeInReferenz = await amplifyFetcher<
+        ListReferenzStuelisQuery,
+        ListReferenzStuelisQueryVariables
+      >(ListReferenzStuelisDocument, {
+        filter: { bmk: { eq: value } },
+      }).call(undefined);
+
+      const referenzStueckExist =
+        (foundStueckeInReferenz.listReferenzStuelis?.items?.length ?? 0) > 0;
+
+      if (referenzStueckExist) {
+        await handleModal(
+          `BMK existiert bereits in Referenzstückliste: ${Array.from(
+            new Set(
+              foundStueckeInReferenz.listReferenzStuelis?.items?.map(
+                (foundStueck) =>
+                  `Firma: ${foundStueck?.anlage.firma} Standort: ${foundStueck?.anlage.standort} `,
+              ),
+            ),
+          ).join(', ')}!`,
+        );
+      }
+
+      bmkDouble = projektStueckExist || referenzStueckExist;
+    }
+
+    // save if not insert row
+    if (cell.row.original.id != '-1') {
+      // only update if something changed
+      // if (initialValue !== value) {
+      await updateStueck.mutateAsync({
+        input: {
+          id: cell.row.original.id,
+          [cell.column.id]: value,
+          bmkDouble,
+        },
+      });
+
+      await refetch();
+      // }
+    }
+
+    return;
+  };
+
+  // If the initialValue is changed external, sync it up with our state
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
+  if (cell.column.id === 'action') {
+    if (cell.row.original.id === '-1') {
+      return (
+        <Clickable
+          as="button"
+          className="flex items-center justify-center mx-auto font-medium text-gray-500 transition-colors rounded-full outline-none focus:bg-gray-200 w-7 h-7"
+          onClick={async () => {
+            await createStueck.mutateAsync({
+              input: {
+                projektId,
+                kurzspezifikation: '',
+                lieferant: '',
+                nennweite: '',
+                feinspezifikation: '',
+              },
+            });
+
+            await refetch();
+          }}
+        >
+          <MdAdd size={18} />
+        </Clickable>
+      );
+    } else {
+      return (
+        <Clickable
+          as="button"
+          className="flex items-center justify-center mx-auto font-medium text-gray-500 transition-colors rounded-full outline-none focus:bg-gray-200 w-7 h-7"
+          onClick={async () => {
+            await deleteStueck.mutateAsync({
+              input: {
+                id: cell.row.original.id,
+              },
+            });
+            await refetch();
+          }}
+        >
+          <MdDelete size={18} />
+        </Clickable>
+      );
+    }
+  }
+
+  return (
+    <EditTable
+      className={
+        cell.column.id === 'bmk' && cell.row.original.bmkDouble
+          ? 'text-red-500'
+          : ''
+      }
+      key={cell.column.id}
+      text={value as string}
+      onSave={() => onSave()}
+      onCancel={() => {
+        setValue(initialValue);
+      }}
+      childRef={inputRef}
+      type={EditTableType.input}
+    >
+      <input
+        className="w-full bg-transparent focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
+        key={cell.column.id}
+        ref={inputRef}
+        type="text"
+        name={cell.column.id}
+        placeholder={cell.column.id}
+        value={value as string}
+        onChange={(e) => {
+          setValue(e.target.value);
+        }}
+        onBlur={() => onSave()}
+      />
+    </EditTable>
+  );
+};
+
+const ProjektStueckliste = () => {
   // Give our default column cell renderer editing superpowers!
   const defaultColumn: Partial<ColumnDef<ProjektStueck>> = {
-    cell: (cell) => {
-      // console.log(`cell=${JSON.stringify(cell)}`);
-      const initialValue = cell.getValue() as string;
-      // We need to keep and update the state of the cell normally
-      const [value, setValue] = useState(initialValue);
-
-      let { handleModal } = useModal();
-
-      const updateStueck = useUpdateProjektStueliMutation();
-
-      // When the input is blurred, we'll call our table meta's updateData function
-      // const onBlur = () => {
-      //   table.options.meta?.updateData(index, id, value);
-      // };
-
-      const onSave = async () => {
-        let bmkDouble = false;
-        if (cell.column.id === 'bmk') {
-          const foundStueckeInProjekten = await amplifyFetcher<
-            ListProjektStuelisQuery,
-            ListProjektStuelisQueryVariables
-          >(ListProjektStuelisDocument, {
-            filter: { bmk: { eq: value } },
-          }).call(undefined);
-
-          let projektStueckExist =
-            (foundStueckeInProjekten.listProjektStuelis?.items?.length ?? 0) >
-            0;
-
-          if (projektStueckExist) {
-            await handleModal(
-              `BMK existiert bereits im Projektstückliste: ${Array.from(
-                new Set(
-                  foundStueckeInProjekten.listProjektStuelis?.items?.map(
-                    (foundStueck) =>
-                      `Firma: ${foundStueck?.projekt.anlage.firma} Standort: ${foundStueck?.projekt.anlage.standort} Projektnummer: ${foundStueck?.projekt.projektNummer} `,
-                  ),
-                ),
-              ).join(', ')}!`,
-            );
-          }
-
-          // Check ob gleiche BMK in einer Referenzstueli bereits existiert
-          const foundStueckeInReferenz = await amplifyFetcher<
-            ListReferenzStuelisQuery,
-            ListReferenzStuelisQueryVariables
-          >(ListReferenzStuelisDocument, {
-            filter: { bmk: { eq: value } },
-          }).call(undefined);
-
-          const referenzStueckExist =
-            (foundStueckeInReferenz.listReferenzStuelis?.items?.length ?? 0) >
-            0;
-
-          if (referenzStueckExist) {
-            await handleModal(
-              `BMK existiert bereits in Referenzstückliste: ${Array.from(
-                new Set(
-                  foundStueckeInReferenz.listReferenzStuelis?.items?.map(
-                    (foundStueck) =>
-                      `Firma: ${foundStueck?.anlage.firma} Standort: ${foundStueck?.anlage.standort} `,
-                  ),
-                ),
-              ).join(', ')}!`,
-            );
-          }
-
-          bmkDouble = projektStueckExist || referenzStueckExist;
-        }
-
-        // save if not insert row
-        if (cell.row.original.id != '-1') {
-          await updateStueck.mutateAsync({
-            input: {
-              id: cell.row.original.id,
-              [cell.column.id]: value,
-              bmkDouble,
-            },
-          });
-        }
-
-        await table.options.meta?.refreshData();
-
-        return;
-      };
-
-      // If the initialValue is changed external, sync it up with our state
-      useEffect(() => {
-        setValue(initialValue);
-      }, [initialValue]);
-
-      return (
-        <EditTable
-          className={
-            cell.column.id === 'bmk' && cell.row.original.bmkDouble
-              ? 'text-red-500'
-              : ''
-          }
-          key={'bmk'}
-          text={value as string}
-          onSave={() => onSave()}
-          onCancel={() => {
-            setValue(initialValue);
-          }}
-          childRef={inputRef}
-          type={EditTableType.input}
-        >
-          <input
-            key={cell.column.id}
-            ref={inputRef}
-            type="text"
-            name={cell.column.id}
-            placeholder={cell.column.id}
-            value={value as string}
-            onChange={(e) => setValue(e.target.value)}
-            onBlur={() => onSave()}
-          />
-        </EditTable>
-      );
-    },
+    cell: (cell) => (
+      <ProjektStueckCell cell={cell} refetch={refetch} projektId={projektId} />
+    ),
   };
 
   const columnss = useMemo<ColumnDef<ProjektStueck>[]>(
@@ -252,41 +321,6 @@ const ProjektStueckliste = () => {
         accessorKey: 'action',
         header: ' ',
         size: 80,
-        cell: (cell) => {
-          const deleteStueck = useDeleteProjektStueliMutation();
-          const createStueck = useCreateProjektStueliMutation();
-
-          return (
-            <Clickable
-              as="button"
-              className="flex items-center justify-center mx-auto font-medium text-gray-500 transition-colors rounded-full outline-none focus:bg-gray-200 w-7 h-7"
-              onClick={async () => {
-                cell.row.original.id === '-1'
-                  ? await createStueck.mutateAsync({
-                      input: {
-                        projektId,
-                        kurzspezifikation: '',
-                        lieferant: '',
-                        nennweite: '',
-                        feinspezifikation: '',
-                      },
-                    })
-                  : await deleteStueck.mutateAsync({
-                      input: {
-                        id: cell.row.original.id,
-                      },
-                    });
-                await refetch();
-              }}
-            >
-              {cell.row.original.id === '-1' ? (
-                'Einfügen'
-              ) : (
-                <MdDelete size={18} />
-              )}
-            </Clickable>
-          );
-        },
       },
     ],
     [],
@@ -299,34 +333,34 @@ const ProjektStueckliste = () => {
 
   // let { handleModal } = useModal();
 
-  const [newStueck, _setNewStueck] = useState<{
-    bmk: string;
-    kurzspezifikation: string;
-    lieferant: string;
-    nennweite: string;
-    feinspezifikation: string;
-    kurzspezifikationVorschlag?: string;
-    lieferantVorschlag?: string;
-    nennweiteVorschlag?: string;
-    feinspezifikationVorschlag?: string;
-    custom1: string;
-    custom2: string;
-    custom3: string;
-  }>({
-    bmk: '',
-    kurzspezifikation: '',
-    lieferant: '',
-    nennweite: '',
-    feinspezifikation: '',
-    custom1: '',
-    custom2: '',
-    custom3: '',
-  });
+  // const [newStueck, _setNewStueck] = useState<{
+  //   bmk: string;
+  //   kurzspezifikation: string;
+  //   lieferant: string;
+  //   nennweite: string;
+  //   feinspezifikation: string;
+  //   kurzspezifikationVorschlag?: string;
+  //   lieferantVorschlag?: string;
+  //   nennweiteVorschlag?: string;
+  //   feinspezifikationVorschlag?: string;
+  //   custom1: string;
+  //   custom2: string;
+  //   custom3: string;
+  // }>({
+  //   bmk: '',
+  //   kurzspezifikation: '',
+  //   lieferant: '',
+  //   nennweite: '',
+  //   feinspezifikation: '',
+  //   custom1: '',
+  //   custom2: '',
+  //   custom3: '',
+  // });
 
-  const [
-    selectedKurzspezifikationVorschlag,
-    _setSelectedKurzspezifikationVorschlag,
-  ] = useState<string | undefined>();
+  // const [
+  //   selectedKurzspezifikationVorschlag,
+  //   _setSelectedKurzspezifikationVorschlag,
+  // ] = useState<string | undefined>();
 
   // const isAdmin = role === Role.Admin;
 
@@ -400,17 +434,11 @@ const ProjektStueckliste = () => {
         feinspezifikation: '',
       },
     ],
-    //@ts-ignore
     columns: columnss,
     defaultColumn,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     debugTable: false,
-    meta: {
-      refreshData: async () => {
-        await refetch();
-      },
-    },
   });
 
   const tableContainerRef = useRef<HTMLDivElement>(null);
@@ -426,94 +454,94 @@ const ProjektStueckliste = () => {
     );
   listKurzspezifikationVorschlaege;
 
-  const referenzStueckeByKurzspezifikation =
-    useReferenzStueliByKurzspezifikationQuery(
-      {
-        anlageId: getProjektQuery.data?.getProjekt?.anlageId ?? 'init',
-        kurzspezifikation: { eq: selectedKurzspezifikationVorschlag ?? 'init' },
-      },
-      {
-        refetchOnWindowFocus: false,
-      },
-    );
+  // const referenzStueckeByKurzspezifikation =
+  //   useReferenzStueliByKurzspezifikationQuery(
+  //     {
+  //       anlageId: getProjektQuery.data?.getProjekt?.anlageId ?? 'init',
+  //       kurzspezifikation: { eq: selectedKurzspezifikationVorschlag ?? 'init' },
+  //     },
+  //     {
+  //       refetchOnWindowFocus: false,
+  //     },
+  //   );
 
-  const kurzspezifikationVorschlaege = Array.from(
-    new Set(
-      referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
-        ?.filter(
-          (stueck) =>
-            stueck?.kurzspezifikation != '' &&
-            (!newStueck.lieferantVorschlag ||
-              stueck?.lieferant === newStueck.lieferantVorschlag) &&
-            (!newStueck.nennweiteVorschlag ||
-              stueck?.nennweite === newStueck.nennweiteVorschlag) &&
-            (!newStueck.feinspezifikation ||
-              stueck?.feinspezifikation ===
-                newStueck.feinspezifikationVorschlag),
-        )
-        .map((stueck) => stueck?.lieferant),
-    ),
-  );
-  kurzspezifikationVorschlaege;
+  // const kurzspezifikationVorschlaege = Array.from(
+  //   new Set(
+  //     referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
+  //       ?.filter(
+  //         (stueck) =>
+  //           stueck?.kurzspezifikation != '' &&
+  //           (!newStueck.lieferantVorschlag ||
+  //             stueck?.lieferant === newStueck.lieferantVorschlag) &&
+  //           (!newStueck.nennweiteVorschlag ||
+  //             stueck?.nennweite === newStueck.nennweiteVorschlag) &&
+  //           (!newStueck.feinspezifikation ||
+  //             stueck?.feinspezifikation ===
+  //               newStueck.feinspezifikationVorschlag),
+  //       )
+  //       .map((stueck) => stueck?.lieferant),
+  //   ),
+  // );
+  // kurzspezifikationVorschlaege;
 
-  const lieferantVorschlaege = Array.from(
-    new Set(
-      referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
-        ?.filter(
-          (stueck) =>
-            (!newStueck.kurzspezifikationVorschlag ||
-              stueck?.kurzspezifikation ===
-                newStueck.kurzspezifikationVorschlag) &&
-            stueck?.lieferant != '' &&
-            (!newStueck.nennweiteVorschlag ||
-              stueck?.nennweite === newStueck.nennweiteVorschlag) &&
-            (!newStueck.feinspezifikationVorschlag ||
-              stueck?.feinspezifikation ===
-                newStueck.feinspezifikationVorschlag),
-        )
-        .map((stueck) => stueck?.lieferant),
-    ),
-  );
-  lieferantVorschlaege;
+  // const lieferantVorschlaege = Array.from(
+  //   new Set(
+  //     referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
+  //       ?.filter(
+  //         (stueck) =>
+  //           (!newStueck.kurzspezifikationVorschlag ||
+  //             stueck?.kurzspezifikation ===
+  //               newStueck.kurzspezifikationVorschlag) &&
+  //           stueck?.lieferant != '' &&
+  //           (!newStueck.nennweiteVorschlag ||
+  //             stueck?.nennweite === newStueck.nennweiteVorschlag) &&
+  //           (!newStueck.feinspezifikationVorschlag ||
+  //             stueck?.feinspezifikation ===
+  //               newStueck.feinspezifikationVorschlag),
+  //       )
+  //       .map((stueck) => stueck?.lieferant),
+  //   ),
+  // );
+  // lieferantVorschlaege;
 
-  const nennweiteVorschlaege = Array.from(
-    new Set(
-      referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
-        ?.filter(
-          (stueck) =>
-            (!newStueck.kurzspezifikationVorschlag ||
-              stueck?.kurzspezifikation ===
-                newStueck.kurzspezifikationVorschlag) &&
-            (!newStueck.lieferantVorschlag ||
-              stueck?.lieferant === newStueck.lieferantVorschlag) &&
-            stueck?.nennweite != '' &&
-            (!newStueck.feinspezifikationVorschlag ||
-              stueck?.feinspezifikation ===
-                newStueck.feinspezifikationVorschlag),
-        )
-        .map((stueck) => stueck?.nennweite),
-    ),
-  ).sort();
-  nennweiteVorschlaege;
+  // const nennweiteVorschlaege = Array.from(
+  //   new Set(
+  //     referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
+  //       ?.filter(
+  //         (stueck) =>
+  //           (!newStueck.kurzspezifikationVorschlag ||
+  //             stueck?.kurzspezifikation ===
+  //               newStueck.kurzspezifikationVorschlag) &&
+  //           (!newStueck.lieferantVorschlag ||
+  //             stueck?.lieferant === newStueck.lieferantVorschlag) &&
+  //           stueck?.nennweite != '' &&
+  //           (!newStueck.feinspezifikationVorschlag ||
+  //             stueck?.feinspezifikation ===
+  //               newStueck.feinspezifikationVorschlag),
+  //       )
+  //       .map((stueck) => stueck?.nennweite),
+  //   ),
+  // ).sort();
+  // nennweiteVorschlaege;
 
-  const feinspezifikationVorschlaege = Array.from(
-    new Set(
-      referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
-        ?.filter(
-          (stueck) =>
-            (!newStueck.kurzspezifikationVorschlag ||
-              stueck?.kurzspezifikation ===
-                newStueck.kurzspezifikationVorschlag) &&
-            (!newStueck.lieferantVorschlag ||
-              stueck?.lieferant === newStueck.lieferantVorschlag) &&
-            (!newStueck.nennweiteVorschlag ||
-              stueck?.nennweite === newStueck.nennweiteVorschlag) &&
-            stueck?.feinspezifikation != '',
-        )
-        .map((stueck) => stueck?.feinspezifikation),
-    ),
-  ).sort();
-  feinspezifikationVorschlaege;
+  // const feinspezifikationVorschlaege = Array.from(
+  //   new Set(
+  //     referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
+  //       ?.filter(
+  //         (stueck) =>
+  //           (!newStueck.kurzspezifikationVorschlag ||
+  //             stueck?.kurzspezifikation ===
+  //               newStueck.kurzspezifikationVorschlag) &&
+  //           (!newStueck.lieferantVorschlag ||
+  //             stueck?.lieferant === newStueck.lieferantVorschlag) &&
+  //           (!newStueck.nennweiteVorschlag ||
+  //             stueck?.nennweite === newStueck.nennweiteVorschlag) &&
+  //           stueck?.feinspezifikation != '',
+  //       )
+  //       .map((stueck) => stueck?.feinspezifikation),
+  //   ),
+  // ).sort();
+  // feinspezifikationVorschlaege;
 
   const setCurrentProjektId = useSetCurrentProjektIdMutation();
 
