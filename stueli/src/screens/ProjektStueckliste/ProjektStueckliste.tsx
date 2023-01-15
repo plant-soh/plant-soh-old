@@ -106,6 +106,7 @@ const ProjektStueckliste = () => {
 
           return {
             accessorKey: `custom${i}`,
+            enableSorting: false,
             enableHiding: true,
             header: () => (
               <ProjektStueckCustomHeader
@@ -126,6 +127,7 @@ const ProjektStueckliste = () => {
     () => [
       {
         accessorKey: 'index',
+        enableSorting: false,
         header: ' ',
         size: 60,
         maxSize: 60,
@@ -135,6 +137,7 @@ const ProjektStueckliste = () => {
       },
       {
         accessorKey: 'bmk',
+        enableSorting: false,
         header: () => (
           <div className="flex">
             BMK
@@ -145,6 +148,7 @@ const ProjektStueckliste = () => {
       },
       {
         accessorKey: 'kurzspezifikation',
+        enableSorting: false,
         header: () => (
           <div className="flex">
             Kurzspezifikation
@@ -155,6 +159,7 @@ const ProjektStueckliste = () => {
       },
       {
         accessorKey: 'lieferant',
+        enableSorting: false,
         header: () => (
           <div className="flex">
             Lieferant
@@ -165,6 +170,7 @@ const ProjektStueckliste = () => {
       },
       {
         accessorKey: 'nennweite',
+        enableSorting: false,
         header: () => (
           <div className="flex">
             Nennweite
@@ -175,6 +181,7 @@ const ProjektStueckliste = () => {
       },
       {
         accessorKey: 'feinspezifikation',
+        enableSorting: false,
         header: () => (
           <div className="flex">
             Feinspezifikation
@@ -185,6 +192,7 @@ const ProjektStueckliste = () => {
       },
       {
         accessorKey: 'plus',
+        enableSorting: false,
         header: () =>
           availableCustomColumn && (
             <div className="flex">
@@ -213,6 +221,7 @@ const ProjektStueckliste = () => {
       ...customColumns,
       {
         accessorKey: 'action',
+        enableSorting: false,
         header: ' ',
         size: 80,
       },
@@ -255,8 +264,6 @@ const ProjektStueckliste = () => {
       keepPreviousData: true,
     },
   );
-
-  // const defaultData = useMemo(() => [], []);
 
   const [data, setData] = useState<ProjektStueck[]>([]);
 
@@ -304,40 +311,6 @@ const ProjektStueckliste = () => {
 
   const table = useReactTable({
     data: data,
-    // [
-    //   ...(projektStueli.data?.projektStueliByKurzspezifikation?.items
-    //     ?.sort(
-    //       firstBy<ProjektStueli>((s1, s2) =>
-    //         s1!.kurzspezifikation!.localeCompare(s2!.kurzspezifikation!),
-    //       )
-    //         .thenBy<ProjektStueli>((s1, s2) =>
-    //           s1!.lieferant!.localeCompare(s2!.lieferant!),
-    //         )
-    //         .thenBy((s1, s2) => s1!.nennweite!.localeCompare(s2!.nennweite!)),
-    //     )
-    //     ?.map((stueck, index): ProjektStueck => {
-    //       return {
-    //         id: stueck?.id ?? '',
-    //         index,
-    //         bmk: stueck?.bmk ?? '',
-    //         bmkDouble: stueck?.bmkDouble ?? false,
-    //         kurzspezifikation: stueck?.kurzspezifikation ?? '',
-    //         lieferant: stueck?.lieferant ?? '',
-    //         nennweite: stueck?.nennweite ?? '',
-    //         feinspezifikation: stueck?.feinspezifikation ?? '',
-    //       };
-    //     }) ?? defaultData),
-    //   {
-    //     id: '-1',
-    //     index: data?.projektStueliByKurzspezifikation?.items?.length ?? 1,
-    //     bmk: '',
-    //     bmkDouble: false,
-    //     kurzspezifikation: '',
-    //     lieferant: '',
-    //     nennweite: '',
-    //     feinspezifikation: '',
-    //   },
-    // ],
     columns: columns,
     defaultColumn,
     getCoreRowModel: getCoreRowModel(),

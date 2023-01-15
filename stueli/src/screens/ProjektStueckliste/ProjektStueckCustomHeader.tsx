@@ -33,6 +33,8 @@ export const ProjektStueckCustomHeader = ({
   const updateProjekt = useUpdateProjektMutation();
 
   const onSave = async () => {
+    // only update if something changed
+    if (initialValue === value) return;
     await updateProjekt.mutateAsync({
       input: {
         id: projektId,
