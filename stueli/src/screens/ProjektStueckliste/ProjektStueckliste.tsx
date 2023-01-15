@@ -10,7 +10,6 @@ import { MdAdd, MdInfo } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 import { Clickable } from 'reakit/Clickable';
 import { DataGrid } from '../../components/DataGrid';
-import EditTable, { EditTableType } from '../../components/Editable';
 
 import {
   useCreateProjektStueliMutation,
@@ -22,6 +21,7 @@ import {
 } from '../../lib/react-api';
 import { useAuth } from '../../providers/AuthProvider';
 import { ProjektStueckCell } from './ProjektStueckCell';
+import { ProjektStueckCustomHeader } from './ProjektStueckCustomHeader';
 
 declare module '@tanstack/react-table' {
   interface TableMeta<TData extends RowData> {
@@ -39,9 +39,9 @@ export type ProjektStueck = {
   lieferant: string;
   nennweite: string;
   feinspezifikation: string;
-  custom1ColumnName?: string;
-  custom2ColumnName?: string;
-  custom3ColumnName?: string;
+  custom1?: string;
+  custom2?: string;
+  custom3?: string;
 };
 
 type ProjektStueliParams = {
@@ -51,20 +51,12 @@ type ProjektStueliParams = {
 const ProjektStueckliste = () => {
   const { projektId = '' } = useParams<ProjektStueliParams>();
 
-  const [columnVisibility, setColumnVisibility] = useState({});
-
   // Give our default column cell renderer editing superpowers!
   const defaultColumn: Partial<ColumnDef<ProjektStueck>> = {
     cell: (cell) => (
-      <ProjektStueckCell
-        cell={cell}
-        refetch={projektStueli.refetch}
-        projektId={projektId}
-      />
+      <ProjektStueckCell cell={cell} refetch={projektStueli.refetch} />
     ),
   };
-
-  const customColumnInputRef = useRef<HTMLInputElement>(null);
 
   const getProjektQuery = useGetProjektQuery(
     { id: projektId },
@@ -72,15 +64,6 @@ const ProjektStueckliste = () => {
       refetchOnWindowFocus: false,
     },
   );
-
-  const custom1ColumnName =
-    getProjektQuery.data?.getProjekt?.custom1ColumnName ?? 'Zusätzliche Spalte';
-
-  const custom2ColumnName =
-    getProjektQuery.data?.getProjekt?.custom2ColumnName ?? 'Zusätzliche Spalte';
-
-  const custom3ColumnName =
-    getProjektQuery.data?.getProjekt?.custom3ColumnName ?? 'Zusätzliche Spalte';
 
   var availableCustomColumn: string | undefined = undefined;
   for (const column of [
@@ -101,22 +84,42 @@ const ProjektStueckliste = () => {
     }
   }
 
-  // toggle visibility from custom columns
-  useEffect(() => {
-    [1, 2, 3].map((customColumnId) => {
-      const customColumn = table
-        .getAllLeafColumns()
-        .filter((column) => column.id === `custom${customColumnId}`)?.[0];
+  const [customColumns, setCustomColumns] = useState<
+    ColumnDef<ProjektStueck>[]
+  >([]);
 
-      console.log(
-        `custom${customColumnId}Column=${JSON.stringify(customColumn)}`,
-      );
-      const showCustomColumn =
-        (getProjektQuery.data?.getProjekt as any)?.[
-          `custom${customColumnId}ColumnName`
-        ] !== '' ?? false;
-      customColumn.toggleVisibility(showCustomColumn);
-    });
+  // set custom columns
+  useEffect(() => {
+    setCustomColumns(
+      ['1', '2', '3']
+        .filter(
+          (i) =>
+            (getProjektQuery.data?.getProjekt as any)?.[
+              `custom${i}ColumnName`
+            ] !== '',
+        )
+        .map((i) => {
+          const projektCustomColumn = `custom${i}ColumnName`;
+          const customColumnName =
+            (getProjektQuery.data?.getProjekt as any)?.[projektCustomColumn] ??
+            'Zusätzliche Spalte';
+
+          return {
+            accessorKey: `custom${i}`,
+            enableHiding: true,
+            header: () => (
+              <ProjektStueckCustomHeader
+                projektId={projektId}
+                columnId={`custom${i}`}
+                projektCustomColumn={projektCustomColumn}
+                customColumnName={customColumnName}
+                projektRefetch={getProjektQuery.refetch}
+              />
+            ),
+            minSize: 1500,
+          };
+        }),
+    );
   }, [getProjektQuery.data?.getProjekt]);
 
   const columns = useMemo<ColumnDef<ProjektStueck>[]>(
@@ -176,136 +179,49 @@ const ProjektStueckliste = () => {
           <div className="flex">
             Feinspezifikation
             <MdInfo className="ml-1 text-gray-400" />
-            <div className="flex-grow" />
-            <Clickable
-              as="button"
-              className="flex items-center justify-center mx-auto font-medium text-gray-500 transition-colors rounded-full outline-none focus:bg-gray-200 w-7 h-7"
-              onClick={async () => {
-                await updateProjekt.mutateAsync({
-                  input: {
-                    id: getProjektQuery.data?.getProjekt?.id ?? '',
-                    [availableCustomColumn as
-                      | 'custom1ColumnName'
-                      | 'custom2ColumnName'
-                      | 'custom3ColumnName']: 'Zusätzliche Spalte',
-                  },
-                });
-                await getProjektQuery.refetch();
-                await projektStueli.refetch();
-              }}
-            >
-              <MdAdd size={18} />
-            </Clickable>
           </div>
         ),
         minSize: 1500,
       },
       {
-        accessorKey: 'custom1',
-        enableHiding: true,
-        header: () => {
-          return (
-            <EditTable
-              key="custom1"
-              text={custom1ColumnName}
-              onSave={async () => {
-                return;
-              }}
-              onCancel={() => {}}
-              childRef={customColumnInputRef}
-              type={EditTableType.input}
-            >
-              <input
-                className="w-full bg-transparent focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
-                key="custom1"
-                ref={customColumnInputRef}
-                type="text"
-                name="custom1"
-                placeholder={custom1ColumnName}
-                value={custom1ColumnName}
-                onChange={(_e) => {}}
-                onBlur={() => {}}
-              />
-            </EditTable>
-          );
-        },
-        minSize: 1500,
+        accessorKey: 'plus',
+        header: () =>
+          availableCustomColumn && (
+            <div className="flex">
+              <Clickable
+                as="button"
+                className="flex items-center justify-center mx-auto font-medium text-gray-500 transition-colors rounded-full outline-none focus:bg-gray-200 w-7 h-7"
+                onClick={async () => {
+                  await updateProjekt.mutateAsync({
+                    input: {
+                      id: getProjektQuery.data?.getProjekt?.id ?? '',
+                      [availableCustomColumn as
+                        | 'custom1ColumnName'
+                        | 'custom2ColumnName'
+                        | 'custom3ColumnName']: 'Zusätzliche Spalte',
+                    },
+                  });
+                  await getProjektQuery.refetch();
+                  await projektStueli.refetch();
+                }}
+              >
+                <MdAdd size={18} />
+              </Clickable>
+            </div>
+          ),
       },
-      {
-        accessorKey: 'custom2',
-        enableHiding: true,
-        header: () => {
-          return (
-            <EditTable
-              key="custom2"
-              text={custom2ColumnName}
-              onSave={async () => {
-                return;
-              }}
-              onCancel={() => {}}
-              childRef={customColumnInputRef}
-              type={EditTableType.input}
-            >
-              <input
-                className="w-full bg-transparent focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
-                key="custom2"
-                ref={customColumnInputRef}
-                type="text"
-                name="custom2"
-                placeholder={custom2ColumnName}
-                value={custom2ColumnName}
-                onChange={(_e) => {}}
-                onBlur={() => {}}
-              />
-            </EditTable>
-          );
-        },
-        minSize: 1500,
-      },
-      {
-        accessorKey: 'custom3',
-        enableHiding: true,
-        header: () => {
-          return (
-            <EditTable
-              key="custom3"
-              text={custom3ColumnName}
-              onSave={async () => {
-                return;
-              }}
-              onCancel={() => {}}
-              childRef={customColumnInputRef}
-              type={EditTableType.input}
-            >
-              <input
-                className="w-full bg-transparent focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
-                key="custom3"
-                ref={customColumnInputRef}
-                type="text"
-                name="custom3"
-                placeholder={custom3ColumnName}
-                value={custom3ColumnName}
-                onChange={(_e) => {}}
-                onBlur={() => {}}
-              />
-            </EditTable>
-          );
-        },
-        minSize: 1500,
-      },
+      ...customColumns,
       {
         accessorKey: 'action',
         header: ' ',
         size: 80,
       },
     ],
-    [],
+    [customColumns],
   );
 
   const { currentProjektId, refreshSession, role } = useAuth();
   role;
-
-  // let { handleModal } = useModal();
 
   // const [
   //   selectedKurzspezifikationVorschlag,
@@ -361,6 +277,9 @@ const ProjektStueckliste = () => {
             lieferant: stueck?.lieferant ?? '',
             nennweite: stueck?.nennweite ?? '',
             feinspezifikation: stueck?.feinspezifikation ?? '',
+            custom1: stueck?.custom1 ?? '',
+            custom2: stueck?.custom2 ?? '',
+            custom3: stueck?.custom3 ?? '',
           };
         },
       ),
@@ -373,14 +292,12 @@ const ProjektStueckliste = () => {
         lieferant: '',
         nennweite: '',
         feinspezifikation: '',
+        custom1: '',
+        custom2: '',
+        custom3: '',
       },
     ]);
   }, [projektStueli.data]);
-
-  // useEffect(() => {
-  //   if (!data) return;
-  //   console.log(`data=${JSON.stringify(data)}`);
-  // }, [data]);
 
   const createStueck = useCreateProjektStueliMutation();
   const updateProjekt = useUpdateProjektMutation();
@@ -425,10 +342,6 @@ const ProjektStueckliste = () => {
     defaultColumn,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    state: {
-      columnVisibility,
-    },
-    onColumnVisibilityChange: setColumnVisibility,
     meta: {
       updateData: (rowIndex, columnId, value) => {
         // Skip age index reset until after next rerender

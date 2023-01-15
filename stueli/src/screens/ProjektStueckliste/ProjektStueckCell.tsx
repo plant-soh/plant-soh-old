@@ -33,7 +33,6 @@ export const ProjektStueckCell = ({
   ) => Promise<
     QueryObserverResult<ProjektStueliByKurzspezifikationQuery, unknown>
   >;
-  projektId: string;
 }) => {
   const {
     getValue,
@@ -116,6 +115,7 @@ export const ProjektStueckCell = ({
     // save if not insert row
     if (cell.row.original.id != '-1') {
       // only update if something changed
+      if (initialValue === value) return;
       await updateStueck.mutateAsync({
         input: {
           id: cell.row.original.id,
@@ -130,7 +130,6 @@ export const ProjektStueckCell = ({
     return;
   };
 
-  // If the initialValue is changed external, sync it up with our state
   useEffect(() => {
     setValue(initialValue);
   }, [initialValue]);
@@ -178,9 +177,7 @@ export const ProjektStueckCell = ({
       key={cell.column.id}
       text={value as string}
       onSave={() => onSave()}
-      onCancel={() => {
-        setValue(initialValue);
-      }}
+      onCancel={() => setValue(initialValue)}
       childRef={inputRef}
       type={EditTableType.input}
     >
@@ -192,9 +189,7 @@ export const ProjektStueckCell = ({
         name={cell.column.id}
         placeholder={cell.column.id}
         value={value as string}
-        onChange={(e) => {
-          setValue(e.target.value);
-        }}
+        onChange={(e) => setValue(e.target.value)}
         onBlur={() => onSave()}
       />
     </EditTable>
