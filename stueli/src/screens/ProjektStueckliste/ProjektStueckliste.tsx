@@ -1,10 +1,4 @@
 import {
-  QueryObserverResult,
-  RefetchOptions,
-  RefetchQueryFilters,
-} from '@tanstack/react-query';
-import {
-  CellContext,
   ColumnDef,
   getCoreRowModel,
   getSortedRowModel,
@@ -12,31 +6,22 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { MdAdd, MdDelete, MdInfo } from 'react-icons/md';
+import { MdAdd, MdInfo } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 import { Clickable } from 'reakit/Clickable';
 import { DataGrid } from '../../components/DataGrid';
 import EditTable, { EditTableType } from '../../components/Editable';
-import { amplifyFetcher } from '../../lib/fetcher';
 
 import {
-  ListProjektStuelisDocument,
-  ListProjektStuelisQuery,
-  ListProjektStuelisQueryVariables,
-  ListReferenzStuelisDocument,
-  ListReferenzStuelisQuery,
-  ListReferenzStuelisQueryVariables,
-  ProjektStueliByKurzspezifikationQuery,
   useCreateProjektStueliMutation,
-  useDeleteProjektStueliMutation,
   useGetProjektQuery,
   useListKurzspezifikationVorschlaegeQuery,
   useProjektStueliByKurzspezifikationQuery,
   useSetCurrentProjektIdMutation,
-  useUpdateProjektStueliMutation,
+  useUpdateProjektMutation,
 } from '../../lib/react-api';
 import { useAuth } from '../../providers/AuthProvider';
-import { useModal } from '../../providers/ModalProvider';
+import { ProjektStueckCell } from './ProjektStueckCell';
 
 declare module '@tanstack/react-table' {
   interface TableMeta<TData extends RowData> {
@@ -45,7 +30,7 @@ declare module '@tanstack/react-table' {
   }
 }
 
-type ProjektStueck = {
+export type ProjektStueck = {
   id: string;
   index: number;
   bmk: string;
@@ -63,198 +48,11 @@ type ProjektStueliParams = {
   projektId: string;
 };
 
-const ProjektStueckCell = ({
-  cell,
-  refetch,
-}: {
-  cell: CellContext<ProjektStueck, unknown>;
-  refetch: <TPageData>(
-    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
-  ) => Promise<
-    QueryObserverResult<ProjektStueliByKurzspezifikationQuery, unknown>
-  >;
-  projektId: string;
-}) => {
-  const {
-    getValue,
-    row: { index },
-    column: { id },
-    table,
-  } = cell;
-
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  // console.log(`cell=${JSON.stringify(cell)}`);
-  const initialValue = getValue() as string;
-  // We need to keep and update the state of the cell normally
-  const [value, setValue] = useState(initialValue);
-
-  let { handleModal } = useModal();
-
-  const updateStueck = useUpdateProjektStueliMutation();
-  const deleteStueck = useDeleteProjektStueliMutation();
-  // const createStueck = useCreateProjektStueliMutation();
-
-  // When the input is blurred, we'll call our table meta's updateData function
-  // const onBlur = () => {
-  //   table.options.meta?.updateData(index, id, value);
-  // };
-
-  const onSave = async () => {
-    table.options.meta?.updateData(index, id, value);
-    let bmkDouble = false;
-    if (cell.column.id === 'bmk' && getValue()) {
-      const foundStueckeInProjekten = await amplifyFetcher<
-        ListProjektStuelisQuery,
-        ListProjektStuelisQueryVariables
-      >(ListProjektStuelisDocument, {
-        filter: { bmk: { eq: value } },
-      }).call(undefined);
-
-      let projektStueckExist =
-        (foundStueckeInProjekten.listProjektStuelis?.items?.length ?? 0) > 0;
-
-      if (projektStueckExist) {
-        await handleModal(
-          `BMK existiert bereits im Projektstückliste: ${Array.from(
-            new Set(
-              foundStueckeInProjekten.listProjektStuelis?.items?.map(
-                (foundStueck) =>
-                  `Firma: ${foundStueck?.projekt.anlage.firma} Standort: ${foundStueck?.projekt.anlage.standort} Projektnummer: ${foundStueck?.projekt.projektNummer} `,
-              ),
-            ),
-          ).join(', ')}!`,
-        );
-      }
-
-      // Check ob gleiche BMK in einer Referenzstueli bereits existiert
-      const foundStueckeInReferenz = await amplifyFetcher<
-        ListReferenzStuelisQuery,
-        ListReferenzStuelisQueryVariables
-      >(ListReferenzStuelisDocument, {
-        filter: { bmk: { eq: value } },
-      }).call(undefined);
-
-      const referenzStueckExist =
-        (foundStueckeInReferenz.listReferenzStuelis?.items?.length ?? 0) > 0;
-
-      if (referenzStueckExist) {
-        await handleModal(
-          `BMK existiert bereits in Referenzstückliste: ${Array.from(
-            new Set(
-              foundStueckeInReferenz.listReferenzStuelis?.items?.map(
-                (foundStueck) =>
-                  `Firma: ${foundStueck?.anlage.firma} Standort: ${foundStueck?.anlage.standort} `,
-              ),
-            ),
-          ).join(', ')}!`,
-        );
-      }
-
-      bmkDouble = projektStueckExist || referenzStueckExist;
-    }
-
-    // save if not insert row
-    if (cell.row.original.id != '-1') {
-      // only update if something changed
-      // if (initialValue !== value) {
-      await updateStueck.mutateAsync({
-        input: {
-          id: cell.row.original.id,
-          [cell.column.id]: value,
-          bmkDouble,
-        },
-      });
-
-      await refetch();
-      // }
-    }
-
-    return;
-  };
-
-  // If the initialValue is changed external, sync it up with our state
-  useEffect(() => {
-    setValue(initialValue);
-  }, [initialValue]);
-
-  if (cell.column.id === 'action') {
-    if (cell.row.original.id === '-1') {
-      return (
-        <Clickable
-          as="button"
-          className="flex items-center justify-center mx-auto font-medium text-gray-500 transition-colors rounded-full outline-none focus:bg-gray-200 w-7 h-7"
-          onClick={async () => {
-            table.options.meta?.addNewStueck();
-            // await createStueck.mutateAsync({
-            //   input: {
-            //     projektId,
-            //     kurzspezifikation: '',
-            //     lieferant: '',
-            //     nennweite: '',
-            //     feinspezifikation: '',
-            //   },
-            // });
-            // await refetch();
-          }}
-        >
-          <MdAdd size={18} />
-        </Clickable>
-      );
-    } else {
-      return (
-        <Clickable
-          as="button"
-          className="flex items-center justify-center mx-auto font-medium text-gray-500 transition-colors rounded-full outline-none focus:bg-gray-200 w-7 h-7"
-          onClick={async () => {
-            await deleteStueck.mutateAsync({
-              input: {
-                id: cell.row.original.id,
-              },
-            });
-            await refetch();
-          }}
-        >
-          <MdDelete size={18} />
-        </Clickable>
-      );
-    }
-  }
-
-  return (
-    <EditTable
-      className={
-        cell.column.id === 'bmk' && cell.row.original.bmkDouble
-          ? 'text-red-500'
-          : ''
-      }
-      key={cell.column.id}
-      text={value as string}
-      onSave={() => onSave()}
-      onCancel={() => {
-        setValue(initialValue);
-      }}
-      childRef={inputRef}
-      type={EditTableType.input}
-    >
-      <input
-        className="w-full bg-transparent focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
-        key={cell.column.id}
-        ref={inputRef}
-        type="text"
-        name={cell.column.id}
-        placeholder={cell.column.id}
-        value={value as string}
-        onChange={(e) => {
-          setValue(e.target.value);
-        }}
-        onBlur={() => onSave()}
-      />
-    </EditTable>
-  );
-};
-
 const ProjektStueckliste = () => {
+  const { projektId = '' } = useParams<ProjektStueliParams>();
+
+  const [columnVisibility, setColumnVisibility] = useState({});
+
   // Give our default column cell renderer editing superpowers!
   const defaultColumn: Partial<ColumnDef<ProjektStueck>> = {
     cell: (cell) => (
@@ -266,7 +64,62 @@ const ProjektStueckliste = () => {
     ),
   };
 
-  const columnss = useMemo<ColumnDef<ProjektStueck>[]>(
+  const customColumnInputRef = useRef<HTMLInputElement>(null);
+
+  const getProjektQuery = useGetProjektQuery(
+    { id: projektId },
+    {
+      refetchOnWindowFocus: false,
+    },
+  );
+
+  const custom1ColumnName =
+    getProjektQuery.data?.getProjekt?.custom1ColumnName ?? 'Zusätzliche Spalte';
+
+  const custom2ColumnName =
+    getProjektQuery.data?.getProjekt?.custom2ColumnName ?? 'Zusätzliche Spalte';
+
+  const custom3ColumnName =
+    getProjektQuery.data?.getProjekt?.custom3ColumnName ?? 'Zusätzliche Spalte';
+
+  var availableCustomColumn: string | undefined = undefined;
+  for (const column of [
+    'custom1ColumnName',
+    'custom2ColumnName',
+    'custom3ColumnName',
+  ]) {
+    if (
+      !getProjektQuery.data?.getProjekt?.[
+        column as
+          | 'custom1ColumnName'
+          | 'custom2ColumnName'
+          | 'custom3ColumnName'
+      ]
+    ) {
+      availableCustomColumn = column;
+      break;
+    }
+  }
+
+  // toggle visibility from custom columns
+  useEffect(() => {
+    [1, 2, 3].map((customColumnId) => {
+      const customColumn = table
+        .getAllLeafColumns()
+        .filter((column) => column.id === `custom${customColumnId}`)?.[0];
+
+      console.log(
+        `custom${customColumnId}Column=${JSON.stringify(customColumn)}`,
+      );
+      const showCustomColumn =
+        (getProjektQuery.data?.getProjekt as any)?.[
+          `custom${customColumnId}ColumnName`
+        ] !== '' ?? false;
+      customColumn.toggleVisibility(showCustomColumn);
+    });
+  }, [getProjektQuery.data?.getProjekt]);
+
+  const columns = useMemo<ColumnDef<ProjektStueck>[]>(
     () => [
       {
         accessorKey: 'index',
@@ -323,8 +176,121 @@ const ProjektStueckliste = () => {
           <div className="flex">
             Feinspezifikation
             <MdInfo className="ml-1 text-gray-400" />
+            <div className="flex-grow" />
+            <Clickable
+              as="button"
+              className="flex items-center justify-center mx-auto font-medium text-gray-500 transition-colors rounded-full outline-none focus:bg-gray-200 w-7 h-7"
+              onClick={async () => {
+                await updateProjekt.mutateAsync({
+                  input: {
+                    id: getProjektQuery.data?.getProjekt?.id ?? '',
+                    [availableCustomColumn as
+                      | 'custom1ColumnName'
+                      | 'custom2ColumnName'
+                      | 'custom3ColumnName']: 'Zusätzliche Spalte',
+                  },
+                });
+                await getProjektQuery.refetch();
+                await projektStueli.refetch();
+              }}
+            >
+              <MdAdd size={18} />
+            </Clickable>
           </div>
         ),
+        minSize: 1500,
+      },
+      {
+        accessorKey: 'custom1',
+        enableHiding: true,
+        header: () => {
+          return (
+            <EditTable
+              key="custom1"
+              text={custom1ColumnName}
+              onSave={async () => {
+                return;
+              }}
+              onCancel={() => {}}
+              childRef={customColumnInputRef}
+              type={EditTableType.input}
+            >
+              <input
+                className="w-full bg-transparent focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
+                key="custom1"
+                ref={customColumnInputRef}
+                type="text"
+                name="custom1"
+                placeholder={custom1ColumnName}
+                value={custom1ColumnName}
+                onChange={(_e) => {}}
+                onBlur={() => {}}
+              />
+            </EditTable>
+          );
+        },
+        minSize: 1500,
+      },
+      {
+        accessorKey: 'custom2',
+        enableHiding: true,
+        header: () => {
+          return (
+            <EditTable
+              key="custom2"
+              text={custom2ColumnName}
+              onSave={async () => {
+                return;
+              }}
+              onCancel={() => {}}
+              childRef={customColumnInputRef}
+              type={EditTableType.input}
+            >
+              <input
+                className="w-full bg-transparent focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
+                key="custom2"
+                ref={customColumnInputRef}
+                type="text"
+                name="custom2"
+                placeholder={custom2ColumnName}
+                value={custom2ColumnName}
+                onChange={(_e) => {}}
+                onBlur={() => {}}
+              />
+            </EditTable>
+          );
+        },
+        minSize: 1500,
+      },
+      {
+        accessorKey: 'custom3',
+        enableHiding: true,
+        header: () => {
+          return (
+            <EditTable
+              key="custom3"
+              text={custom3ColumnName}
+              onSave={async () => {
+                return;
+              }}
+              onCancel={() => {}}
+              childRef={customColumnInputRef}
+              type={EditTableType.input}
+            >
+              <input
+                className="w-full bg-transparent focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
+                key="custom3"
+                ref={customColumnInputRef}
+                type="text"
+                name="custom3"
+                placeholder={custom3ColumnName}
+                value={custom3ColumnName}
+                onChange={(_e) => {}}
+                onBlur={() => {}}
+              />
+            </EditTable>
+          );
+        },
         minSize: 1500,
       },
       {
@@ -335,8 +301,6 @@ const ProjektStueckliste = () => {
     ],
     [],
   );
-
-  const { projektId = '' } = useParams<ProjektStueliParams>();
 
   const { currentProjektId, refreshSession, role } = useAuth();
   role;
@@ -349,13 +313,6 @@ const ProjektStueckliste = () => {
   // ] = useState<string | undefined>();
 
   // const isAdmin = role === Role.Admin;
-
-  const getProjektQuery = useGetProjektQuery(
-    { id: projektId },
-    {
-      refetchOnWindowFocus: false,
-    },
-  );
 
   // console.log(`columns=${JSON.stringify(columns)}`);
 
@@ -420,12 +377,13 @@ const ProjektStueckliste = () => {
     ]);
   }, [projektStueli.data]);
 
-  useEffect(() => {
-    if (!data) return;
-    console.log(`data=${JSON.stringify(data)}`);
-  }, [data]);
+  // useEffect(() => {
+  //   if (!data) return;
+  //   console.log(`data=${JSON.stringify(data)}`);
+  // }, [data]);
 
   const createStueck = useCreateProjektStueliMutation();
+  const updateProjekt = useUpdateProjektMutation();
 
   const table = useReactTable({
     data: data,
@@ -463,10 +421,14 @@ const ProjektStueckliste = () => {
     //     feinspezifikation: '',
     //   },
     // ],
-    columns: columnss,
+    columns: columns,
     defaultColumn,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    state: {
+      columnVisibility,
+    },
+    onColumnVisibilityChange: setColumnVisibility,
     meta: {
       updateData: (rowIndex, columnId, value) => {
         // Skip age index reset until after next rerender
