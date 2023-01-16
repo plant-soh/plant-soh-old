@@ -161,8 +161,10 @@ export function SuggestionProvider({
   }, [anlageId, setAnlageId]);
 
   useEffect(() => {
+    console.log('setKurzspezifikationVorschlag');
     void (async () => {
-      await referenzStueckeByKurzspezifikation.refetch();
+      if (kurzspezifikationVorschlaege)
+        await referenzStueckeByKurzspezifikation.refetch();
     })();
   }, [kurzspezifikationVorschlag, setKurzspezifikationVorschlag]);
 

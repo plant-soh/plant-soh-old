@@ -45,7 +45,12 @@ export const ProjektStueckCell = ({
   const {
     kurzspezifikationVorschlaege,
     lieferantVorschlaege,
+    nennweiteVorschlaege,
+    feinspezifikationVorschlaege,
     setKurzspezifikation,
+    setLieferant,
+    setNennweite,
+    setFeinspezifikation,
   } = useSuggestion();
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -60,17 +65,22 @@ export const ProjektStueckCell = ({
   const [initialSuggestions, setInitialSuggestions] = useState<string[]>([]);
 
   useEffect(() => {
-    setInitialSuggestions(
-      cell.column.id === 'kurzspezifikation'
-        ? kurzspezifikationVorschlaege
-        : lieferantVorschlaege,
-    );
-    console.log(
-      `kurzspezifikationVorschlaege=${JSON.stringify(
-        kurzspezifikationVorschlaege,
-      )}`,
-    );
-  }, [cell.column.id]);
+    if (cell.column.id === 'kurzspezifikation') {
+      setInitialSuggestions(kurzspezifikationVorschlaege);
+    } else if (cell.column.id === 'lieferant') {
+      setInitialSuggestions(lieferantVorschlaege);
+    } else if (cell.column.id === 'nennweite') {
+      setInitialSuggestions(nennweiteVorschlaege);
+    } else if (cell.column.id === 'feinspezifikation') {
+      setInitialSuggestions(feinspezifikationVorschlaege);
+    }
+  }, [
+    cell.column.id,
+    kurzspezifikationVorschlaege,
+    lieferantVorschlaege,
+    nennweiteVorschlaege,
+    feinspezifikationVorschlaege,
+  ]);
 
   useEffect(() => {
     setSuggestionList(initialSuggestions);
@@ -91,7 +101,7 @@ export const ProjektStueckCell = ({
 
   const onSave = async () => {
     table.options.meta?.updateData(index, id, value);
-    let bmkDouble = false;
+    let bmkDouble = undefined;
     if (cell.column.id === 'bmk' && getValue()) {
       const foundStueckeInProjekten = await amplifyFetcher<
         ListProjektStuelisQuery,
@@ -141,8 +151,6 @@ export const ProjektStueckCell = ({
       }
 
       bmkDouble = projektStueckExist || referenzStueckExist;
-
-      setKurzspezifikation(value);
     }
 
     // save if not insert row
@@ -158,6 +166,16 @@ export const ProjektStueckCell = ({
       });
 
       await refetch();
+    } else {
+      if (cell.column.id === 'kurzspezifikation') {
+        setKurzspezifikation(value);
+      } else if (cell.column.id === 'lieferant') {
+        setLieferant(value);
+      } else if (cell.column.id === 'nennweite') {
+        setNennweite(value);
+      } else if (cell.column.id === 'feinspezifikation') {
+        setFeinspezifikation(value);
+      }
     }
 
     return;
