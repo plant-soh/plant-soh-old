@@ -60,7 +60,10 @@ const EditTable = ({
     <section {...rest}>
       {isEditing ? (
         <div
-          onBlur={() => setEditing(false)}
+          onBlur={async () => {
+            setEditing(false);
+            if (onSave) await onSave();
+          }}
           onKeyDown={(e) => handleKeyDown(e, type)}
         >
           {children}

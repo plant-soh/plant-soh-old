@@ -4,7 +4,7 @@ import {
   RefetchQueryFilters,
 } from '@tanstack/react-query';
 import { CellContext } from '@tanstack/react-table';
-import { useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import { MdAdd, MdDelete } from 'react-icons/md';
 import { Clickable } from 'reakit/Clickable';
 import EditTable, { EditTableType } from '../../components/Editable';
@@ -42,11 +42,15 @@ export const ProjektStueckCell = ({
   } = cell;
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const searchSuggestionsRef = useRef<HTMLDivElement>(null);
 
   // console.log(`cell=${JSON.stringify(cell)}`);
   const initialValue = getValue() as string;
   // We need to keep and update the state of the cell normally
   const [value, setValue] = useState(initialValue);
+  const suggestions = ['johnjoe', 'janejannet', 'jackdaniels'];
+  const [suggestionList, setSuggestionList] = useState(suggestions);
+  const [showSuggestions, setShowSuggestions] = useState(true);
 
   let { handleModal } = useModal();
 
@@ -113,9 +117,9 @@ export const ProjektStueckCell = ({
     }
 
     // save if not insert row
-    if (cell.row.original.id != '-1') {
+    if (cell.row.original.id !== '-1') {
       // only update if something changed
-      if (initialValue === value) return;
+      if (initialValue === value && bmkDouble === undefined) return;
       await updateStueck.mutateAsync({
         input: {
           id: cell.row.original.id,
@@ -167,6 +171,32 @@ export const ProjektStueckCell = ({
     }
   }
 
+  const suggestionItems = suggestionList
+    .filter((suggestion) => suggestion.includes(value))
+    .map((item) => (
+      <div
+        key={item}
+        className="hover:text-blue-500"
+        onMouseDown={(e) => {
+          e.preventDefault();
+        }}
+        onClick={(_e) => {
+          setValue(item);
+          setShowSuggestions(false);
+          // inputRef.current?.focus();
+          // e.currentTarget.blur();
+        }}
+      >
+        {item}
+      </div>
+    ));
+
+  useEffect(() => {
+    setSuggestionList(
+      suggestions.filter((suggestion) => suggestion.startsWith(value)),
+    );
+  }, [value, setValue]);
+
   return (
     <EditTable
       className={
@@ -178,7 +208,7 @@ export const ProjektStueckCell = ({
       text={value as string}
       onSave={() => onSave()}
       onCancel={() => setValue(initialValue)}
-      childRef={inputRef}
+      childRef={inputRef as RefObject<HTMLInputElement>}
       type={EditTableType.input}
     >
       <input
@@ -189,9 +219,21 @@ export const ProjektStueckCell = ({
         name={cell.column.id}
         placeholder={cell.column.id}
         value={value as string}
-        onChange={(e) => setValue(e.target.value)}
-        onBlur={() => onSave()}
+        onChange={(e) => {
+          setValue(e.target.value);
+          setShowSuggestions(true);
+        }}
+        // onBlur={() => onSave()}
       />
+      {showSuggestions &&
+        cell.row.original.id === '-1' && ( // suggestions only for insert row
+          <div
+            ref={searchSuggestionsRef}
+            className="absolute overflow-auto bg-white border-2"
+          >
+            {suggestionItems}
+          </div>
+        )}
     </EditTable>
   );
 };
