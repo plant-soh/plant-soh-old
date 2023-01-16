@@ -21,6 +21,7 @@ import {
   useUpdateProjektStueliMutation,
 } from '../../lib/react-api';
 import { useModal } from '../../providers/ModalProvider';
+import { useSuggestion } from '../../providers/SuggestionProvider';
 import { ProjektStueck } from './ProjektStueckliste';
 
 export const ProjektStueckCell = ({
@@ -41,6 +42,12 @@ export const ProjektStueckCell = ({
     table,
   } = cell;
 
+  const {
+    kurzspezifikationVorschlaege,
+    lieferantVorschlaege,
+    setKurzspezifikation,
+  } = useSuggestion();
+
   const inputRef = useRef<HTMLInputElement>(null);
   const searchSuggestionsRef = useRef<HTMLDivElement>(null);
 
@@ -48,8 +55,28 @@ export const ProjektStueckCell = ({
   const initialValue = getValue() as string;
   // We need to keep and update the state of the cell normally
   const [value, setValue] = useState(initialValue);
-  const suggestions = ['johnjoe', 'janejannet', 'jackdaniels'];
-  const [suggestionList, setSuggestionList] = useState(suggestions);
+  // const suggestions = ['johnjoe', 'janejannet', 'jackdaniels'];
+
+  const [initialSuggestions, setInitialSuggestions] = useState<string[]>([]);
+
+  useEffect(() => {
+    setInitialSuggestions(
+      cell.column.id === 'kurzspezifikation'
+        ? kurzspezifikationVorschlaege
+        : lieferantVorschlaege,
+    );
+    console.log(
+      `kurzspezifikationVorschlaege=${JSON.stringify(
+        kurzspezifikationVorschlaege,
+      )}`,
+    );
+  }, [cell.column.id]);
+
+  useEffect(() => {
+    setSuggestionList(initialSuggestions);
+  }, [initialSuggestions, setInitialSuggestions]);
+
+  const [suggestionList, setSuggestionList] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(true);
 
   let { handleModal } = useModal();
@@ -114,6 +141,8 @@ export const ProjektStueckCell = ({
       }
 
       bmkDouble = projektStueckExist || referenzStueckExist;
+
+      setKurzspezifikation(value);
     }
 
     // save if not insert row
@@ -136,7 +165,7 @@ export const ProjektStueckCell = ({
 
   useEffect(() => {
     setValue(initialValue);
-  }, [initialValue]);
+  }, [initialValue, id]);
 
   if (cell.column.id === 'action') {
     if (cell.row.original.id === '-1') {
@@ -193,7 +222,7 @@ export const ProjektStueckCell = ({
 
   useEffect(() => {
     setSuggestionList(
-      suggestions.filter((suggestion) => suggestion.startsWith(value)),
+      initialSuggestions.filter((suggestion) => suggestion.startsWith(value)),
     );
   }, [value, setValue]);
 

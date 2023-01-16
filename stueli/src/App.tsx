@@ -10,6 +10,7 @@ import MainRouter from './navigation/MainRouter';
 import AuthProvider from './providers/AuthProvider';
 import ModalProvider from './providers/ModalProvider';
 import RuntimeProvider from './providers/RuntimeProvider';
+import { SuggestionProvider } from './providers/SuggestionProvider';
 
 const queryClient = new QueryClient();
 
@@ -93,7 +94,9 @@ function App() {
         <RuntimeProvider runtimeContext={runtimeContext}>
           <AuthProvider>
             <ModalProvider>
-              <MainRouter />
+              <SuggestionProvider>
+                <MainRouter />
+              </SuggestionProvider>
             </ModalProvider>
           </AuthProvider>{' '}
         </RuntimeProvider>

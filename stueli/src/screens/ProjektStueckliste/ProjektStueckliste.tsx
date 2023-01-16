@@ -14,12 +14,12 @@ import { DataGrid } from '../../components/DataGrid';
 import {
   useCreateProjektStueliMutation,
   useGetProjektQuery,
-  useListKurzspezifikationVorschlaegeQuery,
   useProjektStueliByKurzspezifikationQuery,
   useSetCurrentProjektIdMutation,
   useUpdateProjektMutation,
 } from '../../lib/react-api';
 import { useAuth } from '../../providers/AuthProvider';
+import { useSuggestion } from '../../providers/SuggestionProvider';
 import { ProjektStueckCell } from './ProjektStueckCell';
 import { ProjektStueckCustomHeader } from './ProjektStueckCustomHeader';
 
@@ -50,6 +50,8 @@ type ProjektStueliParams = {
 
 const ProjektStueckliste = () => {
   const { projektId = '' } = useParams<ProjektStueliParams>();
+
+  const { setAnlage } = useSuggestion();
 
   // Give our default column cell renderer editing superpowers!
   const defaultColumn: Partial<ColumnDef<ProjektStueck>> = {
@@ -121,6 +123,10 @@ const ProjektStueckliste = () => {
           };
         }),
     );
+
+    // set anlageId for suggestion provider
+    if (getProjektQuery.data?.getProjekt?.anlageId)
+      setAnlage(getProjektQuery.data?.getProjekt?.anlageId);
   }, [getProjektQuery.data?.getProjekt]);
 
   const columns = useMemo<ColumnDef<ProjektStueck>[]>(
@@ -352,104 +358,6 @@ const ProjektStueckliste = () => {
   const tableContainerRef = useRef<HTMLDivElement>(null);
 
   const { rows } = table.getRowModel();
-
-  const listKurzspezifikationVorschlaege =
-    useListKurzspezifikationVorschlaegeQuery(
-      { input: { anlageId: getProjektQuery.data?.getProjekt?.anlageId ?? '' } },
-      {
-        refetchOnWindowFocus: false,
-      },
-    );
-  listKurzspezifikationVorschlaege;
-
-  // const referenzStueckeByKurzspezifikation =
-  //   useReferenzStueliByKurzspezifikationQuery(
-  //     {
-  //       anlageId: getProjektQuery.data?.getProjekt?.anlageId ?? 'init',
-  //       kurzspezifikation: { eq: selectedKurzspezifikationVorschlag ?? 'init' },
-  //     },
-  //     {
-  //       refetchOnWindowFocus: false,
-  //     },
-  //   );
-
-  // const kurzspezifikationVorschlaege = Array.from(
-  //   new Set(
-  //     referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
-  //       ?.filter(
-  //         (stueck) =>
-  //           stueck?.kurzspezifikation != '' &&
-  //           (!newStueck.lieferantVorschlag ||
-  //             stueck?.lieferant === newStueck.lieferantVorschlag) &&
-  //           (!newStueck.nennweiteVorschlag ||
-  //             stueck?.nennweite === newStueck.nennweiteVorschlag) &&
-  //           (!newStueck.feinspezifikation ||
-  //             stueck?.feinspezifikation ===
-  //               newStueck.feinspezifikationVorschlag),
-  //       )
-  //       .map((stueck) => stueck?.lieferant),
-  //   ),
-  // );
-  // kurzspezifikationVorschlaege;
-
-  // const lieferantVorschlaege = Array.from(
-  //   new Set(
-  //     referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
-  //       ?.filter(
-  //         (stueck) =>
-  //           (!newStueck.kurzspezifikationVorschlag ||
-  //             stueck?.kurzspezifikation ===
-  //               newStueck.kurzspezifikationVorschlag) &&
-  //           stueck?.lieferant != '' &&
-  //           (!newStueck.nennweiteVorschlag ||
-  //             stueck?.nennweite === newStueck.nennweiteVorschlag) &&
-  //           (!newStueck.feinspezifikationVorschlag ||
-  //             stueck?.feinspezifikation ===
-  //               newStueck.feinspezifikationVorschlag),
-  //       )
-  //       .map((stueck) => stueck?.lieferant),
-  //   ),
-  // );
-  // lieferantVorschlaege;
-
-  // const nennweiteVorschlaege = Array.from(
-  //   new Set(
-  //     referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
-  //       ?.filter(
-  //         (stueck) =>
-  //           (!newStueck.kurzspezifikationVorschlag ||
-  //             stueck?.kurzspezifikation ===
-  //               newStueck.kurzspezifikationVorschlag) &&
-  //           (!newStueck.lieferantVorschlag ||
-  //             stueck?.lieferant === newStueck.lieferantVorschlag) &&
-  //           stueck?.nennweite != '' &&
-  //           (!newStueck.feinspezifikationVorschlag ||
-  //             stueck?.feinspezifikation ===
-  //               newStueck.feinspezifikationVorschlag),
-  //       )
-  //       .map((stueck) => stueck?.nennweite),
-  //   ),
-  // ).sort();
-  // nennweiteVorschlaege;
-
-  // const feinspezifikationVorschlaege = Array.from(
-  //   new Set(
-  //     referenzStueckeByKurzspezifikation.data?.referenzStueliByKurzspezifikation?.items
-  //       ?.filter(
-  //         (stueck) =>
-  //           (!newStueck.kurzspezifikationVorschlag ||
-  //             stueck?.kurzspezifikation ===
-  //               newStueck.kurzspezifikationVorschlag) &&
-  //           (!newStueck.lieferantVorschlag ||
-  //             stueck?.lieferant === newStueck.lieferantVorschlag) &&
-  //           (!newStueck.nennweiteVorschlag ||
-  //             stueck?.nennweite === newStueck.nennweiteVorschlag) &&
-  //           stueck?.feinspezifikation != '',
-  //       )
-  //       .map((stueck) => stueck?.feinspezifikation),
-  //   ),
-  // ).sort();
-  // feinspezifikationVorschlaege;
 
   const setCurrentProjektId = useSetCurrentProjektIdMutation();
 
