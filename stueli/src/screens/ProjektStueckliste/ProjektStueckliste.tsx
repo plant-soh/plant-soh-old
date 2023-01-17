@@ -6,7 +6,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { MdAdd, MdInfo } from 'react-icons/md';
+import { MdAdd } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 import { Clickable } from 'reakit/Clickable';
 import { DataGrid } from '../../components/DataGrid';
@@ -50,6 +50,8 @@ type ProjektStueliParams = {
 
 const ProjektStueckliste = () => {
   const { projektId = '' } = useParams<ProjektStueliParams>();
+  // const [columnResizeMode, setColumnResizeMode] =
+  // useState<ColumnResizeMode>('onChange');
 
   const { setAnlage } = useSuggestion();
 
@@ -119,7 +121,7 @@ const ProjektStueckliste = () => {
                 projektRefetch={getProjektQuery.refetch}
               />
             ),
-            minSize: 1500,
+            // minSize: 1500,
           };
         }),
     );
@@ -135,66 +137,38 @@ const ProjektStueckliste = () => {
         accessorKey: 'index',
         enableSorting: false,
         header: ' ',
-        size: 60,
-        maxSize: 60,
-        cell: (stueck) => (
-          <div className="px-3 py-3">{stueck.row.original.index + 1 + '.'}</div>
-        ),
+        size: 30,
+        cell: (stueck) => <span>{stueck.row.original.index + 1 + '.'}</span>,
       },
       {
         accessorKey: 'bmk',
         enableSorting: false,
-        header: () => (
-          <div className="flex">
-            BMK
-            <MdInfo className="ml-1 text-gray-400" />
-          </div>
-        ),
-        minSize: 1500,
+        header: 'BMK',
+        size: 80,
       },
       {
         accessorKey: 'kurzspezifikation',
         enableSorting: false,
-        header: () => (
-          <div className="flex">
-            Kurzspezifikation
-            <MdInfo className="ml-1 text-gray-400" />
-          </div>
-        ),
-        minSize: 1500,
+        header: 'Kurzspezifikation',
+        size: 120,
       },
       {
         accessorKey: 'lieferant',
         enableSorting: false,
-        header: () => (
-          <div className="flex">
-            Lieferant
-            <MdInfo className="ml-1 text-gray-400" />
-          </div>
-        ),
-        minSize: 1500,
+        header: 'Lieferant',
+        size: 120,
       },
       {
         accessorKey: 'nennweite',
         enableSorting: false,
-        header: () => (
-          <div className="flex">
-            Nennweite
-            <MdInfo className="ml-1 text-gray-400" />
-          </div>
-        ),
-        minSize: 1500,
+        header: 'Nennweite',
+        size: 120,
       },
       {
         accessorKey: 'feinspezifikation',
         enableSorting: false,
-        header: () => (
-          <div className="flex">
-            Feinspezifikation
-            <MdInfo className="ml-1 text-gray-400" />
-          </div>
-        ),
-        minSize: 1500,
+        header: 'Feinspezifikation',
+        size: 120,
       },
       {
         accessorKey: 'plus',
@@ -204,7 +178,7 @@ const ProjektStueckliste = () => {
             <div className="flex">
               <Clickable
                 as="button"
-                className="flex items-center justify-center mx-auto font-medium text-gray-500 transition-colors rounded-full outline-none focus:bg-gray-200 w-7 h-7"
+                className="flex justify-center mx-auto font-medium text-gray-500 transition-colors rounded-full outline-none focus:bg-gray-200 w-7 h-7"
                 onClick={async () => {
                   await updateProjekt.mutateAsync({
                     input: {
@@ -223,13 +197,14 @@ const ProjektStueckliste = () => {
               </Clickable>
             </div>
           ),
+        size: 40,
       },
       ...customColumns,
       {
         accessorKey: 'action',
         enableSorting: false,
         header: ' ',
-        size: 80,
+        size: 40,
       },
     ],
     [customColumns],
@@ -319,6 +294,7 @@ const ProjektStueckliste = () => {
     data: data,
     columns: columns,
     defaultColumn,
+    columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     meta: {
