@@ -34,7 +34,7 @@ export const DataGrid = <TData extends Record<string, any>>({
     <div
       role="table"
       className="mt-2 border border-b-2 border-gray-300 rounded-xs w-fit"
-      style={{ width: table.getTotalSize() }}
+      style={{ width: table.getCenterTotalSize() }}
     >
       <Composite role="thead" as="div" aria-label="datagrid" {...composite}>
         {table.getHeaderGroups().map((headerGroup) => (

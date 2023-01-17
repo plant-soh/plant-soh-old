@@ -144,31 +144,26 @@ const ProjektStueckliste = () => {
         accessorKey: 'bmk',
         enableSorting: false,
         header: 'BMK',
-        size: 80,
       },
       {
         accessorKey: 'kurzspezifikation',
         enableSorting: false,
         header: 'Kurzspezifikation',
-        size: 120,
       },
       {
         accessorKey: 'lieferant',
         enableSorting: false,
         header: 'Lieferant',
-        size: 120,
       },
       {
         accessorKey: 'nennweite',
         enableSorting: false,
         header: 'Nennweite',
-        size: 120,
       },
       {
         accessorKey: 'feinspezifikation',
         enableSorting: false,
         header: 'Feinspezifikation',
-        size: 120,
       },
       {
         accessorKey: 'plus',
