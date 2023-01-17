@@ -52,6 +52,7 @@ const ProjektStueckliste = () => {
   const { projektId = '' } = useParams<ProjektStueliParams>();
   // const [columnResizeMode, setColumnResizeMode] =
   // useState<ColumnResizeMode>('onChange');
+  const [showRecord, setShowRecord] = useState(false);
 
   const { setAnlage } = useSuggestion();
 
@@ -337,10 +338,24 @@ const ProjektStueckliste = () => {
   return (
     <>
       <div className="flex items-center w-full h-screen px-6 bg-gray-200">
+        <button
+          className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+          onClick={() => {
+            setShowRecord(!showRecord);
+          }}
+        >
+          <span>Record</span>
+        </button>
         <div className="w-full p-6 bg-white rounded-md shadow-md">
           <h2 className="text-[15px] font-semibold">Projektstückliste</h2>
           <DataGrid table={table} tableRef={tableContainerRef} rows={rows} />
         </div>
+        {showRecord && (
+          <div
+            style={{ right: 0, top: 80, width: 1200 }}
+            className="absolute z-30 w-full h-full bg-red-500 "
+          />
+        )}
       </div>
     </>
   );
