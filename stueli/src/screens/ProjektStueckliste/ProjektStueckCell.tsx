@@ -274,10 +274,7 @@ export const ProjektStueckCell = ({
       />
       {showSuggestions &&
         cell.row.original.id === '-1' && ( // suggestions only for insert row
-          <div
-            ref={searchSuggestionsRef}
-            className="absolute w-full overflow-auto bg-white border-2"
-          >
+          <div ref={searchSuggestionsRef} className="w-full bg-white border-2 ">
             {suggestionItems}
           </div>
         )}

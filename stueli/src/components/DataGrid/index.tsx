@@ -105,7 +105,7 @@ export const DataGrid = <TData extends Record<string, any>>({
                     style={{
                       width: cell.column.getSize(),
                     }}
-                    className="pt-1 text-sm border-r rounded-none h-7 border-gray-300/70 first:bg-gray-200/70 first:text-gray-400 first:text-xs whitespace-nowrap outline-offset-1 outline-indigo-400 "
+                    className="h-10 text-sm border-r rounded-none border-gray-300/70 first:bg-gray-200/70 first:text-gray-400 first:text-xs whitespace-nowrap outline-offset-1 outline-indigo-400 "
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </CompositeItem>

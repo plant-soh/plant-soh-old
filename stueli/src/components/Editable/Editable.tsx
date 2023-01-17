@@ -70,7 +70,7 @@ const EditTable = ({
         </div>
       ) : (
         <div onClick={() => setEditing(true)}>
-          <span className={'inline-block ' + className}>{text}</span>
+          <span className={'inline-block' + className}>{text}</span>
         </div>
       )}
     </section>
