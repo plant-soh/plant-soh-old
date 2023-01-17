@@ -57,7 +57,7 @@ const EditTable = ({
   }, [isEditing, childRef]);
 
   return (
-    <section {...rest}>
+    <section className="h-full" {...rest}>
       {isEditing ? (
         <div
           onBlur={async () => {
@@ -69,8 +69,8 @@ const EditTable = ({
           {children}
         </div>
       ) : (
-        <div onClick={() => setEditing(true)}>
-          <span className={'inline-block' + className}>{text}</span>
+        <div className="h-full " onClick={() => setEditing(true)}>
+          <span className={'inline-block pt-3 ' + className}>{text}</span>
         </div>
       )}
     </section>

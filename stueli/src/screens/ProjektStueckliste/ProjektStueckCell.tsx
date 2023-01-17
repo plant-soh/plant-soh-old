@@ -223,7 +223,7 @@ export const ProjektStueckCell = ({
     .map((item) => (
       <div
         key={item}
-        className="hover:text-blue-500"
+        className="text-left hover:text-blue-500"
         onMouseDown={(e) => {
           e.preventDefault();
         }}
