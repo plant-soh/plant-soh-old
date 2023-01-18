@@ -29,6 +29,26 @@ export const DataGrid = <TData extends Record<string, any>>({
   });
   const { virtualItems: virtualRows } = rowVirtualizer;
   const composite = useCompositeState({ wrap: true });
+  // const tbodyRef = useRef<HTMLDivElement>(null);
+
+  // Function to handle key press on a row
+  const handleKeyDown = (event: any) => {
+    event.stopPropagation();
+    switch (event.key) {
+      case 'ArrowUp':
+        table
+          .getRow(String((table.options.meta?.getSelectedRowId() ?? 0) - 1))
+          .toggleSelected(true);
+        break;
+      case 'ArrowDown':
+        table
+          .getRow(String((table.options.meta?.getSelectedRowId() ?? 0) + 1))
+          .toggleSelected(true);
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <div
@@ -91,6 +111,7 @@ export const DataGrid = <TData extends Record<string, any>>({
               {...composite}
               key={row.id}
               aria-label="datagrid"
+              onKeyDown={(e: any) => handleKeyDown(e)}
               className={`flex w-fit text-center border-b border-gray-300 ${
                 row.getIsSelected() ? 'bg-[#EEF3FB]' : ''
               }`}

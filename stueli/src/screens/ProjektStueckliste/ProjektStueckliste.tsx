@@ -27,6 +27,7 @@ declare module '@tanstack/react-table' {
   interface TableMeta<TData extends RowData> {
     updateData: (rowIndex: number, columnId: string, value: unknown) => void;
     addNewStueck: () => void;
+    getSelectedRowId: () => number | undefined;
   }
 }
 
@@ -46,20 +47,42 @@ export type ProjektStueck = {
 
 type ProjektStueliParams = {
   projektId: string;
+  recordId: string;
 };
 
 const ProjektStueckliste = () => {
   const { projektId = '' } = useParams<ProjektStueliParams>();
-  // const [columnResizeMode, setColumnResizeMode] =
-  // useState<ColumnResizeMode>('onChange');
+  const { recordId = '' } = useParams<ProjektStueliParams>();
   const [showRecord, setShowRecord] = useState(false);
   const [record, setRecord] = useState<ProjektStueck | undefined>();
 
-  const [rowSelection, setRowSelection] = useState({});
+  const [rowSelection, setRowSelection] = useState<{ string: boolean } | {}>(
+    {},
+  );
 
   useEffect(() => {
     console.log(`rowSelection: ${JSON.stringify(rowSelection)}`);
+    const selectedRowKeys = Object.keys(rowSelection);
+    if (selectedRowKeys.length === 0) {
+      setRecord(undefined);
+    } else {
+      setRecord(data[Number(Object.keys(rowSelection)[0])]);
+    }
   }, [rowSelection, setRowSelection]);
+
+  // if open record but not row was selected it tries to open the first row
+  useEffect(() => {
+    if (data.length > 0 && !record) {
+      setRecord(data[0]);
+    }
+    if (showRecord && record) {
+      window.history.pushState(
+        'object or string',
+        'Title',
+        `/projekte/${projektId}/record/${record.id}`,
+      );
+    }
+  }, [showRecord, setShowRecord, record]);
 
   const { setAnlage } = useSuggestion();
 
@@ -211,6 +234,7 @@ const ProjektStueckliste = () => {
     },
     onRowSelectionChange: setRowSelection,
     enableMultiRowSelection: false,
+    getRowId: (row) => row.id,
     meta: {
       updateData: (rowIndex, columnId, value) => {
         // Skip age index reset until after next rerender
@@ -241,9 +265,24 @@ const ProjektStueckliste = () => {
 
         await projektStueli.refetch();
       },
+
+      getSelectedRowId: () => record?.index,
     },
     debugTable: false,
   });
+
+  useEffect(() => {
+    if (!recordId || !table) return;
+    setShowRecord(true);
+    const rows = table.getRowModel().rows;
+    // console.log(`rows=${JSON.stringify(rows)}`);
+
+    const recordRow = rows.filter((row) => row.id === recordId)[0];
+
+    if (recordRow) {
+      recordRow.toggleSelected(true);
+    }
+  }, [recordId, table]);
 
   // set custom columns
   useEffect(() => {

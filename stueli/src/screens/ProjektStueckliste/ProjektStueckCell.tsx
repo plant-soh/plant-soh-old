@@ -247,6 +247,7 @@ export const ProjektStueckCell = ({
 
   return (
     <div
+      className="h-full"
       onClick={() => {
         row.toggleSelected();
       }}
