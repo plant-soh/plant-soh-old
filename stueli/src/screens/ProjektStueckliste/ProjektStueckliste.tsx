@@ -60,13 +60,21 @@ const ProjektStueckliste = () => {
     {},
   );
 
+  // useEffect(() => {
+  //   console.log(`showRecord=${showRecord}`);
+  // }, [record, setRecord]);
+
   useEffect(() => {
     console.log(`rowSelection: ${JSON.stringify(rowSelection)}`);
     const selectedRowKeys = Object.keys(rowSelection);
     if (selectedRowKeys.length === 0) {
-      setRecord(undefined);
+      // setRecord(undefined);
+      setShowRecord(false);
+      window.history.pushState('', '', `/projekte/${projektId}`);
     } else {
-      setRecord(data[Number(Object.keys(rowSelection)[0])]);
+      const selectedRowId = Object.keys(rowSelection)[0];
+      setRecord(data.filter((row) => row.id === selectedRowId)[0]);
+      setShowRecord(true);
     }
   }, [rowSelection, setRowSelection]);
 
@@ -77,8 +85,8 @@ const ProjektStueckliste = () => {
     }
     if (showRecord && record) {
       window.history.pushState(
-        'object or string',
-        'Title',
+        '',
+        '',
         `/projekte/${projektId}/record/${record.id}`,
       );
     }
@@ -272,17 +280,18 @@ const ProjektStueckliste = () => {
   });
 
   useEffect(() => {
-    if (!recordId || !table) return;
+    console.log(`recordId=${recordId}`);
+    if (!recordId || !data || !data[0]) return;
+    setRecord(data.filter((row) => row.id === recordId)[0]);
     setShowRecord(true);
     const rows = table.getRowModel().rows;
-    // console.log(`rows=${JSON.stringify(rows)}`);
 
     const recordRow = rows.filter((row) => row.id === recordId)[0];
-
+    recordRow;
     if (recordRow) {
       recordRow.toggleSelected(true);
     }
-  }, [recordId, table]);
+  }, [recordId, data]);
 
   // set custom columns
   useEffect(() => {
@@ -380,9 +389,9 @@ const ProjektStueckliste = () => {
       },
     ]);
 
-    if (!record) {
-      setRecord(stueckTransformed[0]);
-    }
+    // if (!record) {
+    //   setRecord(stueckTransformed[0]);
+    // }
   }, [projektStueli.data]);
 
   const tableContainerRef = useRef<HTMLDivElement>(null);
@@ -408,36 +417,36 @@ const ProjektStueckliste = () => {
           <h2 className="text-[15px] font-semibold">Projektstückliste</h2>
           <DataGrid table={table} tableRef={tableContainerRef} rows={rows} />
         </div>
-        {showRecord && record && (
-          <div
-            style={{ right: 0, top: 80, width: 900 }}
-            className="absolute z-30 w-full h-full bg-red-500 "
-          >
-            <div role="Projektstueckrecord" className="text-center">
-              <div role="BmkArea" className="flex justify-between">
-                <div>BMK: {record.bmk}</div>
-                <span>BMK doppelt!</span>
-                <div>Angefragt?!</div>
-              </div>
-              <div role="StueckspezifikationHeader">
-                <label>Stückspezifikation</label>
-              </div>
-              <div role="Stueckspezifikation" className="flex justify-between">
-                <div role="Kurzspezifikation">{record.kurzspezifikation}</div>
-                <div role="Lieferant">{record.lieferant}</div>
-                <div role="Nennweite">{record.nennweite}</div>
-                <div role="Feinspezifikation">{record.feinspezifikation}</div>
-              </div>
-              <div role="ProduktbeschreibungHeader">
-                <label>Produktbeschreibung</label>
-              </div>
-              <div role="Produktbeschreibung">
-                <div>Bild</div>
-                <div>Beischreibung</div>
-              </div>
+        <div
+          style={{ right: 0, top: 80, width: 900 }}
+          className={`absolute z-30 w-full h-full duration-500 transform bg-red-500 ${
+            showRecord ? '' : 'translate-x-[900px]'
+          }`}
+        >
+          <div role="Projektstueckrecord" className="text-center">
+            <div role="BmkArea" className="flex justify-between">
+              <div>BMK: {record?.bmk}</div>
+              <span>BMK doppelt!</span>
+              <div>Angefragt?!</div>
+            </div>
+            <div role="StueckspezifikationHeader">
+              <label>Stückspezifikation</label>
+            </div>
+            <div role="Stueckspezifikation" className="flex justify-between">
+              <div role="Kurzspezifikation">{record?.kurzspezifikation}</div>
+              <div role="Lieferant">{record?.lieferant}</div>
+              <div role="Nennweite">{record?.nennweite}</div>
+              <div role="Feinspezifikation">{record?.feinspezifikation}</div>
+            </div>
+            <div role="ProduktbeschreibungHeader">
+              <label>Produktbeschreibung</label>
+            </div>
+            <div role="Produktbeschreibung">
+              <div>Bild</div>
+              <div>Beischreibung</div>
             </div>
           </div>
-        )}
+        </div>
       </div>
     </>
   );
