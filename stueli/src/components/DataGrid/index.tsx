@@ -3,6 +3,7 @@ import {
   Row,
   Table as ReactTableProps,
 } from '@tanstack/react-table';
+import { useRef } from 'react';
 import { useVirtual } from 'react-virtual';
 import {
   Composite,
@@ -29,21 +30,23 @@ export const DataGrid = <TData extends Record<string, any>>({
   });
   const { virtualItems: virtualRows } = rowVirtualizer;
   const composite = useCompositeState({ wrap: true });
-  // const tbodyRef = useRef<HTMLDivElement>(null);
+  const tbodyRef = useRef<HTMLDivElement>(null);
 
   // Function to handle key press on a row
-  const handleKeyDown = (event: any) => {
+  const handleKeyDown = (event: any, row: Row<TData>) => {
     event.stopPropagation();
+    const currentRow = tbodyRef.current?.children.namedItem(row.id);
+    console.log(currentRow);
     switch (event.key) {
       case 'ArrowUp':
-        table
-          .getRow(String((table.options.meta?.getSelectedRowId() ?? 0) - 1))
-          .toggleSelected(true);
+        const upRecord = currentRow?.previousElementSibling as HTMLElement;
+        upRecord.focus();
+        // table.getRow(upRecord.id).toggleSelected(true);
         break;
       case 'ArrowDown':
-        table
-          .getRow(String((table.options.meta?.getSelectedRowId() ?? 0) + 1))
-          .toggleSelected(true);
+        const downRecord = currentRow?.nextElementSibling as HTMLElement;
+        downRecord.focus();
+        // table.getRow(downRecord.id).toggleSelected(true);
         break;
       default:
         break;
@@ -94,7 +97,13 @@ export const DataGrid = <TData extends Record<string, any>>({
         ))}
       </Composite>
 
-      <Composite role="tbody" as="div" aria-label="datagrid" {...composite}>
+      <Composite
+        role="tbody"
+        as="div"
+        ref={tbodyRef}
+        aria-label="datagrid"
+        {...composite}
+      >
         {/* {paddingTop > 0 && (
         <tr>
           <td style={{ height: `${paddingTop}px` }} />
@@ -109,9 +118,11 @@ export const DataGrid = <TData extends Record<string, any>>({
               role="tr"
               as="div"
               {...composite}
+              id={row.id}
+              tabIndex={0}
               key={row.id}
               aria-label="datagrid"
-              onKeyDown={(e: any) => handleKeyDown(e)}
+              onKeyDown={(e: any) => handleKeyDown(e, row)}
               className={`flex w-fit text-center border-b border-gray-300 ${
                 row.getIsSelected() ? 'bg-[#EEF3FB]' : ''
               }`}
