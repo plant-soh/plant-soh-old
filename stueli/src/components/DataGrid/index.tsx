@@ -91,7 +91,9 @@ export const DataGrid = <TData extends Record<string, any>>({
               {...composite}
               key={row.id}
               aria-label="datagrid"
-              className="flex w-fit text-center border-b border-gray-300 hover:bg-[#EEF3FB]"
+              className={`flex w-fit text-center border-b border-gray-300 ${
+                row.getIsSelected() ? 'bg-[#EEF3FB]' : ''
+              }`}
             >
               {row.getVisibleCells().map((cell) => {
                 return (

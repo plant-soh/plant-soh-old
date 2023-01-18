@@ -53,6 +53,13 @@ const ProjektStueckliste = () => {
   // const [columnResizeMode, setColumnResizeMode] =
   // useState<ColumnResizeMode>('onChange');
   const [showRecord, setShowRecord] = useState(false);
+  const [record, setRecord] = useState<ProjektStueck | undefined>();
+
+  const [rowSelection, setRowSelection] = useState({});
+
+  useEffect(() => {
+    console.log(`rowSelection: ${JSON.stringify(rowSelection)}`);
+  }, [rowSelection, setRowSelection]);
 
   const { setAnlage } = useSuggestion();
 
@@ -92,45 +99,6 @@ const ProjektStueckliste = () => {
   const [customColumns, setCustomColumns] = useState<
     ColumnDef<ProjektStueck>[]
   >([]);
-
-  // set custom columns
-  useEffect(() => {
-    setCustomColumns(
-      ['1', '2', '3']
-        .filter(
-          (i) =>
-            (getProjektQuery.data?.getProjekt as any)?.[
-              `custom${i}ColumnName`
-            ] !== '',
-        )
-        .map((i) => {
-          const projektCustomColumn = `custom${i}ColumnName`;
-          const customColumnName =
-            (getProjektQuery.data?.getProjekt as any)?.[projektCustomColumn] ??
-            'Zusätzliche Spalte';
-
-          return {
-            accessorKey: `custom${i}`,
-            enableSorting: false,
-            enableHiding: true,
-            header: () => (
-              <ProjektStueckCustomHeader
-                projektId={projektId}
-                columnId={`custom${i}`}
-                projektCustomColumn={projektCustomColumn}
-                customColumnName={customColumnName}
-                projektRefetch={getProjektQuery.refetch}
-              />
-            ),
-            // minSize: 1500,
-          };
-        }),
-    );
-
-    // set anlageId for suggestion provider
-    if (getProjektQuery.data?.getProjekt?.anlageId)
-      setAnlage(getProjektQuery.data?.getProjekt?.anlageId);
-  }, [getProjektQuery.data?.getProjekt]);
 
   const columns = useMemo<ColumnDef<ProjektStueck>[]>(
     () => [
@@ -218,22 +186,6 @@ const ProjektStueckliste = () => {
 
   // console.log(`columns=${JSON.stringify(columns)}`);
 
-  useEffect(() => {
-    if (!projektId || currentProjektId === projektId) return;
-    void (async () => {
-      console.log(`projektId=${projektId}`);
-      await setCurrentProjektId.mutateAsync({
-        input: {
-          projektId: projektId,
-        },
-      });
-
-      //refresh
-      await refreshSession();
-      await projektStueli.refetch();
-    })();
-  }, [projektId]);
-
   const projektStueli = useProjektStueliByKurzspezifikationQuery(
     { projektId: projektId },
     {
@@ -243,45 +195,6 @@ const ProjektStueckliste = () => {
   );
 
   const [data, setData] = useState<ProjektStueck[]>([]);
-
-  useEffect(() => {
-    if (!projektStueli.data?.projektStueliByKurzspezifikation?.items) {
-      return;
-    }
-
-    setData([
-      ...projektStueli.data.projektStueliByKurzspezifikation.items.map(
-        (stueck, index) => {
-          return {
-            id: stueck?.id ?? '',
-            index: index,
-            bmk: stueck?.bmk ?? '',
-            bmkDouble: stueck?.bmkDouble ?? false,
-            kurzspezifikation: stueck?.kurzspezifikation ?? '',
-            lieferant: stueck?.lieferant ?? '',
-            nennweite: stueck?.nennweite ?? '',
-            feinspezifikation: stueck?.feinspezifikation ?? '',
-            custom1: stueck?.custom1 ?? '',
-            custom2: stueck?.custom2 ?? '',
-            custom3: stueck?.custom3 ?? '',
-          };
-        },
-      ),
-      {
-        id: '-1',
-        index: projektStueli.data.projektStueliByKurzspezifikation.items.length,
-        bmk: '',
-        bmkDouble: false,
-        kurzspezifikation: '',
-        lieferant: '',
-        nennweite: '',
-        feinspezifikation: '',
-        custom1: '',
-        custom2: '',
-        custom3: '',
-      },
-    ]);
-  }, [projektStueli.data]);
 
   const createStueck = useCreateProjektStueliMutation();
   const updateProjekt = useUpdateProjektMutation();
@@ -293,6 +206,11 @@ const ProjektStueckliste = () => {
     columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    state: {
+      rowSelection,
+    },
+    onRowSelectionChange: setRowSelection,
+    enableMultiRowSelection: false,
     meta: {
       updateData: (rowIndex, columnId, value) => {
         // Skip age index reset until after next rerender
@@ -327,6 +245,107 @@ const ProjektStueckliste = () => {
     debugTable: false,
   });
 
+  // set custom columns
+  useEffect(() => {
+    setCustomColumns(
+      ['1', '2', '3']
+        .filter(
+          (i) =>
+            (getProjektQuery.data?.getProjekt as any)?.[
+              `custom${i}ColumnName`
+            ] !== '',
+        )
+        .map((i) => {
+          const projektCustomColumn = `custom${i}ColumnName`;
+          const customColumnName =
+            (getProjektQuery.data?.getProjekt as any)?.[projektCustomColumn] ??
+            'Zusätzliche Spalte';
+
+          return {
+            accessorKey: `custom${i}`,
+            enableSorting: false,
+            enableHiding: true,
+            header: () => (
+              <ProjektStueckCustomHeader
+                projektId={projektId}
+                columnId={`custom${i}`}
+                projektCustomColumn={projektCustomColumn}
+                customColumnName={customColumnName}
+                projektRefetch={getProjektQuery.refetch}
+              />
+            ),
+            // minSize: 1500,
+          };
+        }),
+    );
+
+    // set anlageId for suggestion provider
+    if (getProjektQuery.data?.getProjekt?.anlageId)
+      setAnlage(getProjektQuery.data?.getProjekt?.anlageId);
+  }, [getProjektQuery.data?.getProjekt]);
+
+  useEffect(() => {
+    if (!projektId || currentProjektId === projektId) return;
+    void (async () => {
+      console.log(`projektId=${projektId}`);
+      await setCurrentProjektId.mutateAsync({
+        input: {
+          projektId: projektId,
+        },
+      });
+
+      //refresh
+      await refreshSession();
+      await projektStueli.refetch();
+    })();
+  }, [projektId]);
+
+  useEffect(() => {
+    if (!projektStueli.data?.projektStueliByKurzspezifikation?.items) {
+      return;
+    }
+
+    const stueckTransformed =
+      projektStueli.data.projektStueliByKurzspezifikation.items.map(
+        (stueck, index) => {
+          return {
+            id: stueck?.id ?? '',
+            index: index,
+            bmk: stueck?.bmk ?? '',
+            bmkDouble: stueck?.bmkDouble ?? false,
+            kurzspezifikation: stueck?.kurzspezifikation ?? '',
+            lieferant: stueck?.lieferant ?? '',
+            nennweite: stueck?.nennweite ?? '',
+            feinspezifikation: stueck?.feinspezifikation ?? '',
+            custom1: stueck?.custom1 ?? '',
+            custom2: stueck?.custom2 ?? '',
+            custom3: stueck?.custom3 ?? '',
+          };
+        },
+      );
+
+    setData([
+      ...stueckTransformed,
+      {
+        id: '-1',
+        index: projektStueli.data.projektStueliByKurzspezifikation.items.length,
+        bmk: '',
+        bmkDouble: false,
+        kurzspezifikation: '',
+        lieferant: '',
+        nennweite: '',
+        feinspezifikation: '',
+        custom1: '',
+        custom2: '',
+        custom3: '',
+      },
+    ]);
+
+    if (!record) {
+      setRecord(stueckTransformed[0]);
+    }
+  }, [projektStueli.data]);
+
   const tableContainerRef = useRef<HTMLDivElement>(null);
 
   const { rows } = table.getRowModel();
@@ -350,11 +369,35 @@ const ProjektStueckliste = () => {
           <h2 className="text-[15px] font-semibold">Projektstückliste</h2>
           <DataGrid table={table} tableRef={tableContainerRef} rows={rows} />
         </div>
-        {showRecord && (
+        {showRecord && record && (
           <div
-            style={{ right: 0, top: 80, width: 1200 }}
+            style={{ right: 0, top: 80, width: 900 }}
             className="absolute z-30 w-full h-full bg-red-500 "
-          />
+          >
+            <div role="Projektstueckrecord" className="text-center">
+              <div role="BmkArea" className="flex justify-between">
+                <div>BMK: {record.bmk}</div>
+                <span>BMK doppelt!</span>
+                <div>Angefragt?!</div>
+              </div>
+              <div role="StueckspezifikationHeader">
+                <label>Stückspezifikation</label>
+              </div>
+              <div role="Stueckspezifikation" className="flex justify-between">
+                <div role="Kurzspezifikation">{record.kurzspezifikation}</div>
+                <div role="Lieferant">{record.lieferant}</div>
+                <div role="Nennweite">{record.nennweite}</div>
+                <div role="Feinspezifikation">{record.feinspezifikation}</div>
+              </div>
+              <div role="ProduktbeschreibungHeader">
+                <label>Produktbeschreibung</label>
+              </div>
+              <div role="Produktbeschreibung">
+                <div>Bild</div>
+                <div>Beischreibung</div>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </>

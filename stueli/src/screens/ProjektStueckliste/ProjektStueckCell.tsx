@@ -37,6 +37,7 @@ export const ProjektStueckCell = ({
 }) => {
   const {
     getValue,
+    row,
     row: { index },
     column: { id },
     table,
@@ -245,39 +246,48 @@ export const ProjektStueckCell = ({
   }, [value, setValue]);
 
   return (
-    <EditTable
-      className={
-        cell.column.id === 'bmk' && cell.row.original.bmkDouble
-          ? 'text-red-500'
-          : ''
-      }
-      key={cell.column.id}
-      text={value as string}
-      onSave={() => onSave()}
-      onCancel={() => setValue(initialValue)}
-      childRef={inputRef as RefObject<HTMLInputElement>}
-      type={EditTableType.input}
+    <div
+      onClick={() => {
+        row.toggleSelected();
+      }}
     >
-      <input
-        className="w-full bg-transparent focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
+      <EditTable
+        className={
+          cell.column.id === 'bmk' && cell.row.original.bmkDouble
+            ? 'text-red-500'
+            : ''
+        }
         key={cell.column.id}
-        ref={inputRef}
-        type="text"
-        name={cell.column.id}
-        placeholder={cell.column.id}
-        value={value as string}
-        onChange={(e) => {
-          setValue(e.target.value);
-          setShowSuggestions(true);
-        }}
-        // onBlur={() => onSave()}
-      />
-      {showSuggestions &&
-        cell.row.original.id === '-1' && ( // suggestions only for insert row
-          <div ref={searchSuggestionsRef} className="w-full bg-white border-2 ">
-            {suggestionItems}
-          </div>
-        )}
-    </EditTable>
+        text={value as string}
+        onSave={() => onSave()}
+        onCancel={() => setValue(initialValue)}
+        childRef={inputRef as RefObject<HTMLInputElement>}
+        type={EditTableType.input}
+      >
+        <input
+          className="w-full bg-transparent focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
+          key={cell.column.id}
+          ref={inputRef}
+          type="text"
+          name={cell.column.id}
+          placeholder={cell.column.id}
+          value={value as string}
+          onChange={(e) => {
+            setValue(e.target.value);
+            setShowSuggestions(true);
+          }}
+          // onBlur={() => onSave()}
+        />
+        {showSuggestions &&
+          cell.row.original.id === '-1' && ( // suggestions only for insert row
+            <div
+              ref={searchSuggestionsRef}
+              className="w-full bg-white border-2 "
+            >
+              {suggestionItems}
+            </div>
+          )}
+      </EditTable>
+    </div>
   );
 };
