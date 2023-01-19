@@ -89,6 +89,7 @@ export const onCreateAnlage = /* GraphQL */ `
               lieferantVorschlag
               nennweiteVorschlag
               feinspezifikationVorschlag
+              angefragt
               custom1
               custom2
               custom3
@@ -221,6 +222,7 @@ export const onUpdateAnlage = /* GraphQL */ `
               lieferantVorschlag
               nennweiteVorschlag
               feinspezifikationVorschlag
+              angefragt
               custom1
               custom2
               custom3
@@ -353,6 +355,7 @@ export const onDeleteAnlage = /* GraphQL */ `
               lieferantVorschlag
               nennweiteVorschlag
               feinspezifikationVorschlag
+              angefragt
               custom1
               custom2
               custom3
@@ -868,6 +871,7 @@ export const onCreateProjekt = /* GraphQL */ `
           lieferantVorschlag
           nennweiteVorschlag
           feinspezifikationVorschlag
+          angefragt
           custom1
           custom2
           custom3
@@ -1004,6 +1008,7 @@ export const onUpdateProjekt = /* GraphQL */ `
           lieferantVorschlag
           nennweiteVorschlag
           feinspezifikationVorschlag
+          angefragt
           custom1
           custom2
           custom3
@@ -1140,6 +1145,7 @@ export const onDeleteProjekt = /* GraphQL */ `
           lieferantVorschlag
           nennweiteVorschlag
           feinspezifikationVorschlag
+          angefragt
           custom1
           custom2
           custom3
@@ -1187,6 +1193,7 @@ export const onCreateProjektStueli = /* GraphQL */ `
       lieferantVorschlag
       nennweiteVorschlag
       feinspezifikationVorschlag
+      angefragt
       custom1
       custom2
       custom3
@@ -1259,6 +1266,7 @@ export const onCreateProjektStueli = /* GraphQL */ `
             lieferantVorschlag
             nennweiteVorschlag
             feinspezifikationVorschlag
+            angefragt
             custom1
             custom2
             custom3
@@ -1296,6 +1304,7 @@ export const onUpdateProjektStueli = /* GraphQL */ `
       lieferantVorschlag
       nennweiteVorschlag
       feinspezifikationVorschlag
+      angefragt
       custom1
       custom2
       custom3
@@ -1368,6 +1377,7 @@ export const onUpdateProjektStueli = /* GraphQL */ `
             lieferantVorschlag
             nennweiteVorschlag
             feinspezifikationVorschlag
+            angefragt
             custom1
             custom2
             custom3
@@ -1405,6 +1415,7 @@ export const onDeleteProjektStueli = /* GraphQL */ `
       lieferantVorschlag
       nennweiteVorschlag
       feinspezifikationVorschlag
+      angefragt
       custom1
       custom2
       custom3
@@ -1477,6 +1488,7 @@ export const onDeleteProjektStueli = /* GraphQL */ `
             lieferantVorschlag
             nennweiteVorschlag
             feinspezifikationVorschlag
+            angefragt
             custom1
             custom2
             custom3

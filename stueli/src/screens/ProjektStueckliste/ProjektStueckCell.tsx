@@ -32,10 +32,10 @@ export const ProjektStueckCell = ({
   columnId,
   table,
   refetch,
-  toggleRowSelectedOnClick = true,
+  toggleRowSelectedOnClick = false,
 }: {
   // cell: CellContext<ProjektStueck, unknown>;
-  cellValue: string;
+  cellValue: any;
   row: Row<ProjektStueck>;
   // rowIndex: number;
   columnId: string;
@@ -270,7 +270,7 @@ export const ProjektStueckCell = ({
             columnId === 'bmk' && row.original.bmkDouble ? 'text-red-500' : ''
           }`}
         key={columnId}
-        text={value as string}
+        text={String(value)}
         onSave={() => onSave()}
         onCancel={() => setValue(initialValue)}
         childRef={inputRef as RefObject<HTMLInputElement>}

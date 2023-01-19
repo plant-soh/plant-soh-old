@@ -96,6 +96,7 @@ export const getAnlage = /* GraphQL */ `
               lieferantVorschlag
               nennweiteVorschlag
               feinspezifikationVorschlag
+              angefragt
               custom1
               custom2
               custom3
@@ -553,6 +554,7 @@ export const getProjekt = /* GraphQL */ `
           lieferantVorschlag
           nennweiteVorschlag
           feinspezifikationVorschlag
+          angefragt
           custom1
           custom2
           custom3
@@ -667,6 +669,7 @@ export const listProjekts = /* GraphQL */ `
             lieferantVorschlag
             nennweiteVorschlag
             feinspezifikationVorschlag
+            angefragt
             custom1
             custom2
             custom3
@@ -705,6 +708,7 @@ export const getProjektStueli = /* GraphQL */ `
       lieferantVorschlag
       nennweiteVorschlag
       feinspezifikationVorschlag
+      angefragt
       custom1
       custom2
       custom3
@@ -777,6 +781,7 @@ export const getProjektStueli = /* GraphQL */ `
             lieferantVorschlag
             nennweiteVorschlag
             feinspezifikationVorschlag
+            angefragt
             custom1
             custom2
             custom3
@@ -827,6 +832,7 @@ export const listProjektStuelis = /* GraphQL */ `
         lieferantVorschlag
         nennweiteVorschlag
         feinspezifikationVorschlag
+        angefragt
         custom1
         custom2
         custom3
@@ -872,6 +878,7 @@ export const listProjektStuelis = /* GraphQL */ `
               lieferantVorschlag
               nennweiteVorschlag
               feinspezifikationVorschlag
+              angefragt
               custom1
               custom2
               custom3
@@ -916,6 +923,7 @@ export const projektStueliByKurzspezifikation = /* GraphQL */ `
         lieferantVorschlag
         nennweiteVorschlag
         feinspezifikationVorschlag
+        angefragt
         custom1
         custom2
         custom3
@@ -961,6 +969,7 @@ export const projektStueliByKurzspezifikation = /* GraphQL */ `
               lieferantVorschlag
               nennweiteVorschlag
               feinspezifikationVorschlag
+              angefragt
               custom1
               custom2
               custom3

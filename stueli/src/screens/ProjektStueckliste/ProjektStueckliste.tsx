@@ -40,6 +40,7 @@ export type ProjektStueck = {
   lieferant: string;
   nennweite: string;
   feinspezifikation: string;
+  angefragt: boolean;
   custom1?: string;
   custom2?: string;
   custom3?: string;
@@ -103,6 +104,7 @@ const ProjektStueckliste = () => {
         columnId={cell.column.id}
         table={cell.table}
         refetch={projektStueli.refetch}
+        toggleRowSelectedOnClick={true}
       />
     ),
   };
@@ -172,6 +174,11 @@ const ProjektStueckliste = () => {
         header: 'Feinspezifikation',
       },
       {
+        accessorKey: 'angefragt',
+        enableSorting: false,
+        header: 'Angefragt',
+      },
+      {
         accessorKey: 'plus',
         enableSorting: false,
         header: () =>
@@ -199,6 +206,7 @@ const ProjektStueckliste = () => {
             </div>
           ),
         size: 40,
+        cell: (_stueck) => '',
       },
       ...customColumns,
       {
@@ -245,6 +253,11 @@ const ProjektStueckliste = () => {
     getSortedRowModel: getSortedRowModel(),
     state: {
       rowSelection,
+    },
+    initialState: {
+      columnVisibility: {
+        angefragt: false,
+      },
     },
     onRowSelectionChange: setRowSelection,
     enableMultiRowSelection: false,
@@ -371,6 +384,7 @@ const ProjektStueckliste = () => {
             lieferant: stueck?.lieferant ?? '',
             nennweite: stueck?.nennweite ?? '',
             feinspezifikation: stueck?.feinspezifikation ?? '',
+            angefragt: stueck?.angefragt ?? false,
             custom1: stueck?.custom1 ?? '',
             custom2: stueck?.custom2 ?? '',
             custom3: stueck?.custom3 ?? '',
@@ -389,6 +403,7 @@ const ProjektStueckliste = () => {
         lieferant: '',
         nennweite: '',
         feinspezifikation: '',
+        angefragt: false,
         custom1: '',
         custom2: '',
         custom3: '',
@@ -413,28 +428,37 @@ const ProjektStueckliste = () => {
 
   return (
     <>
-      <div className="flex items-center w-full h-screen px-6 bg-gray-200">
-        <button
-          className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
-          onClick={() => {
-            setShowRecord(!showRecord);
-          }}
-        >
-          <span>Record</span>
-        </button>
-        <div className="w-full p-6 bg-white rounded-md shadow-md">
+      <div className="flex bg-gray-200 items-top">
+        <div className="p-6 bg-white rounded-md shadow-md ">
           <h2 className="text-[15px] font-semibold">Projektstückliste</h2>
           <DataGrid table={table} tableRef={tableContainerRef} rows={rows} />
         </div>
+        <button
+          style={{ right: 0, top: 80, width: 40 }}
+          className="absolute z-30 font-bold text-white bg-blue-500 rounded h-fit hover:bg-blue-700"
+          onClick={() => {
+            setShowRecord(true);
+          }}
+        >
+          <span>{'<'}</span>
+        </button>
         <div
           style={{ right: 0, top: 80, width: 900 }}
-          className={`absolute z-30 w-full h-full duration-500 transform bg-gray-500 ${
+          className={`absolute z-30 w-full h-full duration-500 transform bg-white ${
             showRecord ? '' : 'translate-x-[900px]'
           }`}
         >
+          <button
+            className="font-bold text-white bg-blue-500 rounded h-fit hover:bg-blue-700"
+            onClick={() => {
+              setShowRecord(false);
+            }}
+          >
+            <span>{'>'}</span>
+          </button>
           <div role="Projektstueckrecord" className="text-center">
-            <div role="BmkArea" className="flex justify-between">
-              <div className="w-full">
+            <div role="BmkArea" className="flex justify-between w-full">
+              <div className="w-1/4 text-left">
                 <label>BMK</label>
                 {record && (
                   <ProjektStueckCell
@@ -443,12 +467,22 @@ const ProjektStueckliste = () => {
                     columnId="bmk"
                     table={table}
                     refetch={projektStueli.refetch}
-                    toggleRowSelectedOnClick={false}
                   />
                 )}
               </div>
-              <span>BMK doppelt!</span>
-              <div>Angefragt?!</div>
+              <span className="w-1/4">BMK doppelt!</span>
+              <div>
+                <label>Angefragt</label>
+                {record && (
+                  <ProjektStueckCell
+                    cellValue={record?.angefragt ?? false}
+                    row={table.getRowModel().rowsById[record.id]}
+                    columnId="angefragt"
+                    table={table}
+                    refetch={projektStueli.refetch}
+                  />
+                )}
+              </div>
             </div>
             <div role="StueckspezifikationHeader">
               <label>Stückspezifikation</label>

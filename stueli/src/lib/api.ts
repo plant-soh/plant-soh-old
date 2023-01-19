@@ -97,6 +97,7 @@ export type CreateProjektInput = {
 };
 
 export type CreateProjektStueliInput = {
+  angefragt?: InputMaybe<Scalars['Boolean']>;
   bmk?: InputMaybe<Scalars['String']>;
   bmkDouble?: InputMaybe<Scalars['Boolean']>;
   custom1?: InputMaybe<Scalars['String']>;
@@ -264,6 +265,7 @@ export type ModelProjektStueliConnection = {
 
 export type ModelProjektStueliFilterInput = {
   and?: InputMaybe<Array<InputMaybe<ModelProjektStueliFilterInput>>>;
+  angefragt?: InputMaybe<ModelBooleanFilterInput>;
   bmk?: InputMaybe<ModelStringFilterInput>;
   bmkDouble?: InputMaybe<ModelBooleanFilterInput>;
   custom1?: InputMaybe<ModelStringFilterInput>;
@@ -478,6 +480,7 @@ export type ProjektProjektStueliArgs = {
 
 export type ProjektStueli = {
   __typename?: 'ProjektStueli';
+  angefragt?: Maybe<Scalars['Boolean']>;
   bmk?: Maybe<Scalars['String']>;
   bmkDouble?: Maybe<Scalars['Boolean']>;
   createdAt: Scalars['AWSDateTime'];
@@ -754,6 +757,7 @@ export type UpdateProjektInput = {
 };
 
 export type UpdateProjektStueliInput = {
+  angefragt?: InputMaybe<Scalars['Boolean']>;
   bmk?: InputMaybe<Scalars['String']>;
   bmkDouble?: InputMaybe<Scalars['Boolean']>;
   custom1?: InputMaybe<Scalars['String']>;
@@ -1147,6 +1151,7 @@ export type CreateAnlageMutation = {
                                           | string
                                           | null
                                           | undefined;
+                                        angefragt?: boolean | null | undefined;
                                         custom1?: string | null | undefined;
                                         custom2?: string | null | undefined;
                                         custom3?: string | null | undefined;
@@ -1397,6 +1402,7 @@ export type UpdateAnlageMutation = {
                                           | string
                                           | null
                                           | undefined;
+                                        angefragt?: boolean | null | undefined;
                                         custom1?: string | null | undefined;
                                         custom2?: string | null | undefined;
                                         custom3?: string | null | undefined;
@@ -1647,6 +1653,7 @@ export type DeleteAnlageMutation = {
                                           | string
                                           | null
                                           | undefined;
+                                        angefragt?: boolean | null | undefined;
                                         custom1?: string | null | undefined;
                                         custom2?: string | null | undefined;
                                         custom3?: string | null | undefined;
@@ -2462,6 +2469,7 @@ export type CreateProjektMutation = {
                         lieferantVorschlag?: string | null | undefined;
                         nennweiteVorschlag?: string | null | undefined;
                         feinspezifikationVorschlag?: string | null | undefined;
+                        angefragt?: boolean | null | undefined;
                         custom1?: string | null | undefined;
                         custom2?: string | null | undefined;
                         custom3?: string | null | undefined;
@@ -2669,6 +2677,7 @@ export type UpdateProjektMutation = {
                         lieferantVorschlag?: string | null | undefined;
                         nennweiteVorschlag?: string | null | undefined;
                         feinspezifikationVorschlag?: string | null | undefined;
+                        angefragt?: boolean | null | undefined;
                         custom1?: string | null | undefined;
                         custom2?: string | null | undefined;
                         custom3?: string | null | undefined;
@@ -2876,6 +2885,7 @@ export type DeleteProjektMutation = {
                         lieferantVorschlag?: string | null | undefined;
                         nennweiteVorschlag?: string | null | undefined;
                         feinspezifikationVorschlag?: string | null | undefined;
+                        angefragt?: boolean | null | undefined;
                         custom1?: string | null | undefined;
                         custom2?: string | null | undefined;
                         custom3?: string | null | undefined;
@@ -2943,6 +2953,7 @@ export type CreateProjektStueliMutation = {
         lieferantVorschlag?: string | null | undefined;
         nennweiteVorschlag?: string | null | undefined;
         feinspezifikationVorschlag?: string | null | undefined;
+        angefragt?: boolean | null | undefined;
         custom1?: string | null | undefined;
         custom2?: string | null | undefined;
         custom3?: string | null | undefined;
@@ -3065,6 +3076,7 @@ export type CreateProjektStueliMutation = {
                             | string
                             | null
                             | undefined;
+                          angefragt?: boolean | null | undefined;
                           custom1?: string | null | undefined;
                           custom2?: string | null | undefined;
                           custom3?: string | null | undefined;
@@ -3117,6 +3129,7 @@ export type UpdateProjektStueliMutation = {
         lieferantVorschlag?: string | null | undefined;
         nennweiteVorschlag?: string | null | undefined;
         feinspezifikationVorschlag?: string | null | undefined;
+        angefragt?: boolean | null | undefined;
         custom1?: string | null | undefined;
         custom2?: string | null | undefined;
         custom3?: string | null | undefined;
@@ -3239,6 +3252,7 @@ export type UpdateProjektStueliMutation = {
                             | string
                             | null
                             | undefined;
+                          angefragt?: boolean | null | undefined;
                           custom1?: string | null | undefined;
                           custom2?: string | null | undefined;
                           custom3?: string | null | undefined;
@@ -3291,6 +3305,7 @@ export type DeleteProjektStueliMutation = {
         lieferantVorschlag?: string | null | undefined;
         nennweiteVorschlag?: string | null | undefined;
         feinspezifikationVorschlag?: string | null | undefined;
+        angefragt?: boolean | null | undefined;
         custom1?: string | null | undefined;
         custom2?: string | null | undefined;
         custom3?: string | null | undefined;
@@ -3413,6 +3428,7 @@ export type DeleteProjektStueliMutation = {
                             | string
                             | null
                             | undefined;
+                          angefragt?: boolean | null | undefined;
                           custom1?: string | null | undefined;
                           custom2?: string | null | undefined;
                           custom3?: string | null | undefined;
@@ -4324,6 +4340,7 @@ export type GetAnlageQuery = {
                                           | string
                                           | null
                                           | undefined;
+                                        angefragt?: boolean | null | undefined;
                                         custom1?: string | null | undefined;
                                         custom2?: string | null | undefined;
                                         custom3?: string | null | undefined;
@@ -5073,6 +5090,7 @@ export type GetProjektQuery = {
                         lieferantVorschlag?: string | null | undefined;
                         nennweiteVorschlag?: string | null | undefined;
                         feinspezifikationVorschlag?: string | null | undefined;
+                        angefragt?: boolean | null | undefined;
                         custom1?: string | null | undefined;
                         custom2?: string | null | undefined;
                         custom3?: string | null | undefined;
@@ -5273,6 +5291,7 @@ export type ListProjektsQuery = {
                                     | string
                                     | null
                                     | undefined;
+                                  angefragt?: boolean | null | undefined;
                                   custom1?: string | null | undefined;
                                   custom2?: string | null | undefined;
                                   custom3?: string | null | undefined;
@@ -5339,6 +5358,7 @@ export type GetProjektStueliQuery = {
         lieferantVorschlag?: string | null | undefined;
         nennweiteVorschlag?: string | null | undefined;
         feinspezifikationVorschlag?: string | null | undefined;
+        angefragt?: boolean | null | undefined;
         custom1?: string | null | undefined;
         custom2?: string | null | undefined;
         custom3?: string | null | undefined;
@@ -5461,6 +5481,7 @@ export type GetProjektStueliQuery = {
                             | string
                             | null
                             | undefined;
+                          angefragt?: boolean | null | undefined;
                           custom1?: string | null | undefined;
                           custom2?: string | null | undefined;
                           custom3?: string | null | undefined;
@@ -5522,6 +5543,7 @@ export type ListProjektStuelisQuery = {
                   lieferantVorschlag?: string | null | undefined;
                   nennweiteVorschlag?: string | null | undefined;
                   feinspezifikationVorschlag?: string | null | undefined;
+                  angefragt?: boolean | null | undefined;
                   custom1?: string | null | undefined;
                   custom2?: string | null | undefined;
                   custom3?: string | null | undefined;
@@ -5605,6 +5627,7 @@ export type ListProjektStuelisQuery = {
                                       | string
                                       | null
                                       | undefined;
+                                    angefragt?: boolean | null | undefined;
                                     custom1?: string | null | undefined;
                                     custom2?: string | null | undefined;
                                     custom3?: string | null | undefined;
@@ -5662,6 +5685,7 @@ export type ProjektStueliByKurzspezifikationQuery = {
                   lieferantVorschlag?: string | null | undefined;
                   nennweiteVorschlag?: string | null | undefined;
                   feinspezifikationVorschlag?: string | null | undefined;
+                  angefragt?: boolean | null | undefined;
                   custom1?: string | null | undefined;
                   custom2?: string | null | undefined;
                   custom3?: string | null | undefined;
@@ -5745,6 +5769,7 @@ export type ProjektStueliByKurzspezifikationQuery = {
                                       | string
                                       | null
                                       | undefined;
+                                    angefragt?: boolean | null | undefined;
                                     custom1?: string | null | undefined;
                                     custom2?: string | null | undefined;
                                     custom3?: string | null | undefined;
@@ -6651,6 +6676,7 @@ export type OnCreateAnlageSubscription = {
                                           | string
                                           | null
                                           | undefined;
+                                        angefragt?: boolean | null | undefined;
                                         custom1?: string | null | undefined;
                                         custom2?: string | null | undefined;
                                         custom3?: string | null | undefined;
@@ -6901,6 +6927,7 @@ export type OnUpdateAnlageSubscription = {
                                           | string
                                           | null
                                           | undefined;
+                                        angefragt?: boolean | null | undefined;
                                         custom1?: string | null | undefined;
                                         custom2?: string | null | undefined;
                                         custom3?: string | null | undefined;
@@ -7151,6 +7178,7 @@ export type OnDeleteAnlageSubscription = {
                                           | string
                                           | null
                                           | undefined;
+                                        angefragt?: boolean | null | undefined;
                                         custom1?: string | null | undefined;
                                         custom2?: string | null | undefined;
                                         custom3?: string | null | undefined;
@@ -7966,6 +7994,7 @@ export type OnCreateProjektSubscription = {
                         lieferantVorschlag?: string | null | undefined;
                         nennweiteVorschlag?: string | null | undefined;
                         feinspezifikationVorschlag?: string | null | undefined;
+                        angefragt?: boolean | null | undefined;
                         custom1?: string | null | undefined;
                         custom2?: string | null | undefined;
                         custom3?: string | null | undefined;
@@ -8173,6 +8202,7 @@ export type OnUpdateProjektSubscription = {
                         lieferantVorschlag?: string | null | undefined;
                         nennweiteVorschlag?: string | null | undefined;
                         feinspezifikationVorschlag?: string | null | undefined;
+                        angefragt?: boolean | null | undefined;
                         custom1?: string | null | undefined;
                         custom2?: string | null | undefined;
                         custom3?: string | null | undefined;
@@ -8380,6 +8410,7 @@ export type OnDeleteProjektSubscription = {
                         lieferantVorschlag?: string | null | undefined;
                         nennweiteVorschlag?: string | null | undefined;
                         feinspezifikationVorschlag?: string | null | undefined;
+                        angefragt?: boolean | null | undefined;
                         custom1?: string | null | undefined;
                         custom2?: string | null | undefined;
                         custom3?: string | null | undefined;
@@ -8447,6 +8478,7 @@ export type OnCreateProjektStueliSubscription = {
         lieferantVorschlag?: string | null | undefined;
         nennweiteVorschlag?: string | null | undefined;
         feinspezifikationVorschlag?: string | null | undefined;
+        angefragt?: boolean | null | undefined;
         custom1?: string | null | undefined;
         custom2?: string | null | undefined;
         custom3?: string | null | undefined;
@@ -8569,6 +8601,7 @@ export type OnCreateProjektStueliSubscription = {
                             | string
                             | null
                             | undefined;
+                          angefragt?: boolean | null | undefined;
                           custom1?: string | null | undefined;
                           custom2?: string | null | undefined;
                           custom3?: string | null | undefined;
@@ -8621,6 +8654,7 @@ export type OnUpdateProjektStueliSubscription = {
         lieferantVorschlag?: string | null | undefined;
         nennweiteVorschlag?: string | null | undefined;
         feinspezifikationVorschlag?: string | null | undefined;
+        angefragt?: boolean | null | undefined;
         custom1?: string | null | undefined;
         custom2?: string | null | undefined;
         custom3?: string | null | undefined;
@@ -8743,6 +8777,7 @@ export type OnUpdateProjektStueliSubscription = {
                             | string
                             | null
                             | undefined;
+                          angefragt?: boolean | null | undefined;
                           custom1?: string | null | undefined;
                           custom2?: string | null | undefined;
                           custom3?: string | null | undefined;
@@ -8795,6 +8830,7 @@ export type OnDeleteProjektStueliSubscription = {
         lieferantVorschlag?: string | null | undefined;
         nennweiteVorschlag?: string | null | undefined;
         feinspezifikationVorschlag?: string | null | undefined;
+        angefragt?: boolean | null | undefined;
         custom1?: string | null | undefined;
         custom2?: string | null | undefined;
         custom3?: string | null | undefined;
@@ -8917,6 +8953,7 @@ export type OnDeleteProjektStueliSubscription = {
                             | string
                             | null
                             | undefined;
+                          angefragt?: boolean | null | undefined;
                           custom1?: string | null | undefined;
                           custom2?: string | null | undefined;
                           custom3?: string | null | undefined;
@@ -10602,6 +10639,13 @@ export const CreateAnlageDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
+                                            value: 'angefragt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
                                             value: 'custom1',
                                           },
                                         },
@@ -11277,6 +11321,13 @@ export const UpdateAnlageDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
+                                            value: 'angefragt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
                                             value: 'custom1',
                                           },
                                         },
@@ -11946,6 +11997,13 @@ export const DeleteAnlageDocument = {
                                           name: {
                                             kind: 'Name',
                                             value: 'feinspezifikationVorschlag',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'angefragt',
                                           },
                                         },
                                         {
@@ -14585,6 +14643,10 @@ export const CreateProjektDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'angefragt' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'custom1' },
                             },
                             {
@@ -15289,6 +15351,10 @@ export const UpdateProjektDocument = {
                                 kind: 'Name',
                                 value: 'feinspezifikationVorschlag',
                               },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'angefragt' },
                             },
                             {
                               kind: 'Field',
@@ -15999,6 +16065,10 @@ export const DeleteProjektDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'angefragt' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'custom1' },
                             },
                             {
@@ -16230,6 +16300,7 @@ export const CreateProjektStueliDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'feinspezifikationVorschlag' },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'angefragt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'custom1' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'custom2' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'custom3' } },
@@ -16584,6 +16655,10 @@ export const CreateProjektStueliDocument = {
                                       kind: 'Name',
                                       value: 'feinspezifikationVorschlag',
                                     },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'angefragt' },
                                   },
                                   {
                                     kind: 'Field',
@@ -16763,6 +16838,7 @@ export const UpdateProjektStueliDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'feinspezifikationVorschlag' },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'angefragt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'custom1' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'custom2' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'custom3' } },
@@ -17117,6 +17193,10 @@ export const UpdateProjektStueliDocument = {
                                       kind: 'Name',
                                       value: 'feinspezifikationVorschlag',
                                     },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'angefragt' },
                                   },
                                   {
                                     kind: 'Field',
@@ -17296,6 +17376,7 @@ export const DeleteProjektStueliDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'feinspezifikationVorschlag' },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'angefragt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'custom1' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'custom2' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'custom3' } },
@@ -17650,6 +17731,10 @@ export const DeleteProjektStueliDocument = {
                                       kind: 'Name',
                                       value: 'feinspezifikationVorschlag',
                                     },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'angefragt' },
                                   },
                                   {
                                     kind: 'Field',
@@ -20412,6 +20497,13 @@ export const GetAnlageDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
+                                            value: 'angefragt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
                                             value: 'custom1',
                                           },
                                         },
@@ -22804,6 +22896,10 @@ export const GetProjektDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'angefragt' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'custom1' },
                             },
                             {
@@ -23415,6 +23511,10 @@ export const ListProjektsDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'angefragt' },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'custom1' },
                                   },
                                   {
@@ -23583,6 +23683,7 @@ export const GetProjektStueliDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'feinspezifikationVorschlag' },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'angefragt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'custom1' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'custom2' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'custom3' } },
@@ -23940,6 +24041,10 @@ export const GetProjektStueliDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'angefragt' },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'custom1' },
                                   },
                                   {
@@ -24203,6 +24308,10 @@ export const ListProjektStuelisDocument = {
                       },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'angefragt' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'custom1' },
                       },
                       {
@@ -24443,6 +24552,13 @@ export const ListProjektStuelisDocument = {
                                           name: {
                                             kind: 'Name',
                                             value: 'feinspezifikationVorschlag',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'angefragt',
                                           },
                                         },
                                         {
@@ -24689,6 +24805,10 @@ export const ProjektStueliByKurzspezifikationDocument = {
                       },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'angefragt' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'custom1' },
                       },
                       {
@@ -24929,6 +25049,13 @@ export const ProjektStueliByKurzspezifikationDocument = {
                                           name: {
                                             kind: 'Name',
                                             value: 'feinspezifikationVorschlag',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'angefragt',
                                           },
                                         },
                                         {
@@ -27628,6 +27755,13 @@ export const OnCreateAnlageDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
+                                            value: 'angefragt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
                                             value: 'custom1',
                                           },
                                         },
@@ -28294,6 +28428,13 @@ export const OnUpdateAnlageDocument = {
                                           kind: 'Field',
                                           name: {
                                             kind: 'Name',
+                                            value: 'angefragt',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
                                             value: 'custom1',
                                           },
                                         },
@@ -28954,6 +29095,13 @@ export const OnDeleteAnlageDocument = {
                                           name: {
                                             kind: 'Name',
                                             value: 'feinspezifikationVorschlag',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'angefragt',
                                           },
                                         },
                                         {
@@ -31566,6 +31714,10 @@ export const OnCreateProjektDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'angefragt' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'custom1' },
                             },
                             {
@@ -32261,6 +32413,10 @@ export const OnUpdateProjektDocument = {
                                 kind: 'Name',
                                 value: 'feinspezifikationVorschlag',
                               },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'angefragt' },
                             },
                             {
                               kind: 'Field',
@@ -32962,6 +33118,10 @@ export const OnDeleteProjektDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'angefragt' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'custom1' },
                             },
                             {
@@ -33167,6 +33327,7 @@ export const OnCreateProjektStueliDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'feinspezifikationVorschlag' },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'angefragt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'custom1' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'custom2' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'custom3' } },
@@ -33521,6 +33682,10 @@ export const OnCreateProjektStueliDocument = {
                                       kind: 'Name',
                                       value: 'feinspezifikationVorschlag',
                                     },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'angefragt' },
                                   },
                                   {
                                     kind: 'Field',
@@ -33674,6 +33839,7 @@ export const OnUpdateProjektStueliDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'feinspezifikationVorschlag' },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'angefragt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'custom1' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'custom2' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'custom3' } },
@@ -34028,6 +34194,10 @@ export const OnUpdateProjektStueliDocument = {
                                       kind: 'Name',
                                       value: 'feinspezifikationVorschlag',
                                     },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'angefragt' },
                                   },
                                   {
                                     kind: 'Field',
@@ -34181,6 +34351,7 @@ export const OnDeleteProjektStueliDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'feinspezifikationVorschlag' },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'angefragt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'custom1' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'custom2' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'custom3' } },
@@ -34535,6 +34706,10 @@ export const OnDeleteProjektStueliDocument = {
                                       kind: 'Name',
                                       value: 'feinspezifikationVorschlag',
                                     },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'angefragt' },
                                   },
                                   {
                                     kind: 'Field',

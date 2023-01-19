@@ -69,7 +69,10 @@ const EditTable = ({
           {children}
         </div>
       ) : (
-        <div className="h-full " onDoubleClick={() => setEditing(true)}>
+        <div
+          className="h-full pl-2 text-left"
+          onDoubleClick={() => setEditing(true)}
+        >
           <span className={'inline-block pt-3 ' + className}>{text}</span>
         </div>
       )}

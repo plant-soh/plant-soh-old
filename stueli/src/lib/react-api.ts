@@ -103,6 +103,7 @@ export type CreateProjektInput = {
 };
 
 export type CreateProjektStueliInput = {
+  angefragt?: InputMaybe<Scalars['Boolean']>;
   bmk?: InputMaybe<Scalars['String']>;
   bmkDouble?: InputMaybe<Scalars['Boolean']>;
   custom1?: InputMaybe<Scalars['String']>;
@@ -270,6 +271,7 @@ export type ModelProjektStueliConnection = {
 
 export type ModelProjektStueliFilterInput = {
   and?: InputMaybe<Array<InputMaybe<ModelProjektStueliFilterInput>>>;
+  angefragt?: InputMaybe<ModelBooleanFilterInput>;
   bmk?: InputMaybe<ModelStringFilterInput>;
   bmkDouble?: InputMaybe<ModelBooleanFilterInput>;
   custom1?: InputMaybe<ModelStringFilterInput>;
@@ -484,6 +486,7 @@ export type ProjektProjektStueliArgs = {
 
 export type ProjektStueli = {
   __typename?: 'ProjektStueli';
+  angefragt?: Maybe<Scalars['Boolean']>;
   bmk?: Maybe<Scalars['String']>;
   bmkDouble?: Maybe<Scalars['Boolean']>;
   createdAt: Scalars['AWSDateTime'];
@@ -760,6 +763,7 @@ export type UpdateProjektInput = {
 };
 
 export type UpdateProjektStueliInput = {
+  angefragt?: InputMaybe<Scalars['Boolean']>;
   bmk?: InputMaybe<Scalars['String']>;
   bmkDouble?: InputMaybe<Scalars['Boolean']>;
   custom1?: InputMaybe<Scalars['String']>;
@@ -1153,6 +1157,7 @@ export type CreateAnlageMutation = {
                                           | string
                                           | null
                                           | undefined;
+                                        angefragt?: boolean | null | undefined;
                                         custom1?: string | null | undefined;
                                         custom2?: string | null | undefined;
                                         custom3?: string | null | undefined;
@@ -1403,6 +1408,7 @@ export type UpdateAnlageMutation = {
                                           | string
                                           | null
                                           | undefined;
+                                        angefragt?: boolean | null | undefined;
                                         custom1?: string | null | undefined;
                                         custom2?: string | null | undefined;
                                         custom3?: string | null | undefined;
@@ -1653,6 +1659,7 @@ export type DeleteAnlageMutation = {
                                           | string
                                           | null
                                           | undefined;
+                                        angefragt?: boolean | null | undefined;
                                         custom1?: string | null | undefined;
                                         custom2?: string | null | undefined;
                                         custom3?: string | null | undefined;
@@ -2468,6 +2475,7 @@ export type CreateProjektMutation = {
                         lieferantVorschlag?: string | null | undefined;
                         nennweiteVorschlag?: string | null | undefined;
                         feinspezifikationVorschlag?: string | null | undefined;
+                        angefragt?: boolean | null | undefined;
                         custom1?: string | null | undefined;
                         custom2?: string | null | undefined;
                         custom3?: string | null | undefined;
@@ -2675,6 +2683,7 @@ export type UpdateProjektMutation = {
                         lieferantVorschlag?: string | null | undefined;
                         nennweiteVorschlag?: string | null | undefined;
                         feinspezifikationVorschlag?: string | null | undefined;
+                        angefragt?: boolean | null | undefined;
                         custom1?: string | null | undefined;
                         custom2?: string | null | undefined;
                         custom3?: string | null | undefined;
@@ -2882,6 +2891,7 @@ export type DeleteProjektMutation = {
                         lieferantVorschlag?: string | null | undefined;
                         nennweiteVorschlag?: string | null | undefined;
                         feinspezifikationVorschlag?: string | null | undefined;
+                        angefragt?: boolean | null | undefined;
                         custom1?: string | null | undefined;
                         custom2?: string | null | undefined;
                         custom3?: string | null | undefined;
@@ -2949,6 +2959,7 @@ export type CreateProjektStueliMutation = {
         lieferantVorschlag?: string | null | undefined;
         nennweiteVorschlag?: string | null | undefined;
         feinspezifikationVorschlag?: string | null | undefined;
+        angefragt?: boolean | null | undefined;
         custom1?: string | null | undefined;
         custom2?: string | null | undefined;
         custom3?: string | null | undefined;
@@ -3071,6 +3082,7 @@ export type CreateProjektStueliMutation = {
                             | string
                             | null
                             | undefined;
+                          angefragt?: boolean | null | undefined;
                           custom1?: string | null | undefined;
                           custom2?: string | null | undefined;
                           custom3?: string | null | undefined;
@@ -3123,6 +3135,7 @@ export type UpdateProjektStueliMutation = {
         lieferantVorschlag?: string | null | undefined;
         nennweiteVorschlag?: string | null | undefined;
         feinspezifikationVorschlag?: string | null | undefined;
+        angefragt?: boolean | null | undefined;
         custom1?: string | null | undefined;
         custom2?: string | null | undefined;
         custom3?: string | null | undefined;
@@ -3245,6 +3258,7 @@ export type UpdateProjektStueliMutation = {
                             | string
                             | null
                             | undefined;
+                          angefragt?: boolean | null | undefined;
                           custom1?: string | null | undefined;
                           custom2?: string | null | undefined;
                           custom3?: string | null | undefined;
@@ -3297,6 +3311,7 @@ export type DeleteProjektStueliMutation = {
         lieferantVorschlag?: string | null | undefined;
         nennweiteVorschlag?: string | null | undefined;
         feinspezifikationVorschlag?: string | null | undefined;
+        angefragt?: boolean | null | undefined;
         custom1?: string | null | undefined;
         custom2?: string | null | undefined;
         custom3?: string | null | undefined;
@@ -3419,6 +3434,7 @@ export type DeleteProjektStueliMutation = {
                             | string
                             | null
                             | undefined;
+                          angefragt?: boolean | null | undefined;
                           custom1?: string | null | undefined;
                           custom2?: string | null | undefined;
                           custom3?: string | null | undefined;
@@ -4330,6 +4346,7 @@ export type GetAnlageQuery = {
                                           | string
                                           | null
                                           | undefined;
+                                        angefragt?: boolean | null | undefined;
                                         custom1?: string | null | undefined;
                                         custom2?: string | null | undefined;
                                         custom3?: string | null | undefined;
@@ -5079,6 +5096,7 @@ export type GetProjektQuery = {
                         lieferantVorschlag?: string | null | undefined;
                         nennweiteVorschlag?: string | null | undefined;
                         feinspezifikationVorschlag?: string | null | undefined;
+                        angefragt?: boolean | null | undefined;
                         custom1?: string | null | undefined;
                         custom2?: string | null | undefined;
                         custom3?: string | null | undefined;
@@ -5279,6 +5297,7 @@ export type ListProjektsQuery = {
                                     | string
                                     | null
                                     | undefined;
+                                  angefragt?: boolean | null | undefined;
                                   custom1?: string | null | undefined;
                                   custom2?: string | null | undefined;
                                   custom3?: string | null | undefined;
@@ -5345,6 +5364,7 @@ export type GetProjektStueliQuery = {
         lieferantVorschlag?: string | null | undefined;
         nennweiteVorschlag?: string | null | undefined;
         feinspezifikationVorschlag?: string | null | undefined;
+        angefragt?: boolean | null | undefined;
         custom1?: string | null | undefined;
         custom2?: string | null | undefined;
         custom3?: string | null | undefined;
@@ -5467,6 +5487,7 @@ export type GetProjektStueliQuery = {
                             | string
                             | null
                             | undefined;
+                          angefragt?: boolean | null | undefined;
                           custom1?: string | null | undefined;
                           custom2?: string | null | undefined;
                           custom3?: string | null | undefined;
@@ -5528,6 +5549,7 @@ export type ListProjektStuelisQuery = {
                   lieferantVorschlag?: string | null | undefined;
                   nennweiteVorschlag?: string | null | undefined;
                   feinspezifikationVorschlag?: string | null | undefined;
+                  angefragt?: boolean | null | undefined;
                   custom1?: string | null | undefined;
                   custom2?: string | null | undefined;
                   custom3?: string | null | undefined;
@@ -5611,6 +5633,7 @@ export type ListProjektStuelisQuery = {
                                       | string
                                       | null
                                       | undefined;
+                                    angefragt?: boolean | null | undefined;
                                     custom1?: string | null | undefined;
                                     custom2?: string | null | undefined;
                                     custom3?: string | null | undefined;
@@ -5668,6 +5691,7 @@ export type ProjektStueliByKurzspezifikationQuery = {
                   lieferantVorschlag?: string | null | undefined;
                   nennweiteVorschlag?: string | null | undefined;
                   feinspezifikationVorschlag?: string | null | undefined;
+                  angefragt?: boolean | null | undefined;
                   custom1?: string | null | undefined;
                   custom2?: string | null | undefined;
                   custom3?: string | null | undefined;
@@ -5751,6 +5775,7 @@ export type ProjektStueliByKurzspezifikationQuery = {
                                       | string
                                       | null
                                       | undefined;
+                                    angefragt?: boolean | null | undefined;
                                     custom1?: string | null | undefined;
                                     custom2?: string | null | undefined;
                                     custom3?: string | null | undefined;
@@ -6657,6 +6682,7 @@ export type OnCreateAnlageSubscription = {
                                           | string
                                           | null
                                           | undefined;
+                                        angefragt?: boolean | null | undefined;
                                         custom1?: string | null | undefined;
                                         custom2?: string | null | undefined;
                                         custom3?: string | null | undefined;
@@ -6907,6 +6933,7 @@ export type OnUpdateAnlageSubscription = {
                                           | string
                                           | null
                                           | undefined;
+                                        angefragt?: boolean | null | undefined;
                                         custom1?: string | null | undefined;
                                         custom2?: string | null | undefined;
                                         custom3?: string | null | undefined;
@@ -7157,6 +7184,7 @@ export type OnDeleteAnlageSubscription = {
                                           | string
                                           | null
                                           | undefined;
+                                        angefragt?: boolean | null | undefined;
                                         custom1?: string | null | undefined;
                                         custom2?: string | null | undefined;
                                         custom3?: string | null | undefined;
@@ -7972,6 +8000,7 @@ export type OnCreateProjektSubscription = {
                         lieferantVorschlag?: string | null | undefined;
                         nennweiteVorschlag?: string | null | undefined;
                         feinspezifikationVorschlag?: string | null | undefined;
+                        angefragt?: boolean | null | undefined;
                         custom1?: string | null | undefined;
                         custom2?: string | null | undefined;
                         custom3?: string | null | undefined;
@@ -8179,6 +8208,7 @@ export type OnUpdateProjektSubscription = {
                         lieferantVorschlag?: string | null | undefined;
                         nennweiteVorschlag?: string | null | undefined;
                         feinspezifikationVorschlag?: string | null | undefined;
+                        angefragt?: boolean | null | undefined;
                         custom1?: string | null | undefined;
                         custom2?: string | null | undefined;
                         custom3?: string | null | undefined;
@@ -8386,6 +8416,7 @@ export type OnDeleteProjektSubscription = {
                         lieferantVorschlag?: string | null | undefined;
                         nennweiteVorschlag?: string | null | undefined;
                         feinspezifikationVorschlag?: string | null | undefined;
+                        angefragt?: boolean | null | undefined;
                         custom1?: string | null | undefined;
                         custom2?: string | null | undefined;
                         custom3?: string | null | undefined;
@@ -8453,6 +8484,7 @@ export type OnCreateProjektStueliSubscription = {
         lieferantVorschlag?: string | null | undefined;
         nennweiteVorschlag?: string | null | undefined;
         feinspezifikationVorschlag?: string | null | undefined;
+        angefragt?: boolean | null | undefined;
         custom1?: string | null | undefined;
         custom2?: string | null | undefined;
         custom3?: string | null | undefined;
@@ -8575,6 +8607,7 @@ export type OnCreateProjektStueliSubscription = {
                             | string
                             | null
                             | undefined;
+                          angefragt?: boolean | null | undefined;
                           custom1?: string | null | undefined;
                           custom2?: string | null | undefined;
                           custom3?: string | null | undefined;
@@ -8627,6 +8660,7 @@ export type OnUpdateProjektStueliSubscription = {
         lieferantVorschlag?: string | null | undefined;
         nennweiteVorschlag?: string | null | undefined;
         feinspezifikationVorschlag?: string | null | undefined;
+        angefragt?: boolean | null | undefined;
         custom1?: string | null | undefined;
         custom2?: string | null | undefined;
         custom3?: string | null | undefined;
@@ -8749,6 +8783,7 @@ export type OnUpdateProjektStueliSubscription = {
                             | string
                             | null
                             | undefined;
+                          angefragt?: boolean | null | undefined;
                           custom1?: string | null | undefined;
                           custom2?: string | null | undefined;
                           custom3?: string | null | undefined;
@@ -8801,6 +8836,7 @@ export type OnDeleteProjektStueliSubscription = {
         lieferantVorschlag?: string | null | undefined;
         nennweiteVorschlag?: string | null | undefined;
         feinspezifikationVorschlag?: string | null | undefined;
+        angefragt?: boolean | null | undefined;
         custom1?: string | null | undefined;
         custom2?: string | null | undefined;
         custom3?: string | null | undefined;
@@ -8923,6 +8959,7 @@ export type OnDeleteProjektStueliSubscription = {
                             | string
                             | null
                             | undefined;
+                          angefragt?: boolean | null | undefined;
                           custom1?: string | null | undefined;
                           custom2?: string | null | undefined;
                           custom3?: string | null | undefined;
@@ -9891,6 +9928,7 @@ export const CreateAnlageDocument = `
             lieferantVorschlag
             nennweiteVorschlag
             feinspezifikationVorschlag
+            angefragt
             custom1
             custom2
             custom3
@@ -10045,6 +10083,7 @@ export const UpdateAnlageDocument = `
             lieferantVorschlag
             nennweiteVorschlag
             feinspezifikationVorschlag
+            angefragt
             custom1
             custom2
             custom3
@@ -10199,6 +10238,7 @@ export const DeleteAnlageDocument = `
             lieferantVorschlag
             nennweiteVorschlag
             feinspezifikationVorschlag
+            angefragt
             custom1
             custom2
             custom3
@@ -10811,6 +10851,7 @@ export const CreateProjektDocument = `
         lieferantVorschlag
         nennweiteVorschlag
         feinspezifikationVorschlag
+        angefragt
         custom1
         custom2
         custom3
@@ -10969,6 +11010,7 @@ export const UpdateProjektDocument = `
         lieferantVorschlag
         nennweiteVorschlag
         feinspezifikationVorschlag
+        angefragt
         custom1
         custom2
         custom3
@@ -11127,6 +11169,7 @@ export const DeleteProjektDocument = `
         lieferantVorschlag
         nennweiteVorschlag
         feinspezifikationVorschlag
+        angefragt
         custom1
         custom2
         custom3
@@ -11196,6 +11239,7 @@ export const CreateProjektStueliDocument = `
     lieferantVorschlag
     nennweiteVorschlag
     feinspezifikationVorschlag
+    angefragt
     custom1
     custom2
     custom3
@@ -11268,6 +11312,7 @@ export const CreateProjektStueliDocument = `
           lieferantVorschlag
           nennweiteVorschlag
           feinspezifikationVorschlag
+          angefragt
           custom1
           custom2
           custom3
@@ -11330,6 +11375,7 @@ export const UpdateProjektStueliDocument = `
     lieferantVorschlag
     nennweiteVorschlag
     feinspezifikationVorschlag
+    angefragt
     custom1
     custom2
     custom3
@@ -11402,6 +11448,7 @@ export const UpdateProjektStueliDocument = `
           lieferantVorschlag
           nennweiteVorschlag
           feinspezifikationVorschlag
+          angefragt
           custom1
           custom2
           custom3
@@ -11464,6 +11511,7 @@ export const DeleteProjektStueliDocument = `
     lieferantVorschlag
     nennweiteVorschlag
     feinspezifikationVorschlag
+    angefragt
     custom1
     custom2
     custom3
@@ -11536,6 +11584,7 @@ export const DeleteProjektStueliDocument = `
           lieferantVorschlag
           nennweiteVorschlag
           feinspezifikationVorschlag
+          angefragt
           custom1
           custom2
           custom3
@@ -12264,6 +12313,7 @@ export const GetAnlageDocument = `
             lieferantVorschlag
             nennweiteVorschlag
             feinspezifikationVorschlag
+            angefragt
             custom1
             custom2
             custom3
@@ -12764,6 +12814,7 @@ export const GetProjektDocument = `
         lieferantVorschlag
         nennweiteVorschlag
         feinspezifikationVorschlag
+        angefragt
         custom1
         custom2
         custom3
@@ -12884,6 +12935,7 @@ export const ListProjektsDocument = `
           lieferantVorschlag
           nennweiteVorschlag
           feinspezifikationVorschlag
+          angefragt
           custom1
           custom2
           custom3
@@ -12937,6 +12989,7 @@ export const GetProjektStueliDocument = `
     lieferantVorschlag
     nennweiteVorschlag
     feinspezifikationVorschlag
+    angefragt
     custom1
     custom2
     custom3
@@ -13009,6 +13062,7 @@ export const GetProjektStueliDocument = `
           lieferantVorschlag
           nennweiteVorschlag
           feinspezifikationVorschlag
+          angefragt
           custom1
           custom2
           custom3
@@ -13068,6 +13122,7 @@ export const ListProjektStuelisDocument = `
       lieferantVorschlag
       nennweiteVorschlag
       feinspezifikationVorschlag
+      angefragt
       custom1
       custom2
       custom3
@@ -13113,6 +13168,7 @@ export const ListProjektStuelisDocument = `
             lieferantVorschlag
             nennweiteVorschlag
             feinspezifikationVorschlag
+            angefragt
             custom1
             custom2
             custom3
@@ -13167,6 +13223,7 @@ export const ProjektStueliByKurzspezifikationDocument = `
       lieferantVorschlag
       nennweiteVorschlag
       feinspezifikationVorschlag
+      angefragt
       custom1
       custom2
       custom3
@@ -13212,6 +13269,7 @@ export const ProjektStueliByKurzspezifikationDocument = `
             lieferantVorschlag
             nennweiteVorschlag
             feinspezifikationVorschlag
+            angefragt
             custom1
             custom2
             custom3
@@ -13817,6 +13875,7 @@ export const OnCreateAnlageDocument = `
             lieferantVorschlag
             nennweiteVorschlag
             feinspezifikationVorschlag
+            angefragt
             custom1
             custom2
             custom3
@@ -13949,6 +14008,7 @@ export const OnUpdateAnlageDocument = `
             lieferantVorschlag
             nennweiteVorschlag
             feinspezifikationVorschlag
+            angefragt
             custom1
             custom2
             custom3
@@ -14081,6 +14141,7 @@ export const OnDeleteAnlageDocument = `
             lieferantVorschlag
             nennweiteVorschlag
             feinspezifikationVorschlag
+            angefragt
             custom1
             custom2
             custom3
@@ -14596,6 +14657,7 @@ export const OnCreateProjektDocument = `
         lieferantVorschlag
         nennweiteVorschlag
         feinspezifikationVorschlag
+        angefragt
         custom1
         custom2
         custom3
@@ -14732,6 +14794,7 @@ export const OnUpdateProjektDocument = `
         lieferantVorschlag
         nennweiteVorschlag
         feinspezifikationVorschlag
+        angefragt
         custom1
         custom2
         custom3
@@ -14868,6 +14931,7 @@ export const OnDeleteProjektDocument = `
         lieferantVorschlag
         nennweiteVorschlag
         feinspezifikationVorschlag
+        angefragt
         custom1
         custom2
         custom3
@@ -14915,6 +14979,7 @@ export const OnCreateProjektStueliDocument = `
     lieferantVorschlag
     nennweiteVorschlag
     feinspezifikationVorschlag
+    angefragt
     custom1
     custom2
     custom3
@@ -14987,6 +15052,7 @@ export const OnCreateProjektStueliDocument = `
           lieferantVorschlag
           nennweiteVorschlag
           feinspezifikationVorschlag
+          angefragt
           custom1
           custom2
           custom3
@@ -15024,6 +15090,7 @@ export const OnUpdateProjektStueliDocument = `
     lieferantVorschlag
     nennweiteVorschlag
     feinspezifikationVorschlag
+    angefragt
     custom1
     custom2
     custom3
@@ -15096,6 +15163,7 @@ export const OnUpdateProjektStueliDocument = `
           lieferantVorschlag
           nennweiteVorschlag
           feinspezifikationVorschlag
+          angefragt
           custom1
           custom2
           custom3
@@ -15133,6 +15201,7 @@ export const OnDeleteProjektStueliDocument = `
     lieferantVorschlag
     nennweiteVorschlag
     feinspezifikationVorschlag
+    angefragt
     custom1
     custom2
     custom3
@@ -15205,6 +15274,7 @@ export const OnDeleteProjektStueliDocument = `
           lieferantVorschlag
           nennweiteVorschlag
           feinspezifikationVorschlag
+          angefragt
           custom1
           custom2
           custom3

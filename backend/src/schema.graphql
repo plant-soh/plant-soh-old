@@ -91,6 +91,7 @@ type ProjektStueli
   lieferantVorschlag: String
   nennweiteVorschlag: String
   feinspezifikationVorschlag: String
+  angefragt: Boolean
   custom1: String
   custom2: String
   custom3: String
