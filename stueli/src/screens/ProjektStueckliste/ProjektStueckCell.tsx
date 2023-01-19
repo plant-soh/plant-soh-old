@@ -33,6 +33,8 @@ export const ProjektStueckCell = ({
   table,
   refetch,
   toggleRowSelectedOnClick = false,
+  type = EditTableType.input,
+  selectOptions = [],
 }: {
   // cell: CellContext<ProjektStueck, unknown>;
   cellValue: any;
@@ -46,6 +48,8 @@ export const ProjektStueckCell = ({
     QueryObserverResult<ProjektStueliByKurzspezifikationQuery, unknown>
   >;
   toggleRowSelectedOnClick?: boolean;
+  type?: EditTableType;
+  selectOptions?: any[];
 }) => {
   // const {
   //   value,
@@ -243,8 +247,6 @@ export const ProjektStueckCell = ({
         onClick={(_e) => {
           setValue(item);
           setShowSuggestions(false);
-          // inputRef.current?.focus();
-          // e.currentTarget.blur();
         }}
       >
         {item}
@@ -263,33 +265,46 @@ export const ProjektStueckCell = ({
       onClick={() => {
         if (toggleRowSelectedOnClick) row.toggleSelected();
       }}
+      onDoubleClick={() => row.toggleSelected(false)}
     >
       <EditTable
-        className={` w-full
+        className={` w-full pt-3 
           ${
             columnId === 'bmk' && row.original.bmkDouble ? 'text-red-500' : ''
           }`}
         key={columnId}
         text={String(value)}
         onSave={() => onSave()}
-        onCancel={() => setValue(initialValue)}
+        onCancel={async () => setValue(initialValue)}
         childRef={inputRef as RefObject<HTMLInputElement>}
         type={EditTableType.input}
       >
-        <input
-          className="w-full bg-transparent focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
-          key={columnId}
-          ref={inputRef}
-          type="text"
-          name={columnId}
-          placeholder={columnId}
-          value={value as string}
-          onChange={(e) => {
-            setValue(e.target.value);
-            setShowSuggestions(true);
-          }}
-          // onBlur={() => onSave()}
-        />
+        {type === EditTableType.input && (
+          <input
+            className="w-full bg-transparent focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
+            key={columnId}
+            ref={inputRef}
+            type="text"
+            name={columnId}
+            placeholder={columnId}
+            value={value as string}
+            onChange={(e) => {
+              setValue(e.target.value);
+              setShowSuggestions(true);
+            }}
+            // onBlur={() => onSave()}
+          />
+        )}
+        {type === EditTableType.select && (
+          <select onChange={(e) => setValue(e.target.value)}>
+            {selectOptions.map((option) => (
+              <option key={option} value={option}>
+                {String(option)}
+              </option>
+            ))}
+          </select>
+        )}
+
         {showSuggestions &&
           row.original.id === '-1' && ( // suggestions only for insert row
             <div

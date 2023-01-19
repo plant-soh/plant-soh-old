@@ -6,10 +6,11 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { MdAdd } from 'react-icons/md';
+import { MdAdd, MdClear, MdOutlineInfo } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 import { Clickable } from 'reakit/Clickable';
 import { DataGrid } from '../../components/DataGrid';
+import { EditTableType } from '../../components/Editable';
 
 import {
   useCreateProjektStueliMutation,
@@ -67,7 +68,6 @@ const ProjektStueckliste = () => {
     console.log(`rowSelection: ${JSON.stringify(rowSelection)}`);
     const selectedRowKeys = Object.keys(rowSelection);
     if (selectedRowKeys.length === 0) {
-      // setRecord(undefined);
       setShowRecord(false);
       window.history.pushState('', '', `/projekte/${projektId}`);
     } else {
@@ -82,20 +82,11 @@ const ProjektStueckliste = () => {
     }
   }, [rowSelection, setRowSelection]);
 
-  // init record with first data item
-  useEffect(() => {
-    if (data.length > 0 && !record) {
-      setRecord(data[0]);
-    }
-  }, [record, data]);
-
   // if recordId param was given, select the row
   useEffect(() => {
     console.log(`recordId=${recordId}`);
     if (!data || !data[0] || !recordId) return;
-    // const rows = table.getRowModel().rows;
 
-    // let recordRow = rows.filter((row) => row.id === recordId)[0];
     let recordRow = table.getRowModel().rowsById[recordId];
 
     if (recordRow) {
@@ -355,7 +346,6 @@ const ProjektStueckliste = () => {
         },
       });
 
-      //refresh
       await refreshSession();
       await projektStueli.refetch();
     })();
@@ -421,83 +411,81 @@ const ProjektStueckliste = () => {
           <h2 className="text-[15px] font-semibold">Projektstückliste</h2>
           <DataGrid table={table} tableRef={tableContainerRef} rows={rows} />
         </div>
+        <button
+          style={{ right: 0, top: 80, width: 30 }}
+          className="absolute z-30 font-bold text-white bg-blue-500 rounded h-fit hover:bg-blue-700"
+          onClick={() => {
+            // a record was chose either by url parameter or it was selected before
+            if (record) {
+              table.getRowModel().rowsById[record.id].toggleSelected();
+            } else if (data.length > 0) {
+              // no record was selected (like when first time loaded) choose the first record
+              setRecord(data[0]);
+            }
+          }}
+        >
+          <MdOutlineInfo size={30} />
+        </button>
         {record && (
-          <>
+          <div
+            style={{ right: 0, top: 80, width: 900 }}
+            className={`absolute z-30 w-full h-[93%] duration-500 transform bg-white ${
+              showRecord ? '' : 'translate-x-[900px]'
+            }`}
+          >
             <button
-              style={{ right: 0, top: 80, width: 40 }}
-              className="absolute z-30 font-bold text-white bg-blue-500 rounded h-fit hover:bg-blue-700"
+              className="font-bold text-white bg-blue-500 rounded h-fit hover:bg-blue-700"
               onClick={() => {
+                // setShowRecord(false);
                 table.getRowModel().rowsById[record.id].toggleSelected();
               }}
             >
-              <span>{'<'}</span>
+              <MdClear size={30} />
             </button>
-            <div
-              style={{ right: 0, top: 80, width: 900 }}
-              className={`absolute z-30 w-full h-full duration-500 transform bg-white ${
-                showRecord ? '' : 'translate-x-[900px]'
-              }`}
-            >
-              <button
-                className="font-bold text-white bg-blue-500 rounded h-fit hover:bg-blue-700"
-                onClick={() => {
-                  // setShowRecord(false);
-                  table.getRowModel().rowsById[record.id].toggleSelected();
-                }}
-              >
-                <span>{'>'}</span>
-              </button>
-              <div role="Projektstueckrecord" className="text-center">
-                <div role="BmkArea" className="flex justify-between w-full">
-                  <div className="w-1/4 text-left">
-                    <label>BMK</label>
-
-                    <ProjektStueckCell
-                      cellValue={record?.bmk ?? ''}
-                      row={table.getRowModel().rowsById[record.id]}
-                      columnId="bmk"
-                      table={table}
-                      refetch={projektStueli.refetch}
-                    />
-                  </div>
-                  <span className="w-1/4">BMK doppelt!</span>
-                  <div>
-                    <label>Angefragt</label>
-                    <ProjektStueckCell
-                      cellValue={record?.angefragt ?? false}
-                      row={table.getRowModel().rowsById[record.id]}
-                      columnId="angefragt"
-                      table={table}
-                      refetch={projektStueli.refetch}
-                    />
-                  </div>
+            <div role="Projektstueckrecord" className="text-center">
+              <div role="BmkArea" className="flex justify-between w-full">
+                <div className="w-1/4 text-left">
+                  <label>BMK</label>
+                  <ProjektStueckCell
+                    cellValue={record?.bmk ?? ''}
+                    row={table.getRowModel().rowsById[record.id]}
+                    columnId="bmk"
+                    table={table}
+                    refetch={projektStueli.refetch}
+                  />
                 </div>
-                <div role="StueckspezifikationHeader">
-                  <label>Stückspezifikation</label>
-                </div>
-                <div
-                  role="Stueckspezifikation"
-                  className="flex justify-between"
-                >
-                  <div role="Kurzspezifikation">
-                    {record?.kurzspezifikation}
-                  </div>
-                  <div role="Lieferant">{record?.lieferant}</div>
-                  <div role="Nennweite">{record?.nennweite}</div>
-                  <div role="Feinspezifikation">
-                    {record?.feinspezifikation}
-                  </div>
-                </div>
-                <div role="ProduktbeschreibungHeader">
-                  <label>Produktbeschreibung</label>
-                </div>
-                <div role="Produktbeschreibung">
-                  <div>Bild</div>
-                  <div>Beischreibung</div>
+                <span className="w-1/4">BMK doppelt!</span>
+                <div>
+                  <label>Angefragt</label>
+                  <ProjektStueckCell
+                    cellValue={record?.angefragt ?? false}
+                    row={table.getRowModel().rowsById[record.id]}
+                    columnId="angefragt"
+                    table={table}
+                    refetch={projektStueli.refetch}
+                    type={EditTableType.select}
+                    selectOptions={[true, false]}
+                  />
                 </div>
               </div>
+              <div role="StueckspezifikationHeader">
+                <label>Stückspezifikation</label>
+              </div>
+              <div role="Stueckspezifikation" className="flex justify-between">
+                <div role="Kurzspezifikation">{record?.kurzspezifikation}</div>
+                <div role="Lieferant">{record?.lieferant}</div>
+                <div role="Nennweite">{record?.nennweite}</div>
+                <div role="Feinspezifikation">{record?.feinspezifikation}</div>
+              </div>
+              <div role="ProduktbeschreibungHeader">
+                <label>Produktbeschreibung</label>
+              </div>
+              <div role="Produktbeschreibung">
+                <div>Bild</div>
+                <div>Beischreibung</div>
+              </div>
             </div>
-          </>
+          </div>
         )}
       </div>
     </>

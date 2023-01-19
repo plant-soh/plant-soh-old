@@ -3,7 +3,7 @@ import {
   Row,
   Table as ReactTableProps,
 } from '@tanstack/react-table';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useVirtual } from 'react-virtual';
 import {
   Composite,
@@ -32,26 +32,38 @@ export const DataGrid = <TData extends Record<string, any>>({
   const composite = useCompositeState({ wrap: true });
   const tbodyRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    table.getSelectedRowModel().rows.forEach((row) => {
+      const currentRowHtmlElement = tbodyRef.current?.children.namedItem(
+        row.id,
+      ) as HTMLElement;
+      currentRowHtmlElement.focus();
+      // currentRowHtmlElement.style.outline = '2px solid #000';
+    });
+  }, [table.getSelectedRowModel().rows, tbodyRef.current?.children]);
+
   // Function to handle key press on a row
   const handleKeyDown = (event: any, row: Row<TData>) => {
     event.stopPropagation();
+    console.log('handleKeyDown');
     const currentRow = tbodyRef.current?.children.namedItem(row.id);
     console.log(currentRow);
     switch (event.key) {
       case 'ArrowUp':
         const upRecord = currentRow?.previousElementSibling as HTMLElement;
         upRecord.focus();
-        // table.getRow(upRecord.id).toggleSelected(true);
+        table.getRow(upRecord.id).toggleSelected(true);
         break;
       case 'ArrowDown':
         const downRecord = currentRow?.nextElementSibling as HTMLElement;
         downRecord.focus();
-        // table.getRow(downRecord.id).toggleSelected(true);
+        table.getRow(downRecord.id).toggleSelected(true);
         break;
       default:
         break;
     }
   };
+  handleKeyDown;
 
   return (
     <div
@@ -121,10 +133,15 @@ export const DataGrid = <TData extends Record<string, any>>({
               id={row.id}
               tabIndex={0}
               key={row.id}
-              aria-label="datagrid"
+              aria-label="tr"
               onKeyDown={(e: any) => handleKeyDown(e, row)}
-              className={`flex w-fit text-center border-b border-gray-300 ${
-                row.getIsSelected() ? 'bg-[#EEF3FB]' : ''
+              style={{
+                outline: `${
+                  row.getIsSelected() ? '2px solid #1a2dd7' : 'none'
+                }`,
+              }}
+              className={`flex w-fit text-center border-b border-gray-300 focus:bg-blue-100 ${
+                row.getIsSelected() ? 'bg-blue-100' : ''
               }`}
             >
               {row.getVisibleCells().map((cell) => {
@@ -134,8 +151,18 @@ export const DataGrid = <TData extends Record<string, any>>({
                     {...composite}
                     role="td"
                     focusable
+                    // tabIndex={0}
+                    // onDoubleClick={(e: any) => {
+                    //   e.stopPropagation();
+                    //   const currentCell = tbodyRef.current?.children
+                    //     .namedItem(row.id)
+                    //     ?.children.namedItem(cell.id) as HTMLElement;
+                    //   currentCell?.focus();
+                    //   console.log(currentCell);
+                    //   // row.toggleSelected();
+                    // }}
                     key={cell.id}
-                    aria-label="datagrid"
+                    aria-label="td"
                     style={{
                       width: cell.column.getSize(),
                     }}

@@ -54,12 +54,12 @@ export const ProjektStueckCustomHeader = ({
       key={columnId}
       text={value}
       onSave={() => onSave()}
-      onCancel={() => setValue(initialValue)}
+      onCancel={async () => setValue(initialValue)}
       childRef={inputRef}
       type={EditTableType.input}
     >
       <input
-        className="w-full bg-transparent focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
+        className="w-full bg-transparent focus:bg-white outline-none h-10 focus:ring-[1.5px] focus:ring-indigo-400"
         key={columnId}
         ref={inputRef}
         type="text"

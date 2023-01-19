@@ -3,6 +3,7 @@ import { ReactNode, RefObject, useEffect, useState } from 'react';
 export enum EditTableType {
   input = 'input',
   textarea = 'textarea',
+  select = 'select',
 }
 
 // Component accept text, placeholder values and also pass what type of Input - input, textarea so that we can use it for styling accordingly
@@ -13,7 +14,8 @@ const EditTable = ({
   onSave,
   onCancel,
   children,
-  className,
+  onDoubleClick,
+  className = '',
   ...rest
 }: {
   childRef: RefObject<HTMLInputElement>;
@@ -28,7 +30,8 @@ const EditTable = ({
    * called when leaving the cell like without saving like when pressing escape
    * @returns
    */
-  onCancel?: () => void;
+  onCancel?: () => Promise<void>;
+  onDoubleClick?: React.MouseEventHandler<HTMLDivElement> | undefined;
   className?: string;
   children: ReactNode;
 }) => {
@@ -71,9 +74,14 @@ const EditTable = ({
       ) : (
         <div
           className="h-full pl-2 text-left"
-          onDoubleClick={() => setEditing(true)}
+          onDoubleClick={(e) => {
+            setEditing(true);
+            if (onDoubleClick) {
+              onDoubleClick(e);
+            }
+          }}
         >
-          <span className={'inline-block pt-3 ' + className}>{text}</span>
+          <span className={'inline-block ' + className}>{text}</span>
         </div>
       )}
     </section>
