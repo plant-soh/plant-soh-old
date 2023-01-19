@@ -97,7 +97,13 @@ const ProjektStueckliste = () => {
   // Give our default column cell renderer editing superpowers!
   const defaultColumn: Partial<ColumnDef<ProjektStueck>> = {
     cell: (cell) => (
-      <ProjektStueckCell cell={cell} refetch={projektStueli.refetch} />
+      <ProjektStueckCell
+        cellValue={cell.getValue() as string}
+        row={cell.row}
+        columnId={cell.column.id}
+        table={cell.table}
+        refetch={projektStueli.refetch}
+      />
     ),
   };
 
@@ -400,7 +406,10 @@ const ProjektStueckliste = () => {
 
   const setCurrentProjektId = useSetCurrentProjektIdMutation();
 
-  if (projektStueli.isLoading) return <div>Loading...</div>;
+  if (projektStueli.isLoading || table.getRowModel().rows.length === 0)
+    return <div>Loading...</div>;
+
+  // console.log(`rowsById=${JSON.stringify(table.getRowModel().rowsById)}`);
 
   return (
     <>
@@ -425,7 +434,19 @@ const ProjektStueckliste = () => {
         >
           <div role="Projektstueckrecord" className="text-center">
             <div role="BmkArea" className="flex justify-between">
-              <div>BMK: {record?.bmk}</div>
+              <div>
+                <label>BMK</label>
+                {record && (
+                  <ProjektStueckCell
+                    cellValue={record?.bmk ?? ''}
+                    row={table.getRowModel().rowsById[record.id]}
+                    columnId="bmk"
+                    table={table}
+                    refetch={projektStueli.refetch}
+                    toggleRowSelectedOnClick={false}
+                  />
+                )}
+              </div>
               <span>BMK doppelt!</span>
               <div>Angefragt?!</div>
             </div>

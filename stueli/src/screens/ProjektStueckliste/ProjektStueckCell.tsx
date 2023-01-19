@@ -3,7 +3,7 @@ import {
   RefetchOptions,
   RefetchQueryFilters,
 } from '@tanstack/react-query';
-import { CellContext } from '@tanstack/react-table';
+import { Row, Table } from '@tanstack/react-table';
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { MdAdd, MdDelete } from 'react-icons/md';
 import { Clickable } from 'reakit/Clickable';
@@ -25,23 +25,35 @@ import { useSuggestion } from '../../providers/SuggestionProvider';
 import { ProjektStueck } from './ProjektStueckliste';
 
 export const ProjektStueckCell = ({
-  cell,
+  // cell,
+  cellValue,
+  row,
+  // rowIndex,
+  columnId,
+  table,
   refetch,
+  toggleRowSelectedOnClick = true,
 }: {
-  cell: CellContext<ProjektStueck, unknown>;
+  // cell: CellContext<ProjektStueck, unknown>;
+  cellValue: string;
+  row: Row<ProjektStueck>;
+  // rowIndex: number;
+  columnId: string;
+  table: Table<ProjektStueck>;
   refetch: <TPageData>(
     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
   ) => Promise<
     QueryObserverResult<ProjektStueliByKurzspezifikationQuery, unknown>
   >;
+  toggleRowSelectedOnClick?: boolean;
 }) => {
-  const {
-    getValue,
-    row,
-    row: { index },
-    column: { id },
-    table,
-  } = cell;
+  // const {
+  //   value,
+  //   row,
+  //   row: { rowIndex },
+  //   column: { id },
+  //   table,
+  // } = cell;
 
   const {
     kurzspezifikationVorschlaege,
@@ -58,7 +70,7 @@ export const ProjektStueckCell = ({
   const searchSuggestionsRef = useRef<HTMLDivElement>(null);
 
   // console.log(`cell=${JSON.stringify(cell)}`);
-  const initialValue = getValue() as string;
+  const initialValue = cellValue;
   // We need to keep and update the state of the cell normally
   const [value, setValue] = useState(initialValue);
   // const suggestions = ['johnjoe', 'janejannet', 'jackdaniels'];
@@ -66,17 +78,17 @@ export const ProjektStueckCell = ({
   const [initialSuggestions, setInitialSuggestions] = useState<string[]>([]);
 
   useEffect(() => {
-    if (cell.column.id === 'kurzspezifikation') {
+    if (columnId === 'kurzspezifikation') {
       setInitialSuggestions(kurzspezifikationVorschlaege);
-    } else if (cell.column.id === 'lieferant') {
+    } else if (columnId === 'lieferant') {
       setInitialSuggestions(lieferantVorschlaege);
-    } else if (cell.column.id === 'nennweite') {
+    } else if (columnId === 'nennweite') {
       setInitialSuggestions(nennweiteVorschlaege);
-    } else if (cell.column.id === 'feinspezifikation') {
+    } else if (columnId === 'feinspezifikation') {
       setInitialSuggestions(feinspezifikationVorschlaege);
     }
   }, [
-    cell.column.id,
+    columnId,
     kurzspezifikationVorschlaege,
     lieferantVorschlaege,
     nennweiteVorschlaege,
@@ -97,13 +109,13 @@ export const ProjektStueckCell = ({
 
   // When the input is blurred, we'll call our table meta's updateData function
   // const onBlur = () => {
-  //   table.options.meta?.updateData(index, id, value);
+  //   table.options.meta?.updateData(rowIndex, id, value);
   // };
 
   const onSave = async () => {
-    table.options.meta?.updateData(index, id, value);
+    table.options.meta?.updateData(row.index, columnId, value);
     let bmkDouble = undefined;
-    if (cell.column.id === 'bmk' && getValue()) {
+    if (columnId === 'bmk' && value) {
       const foundStueckeInProjekten = await amplifyFetcher<
         ListProjektStuelisQuery,
         ListProjektStuelisQueryVariables
@@ -155,26 +167,26 @@ export const ProjektStueckCell = ({
     }
 
     // save if not insert row
-    if (cell.row.original.id !== '-1') {
+    if (row.original.id !== '-1') {
       // only update if something changed
       if (initialValue === value && bmkDouble === undefined) return;
       await updateStueck.mutateAsync({
         input: {
-          id: cell.row.original.id,
-          [cell.column.id]: value,
+          id: row.original.id,
+          [columnId]: value,
           bmkDouble,
         },
       });
 
       await refetch();
     } else {
-      if (cell.column.id === 'kurzspezifikation') {
+      if (columnId === 'kurzspezifikation') {
         setKurzspezifikation(value);
-      } else if (cell.column.id === 'lieferant') {
+      } else if (columnId === 'lieferant') {
         setLieferant(value);
-      } else if (cell.column.id === 'nennweite') {
+      } else if (columnId === 'nennweite') {
         setNennweite(value);
-      } else if (cell.column.id === 'feinspezifikation') {
+      } else if (columnId === 'feinspezifikation') {
         setFeinspezifikation(value);
       }
     }
@@ -184,10 +196,10 @@ export const ProjektStueckCell = ({
 
   useEffect(() => {
     setValue(initialValue);
-  }, [initialValue, id]);
+  }, [initialValue, columnId]);
 
-  if (cell.column.id === 'action') {
-    if (cell.row.original.id === '-1') {
+  if (columnId === 'action') {
+    if (row.original.id === '-1') {
       return (
         <Clickable
           as="button"
@@ -207,7 +219,7 @@ export const ProjektStueckCell = ({
           onClick={async () => {
             await deleteStueck.mutateAsync({
               input: {
-                id: cell.row.original.id,
+                id: row.original.id,
               },
             });
             await refetch();
@@ -249,16 +261,15 @@ export const ProjektStueckCell = ({
     <div
       className="h-full"
       onClick={() => {
-        row.toggleSelected();
+        if (toggleRowSelectedOnClick) row.toggleSelected();
       }}
     >
       <EditTable
-        className={
-          cell.column.id === 'bmk' && cell.row.original.bmkDouble
-            ? 'text-red-500'
-            : ''
-        }
-        key={cell.column.id}
+        className={`bg-white
+          ${
+            columnId === 'bmk' && row.original.bmkDouble ? 'text-red-500' : ''
+          }`}
+        key={columnId}
         text={value as string}
         onSave={() => onSave()}
         onCancel={() => setValue(initialValue)}
@@ -267,11 +278,11 @@ export const ProjektStueckCell = ({
       >
         <input
           className="w-full bg-transparent focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
-          key={cell.column.id}
+          key={columnId}
           ref={inputRef}
           type="text"
-          name={cell.column.id}
-          placeholder={cell.column.id}
+          name={columnId}
+          placeholder={columnId}
           value={value as string}
           onChange={(e) => {
             setValue(e.target.value);
@@ -280,7 +291,7 @@ export const ProjektStueckCell = ({
           // onBlur={() => onSave()}
         />
         {showSuggestions &&
-          cell.row.original.id === '-1' && ( // suggestions only for insert row
+          row.original.id === '-1' && ( // suggestions only for insert row
             <div
               ref={searchSuggestionsRef}
               className="w-full bg-white border-2 "
