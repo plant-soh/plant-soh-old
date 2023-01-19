@@ -259,13 +259,13 @@ export const ProjektStueckCell = ({
 
   return (
     <div
-      className="h-full"
+      className="w-full h-full"
       onClick={() => {
         if (toggleRowSelectedOnClick) row.toggleSelected();
       }}
     >
       <EditTable
-        className={`bg-white
+        className={` w-full
           ${
             columnId === 'bmk' && row.original.bmkDouble ? 'text-red-500' : ''
           }`}

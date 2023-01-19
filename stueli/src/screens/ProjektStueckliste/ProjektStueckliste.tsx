@@ -428,13 +428,13 @@ const ProjektStueckliste = () => {
         </div>
         <div
           style={{ right: 0, top: 80, width: 900 }}
-          className={`absolute z-30 w-full h-full duration-500 transform bg-red-500 ${
+          className={`absolute z-30 w-full h-full duration-500 transform bg-gray-500 ${
             showRecord ? '' : 'translate-x-[900px]'
           }`}
         >
           <div role="Projektstueckrecord" className="text-center">
             <div role="BmkArea" className="flex justify-between">
-              <div>
+              <div className="w-full">
                 <label>BMK</label>
                 {record && (
                   <ProjektStueckCell
