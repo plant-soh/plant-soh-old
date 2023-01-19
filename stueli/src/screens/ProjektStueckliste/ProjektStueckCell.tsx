@@ -33,6 +33,7 @@ export const ProjektStueckCell = ({
   table,
   refetch,
   toggleRowSelectedOnClick = false,
+  editOnDoubleClick = true,
   type = EditTableType.input,
   selectOptions = [],
 }: {
@@ -48,6 +49,7 @@ export const ProjektStueckCell = ({
     QueryObserverResult<ProjektStueliByKurzspezifikationQuery, unknown>
   >;
   toggleRowSelectedOnClick?: boolean;
+  editOnDoubleClick?: boolean;
   type?: EditTableType;
   selectOptions?: any[];
 }) => {
@@ -278,6 +280,7 @@ export const ProjektStueckCell = ({
         onCancel={async () => setValue(initialValue)}
         childRef={inputRef as RefObject<HTMLInputElement>}
         type={EditTableType.input}
+        editOnDoubleClick={editOnDoubleClick}
       >
         {type === EditTableType.input && (
           <input

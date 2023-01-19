@@ -16,6 +16,7 @@ const EditTable = ({
   children,
   onDoubleClick,
   className = '',
+  editOnDoubleClick = true,
   ...rest
 }: {
   childRef: RefObject<HTMLInputElement>;
@@ -33,6 +34,7 @@ const EditTable = ({
   onCancel?: () => Promise<void>;
   onDoubleClick?: React.MouseEventHandler<HTMLDivElement> | undefined;
   className?: string;
+  editOnDoubleClick?: boolean;
   children: ReactNode;
 }) => {
   const [isEditing, setEditing] = useState(false);
@@ -75,10 +77,13 @@ const EditTable = ({
         <div
           className="h-full pl-2 text-left"
           onDoubleClick={(e) => {
-            setEditing(true);
+            if (editOnDoubleClick) setEditing(true);
             if (onDoubleClick) {
               onDoubleClick(e);
             }
+          }}
+          onClick={(_e) => {
+            if (!editOnDoubleClick) setEditing(true);
           }}
         >
           <span className={'inline-block ' + className}>{text}</span>

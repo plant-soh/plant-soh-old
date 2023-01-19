@@ -450,6 +450,7 @@ const ProjektStueckliste = () => {
                     cellValue={record?.bmk ?? ''}
                     row={table.getRowModel().rowsById[record.id]}
                     columnId="bmk"
+                    editOnDoubleClick={false}
                     table={table}
                     refetch={projektStueli.refetch}
                   />
@@ -461,6 +462,7 @@ const ProjektStueckliste = () => {
                     cellValue={record?.angefragt ?? false}
                     row={table.getRowModel().rowsById[record.id]}
                     columnId="angefragt"
+                    editOnDoubleClick={false}
                     table={table}
                     refetch={projektStueli.refetch}
                     type={EditTableType.select}
