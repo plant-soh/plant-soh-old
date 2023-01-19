@@ -56,15 +56,13 @@ const ProjektStueckliste = () => {
   const { recordId = '' } = useParams<ProjektStueliParams>();
   const [showRecord, setShowRecord] = useState(false);
   const [record, setRecord] = useState<ProjektStueck | undefined>();
+  const [data, setData] = useState<ProjektStueck[]>([]);
 
   const [rowSelection, setRowSelection] = useState<{ string: boolean } | {}>(
     {},
   );
 
-  // useEffect(() => {
-  //   console.log(`showRecord=${showRecord}`);
-  // }, [record, setRecord]);
-
+  // use tanstack react-table row selection to lead record view
   useEffect(() => {
     console.log(`rowSelection: ${JSON.stringify(rowSelection)}`);
     const selectedRowKeys = Object.keys(rowSelection);
@@ -76,22 +74,34 @@ const ProjektStueckliste = () => {
       const selectedRowId = Object.keys(rowSelection)[0];
       setRecord(data.filter((row) => row.id === selectedRowId)[0]);
       setShowRecord(true);
+      window.history.pushState(
+        '',
+        '',
+        `/projekte/${projektId}/record/${selectedRowId}`,
+      );
     }
   }, [rowSelection, setRowSelection]);
 
-  // if open record but not row was selected it tries to open the first row
+  // init record with first data item
   useEffect(() => {
     if (data.length > 0 && !record) {
       setRecord(data[0]);
     }
-    if (showRecord && record) {
-      window.history.pushState(
-        '',
-        '',
-        `/projekte/${projektId}/record/${record.id}`,
-      );
+  }, [record, data]);
+
+  // if recordId param was given, select the row
+  useEffect(() => {
+    console.log(`recordId=${recordId}`);
+    if (!data || !data[0] || !recordId) return;
+    // const rows = table.getRowModel().rows;
+
+    // let recordRow = rows.filter((row) => row.id === recordId)[0];
+    let recordRow = table.getRowModel().rowsById[recordId];
+
+    if (recordRow) {
+      recordRow.toggleSelected(true);
     }
-  }, [showRecord, setShowRecord, record]);
+  }, [recordId, data]);
 
   const { setAnlage } = useSuggestion();
 
@@ -239,8 +249,6 @@ const ProjektStueckliste = () => {
     },
   );
 
-  const [data, setData] = useState<ProjektStueck[]>([]);
-
   const createStueck = useCreateProjektStueliMutation();
   const updateProjekt = useUpdateProjektMutation();
 
@@ -297,20 +305,6 @@ const ProjektStueckliste = () => {
     },
     debugTable: false,
   });
-
-  useEffect(() => {
-    console.log(`recordId=${recordId}`);
-    if (!recordId || !data || !data[0]) return;
-    setRecord(data.filter((row) => row.id === recordId)[0]);
-    setShowRecord(true);
-    const rows = table.getRowModel().rows;
-
-    const recordRow = rows.filter((row) => row.id === recordId)[0];
-    recordRow;
-    if (recordRow) {
-      recordRow.toggleSelected(true);
-    }
-  }, [recordId, data]);
 
   // set custom columns
   useEffect(() => {
@@ -409,10 +403,6 @@ const ProjektStueckliste = () => {
         custom3: '',
       },
     ]);
-
-    // if (!record) {
-    //   setRecord(stueckTransformed[0]);
-    // }
   }, [projektStueli.data]);
 
   const tableContainerRef = useRef<HTMLDivElement>(null);
@@ -424,8 +414,6 @@ const ProjektStueckliste = () => {
   if (projektStueli.isLoading || table.getRowModel().rows.length === 0)
     return <div>Loading...</div>;
 
-  // console.log(`rowsById=${JSON.stringify(table.getRowModel().rowsById)}`);
-
   return (
     <>
       <div className="flex bg-gray-200 items-top">
@@ -433,75 +421,84 @@ const ProjektStueckliste = () => {
           <h2 className="text-[15px] font-semibold">Projektstückliste</h2>
           <DataGrid table={table} tableRef={tableContainerRef} rows={rows} />
         </div>
-        <button
-          style={{ right: 0, top: 80, width: 40 }}
-          className="absolute z-30 font-bold text-white bg-blue-500 rounded h-fit hover:bg-blue-700"
-          onClick={() => {
-            setShowRecord(true);
-          }}
-        >
-          <span>{'<'}</span>
-        </button>
-        <div
-          style={{ right: 0, top: 80, width: 900 }}
-          className={`absolute z-30 w-full h-full duration-500 transform bg-white ${
-            showRecord ? '' : 'translate-x-[900px]'
-          }`}
-        >
-          <button
-            className="font-bold text-white bg-blue-500 rounded h-fit hover:bg-blue-700"
-            onClick={() => {
-              setShowRecord(false);
-            }}
-          >
-            <span>{'>'}</span>
-          </button>
-          <div role="Projektstueckrecord" className="text-center">
-            <div role="BmkArea" className="flex justify-between w-full">
-              <div className="w-1/4 text-left">
-                <label>BMK</label>
-                {record && (
-                  <ProjektStueckCell
-                    cellValue={record?.bmk ?? ''}
-                    row={table.getRowModel().rowsById[record.id]}
-                    columnId="bmk"
-                    table={table}
-                    refetch={projektStueli.refetch}
-                  />
-                )}
+        {record && (
+          <>
+            <button
+              style={{ right: 0, top: 80, width: 40 }}
+              className="absolute z-30 font-bold text-white bg-blue-500 rounded h-fit hover:bg-blue-700"
+              onClick={() => {
+                table.getRowModel().rowsById[record.id].toggleSelected();
+              }}
+            >
+              <span>{'<'}</span>
+            </button>
+            <div
+              style={{ right: 0, top: 80, width: 900 }}
+              className={`absolute z-30 w-full h-full duration-500 transform bg-white ${
+                showRecord ? '' : 'translate-x-[900px]'
+              }`}
+            >
+              <button
+                className="font-bold text-white bg-blue-500 rounded h-fit hover:bg-blue-700"
+                onClick={() => {
+                  // setShowRecord(false);
+                  table.getRowModel().rowsById[record.id].toggleSelected();
+                }}
+              >
+                <span>{'>'}</span>
+              </button>
+              <div role="Projektstueckrecord" className="text-center">
+                <div role="BmkArea" className="flex justify-between w-full">
+                  <div className="w-1/4 text-left">
+                    <label>BMK</label>
+
+                    <ProjektStueckCell
+                      cellValue={record?.bmk ?? ''}
+                      row={table.getRowModel().rowsById[record.id]}
+                      columnId="bmk"
+                      table={table}
+                      refetch={projektStueli.refetch}
+                    />
+                  </div>
+                  <span className="w-1/4">BMK doppelt!</span>
+                  <div>
+                    <label>Angefragt</label>
+                    <ProjektStueckCell
+                      cellValue={record?.angefragt ?? false}
+                      row={table.getRowModel().rowsById[record.id]}
+                      columnId="angefragt"
+                      table={table}
+                      refetch={projektStueli.refetch}
+                    />
+                  </div>
+                </div>
+                <div role="StueckspezifikationHeader">
+                  <label>Stückspezifikation</label>
+                </div>
+                <div
+                  role="Stueckspezifikation"
+                  className="flex justify-between"
+                >
+                  <div role="Kurzspezifikation">
+                    {record?.kurzspezifikation}
+                  </div>
+                  <div role="Lieferant">{record?.lieferant}</div>
+                  <div role="Nennweite">{record?.nennweite}</div>
+                  <div role="Feinspezifikation">
+                    {record?.feinspezifikation}
+                  </div>
+                </div>
+                <div role="ProduktbeschreibungHeader">
+                  <label>Produktbeschreibung</label>
+                </div>
+                <div role="Produktbeschreibung">
+                  <div>Bild</div>
+                  <div>Beischreibung</div>
+                </div>
               </div>
-              <span className="w-1/4">BMK doppelt!</span>
-              <div>
-                <label>Angefragt</label>
-                {record && (
-                  <ProjektStueckCell
-                    cellValue={record?.angefragt ?? false}
-                    row={table.getRowModel().rowsById[record.id]}
-                    columnId="angefragt"
-                    table={table}
-                    refetch={projektStueli.refetch}
-                  />
-                )}
-              </div>
             </div>
-            <div role="StueckspezifikationHeader">
-              <label>Stückspezifikation</label>
-            </div>
-            <div role="Stueckspezifikation" className="flex justify-between">
-              <div role="Kurzspezifikation">{record?.kurzspezifikation}</div>
-              <div role="Lieferant">{record?.lieferant}</div>
-              <div role="Nennweite">{record?.nennweite}</div>
-              <div role="Feinspezifikation">{record?.feinspezifikation}</div>
-            </div>
-            <div role="ProduktbeschreibungHeader">
-              <label>Produktbeschreibung</label>
-            </div>
-            <div role="Produktbeschreibung">
-              <div>Bild</div>
-              <div>Beischreibung</div>
-            </div>
-          </div>
-        </div>
+          </>
+        )}
       </div>
     </>
   );
