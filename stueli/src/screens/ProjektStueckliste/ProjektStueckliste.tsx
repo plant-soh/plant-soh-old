@@ -100,6 +100,11 @@ const ProjektStueckliste = () => {
   const defaultColumn: Partial<ColumnDef<ProjektStueck>> = {
     cell: (cell) => (
       <ProjektStueckCell
+        className={
+          cell.column.id === 'bmk' && cell.row.original.bmkDouble
+            ? 'text-red-500'
+            : ''
+        }
         cellValue={cell.getValue() as string}
         row={cell.row}
         columnId={cell.column.id}
@@ -447,6 +452,7 @@ const ProjektStueckliste = () => {
                 <div className="w-1/4 text-left">
                   <label>BMK</label>
                   <ProjektStueckCell
+                    className={record.bmkDouble ? 'text-red-500' : ''}
                     cellValue={record?.bmk ?? ''}
                     row={table.getRowModel().rowsById[record.id]}
                     columnId="bmk"

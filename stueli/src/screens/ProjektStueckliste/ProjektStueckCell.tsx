@@ -25,7 +25,7 @@ import { useSuggestion } from '../../providers/SuggestionProvider';
 import { ProjektStueck } from './ProjektStueckliste';
 
 export const ProjektStueckCell = ({
-  // cell,
+  className,
   cellValue,
   row,
   // rowIndex,
@@ -37,7 +37,7 @@ export const ProjektStueckCell = ({
   type = EditTableType.input,
   selectOptions = [],
 }: {
-  // cell: CellContext<ProjektStueck, unknown>;
+  className?: string;
   cellValue: any;
   row: Row<ProjektStueck>;
   // rowIndex: number;
@@ -270,10 +270,7 @@ export const ProjektStueckCell = ({
       onDoubleClick={() => row.toggleSelected(false)}
     >
       <EditTable
-        className={` w-full pt-3 
-          ${
-            columnId === 'bmk' && row.original.bmkDouble ? 'text-red-500' : ''
-          }`}
+        className={`w-full pt-3 ${className}`}
         key={columnId}
         text={String(value)}
         onSave={() => onSave()}
