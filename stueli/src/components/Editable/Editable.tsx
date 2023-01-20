@@ -75,7 +75,7 @@ const EditTable = ({
         </div>
       ) : (
         <div
-          className="h-full pl-2 text-left"
+          className="h-full text-left"
           onDoubleClick={(e) => {
             if (editOnDoubleClick) setEditing(true);
             if (onDoubleClick) {
@@ -86,7 +86,9 @@ const EditTable = ({
             if (!editOnDoubleClick) setEditing(true);
           }}
         >
-          <span className={'inline-block ' + className}>{text}</span>
+          <span className={'inline-block h-10 pl-2 text-sm ' + className}>
+            {text}
+          </span>
         </div>
       )}
     </section>

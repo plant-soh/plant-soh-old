@@ -450,9 +450,11 @@ const ProjektStueckliste = () => {
             <div role="Projektstueckrecord" className="text-center">
               <div role="BmkArea" className="flex justify-between w-full">
                 <div className="w-1/4 text-left">
-                  <label>BMK</label>
+                  <label className="text-xs text-gray-500">BMK</label>
                   <ProjektStueckCell
-                    className={record.bmkDouble ? 'text-red-500' : ''}
+                    className={`${
+                      record.bmkDouble ? 'text-red-500' : ''
+                    } bg-gray-200/70 border-gray-300/50 rounded border`}
                     cellValue={record?.bmk ?? ''}
                     row={table.getRowModel().rowsById[record.id]}
                     columnId="bmk"
@@ -480,10 +482,27 @@ const ProjektStueckliste = () => {
                 <label>Stückspezifikation</label>
               </div>
               <div role="Stueckspezifikation" className="flex justify-between">
-                <div role="Kurzspezifikation">{record?.kurzspezifikation}</div>
-                <div role="Lieferant">{record?.lieferant}</div>
-                <div role="Nennweite">{record?.nennweite}</div>
-                <div role="Feinspezifikation">{record?.feinspezifikation}</div>
+                {[
+                  { id: 'kurzspezifikation', label: 'Kurzspezifikation' },
+                  { id: 'lieferant', label: 'Lieferant' },
+                  { id: 'nennweite', label: 'Nennweite' },
+                  { id: 'feinspezifikation', label: 'Feinspezifikation' },
+                ].map((spezi) => (
+                  <div role={spezi.id} className="w-[23%] text-left">
+                    <label className="text-xs text-gray-500">
+                      {spezi.label}
+                    </label>
+                    <ProjektStueckCell
+                      className={` bg-gray-200/70 border-gray-300/50 rounded border`}
+                      cellValue={(record as any)[spezi.id] ?? ''}
+                      row={table.getRowModel().rowsById[record.id]}
+                      columnId={spezi.id}
+                      editOnDoubleClick={false}
+                      table={table}
+                      refetch={projektStueli.refetch}
+                    />
+                  </div>
+                ))}
               </div>
               <div role="ProduktbeschreibungHeader">
                 <label>Produktbeschreibung</label>
