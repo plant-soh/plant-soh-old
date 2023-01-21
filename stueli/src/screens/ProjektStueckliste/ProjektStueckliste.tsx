@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom';
 import { Clickable } from 'reakit/Clickable';
 import { DataGrid } from '../../components/DataGrid';
 import { EditTableType } from '../../components/Editable';
+import { useWindowSize } from '../../hooks/useWindowSize';
 
 import {
   useCreateProjektStueliMutation,
@@ -145,6 +146,8 @@ const ProjektStueckliste = () => {
     ColumnDef<ProjektStueck>[]
   >([]);
 
+  const { width } = useWindowSize();
+
   const columns = useMemo<ColumnDef<ProjektStueck>[]>(
     () => [
       {
@@ -158,26 +161,31 @@ const ProjektStueckliste = () => {
         accessorKey: 'bmk',
         enableSorting: false,
         header: 'BMK',
+        size: width ? width / 10 : 150,
       },
       {
         accessorKey: 'kurzspezifikation',
         enableSorting: false,
         header: 'Kurzspezifikation',
+        size: width ? width / 7 : 150,
       },
       {
         accessorKey: 'lieferant',
         enableSorting: false,
         header: 'Lieferant',
+        size: width ? width / 7 : 150,
       },
       {
         accessorKey: 'nennweite',
         enableSorting: false,
         header: 'Nennweite',
+        size: width ? width / 7 : 150,
       },
       {
         accessorKey: 'feinspezifikation',
         enableSorting: false,
         header: 'Feinspezifikation',
+        size: width ? width / 7 : 150,
       },
       {
         accessorKey: 'angefragt',
@@ -447,80 +455,82 @@ const ProjektStueckliste = () => {
             >
               <MdClear size={30} />
             </button>
-            <div
-              role="Projektstueckrecord"
-              className="flex flex-col gap-3 text-center"
-            >
-              <div role="BmkArea" className="flex w-full gap-4">
-                <div className="w-[23%] text-left">
-                  <label className="text-xs text-gray-500">BMK</label>
-                  <ProjektStueckCell
-                    className={`${
-                      record.bmkDouble ? 'text-red-500' : ''
-                    } bg-gray-200/70 border-gray-300/50 rounded border`}
-                    cellValue={record?.bmk ?? ''}
-                    row={table.getRowModel().rowsById[record.id]}
-                    columnId="bmk"
-                    editOnDoubleClick={false}
-                    table={table}
-                    refetch={projektStueli.refetch}
-                  />
-                </div>
-                <div className="w-[23%] text-left">
-                  <label className="text-xs text-gray-500">Angefragt</label>
-                  <ProjektStueckCell
-                    className={`bg-gray-200/70 border-gray-300/50 rounded border`}
-                    cellValue={record?.angefragt ?? ''}
-                    row={table.getRowModel().rowsById[record.id]}
-                    columnId="angefragt"
-                    editOnDoubleClick={false}
-                    table={table}
-                    refetch={projektStueli.refetch}
-                    type={EditTableType.select}
-                    selectOptions={[true, false]}
-                  />
-                </div>
-              </div>
-              <div role="StueckspezifikationHeader">
-                <label className="block text-gray-500 border-b border-solid">
-                  Stückspezifikation
-                </label>
-              </div>
-              <div role="Stueckspezifikation" className="flex gap-4">
-                {[
-                  { id: 'kurzspezifikation', label: 'Kurzspezifikation' },
-                  { id: 'lieferant', label: 'Lieferant' },
-                  { id: 'nennweite', label: 'Nennweite' },
-                  { id: 'feinspezifikation', label: 'Feinspezifikation' },
-                ].map((spezi) => (
-                  <div
-                    key={spezi.id}
-                    role={spezi.id}
-                    className="w-[23%] text-left"
-                  >
-                    <label className="text-xs text-gray-500">
-                      {spezi.label}
-                    </label>
+            <div className="p-4">
+              <div
+                role="Projektstueckrecord"
+                className="flex flex-col gap-3 text-center"
+              >
+                <div role="BmkArea" className="flex w-full gap-4">
+                  <div className="w-[23%] text-left">
+                    <label className="text-xs text-gray-500">BMK</label>
                     <ProjektStueckCell
-                      className={` bg-gray-200/70 border-gray-300/50 rounded border`}
-                      cellValue={(record as any)[spezi.id] ?? ''}
+                      className={`${
+                        record.bmkDouble ? 'text-red-500' : ''
+                      } bg-gray-200/70 border-gray-300/50 rounded border`}
+                      cellValue={record?.bmk ?? ''}
                       row={table.getRowModel().rowsById[record.id]}
-                      columnId={spezi.id}
+                      columnId="bmk"
                       editOnDoubleClick={false}
                       table={table}
                       refetch={projektStueli.refetch}
                     />
                   </div>
-                ))}
-              </div>
-              <div role="ProduktbeschreibungHeader">
-                <label className="block text-gray-500 border-b border-solid">
-                  Produktbeschreibung
-                </label>
-              </div>
-              <div role="Produktbeschreibung">
-                <div>Bild</div>
-                <div>Beischreibung</div>
+                  <div className="w-[23%] text-left">
+                    <label className="text-xs text-gray-500">Angefragt</label>
+                    <ProjektStueckCell
+                      className={`bg-gray-200/70 border-gray-300/50 rounded border`}
+                      cellValue={record?.angefragt ?? ''}
+                      row={table.getRowModel().rowsById[record.id]}
+                      columnId="angefragt"
+                      editOnDoubleClick={false}
+                      table={table}
+                      refetch={projektStueli.refetch}
+                      type={EditTableType.select}
+                      selectOptions={[true, false]}
+                    />
+                  </div>
+                </div>
+                <div role="StueckspezifikationHeader">
+                  <label className="block text-gray-500 border-b border-solid">
+                    Stückspezifikation
+                  </label>
+                </div>
+                <div role="Stueckspezifikation" className="flex gap-4">
+                  {[
+                    { id: 'kurzspezifikation', label: 'Kurzspezifikation' },
+                    { id: 'lieferant', label: 'Lieferant' },
+                    { id: 'nennweite', label: 'Nennweite' },
+                    { id: 'feinspezifikation', label: 'Feinspezifikation' },
+                  ].map((spezi) => (
+                    <div
+                      key={spezi.id}
+                      role={spezi.id}
+                      className="w-[23%] text-left"
+                    >
+                      <label className="text-xs text-gray-500">
+                        {spezi.label}
+                      </label>
+                      <ProjektStueckCell
+                        className={` bg-gray-200/70 border-gray-300/50 rounded border`}
+                        cellValue={(record as any)[spezi.id] ?? ''}
+                        row={table.getRowModel().rowsById[record.id]}
+                        columnId={spezi.id}
+                        editOnDoubleClick={false}
+                        table={table}
+                        refetch={projektStueli.refetch}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div role="ProduktbeschreibungHeader">
+                  <label className="block text-gray-500 border-b border-solid">
+                    Produktbeschreibung
+                  </label>
+                </div>
+                <div role="Produktbeschreibung">
+                  <div>Bild</div>
+                  <div>Beischreibung</div>
+                </div>
               </div>
             </div>
           </div>
