@@ -260,7 +260,7 @@ const ProjektStueckliste = () => {
     },
     initialState: {
       columnVisibility: {
-        angefragt: false,
+        angefragt: true,
       },
     },
     onRowSelectionChange: setRowSelection,
@@ -447,9 +447,12 @@ const ProjektStueckliste = () => {
             >
               <MdClear size={30} />
             </button>
-            <div role="Projektstueckrecord" className="text-center">
+            <div
+              role="Projektstueckrecord"
+              className="flex flex-col gap-3 text-center"
+            >
               <div role="BmkArea" className="flex justify-between w-full">
-                <div className="w-1/4 text-left">
+                <div className="w-[23%] text-left">
                   <label className="text-xs text-gray-500">BMK</label>
                   <ProjektStueckCell
                     className={`${
@@ -464,10 +467,11 @@ const ProjektStueckliste = () => {
                   />
                 </div>
                 <span className="w-1/4">BMK doppelt!</span>
-                <div>
-                  <label>Angefragt</label>
+                <div className="w-[23%] text-left">
+                  <label className="text-xs text-gray-500">Angefragt</label>
                   <ProjektStueckCell
-                    cellValue={record?.angefragt ?? false}
+                    className={`bg-gray-200/70 border-gray-300/50 rounded border`}
+                    cellValue={record?.angefragt ?? ''}
                     row={table.getRowModel().rowsById[record.id]}
                     columnId="angefragt"
                     editOnDoubleClick={false}
@@ -479,7 +483,9 @@ const ProjektStueckliste = () => {
                 </div>
               </div>
               <div role="StueckspezifikationHeader">
-                <label>Stückspezifikation</label>
+                <label className="block text-gray-500 border-b border-solid">
+                  Stückspezifikation
+                </label>
               </div>
               <div role="Stueckspezifikation" className="flex justify-between">
                 {[
@@ -505,7 +511,9 @@ const ProjektStueckliste = () => {
                 ))}
               </div>
               <div role="ProduktbeschreibungHeader">
-                <label>Produktbeschreibung</label>
+                <label className="block text-gray-500 border-b border-solid">
+                  Produktbeschreibung
+                </label>
               </div>
               <div role="Produktbeschreibung">
                 <div>Bild</div>

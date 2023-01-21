@@ -276,7 +276,7 @@ export const ProjektStueckCell = ({
         onSave={() => onSave()}
         onCancel={async () => setValue(initialValue)}
         childRef={inputRef as RefObject<HTMLInputElement>}
-        type={EditTableType.input}
+        type={type}
         editOnDoubleClick={editOnDoubleClick}
       >
         {type === EditTableType.input && (
@@ -296,13 +296,35 @@ export const ProjektStueckCell = ({
           />
         )}
         {type === EditTableType.select && (
-          <select onChange={(e) => setValue(e.target.value)}>
-            {selectOptions.map((option) => (
-              <option key={option} value={option}>
+          <div
+            id="blub"
+            onClick={(_e) => {
+              console.log('select');
+              // inputRef.current?.blur();
+              document.getElementById('blub')?.blur();
+              // if (inputRef.current?.contains(e.target)) {
+              //   // Clicked in box
+              // } else {
+              //   // Clicked outside the box
+              // }
+            }}
+          >
+            {selectOptions.map((option, index) => (
+              <button
+                style={{ top: 40 + index * 40 }}
+                className=" absolute focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
+                key={option}
+                // ref={inputRef}
+                onClick={() => {
+                  console.log('select option');
+                  setValue(option);
+                  // inputRef.current?.blur();
+                }}
+              >
                 {String(option)}
-              </option>
+              </button>
             ))}
-          </select>
+          </div>
         )}
 
         {showSuggestions &&

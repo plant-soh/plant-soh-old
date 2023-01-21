@@ -1,4 +1,5 @@
 import { ReactNode, RefObject, useEffect, useState } from 'react';
+import { MdArrowDropDown } from 'react-icons/md';
 
 export enum EditTableType {
   input = 'input',
@@ -10,7 +11,7 @@ export enum EditTableType {
 const EditTable = ({
   childRef,
   text,
-  type,
+  type = EditTableType.input,
   onSave,
   onCancel,
   children,
@@ -75,7 +76,7 @@ const EditTable = ({
         </div>
       ) : (
         <div
-          className="h-full text-left"
+          className="flex h-full text-left"
           onDoubleClick={(e) => {
             if (editOnDoubleClick) setEditing(true);
             if (onDoubleClick) {
@@ -86,9 +87,13 @@ const EditTable = ({
             if (!editOnDoubleClick) setEditing(true);
           }}
         >
-          <span className={'inline-block h-10 pl-2 text-sm ' + className}>
-            {text}
-          </span>
+          <div className={'inline-block h-10 pl-2 text-sm ' + className}>
+            <div className="flex">
+              <span className="w-full">{text}</span>
+              {type === EditTableType.select && <MdArrowDropDown size={18} />}
+            </div>
+          </div>
+          {/* <MdArrowDropDown size={18} /> */}
         </div>
       )}
     </section>
