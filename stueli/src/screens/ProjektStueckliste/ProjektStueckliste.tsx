@@ -260,7 +260,7 @@ const ProjektStueckliste = () => {
     },
     initialState: {
       columnVisibility: {
-        angefragt: true,
+        angefragt: false,
       },
     },
     onRowSelectionChange: setRowSelection,
@@ -451,7 +451,7 @@ const ProjektStueckliste = () => {
               role="Projektstueckrecord"
               className="flex flex-col gap-3 text-center"
             >
-              <div role="BmkArea" className="flex justify-between w-full">
+              <div role="BmkArea" className="flex w-full gap-4">
                 <div className="w-[23%] text-left">
                   <label className="text-xs text-gray-500">BMK</label>
                   <ProjektStueckCell
@@ -466,7 +466,6 @@ const ProjektStueckliste = () => {
                     refetch={projektStueli.refetch}
                   />
                 </div>
-                <span className="w-1/4">BMK doppelt!</span>
                 <div className="w-[23%] text-left">
                   <label className="text-xs text-gray-500">Angefragt</label>
                   <ProjektStueckCell
@@ -487,7 +486,7 @@ const ProjektStueckliste = () => {
                   Stückspezifikation
                 </label>
               </div>
-              <div role="Stueckspezifikation" className="flex justify-between">
+              <div role="Stueckspezifikation" className="flex gap-4">
                 {[
                   { id: 'kurzspezifikation', label: 'Kurzspezifikation' },
                   { id: 'lieferant', label: 'Lieferant' },

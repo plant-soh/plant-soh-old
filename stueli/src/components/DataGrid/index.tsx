@@ -122,8 +122,11 @@ export const DataGrid = <TData extends Record<string, any>>({
         </tr>
       )} */}
 
-        {virtualRows.map((virtualRow) => {
+        {virtualRows.map((virtualRow, index) => {
           const row = rows[virtualRow.index] as Row<TData>;
+          if (index === virtualRows.length - 1) {
+            row.getCanSelect = () => false;
+          }
 
           return (
             <CompositeGroup

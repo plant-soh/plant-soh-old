@@ -307,17 +307,12 @@ export const ProjektStueckCell = ({
               value={value as string}
               onChange={(e) => {
                 setValue(e.target.value);
-                // setShowSuggestions(true);
               }}
-              // onBlur={() => onSave()}
             />
-            {/* <span className="w-full bg-transparent bg-white outline-none h-10 p-3 ring-[1.5px] ring-indigo-400">
-              {String(value)}
-            </span> */}
             {selectOptions.map((option, index) => (
               <button
                 style={{ top: 42 + index * 40 }}
-                className="absolute text-left w-full bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400 hover:bg-blue-100"
+                className="shadow-xl absolute text-left w-full bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400 hover:bg-blue-100"
                 key={option}
                 // ref={inputRef}
                 onMouseDown={(e) => {
