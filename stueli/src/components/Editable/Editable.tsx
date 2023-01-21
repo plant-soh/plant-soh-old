@@ -46,6 +46,8 @@ const EditTable = ({
     const enterKey = 'Enter';
     const allKeys = [...keys, enterKey];
 
+    console.log('handleKeyDown', key);
+
     if (
       (editTableType === EditTableType.textarea && keys.indexOf(key) > -1) ||
       (editTableType !== EditTableType.textarea && allKeys.indexOf(key) > -1)

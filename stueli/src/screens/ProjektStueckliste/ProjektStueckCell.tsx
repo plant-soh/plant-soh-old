@@ -78,7 +78,7 @@ export const ProjektStueckCell = ({
   // console.log(`cell=${JSON.stringify(cell)}`);
   const initialValue = cellValue;
   // We need to keep and update the state of the cell normally
-  const [value, setValue] = useState(initialValue);
+  const [value, setValue] = useState(cellValue);
   // const suggestions = ['johnjoe', 'janejannet', 'jackdaniels'];
 
   const [initialSuggestions, setInitialSuggestions] = useState<string[]>([]);
@@ -175,7 +175,7 @@ export const ProjektStueckCell = ({
     // save if not insert row
     if (row.original.id !== '-1') {
       // only update if something changed
-      if (initialValue === value && bmkDouble === undefined) return;
+      if (cellValue === value && bmkDouble === undefined) return;
       await updateStueck.mutateAsync({
         input: {
           id: row.original.id,
@@ -296,29 +296,34 @@ export const ProjektStueckCell = ({
           />
         )}
         {type === EditTableType.select && (
-          <div
-            id="blub"
-            onClick={(_e) => {
-              console.log('select');
-              // inputRef.current?.blur();
-              document.getElementById('blub')?.blur();
-              // if (inputRef.current?.contains(e.target)) {
-              //   // Clicked in box
-              // } else {
-              //   // Clicked outside the box
-              // }
-            }}
-          >
+          <div className="relative flex w-full bg-white">
+            <input
+              className="w-full bg-transparent focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
+              key={columnId}
+              ref={inputRef}
+              type="text"
+              name={columnId}
+              placeholder={columnId}
+              value={value as string}
+              onChange={(e) => {
+                setValue(e.target.value);
+                // setShowSuggestions(true);
+              }}
+              // onBlur={() => onSave()}
+            />
+            {/* <span className="w-full bg-transparent bg-white outline-none h-10 p-3 ring-[1.5px] ring-indigo-400">
+              {String(value)}
+            </span> */}
             {selectOptions.map((option, index) => (
               <button
-                style={{ top: 40 + index * 40 }}
-                className=" absolute focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
+                style={{ top: 42 + index * 40 }}
+                className="absolute text-left w-full bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400 hover:bg-blue-100"
                 key={option}
                 // ref={inputRef}
-                onClick={() => {
+                onMouseDown={(e) => {
                   console.log('select option');
                   setValue(option);
-                  // inputRef.current?.blur();
+                  e.currentTarget.blur();
                 }}
               >
                 {String(option)}

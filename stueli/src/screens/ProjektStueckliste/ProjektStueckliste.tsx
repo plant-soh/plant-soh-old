@@ -80,7 +80,7 @@ const ProjektStueckliste = () => {
         `/projekte/${projektId}/record/${selectedRowId}`,
       );
     }
-  }, [rowSelection, setRowSelection]);
+  }, [rowSelection, setRowSelection, data]);
 
   // if recordId param was given, select the row
   useEffect(() => {
@@ -494,7 +494,11 @@ const ProjektStueckliste = () => {
                   { id: 'nennweite', label: 'Nennweite' },
                   { id: 'feinspezifikation', label: 'Feinspezifikation' },
                 ].map((spezi) => (
-                  <div role={spezi.id} className="w-[23%] text-left">
+                  <div
+                    key={spezi.id}
+                    role={spezi.id}
+                    className="w-[23%] text-left"
+                  >
                     <label className="text-xs text-gray-500">
                       {spezi.label}
                     </label>
