@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom';
 import { Clickable } from 'reakit/Clickable';
 import { DataGrid } from '../../components/DataGrid';
 import { EditTableType } from '../../components/Editable';
+import { useMouseDelta } from '../../hooks/useMouseDelta';
 import { useWindowSize } from '../../hooks/useWindowSize';
 
 import {
@@ -58,11 +59,14 @@ const ProjektStueckliste = () => {
   const { recordId = '' } = useParams<ProjektStueliParams>();
   const [showRecord, setShowRecord] = useState(false);
   const [record, setRecord] = useState<ProjektStueck | undefined>();
+  // const [recordWidth, setRecordWidth] = useState(900);
   const [data, setData] = useState<ProjektStueck[]>([]);
 
   const [rowSelection, setRowSelection] = useState<{ string: boolean } | {}>(
     {},
   );
+
+  const { result } = useMouseDelta(400);
 
   // use tanstack react-table row selection to lead record view
   useEffect(() => {
@@ -441,11 +445,24 @@ const ProjektStueckliste = () => {
         </button>
         {record && (
           <div
-            style={{ right: 0, top: 80, width: 900 }}
+            style={{ right: 0, top: 80, width: result }}
             className={`absolute z-30 w-full h-[93%] duration-500 transform bg-white ${
-              showRecord ? '' : 'translate-x-[900px]'
+              showRecord ? '' : `translate-x-[${result}px]`
             }`}
           >
+            <div
+              // style={{ width }}
+              // onClick={() => {}}
+              // onMouseDown={handleMouseDown}
+              // onMouseMove={handleMouseMove}
+              // onMouseUp={handleMouseUp}
+              // onTouchStart={(e) => {
+              //   setRecordWidth(e.touches[0].clientX);
+              // }}
+              className={`absolute hover:opacity-100 opacity-0 left-0 top-0 h-full w-2 bg-gray-500 cursor-col-resize	select-none touch-none ${
+                true ? 'bg-blue-500 opacity-100' : ''
+              }`}
+            />
             <button
               className="font-bold text-white bg-blue-500 rounded h-fit hover:bg-blue-700"
               onClick={() => {
