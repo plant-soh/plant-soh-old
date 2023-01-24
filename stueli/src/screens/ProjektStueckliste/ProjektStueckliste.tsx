@@ -11,7 +11,6 @@ import { useParams } from 'react-router-dom';
 import { Clickable } from 'reakit/Clickable';
 import { DataGrid } from '../../components/DataGrid';
 import { EditTableType } from '../../components/Editable';
-import { useMouseDelta } from '../../hooks/useMouseDelta';
 import { useWindowSize } from '../../hooks/useWindowSize';
 
 import {
@@ -65,8 +64,6 @@ const ProjektStueckliste = () => {
   const [rowSelection, setRowSelection] = useState<{ string: boolean } | {}>(
     {},
   );
-
-  const { result } = useMouseDelta(400);
 
   // use tanstack react-table row selection to lead record view
   useEffect(() => {
@@ -445,9 +442,9 @@ const ProjektStueckliste = () => {
         </button>
         {record && (
           <div
-            style={{ right: 0, top: 80, width: result }}
+            style={{ right: 0, top: 80, width: 900 }}
             className={`absolute z-30 w-full h-[93%] duration-500 transform bg-white ${
-              showRecord ? '' : `translate-x-[${result}px]`
+              showRecord ? '' : `translate-x-[900px]`
             }`}
           >
             <div
