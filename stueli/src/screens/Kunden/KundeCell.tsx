@@ -8,6 +8,7 @@ import { RefObject, useEffect, useRef, useState } from 'react';
 import { MdAdd, MdDelete } from 'react-icons/md';
 import { Clickable } from 'reakit/Clickable';
 import EditTable, { EditTableType } from '../../components/Editable';
+import Link from '../../components/Link';
 import {
   ProjektStueliByKurzspezifikationQuery,
   useDeleteAnlageMutation,
@@ -23,10 +24,8 @@ export const KundeCell = ({
   columnId,
   table,
   refetch,
-  toggleRowSelectedOnClick = false,
   editOnDoubleClick = true,
   type = EditTableType.input,
-  selectOptions = [],
 }: {
   className?: string;
   cellValue: any;
@@ -39,67 +38,14 @@ export const KundeCell = ({
   ) => Promise<
     QueryObserverResult<ProjektStueliByKurzspezifikationQuery, unknown>
   >;
-  toggleRowSelectedOnClick?: boolean;
   editOnDoubleClick?: boolean;
   type?: EditTableType;
-  selectOptions?: any[];
 }) => {
-  // const {
-  //   value,
-  //   row,
-  //   row: { rowIndex },
-  //   column: { id },
-  //   table,
-  // } = cell;
-
-  // const {
-  //   kurzspezifikationVorschlaege,
-  //   lieferantVorschlaege,
-  //   nennweiteVorschlaege,
-  //   feinspezifikationVorschlaege,
-  //   setKurzspezifikation,
-  //   setLieferant,
-  //   setNennweite,
-  //   setFeinspezifikation,
-  // } = useSuggestion();
-
   const inputRef = useRef<HTMLInputElement>(null);
-  // const searchSuggestionsRef = useRef<HTMLDivElement>(null);
 
-  // console.log(`cell=${JSON.stringify(cell)}`);
   const initialValue = cellValue;
   // We need to keep and update the state of the cell normally
   const [value, setValue] = useState(cellValue);
-  // const suggestions = ['johnjoe', 'janejannet', 'jackdaniels'];
-
-  // const [initialSuggestions, setInitialSuggestions] = useState<string[]>([]);
-
-  // useEffect(() => {
-  //   if (columnId === 'kurzspezifikation') {
-  //     setInitialSuggestions(kurzspezifikationVorschlaege);
-  //   } else if (columnId === 'lieferant') {
-  //     setInitialSuggestions(lieferantVorschlaege);
-  //   } else if (columnId === 'nennweite') {
-  //     setInitialSuggestions(nennweiteVorschlaege);
-  //   } else if (columnId === 'feinspezifikation') {
-  //     setInitialSuggestions(feinspezifikationVorschlaege);
-  //   }
-  // }, [
-  //   columnId,
-  //   kurzspezifikationVorschlaege,
-  //   lieferantVorschlaege,
-  //   nennweiteVorschlaege,
-  //   feinspezifikationVorschlaege,
-  // ]);
-
-  // useEffect(() => {
-  //   setSuggestionList(initialSuggestions);
-  // }, [initialSuggestions, setInitialSuggestions]);
-
-  // const [suggestionList, setSuggestionList] = useState<string[]>([]);
-  // const [showSuggestions, setShowSuggestions] = useState(true);
-
-  // let { handleModal } = useModal();
 
   const updateAnlage = useUpdateAnlageMutation();
   const deleteAnlage = useDeleteAnlageMutation();
@@ -167,40 +113,25 @@ export const KundeCell = ({
   }
 
   return (
-    <div
-      className="w-full h-full"
-      onClick={() => {
-        if (toggleRowSelectedOnClick) row.toggleSelected();
-      }}
-      onDoubleClick={() => row.toggleSelected(false)}
-    >
-      <EditTable
-        className={`w-full pt-3 ${className}`}
-        key={columnId}
-        text={String(value)}
-        onSave={() => onSave()}
-        onCancel={async () => setValue(initialValue)}
-        childRef={inputRef as RefObject<HTMLInputElement>}
-        type={type}
-        editOnDoubleClick={editOnDoubleClick}
-      >
-        {type === EditTableType.input && (
-          <input
-            className="w-full bg-transparent focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
-            key={columnId}
-            ref={inputRef}
-            type="text"
-            name={columnId}
-            placeholder={columnId}
-            value={value as string}
-            onChange={(e) => {
-              setValue(e.target.value);
-            }}
-            // onBlur={() => onSave()}
-          />
-        )}
-        {type === EditTableType.select && (
-          <div className="relative flex w-full bg-white">
+    <div className="flex w-full h-full">
+      {columnId === 'standort' && row.original.id !== '-1' ? (
+        <button className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+          <Link name="referenz-stueli" to={`/kunden/${row.original.id}`}>
+            <span>{value}</span>
+          </Link>
+        </button>
+      ) : (
+        <EditTable
+          className={`w-full pt-3 ${className}`}
+          key={columnId}
+          text={String(value)}
+          onSave={() => onSave()}
+          onCancel={async () => setValue(initialValue)}
+          childRef={inputRef as RefObject<HTMLInputElement>}
+          type={type}
+          editOnDoubleClick={editOnDoubleClick}
+        >
+          {type === EditTableType.input && (
             <input
               className="w-full bg-transparent focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
               key={columnId}
@@ -212,25 +143,11 @@ export const KundeCell = ({
               onChange={(e) => {
                 setValue(e.target.value);
               }}
+              // onBlur={() => onSave()}
             />
-            {selectOptions.map((option, index) => (
-              <button
-                style={{ top: 42 + index * 40 }}
-                className="shadow-xl absolute text-left w-full bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400 hover:bg-blue-100"
-                key={option}
-                // ref={inputRef}
-                onMouseDown={(e) => {
-                  console.log('select option');
-                  setValue(option);
-                  e.currentTarget.blur();
-                }}
-              >
-                {String(option)}
-              </button>
-            ))}
-          </div>
-        )}
-      </EditTable>
+          )}
+        </EditTable>
+      )}
     </div>
   );
 };

@@ -51,19 +51,19 @@ const Kunden = () => {
         accessorKey: 'firma',
         enableSorting: false,
         header: 'Firma',
-        size: width ? width / 4 : 150,
+        size: width ? width / 5 : 150,
       },
       {
         accessorKey: 'standort',
         enableSorting: false,
         header: 'Standort',
-        size: width ? width / 4 : 150,
+        size: width ? width / 5 : 150,
       },
       {
         accessorKey: 'anschrift',
         enableSorting: false,
         header: 'Anschrift',
-        size: width ? width / 4 : 150,
+        size: width ? width / 5 : 150,
       },
       {
         accessorKey: 'action',
@@ -83,7 +83,6 @@ const Kunden = () => {
         columnId={cell.column.id}
         table={cell.table}
         refetch={listAnlagenQuery.refetch}
-        // toggleRowSelectedOnClick={true}
       />
     ),
   };
