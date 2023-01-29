@@ -231,7 +231,7 @@ const ProjektStueckliste = () => {
         size: 40,
       },
     ],
-    [customColumns],
+    [customColumns, width],
   );
 
   const { currentProjektId, refreshSession, role } = useAuth();

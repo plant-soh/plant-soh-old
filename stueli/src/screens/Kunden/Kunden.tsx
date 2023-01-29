@@ -6,6 +6,7 @@ import {
 } from '@tanstack/react-table';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { DataGrid } from '../../components/DataGrid';
+import { useWindowSize } from '../../hooks/useWindowSize';
 import {
   useCreateAnlageMutation,
   // useDeleteAnlagePrimaryMutation,
@@ -35,6 +36,8 @@ const Kunden = () => {
   // const deleteAnlage = useDeleteAnlageMutation();
   const createAnlage = useCreateAnlageMutation();
 
+  const { width } = useWindowSize();
+
   const columns = useMemo<ColumnDef<Kunde>[]>(
     () => [
       {
@@ -48,19 +51,19 @@ const Kunden = () => {
         accessorKey: 'firma',
         enableSorting: false,
         header: 'Firma',
-        size: 150,
+        size: width ? width / 4 : 150,
       },
       {
         accessorKey: 'standort',
         enableSorting: false,
         header: 'Standort',
-        size: 150,
+        size: width ? width / 4 : 150,
       },
       {
         accessorKey: 'anschrift',
         enableSorting: false,
         header: 'Anschrift',
-        size: 150,
+        size: width ? width / 4 : 150,
       },
       {
         accessorKey: 'action',
@@ -69,7 +72,7 @@ const Kunden = () => {
         size: 40,
       },
     ],
-    [],
+    [width],
   );
 
   const defaultColumn: Partial<ColumnDef<Kunde>> = {
@@ -80,7 +83,7 @@ const Kunden = () => {
         columnId={cell.column.id}
         table={cell.table}
         refetch={listAnlagenQuery.refetch}
-        toggleRowSelectedOnClick={true}
+        // toggleRowSelectedOnClick={true}
       />
     ),
   };
@@ -175,7 +178,12 @@ const Kunden = () => {
     >
       <div className="p-6 bg-white rounded-md shadow-md ">
         <h2 className="text-[15px] font-semibold">Kunden</h2>
-        <DataGrid table={table} tableRef={tableContainerRef} rows={rows} />
+        <DataGrid
+          table={table}
+          tableRef={tableContainerRef}
+          rows={rows}
+          disableKeyNavigation={true}
+        />
       </div>
     </div>
   );

@@ -16,12 +16,14 @@ type DataGridProps<TData> = {
   table: ReactTableProps<TData>;
   tableRef: React.RefObject<HTMLDivElement>;
   rows: Row<TData>[];
+  disableKeyNavigation?: boolean;
 };
 
 export const DataGrid = <TData extends Record<string, any>>({
   table,
   tableRef,
   rows,
+  disableKeyNavigation = false,
 }: DataGridProps<TData>) => {
   const rowVirtualizer = useVirtual({
     parentRef: tableRef,
@@ -45,9 +47,9 @@ export const DataGrid = <TData extends Record<string, any>>({
   // Function to handle key press on a row
   const handleKeyDown = (event: any, row: Row<TData>) => {
     event.stopPropagation();
-    console.log('handleKeyDown');
+    // console.log('handleKeyDown');
     const currentRow = tbodyRef.current?.children.namedItem(row.id);
-    console.log(currentRow);
+    // console.log(currentRow);
     switch (event.key) {
       case 'ArrowUp':
         const upRecord = currentRow?.previousElementSibling as HTMLElement;
@@ -137,7 +139,9 @@ export const DataGrid = <TData extends Record<string, any>>({
               tabIndex={0}
               key={row.id}
               aria-label="tr"
-              onKeyDown={(e: any) => handleKeyDown(e, row)}
+              onKeyDown={(e: any) =>
+                disableKeyNavigation ? '' : handleKeyDown(e, row)
+              }
               style={{
                 outline: `${
                   row.getIsSelected() ? '2px solid #1a2dd7' : 'none'

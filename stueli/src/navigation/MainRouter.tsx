@@ -36,6 +36,7 @@ const MainRouter = () => {
             element={withSuspense(ReferenzStueckliste)}
           />
           <Route path="projekte" element={withSuspense(Projekte)} />
+
           <Route
             path="projekte/:projektId"
             element={withSuspense(ProjektStueckliste)}
