@@ -28,8 +28,8 @@ import { ProjektStueckCustomHeader } from './ProjektStueckCustomHeader';
 declare module '@tanstack/react-table' {
   interface TableMeta<TData extends RowData> {
     updateData: (rowIndex: number, columnId: string, value: unknown) => void;
-    addNewStueck: () => void;
-    getSelectedRowId: () => number | undefined;
+    addNewRow: () => void;
+    getSelectedRowId?: () => number | undefined;
   }
 }
 
@@ -291,7 +291,7 @@ const ProjektStueckliste = () => {
           }),
         );
       },
-      addNewStueck: async () => {
+      addNewRow: async () => {
         const newStueck = data.at(-1);
         await createStueck.mutateAsync({
           input: {

@@ -8,23 +8,14 @@ import { RefObject, useEffect, useRef, useState } from 'react';
 import { MdAdd, MdDelete } from 'react-icons/md';
 import { Clickable } from 'reakit/Clickable';
 import EditTable, { EditTableType } from '../../components/Editable';
-import { amplifyFetcher } from '../../lib/fetcher';
 import {
-  ListProjektStuelisDocument,
-  ListProjektStuelisQuery,
-  ListProjektStuelisQueryVariables,
-  ListReferenzStuelisDocument,
-  ListReferenzStuelisQuery,
-  ListReferenzStuelisQueryVariables,
   ProjektStueliByKurzspezifikationQuery,
-  useDeleteProjektStueliMutation,
-  useUpdateProjektStueliMutation,
+  useDeleteAnlageMutation,
+  useUpdateAnlageMutation,
 } from '../../lib/react-api';
-import { useModal } from '../../providers/ModalProvider';
-import { useSuggestion } from '../../providers/SuggestionProvider';
-import { ProjektStueck } from './ProjektStueckliste';
+import { Kunde } from './Kunden';
 
-export const ProjektStueckCell = ({
+export const KundeCell = ({
   className,
   cellValue,
   row,
@@ -39,10 +30,10 @@ export const ProjektStueckCell = ({
 }: {
   className?: string;
   cellValue: any;
-  row: Row<ProjektStueck>;
+  row: Row<Kunde>;
   // rowIndex: number;
   columnId: string;
-  table: Table<ProjektStueck>;
+  table: Table<Kunde>;
   refetch: <TPageData>(
     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
   ) => Promise<
@@ -61,19 +52,19 @@ export const ProjektStueckCell = ({
   //   table,
   // } = cell;
 
-  const {
-    kurzspezifikationVorschlaege,
-    lieferantVorschlaege,
-    nennweiteVorschlaege,
-    feinspezifikationVorschlaege,
-    setKurzspezifikation,
-    setLieferant,
-    setNennweite,
-    setFeinspezifikation,
-  } = useSuggestion();
+  // const {
+  //   kurzspezifikationVorschlaege,
+  //   lieferantVorschlaege,
+  //   nennweiteVorschlaege,
+  //   feinspezifikationVorschlaege,
+  //   setKurzspezifikation,
+  //   setLieferant,
+  //   setNennweite,
+  //   setFeinspezifikation,
+  // } = useSuggestion();
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const searchSuggestionsRef = useRef<HTMLDivElement>(null);
+  // const searchSuggestionsRef = useRef<HTMLDivElement>(null);
 
   // console.log(`cell=${JSON.stringify(cell)}`);
   const initialValue = cellValue;
@@ -81,37 +72,37 @@ export const ProjektStueckCell = ({
   const [value, setValue] = useState(cellValue);
   // const suggestions = ['johnjoe', 'janejannet', 'jackdaniels'];
 
-  const [initialSuggestions, setInitialSuggestions] = useState<string[]>([]);
+  // const [initialSuggestions, setInitialSuggestions] = useState<string[]>([]);
 
-  useEffect(() => {
-    if (columnId === 'kurzspezifikation') {
-      setInitialSuggestions(kurzspezifikationVorschlaege);
-    } else if (columnId === 'lieferant') {
-      setInitialSuggestions(lieferantVorschlaege);
-    } else if (columnId === 'nennweite') {
-      setInitialSuggestions(nennweiteVorschlaege);
-    } else if (columnId === 'feinspezifikation') {
-      setInitialSuggestions(feinspezifikationVorschlaege);
-    }
-  }, [
-    columnId,
-    kurzspezifikationVorschlaege,
-    lieferantVorschlaege,
-    nennweiteVorschlaege,
-    feinspezifikationVorschlaege,
-  ]);
+  // useEffect(() => {
+  //   if (columnId === 'kurzspezifikation') {
+  //     setInitialSuggestions(kurzspezifikationVorschlaege);
+  //   } else if (columnId === 'lieferant') {
+  //     setInitialSuggestions(lieferantVorschlaege);
+  //   } else if (columnId === 'nennweite') {
+  //     setInitialSuggestions(nennweiteVorschlaege);
+  //   } else if (columnId === 'feinspezifikation') {
+  //     setInitialSuggestions(feinspezifikationVorschlaege);
+  //   }
+  // }, [
+  //   columnId,
+  //   kurzspezifikationVorschlaege,
+  //   lieferantVorschlaege,
+  //   nennweiteVorschlaege,
+  //   feinspezifikationVorschlaege,
+  // ]);
 
-  useEffect(() => {
-    setSuggestionList(initialSuggestions);
-  }, [initialSuggestions, setInitialSuggestions]);
+  // useEffect(() => {
+  //   setSuggestionList(initialSuggestions);
+  // }, [initialSuggestions, setInitialSuggestions]);
 
-  const [suggestionList, setSuggestionList] = useState<string[]>([]);
-  const [showSuggestions, setShowSuggestions] = useState(true);
+  // const [suggestionList, setSuggestionList] = useState<string[]>([]);
+  // const [showSuggestions, setShowSuggestions] = useState(true);
 
-  let { handleModal } = useModal();
+  // let { handleModal } = useModal();
 
-  const updateStueck = useUpdateProjektStueliMutation();
-  const deleteStueck = useDeleteProjektStueliMutation();
+  const updateAnlage = useUpdateAnlageMutation();
+  const deleteAnlage = useDeleteAnlageMutation();
 
   // When the input is blurred, we'll call our table meta's updateData function
   // const onBlur = () => {
@@ -120,81 +111,19 @@ export const ProjektStueckCell = ({
 
   const onSave = async () => {
     table.options.meta?.updateData(row.index, columnId, value);
-    let bmkDouble = undefined;
-    if (columnId === 'bmk' && value) {
-      const foundStueckeInProjekten = await amplifyFetcher<
-        ListProjektStuelisQuery,
-        ListProjektStuelisQueryVariables
-      >(ListProjektStuelisDocument, {
-        filter: { bmk: { eq: value } },
-      }).call(undefined);
-
-      let projektStueckExist =
-        (foundStueckeInProjekten.listProjektStuelis?.items?.length ?? 0) > 0;
-
-      if (projektStueckExist) {
-        await handleModal(
-          `BMK existiert bereits im Projektstückliste: ${Array.from(
-            new Set(
-              foundStueckeInProjekten.listProjektStuelis?.items?.map(
-                (foundStueck) =>
-                  `Firma: ${foundStueck?.projekt.anlage.firma} Standort: ${foundStueck?.projekt.anlage.standort} Projektnummer: ${foundStueck?.projekt.projektNummer} `,
-              ),
-            ),
-          ).join(', ')}!`,
-        );
-      }
-
-      // Check ob gleiche BMK in einer Referenzstueli bereits existiert
-      const foundStueckeInReferenz = await amplifyFetcher<
-        ListReferenzStuelisQuery,
-        ListReferenzStuelisQueryVariables
-      >(ListReferenzStuelisDocument, {
-        filter: { bmk: { eq: value } },
-      }).call(undefined);
-
-      const referenzStueckExist =
-        (foundStueckeInReferenz.listReferenzStuelis?.items?.length ?? 0) > 0;
-
-      if (referenzStueckExist) {
-        await handleModal(
-          `BMK existiert bereits in Referenzstückliste: ${Array.from(
-            new Set(
-              foundStueckeInReferenz.listReferenzStuelis?.items?.map(
-                (foundStueck) =>
-                  `Firma: ${foundStueck?.anlage.firma} Standort: ${foundStueck?.anlage.standort} `,
-              ),
-            ),
-          ).join(', ')}!`,
-        );
-      }
-
-      bmkDouble = projektStueckExist || referenzStueckExist;
-    }
 
     // save if not insert row
     if (row.original.id !== '-1') {
       // only update if something changed
-      if (cellValue === value && bmkDouble === undefined) return;
-      await updateStueck.mutateAsync({
+      if (cellValue === value) return;
+      await updateAnlage.mutateAsync({
         input: {
           id: row.original.id,
           [columnId]: value,
-          bmkDouble,
         },
       });
 
       await refetch();
-    } else {
-      if (columnId === 'kurzspezifikation') {
-        setKurzspezifikation(value);
-      } else if (columnId === 'lieferant') {
-        setLieferant(value);
-      } else if (columnId === 'nennweite') {
-        setNennweite(value);
-      } else if (columnId === 'feinspezifikation') {
-        setFeinspezifikation(value);
-      }
     }
 
     return;
@@ -223,7 +152,7 @@ export const ProjektStueckCell = ({
           as="button"
           className="flex items-center justify-center mx-auto font-medium text-gray-500 transition-colors rounded-full outline-none focus:bg-gray-200 w-7 h-7"
           onClick={async () => {
-            await deleteStueck.mutateAsync({
+            await deleteAnlage.mutateAsync({
               input: {
                 id: row.original.id,
               },
@@ -236,30 +165,6 @@ export const ProjektStueckCell = ({
       );
     }
   }
-
-  const suggestionItems = suggestionList
-    .filter((suggestion) => suggestion.includes(value))
-    .map((item) => (
-      <div
-        key={item}
-        className="text-left hover:text-blue-500"
-        onMouseDown={(e) => {
-          e.preventDefault();
-        }}
-        onClick={(_e) => {
-          setValue(item);
-          setShowSuggestions(false);
-        }}
-      >
-        {item}
-      </div>
-    ));
-
-  useEffect(() => {
-    setSuggestionList(
-      initialSuggestions.filter((suggestion) => suggestion.startsWith(value)),
-    );
-  }, [value, setValue]);
 
   return (
     <div
@@ -290,7 +195,6 @@ export const ProjektStueckCell = ({
             value={value as string}
             onChange={(e) => {
               setValue(e.target.value);
-              setShowSuggestions(true);
             }}
             // onBlur={() => onSave()}
           />
@@ -326,16 +230,6 @@ export const ProjektStueckCell = ({
             ))}
           </div>
         )}
-
-        {showSuggestions &&
-          row.original.id === '-1' && ( // suggestions only for insert row
-            <div
-              ref={searchSuggestionsRef}
-              className="w-full bg-white border-2 "
-            >
-              {suggestionItems}
-            </div>
-          )}
       </EditTable>
     </div>
   );

@@ -6,20 +6,12 @@ import {
 } from '@tanstack/react-table';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { DataGrid } from '../../components/DataGrid';
-import Link from '../../components/Link';
 import {
-  Anlage,
-  Role,
   useCreateAnlageMutation,
-  useDeleteAnlageMutation,
   // useDeleteAnlagePrimaryMutation,
   useListAnlagesQuery,
 } from '../../lib/react-api';
-import { useAuth } from '../../providers/AuthProvider';
-
-function nameof<T>(key: keyof T): keyof T {
-  return key;
-}
+import { KundeCell } from './KundeCell';
 
 export type Kunde = {
   id: string;
@@ -30,19 +22,9 @@ export type Kunde = {
 };
 
 const Kunden = () => {
-  const { role } = useAuth();
+  // const { role } = useAuth();
 
-  const isAdmin = role === Role.Admin;
-
-  let columnsOld = {
-    [nameof<Anlage>('firma')]: 'Firma',
-    [nameof<Anlage>('standort')]: 'Standort',
-    [nameof<Anlage>('anschrift')]: 'Anchrift',
-  };
-
-  if (isAdmin) {
-    columnsOld = { ...columnsOld, actions: 'Aktionen' };
-  }
+  // const isAdmin = role === Role.Admin;
 
   const listAnlagenQuery = useListAnlagesQuery(undefined, {
     refetchOnWindowFocus: false,
@@ -50,17 +32,8 @@ const Kunden = () => {
 
   const [data, setData] = useState<Kunde[]>([]);
 
-  const deleteAnlage = useDeleteAnlageMutation();
+  // const deleteAnlage = useDeleteAnlageMutation();
   const createAnlage = useCreateAnlageMutation();
-
-  const [newAnlage, setNewAnlage] = useState<
-    | {
-        firma?: string;
-        standort?: string;
-        anschrift?: string;
-      }
-    | undefined
-  >(undefined);
 
   const columns = useMemo<ColumnDef<Kunde>[]>(
     () => [
@@ -77,9 +50,40 @@ const Kunden = () => {
         header: 'Firma',
         size: 150,
       },
+      {
+        accessorKey: 'standort',
+        enableSorting: false,
+        header: 'Standort',
+        size: 150,
+      },
+      {
+        accessorKey: 'anschrift',
+        enableSorting: false,
+        header: 'Anschrift',
+        size: 150,
+      },
+      {
+        accessorKey: 'action',
+        enableSorting: false,
+        header: ' ',
+        size: 40,
+      },
     ],
     [],
   );
+
+  const defaultColumn: Partial<ColumnDef<Kunde>> = {
+    cell: (cell) => (
+      <KundeCell
+        cellValue={cell.getValue() as string}
+        row={cell.row}
+        columnId={cell.column.id}
+        table={cell.table}
+        refetch={listAnlagenQuery.refetch}
+        toggleRowSelectedOnClick={true}
+      />
+    ),
+  };
 
   useEffect(() => {
     if (!listAnlagenQuery.data?.listAnlages?.items) {
@@ -112,7 +116,7 @@ const Kunden = () => {
   const table = useReactTable({
     data: data,
     columns: columns,
-    // defaultColumn,
+    defaultColumn,
     columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -127,39 +131,35 @@ const Kunden = () => {
     // onRowSelectionChange: setRowSelection,
     // enableMultiRowSelection: false,
     // getRowId: (row) => row.id,
-    // meta: {
-    //   updateData: (rowIndex, columnId, value) => {
-    //     // Skip age index reset until after next rerender
-    //     // skipAutoResetPageIndex()
-    //     setData((old) =>
-    //       old.map((row, index) => {
-    //         if (index === rowIndex) {
-    //           return {
-    //             ...old[rowIndex]!,
-    //             [columnId]: value,
-    //           };
-    //         }
-    //         return row;
-    //       }),
-    //     );
-    //   },
-    //   addNewStueck: async () => {
-    //     const newStueck = data.at(-1);
-    //     await createStueck.mutateAsync({
-    //       input: {
-    //         projektId,
-    //         kurzspezifikation: newStueck?.kurzspezifikation,
-    //         lieferant: newStueck?.lieferant,
-    //         nennweite: newStueck?.nennweite,
-    //         feinspezifikation: newStueck?.feinspezifikation,
-    //       },
-    //     });
+    meta: {
+      updateData: (rowIndex, columnId, value) => {
+        // Skip age index reset until after next rerender
+        // skipAutoResetPageIndex()
+        setData((old) =>
+          old.map((row, index) => {
+            if (index === rowIndex) {
+              return {
+                ...old[rowIndex]!,
+                [columnId]: value,
+              };
+            }
+            return row;
+          }),
+        );
+      },
+      addNewRow: async () => {
+        const newAnlage = data.at(-1);
+        await createAnlage.mutateAsync({
+          input: {
+            firma: newAnlage?.firma ?? '',
+            standort: newAnlage?.standort ?? '',
+            anschrift: newAnlage?.anschrift ?? '',
+          },
+        });
 
-    //     await projektStueli.refetch();
-    //   },
-
-    //   getSelectedRowId: () => record?.index,
-    // },
+        await listAnlagenQuery.refetch();
+      },
+    },
     debugTable: false,
   });
 
@@ -173,141 +173,10 @@ const Kunden = () => {
       className="relative flex flex-col w-full h-full gap-6 pb-10 m-6 -mb-6"
       data-testid="kunden"
     >
-      <h1 className="flex text-xl font-semibold">Kunden</h1>
       <div className="p-6 bg-white rounded-md shadow-md ">
-        <h2 className="text-[15px] font-semibold">Projektstückliste</h2>
+        <h2 className="text-[15px] font-semibold">Kunden</h2>
         <DataGrid table={table} tableRef={tableContainerRef} rows={rows} />
       </div>
-      <table className="mt-4">
-        <thead>
-          <tr>
-            {Object.keys(columnsOld).map((col, index) => (
-              <th
-                scope="col"
-                className="relative p-3 text-xs font-semibold text-left text-white whitespace-pre-line align-top bg-bblue-500"
-                key={index}
-              >
-                {columnsOld[col]}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className="bg-gray-50" data-testid="recent-calls-table-body">
-          {listAnlagenQuery.data?.listAnlages?.items?.map(
-            (anlage, row_index) =>
-              anlage && (
-                <tr key={row_index} className="border-b border-gray-400">
-                  {Object.keys(columnsOld).map((col, index) => (
-                    <td
-                      key={index}
-                      className="p-3 text-left whitespace-pre-line"
-                    >
-                      {col === 'actions' ? (
-                        <button
-                          className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
-                          onClick={async () => {
-                            await deleteAnlage.mutateAsync({
-                              input: {
-                                id: anlage?.id,
-                              },
-                            });
-                            await listAnlagenQuery.refetch();
-                          }}
-                        >
-                          <span>Löschen</span>
-                        </button>
-                      ) : col === 'standort' ? (
-                        <button className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
-                          <Link
-                            name="referenz-stueli"
-                            to={`/kunden/${anlage.id}`}
-                          >
-                            <span>{anlage[col]}</span>
-                          </Link>
-                        </button>
-                      ) : (
-                        anlage[col as 'firma' | 'anschrift']
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              ),
-          )}
-          {isAdmin && (
-            <tr key="insert_row" className="border-b border-gray-400">
-              <td
-                key="firma_insert"
-                className="p-3 text-left whitespace-pre-line"
-              >
-                <input
-                  className="border-2 border-black"
-                  type="text"
-                  id="firma"
-                  name="firma"
-                  onChange={(e) =>
-                    setNewAnlage({ ...newAnlage, firma: e.target.value })
-                  }
-                />
-              </td>
-              <td
-                key="standort_insert"
-                className="p-3 text-left whitespace-pre-line"
-              >
-                <input
-                  className="border-2 border-black"
-                  type="text"
-                  id="standort"
-                  name="standort"
-                  onChange={(e) =>
-                    setNewAnlage({ ...newAnlage, standort: e.target.value })
-                  }
-                />
-              </td>
-              <td
-                key="anschrift_insert"
-                className="p-3 text-left whitespace-pre-line"
-              >
-                <input
-                  className="border-2 border-black"
-                  type="text"
-                  id="anschrift"
-                  name="firma"
-                  onChange={(e) =>
-                    setNewAnlage({ ...newAnlage, anschrift: e.target.value })
-                  }
-                />
-              </td>
-              <td key="action" className="p-3 text-left whitespace-pre-line">
-                {!newAnlage?.firma || !newAnlage?.standort ? (
-                  <button className="px-4 py-2 font-bold text-white bg-blue-500 rounded opacity-50 cursor-not-allowed">
-                    <span>Einfügen</span>
-                  </button>
-                ) : (
-                  <button
-                    className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
-                    onClick={async () => {
-                      if (!newAnlage?.firma || !newAnlage?.standort) {
-                        console.debug('newAnlage missing');
-                        return;
-                      }
-                      await createAnlage.mutateAsync({
-                        input: {
-                          firma: newAnlage.firma,
-                          standort: newAnlage.standort,
-                          anschrift: newAnlage.anschrift,
-                        },
-                      });
-                      await listAnlagenQuery.refetch();
-                    }}
-                  >
-                    <span>Einfügen</span>
-                  </button>
-                )}
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
     </div>
   );
 };
