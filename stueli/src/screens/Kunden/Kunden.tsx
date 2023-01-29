@@ -33,7 +33,6 @@ const Kunden = () => {
 
   const [data, setData] = useState<Kunde[]>([]);
 
-  // const deleteAnlage = useDeleteAnlageMutation();
   const createAnlage = useCreateAnlageMutation();
 
   const { width } = useWindowSize();
@@ -122,21 +121,8 @@ const Kunden = () => {
     columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    // state: {
-    //   rowSelection,
-    // },
-    // initialState: {
-    //   columnVisibility: {
-    //     angefragt: false,
-    //   },
-    // },
-    // onRowSelectionChange: setRowSelection,
-    // enableMultiRowSelection: false,
-    // getRowId: (row) => row.id,
     meta: {
       updateData: (rowIndex, columnId, value) => {
-        // Skip age index reset until after next rerender
-        // skipAutoResetPageIndex()
         setData((old) =>
           old.map((row, index) => {
             if (index === rowIndex) {

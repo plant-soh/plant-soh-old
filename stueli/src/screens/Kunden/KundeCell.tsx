@@ -113,7 +113,7 @@ export const KundeCell = ({
   }
 
   return (
-    <div className="flex w-full h-full">
+    <div className="w-full h-full text-left">
       {columnId === 'standort' && row.original.id !== '-1' ? (
         <button className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
           <Link name="referenz-stueli" to={`/kunden/${row.original.id}`}>
