@@ -448,14 +448,6 @@ const ProjektStueckliste = () => {
             }`}
           >
             <div
-              // style={{ width }}
-              // onClick={() => {}}
-              // onMouseDown={handleMouseDown}
-              // onMouseMove={handleMouseMove}
-              // onMouseUp={handleMouseUp}
-              // onTouchStart={(e) => {
-              //   setRecordWidth(e.touches[0].clientX);
-              // }}
               className={`absolute hover:opacity-100 opacity-0 left-0 top-0 h-full w-2 bg-gray-500 cursor-col-resize	select-none touch-none ${
                 true ? 'bg-blue-500 opacity-100' : ''
               }`}

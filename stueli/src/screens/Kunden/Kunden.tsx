@@ -1,4 +1,11 @@
-import { useState } from 'react';
+import {
+  ColumnDef,
+  getCoreRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { DataGrid } from '../../components/DataGrid';
 import Link from '../../components/Link';
 import {
   Anlage,
@@ -14,24 +21,34 @@ function nameof<T>(key: keyof T): keyof T {
   return key;
 }
 
+export type Kunde = {
+  id: string;
+  index: number;
+  firma: string;
+  standort: string;
+  anschrift: string;
+};
+
 const Kunden = () => {
   const { role } = useAuth();
 
   const isAdmin = role === Role.Admin;
 
-  let columns = {
+  let columnsOld = {
     [nameof<Anlage>('firma')]: 'Firma',
     [nameof<Anlage>('standort')]: 'Standort',
     [nameof<Anlage>('anschrift')]: 'Anchrift',
   };
 
   if (isAdmin) {
-    columns = { ...columns, actions: 'Aktionen' };
+    columnsOld = { ...columnsOld, actions: 'Aktionen' };
   }
 
-  const { data, isLoading, refetch } = useListAnlagesQuery(undefined, {
+  const listAnlagenQuery = useListAnlagesQuery(undefined, {
     refetchOnWindowFocus: false,
   });
+
+  const [data, setData] = useState<Kunde[]>([]);
 
   const deleteAnlage = useDeleteAnlageMutation();
   const createAnlage = useCreateAnlageMutation();
@@ -45,7 +62,111 @@ const Kunden = () => {
     | undefined
   >(undefined);
 
-  if (isLoading) return <div>Loading...</div>;
+  const columns = useMemo<ColumnDef<Kunde>[]>(
+    () => [
+      {
+        accessorKey: 'index',
+        enableSorting: false,
+        header: ' ',
+        size: 30,
+        cell: (kunde) => <span>{kunde.row.original.index + 1 + '.'}</span>,
+      },
+      {
+        accessorKey: 'firma',
+        enableSorting: false,
+        header: 'Firma',
+        size: 150,
+      },
+    ],
+    [],
+  );
+
+  useEffect(() => {
+    if (!listAnlagenQuery.data?.listAnlages?.items) {
+      return;
+    }
+
+    const anlagenTransformed: Kunde[] =
+      listAnlagenQuery.data.listAnlages.items.map((anlage, index) => {
+        return {
+          id: anlage?.id ?? '',
+          index: index,
+          firma: anlage?.firma ?? '',
+          standort: anlage?.standort ?? '',
+          anschrift: anlage?.anschrift ?? '',
+        };
+      });
+
+    setData([
+      ...anlagenTransformed,
+      {
+        id: '-1',
+        index: anlagenTransformed.length,
+        firma: '',
+        standort: '',
+        anschrift: '',
+      },
+    ]);
+  }, [listAnlagenQuery.data]);
+
+  const table = useReactTable({
+    data: data,
+    columns: columns,
+    // defaultColumn,
+    columnResizeMode: 'onChange',
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    // state: {
+    //   rowSelection,
+    // },
+    // initialState: {
+    //   columnVisibility: {
+    //     angefragt: false,
+    //   },
+    // },
+    // onRowSelectionChange: setRowSelection,
+    // enableMultiRowSelection: false,
+    // getRowId: (row) => row.id,
+    // meta: {
+    //   updateData: (rowIndex, columnId, value) => {
+    //     // Skip age index reset until after next rerender
+    //     // skipAutoResetPageIndex()
+    //     setData((old) =>
+    //       old.map((row, index) => {
+    //         if (index === rowIndex) {
+    //           return {
+    //             ...old[rowIndex]!,
+    //             [columnId]: value,
+    //           };
+    //         }
+    //         return row;
+    //       }),
+    //     );
+    //   },
+    //   addNewStueck: async () => {
+    //     const newStueck = data.at(-1);
+    //     await createStueck.mutateAsync({
+    //       input: {
+    //         projektId,
+    //         kurzspezifikation: newStueck?.kurzspezifikation,
+    //         lieferant: newStueck?.lieferant,
+    //         nennweite: newStueck?.nennweite,
+    //         feinspezifikation: newStueck?.feinspezifikation,
+    //       },
+    //     });
+
+    //     await projektStueli.refetch();
+    //   },
+
+    //   getSelectedRowId: () => record?.index,
+    // },
+    debugTable: false,
+  });
+
+  const tableContainerRef = useRef<HTMLDivElement>(null);
+  const { rows } = table.getRowModel();
+
+  if (listAnlagenQuery.isLoading) return <div>Loading...</div>;
 
   return (
     <div
@@ -53,26 +174,30 @@ const Kunden = () => {
       data-testid="kunden"
     >
       <h1 className="flex text-xl font-semibold">Kunden</h1>
+      <div className="p-6 bg-white rounded-md shadow-md ">
+        <h2 className="text-[15px] font-semibold">Projektstückliste</h2>
+        <DataGrid table={table} tableRef={tableContainerRef} rows={rows} />
+      </div>
       <table className="mt-4">
         <thead>
           <tr>
-            {Object.keys(columns).map((col, index) => (
+            {Object.keys(columnsOld).map((col, index) => (
               <th
                 scope="col"
                 className="relative p-3 text-xs font-semibold text-left text-white whitespace-pre-line align-top bg-bblue-500"
                 key={index}
               >
-                {columns[col]}
+                {columnsOld[col]}
               </th>
             ))}
           </tr>
         </thead>
         <tbody className="bg-gray-50" data-testid="recent-calls-table-body">
-          {data?.listAnlages?.items?.map(
+          {listAnlagenQuery.data?.listAnlages?.items?.map(
             (anlage, row_index) =>
               anlage && (
                 <tr key={row_index} className="border-b border-gray-400">
-                  {Object.keys(columns).map((col, index) => (
+                  {Object.keys(columnsOld).map((col, index) => (
                     <td
                       key={index}
                       className="p-3 text-left whitespace-pre-line"
@@ -86,7 +211,7 @@ const Kunden = () => {
                                 id: anlage?.id,
                               },
                             });
-                            await refetch();
+                            await listAnlagenQuery.refetch();
                           }}
                         >
                           <span>Löschen</span>
@@ -172,7 +297,7 @@ const Kunden = () => {
                           anschrift: newAnlage.anschrift,
                         },
                       });
-                      await refetch();
+                      await listAnlagenQuery.refetch();
                     }}
                   >
                     <span>Einfügen</span>
