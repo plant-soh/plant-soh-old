@@ -1,7 +1,9 @@
 /* istanbul ignore file */
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import ErrorBoundary from '../containers/ErrorBoundary';
 import { Role } from '../lib/api';
+import ErrorPage from '../screens/ErrorScreen';
 
 import { useAuth } from '../providers/AuthProvider';
 
@@ -27,30 +29,32 @@ const MainRouter = () => {
   const { role } = useAuth();
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={withSuspense(NavigationLayout)}>
-          <Route index element={withSuspense(Home)} />
-          <Route path="kunden" element={withSuspense(Kunde)} />
-          <Route
-            path="kunden/:id"
-            element={withSuspense(ReferenzStueckliste)}
-          />
-          <Route path="projekte" element={withSuspense(Projekte)} />
+      <ErrorBoundary showScreen>
+        <Routes>
+          <Route path="/" element={withSuspense(NavigationLayout)}>
+            <Route index element={withSuspense(Home)} />
+            <Route path="kunden" element={withSuspense(Kunde)} />
+            <Route
+              path="kunden/:id"
+              element={withSuspense(ReferenzStueckliste)}
+            />
+            <Route path="projekte" element={withSuspense(Projekte)} />
 
-          <Route
-            path="projekte/:projektId"
-            element={withSuspense(ProjektStueckliste)}
-          />
-          <Route
-            path="projekte/:projektId/record/:recordId"
-            element={withSuspense(ProjektStueckliste)}
-          />
-          {role === Role.Admin && (
-            <Route path="/kundeuser" element={withSuspense(KundeUser)} />
-          )}
-        </Route>
-        <Route path="*" element={<div>Error</div>} />
-      </Routes>
+            <Route
+              path="projekte/:projektId"
+              element={withSuspense(ProjektStueckliste)}
+            />
+            <Route
+              path="projekte/:projektId/record/:recordId"
+              element={withSuspense(ProjektStueckliste)}
+            />
+            {role === Role.Admin && (
+              <Route path="/kundeuser" element={withSuspense(KundeUser)} />
+            )}
+          </Route>
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
+      </ErrorBoundary>
     </BrowserRouter>
   );
 };
