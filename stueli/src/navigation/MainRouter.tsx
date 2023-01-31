@@ -3,9 +3,8 @@ import { lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ErrorBoundary from '../containers/ErrorBoundary';
 import { Role } from '../lib/api';
-import ErrorPage from '../screens/ErrorScreen';
-
 import { useAuth } from '../providers/AuthProvider';
+import ErrorPage from '../screens/ErrorScreen';
 
 const Home = lazy(() => import('../screens/Home'));
 const Projekte = lazy(() => import('../screens/Projekte'));

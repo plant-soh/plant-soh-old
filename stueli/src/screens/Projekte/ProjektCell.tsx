@@ -11,12 +11,12 @@ import EditTable, { EditTableType } from '../../components/Editable';
 import Link from '../../components/Link';
 import {
   ProjektStueliByKurzspezifikationQuery,
-  useDeleteAnlageMutation,
-  useUpdateAnlageMutation,
+  useDeleteProjektMutation,
+  useUpdateProjektMutation,
 } from '../../lib/react-api';
-import { Kunde } from './Kunden';
+import { Projekt } from './Projekte';
 
-export const KundeCell = ({
+export const ProjektCell = ({
   className,
   cellValue,
   row,
@@ -29,10 +29,10 @@ export const KundeCell = ({
 }: {
   className?: string;
   cellValue: any;
-  row: Row<Kunde>;
+  row: Row<Projekt>;
   // rowIndex: number;
   columnId: string;
-  table: Table<Kunde>;
+  table: Table<Projekt>;
   refetch: <TPageData>(
     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
   ) => Promise<
@@ -47,8 +47,8 @@ export const KundeCell = ({
   // We need to keep and update the state of the cell normally
   const [value, setValue] = useState(cellValue);
 
-  const updateAnlage = useUpdateAnlageMutation();
-  const deleteAnlage = useDeleteAnlageMutation();
+  const updateProjekt = useUpdateProjektMutation();
+  const deleteProjekt = useDeleteProjektMutation();
 
   const onSave = async () => {
     table.options.meta?.updateData(row.index, columnId, value);
@@ -57,7 +57,7 @@ export const KundeCell = ({
     if (row.original.id !== '-1') {
       // only update if something changed
       if (cellValue === value) return;
-      await updateAnlage.mutateAsync({
+      await updateProjekt.mutateAsync({
         input: {
           id: row.original.id,
           [columnId]: value,
@@ -93,7 +93,7 @@ export const KundeCell = ({
           as="button"
           className="flex items-center justify-center mx-auto font-medium text-gray-500 transition-colors rounded-full outline-none focus:bg-gray-200 w-7 h-7"
           onClick={async () => {
-            await deleteAnlage.mutateAsync({
+            await deleteProjekt.mutateAsync({
               input: {
                 id: row.original.id,
               },

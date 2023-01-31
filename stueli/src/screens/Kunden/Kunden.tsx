@@ -157,19 +157,14 @@ const Kunden = () => {
   if (listAnlagenQuery.isLoading) return <div>Loading...</div>;
 
   return (
-    <div
-      className="relative flex flex-col w-full h-full gap-6 pb-10 m-6 -mb-6"
-      data-testid="kunden"
-    >
-      <div className="p-6 bg-white rounded-md shadow-md ">
-        <h2 className="text-[15px] font-semibold">Kunden</h2>
-        <DataGrid
-          table={table}
-          tableRef={tableContainerRef}
-          rows={rows}
-          disableKeyNavigation={true}
-        />
-      </div>
+    <div className="p-6 bg-white rounded-md shadow-md ">
+      <h2 className="text-[15px] font-semibold">Kunden</h2>
+      <DataGrid
+        table={table}
+        tableRef={tableContainerRef}
+        rows={rows}
+        disableKeyNavigation={true}
+      />
     </div>
   );
 };
