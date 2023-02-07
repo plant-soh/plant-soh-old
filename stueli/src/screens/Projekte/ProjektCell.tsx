@@ -26,6 +26,7 @@ export const ProjektCell = ({
   refetch,
   editOnDoubleClick = true,
   type = EditTableType.input,
+  selectOptions = [],
 }: {
   className?: string;
   cellValue: any;
@@ -40,6 +41,7 @@ export const ProjektCell = ({
   >;
   editOnDoubleClick?: boolean;
   type?: EditTableType;
+  selectOptions?: any[];
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -123,10 +125,44 @@ export const ProjektCell = ({
           onSave={() => onSave()}
           onCancel={async () => setValue(initialValue)}
           childRef={inputRef as RefObject<HTMLInputElement>}
-          type={type}
+          type={
+            columnId === 'firma' && row.original.id === '-1'
+              ? EditTableType.select
+              : type
+          }
           editOnDoubleClick={editOnDoubleClick}
         >
-          {type === EditTableType.input && (
+          {columnId === 'firma' && row.original.id === '-1' ? (
+            <div>
+              <input
+                className="w-full bg-transparent focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
+                key={columnId}
+                ref={inputRef}
+                type="text"
+                name={columnId}
+                placeholder={columnId}
+                value={value as string}
+                onChange={(e) => {
+                  setValue(e.target.value);
+                }}
+              />
+              {selectOptions.map((option, index) => (
+                <button
+                  style={{ top: 42 + index * 40 }}
+                  className="shadow-xl absolute text-left w-full bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400 hover:bg-blue-100"
+                  key={option}
+                  // ref={inputRef}
+                  onMouseDown={(e) => {
+                    console.log('select option');
+                    setValue(option);
+                    e.currentTarget.blur();
+                  }}
+                >
+                  {String(option)}
+                </button>
+              ))}
+            </div>
+          ) : (
             <input
               className="w-full bg-transparent focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
               key={columnId}

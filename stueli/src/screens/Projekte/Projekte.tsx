@@ -114,6 +114,7 @@ const Projekte = () => {
         columnId={cell.column.id}
         table={cell.table}
         refetch={listProjektQuery.refetch}
+        selectOptions={[true, false]}
       />
     ),
   };
@@ -141,6 +142,7 @@ const Projekte = () => {
         index: projectsTransformed.length,
         firma: '',
         standort: '',
+        projektNummer: 0,
       },
     ]);
   }, [listProjektQuery.data]);
@@ -167,8 +169,8 @@ const Projekte = () => {
         );
       },
       addNewRow: async () => {
-        const newProjekt = data.at(-1);
-        newProjekt;
+        const newProjektItem = data.at(-1);
+        newProjektItem;
         await createProjekt.mutateAsync({
           input: {
             anlageId: '',
