@@ -113,7 +113,7 @@ export const ProjektCell = ({
     <div className="w-full h-full text-left">
       {columnId === 'standort' && row.original.id !== '-1' ? (
         <button className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
-          <Link name="referenz-stueli" to={`/kunden/${row.original.id}`}>
+          <Link name="referenz-stueli" to={`/projekte/${row.original.id}`}>
             <span>{value}</span>
           </Link>
         </button>
@@ -125,44 +125,10 @@ export const ProjektCell = ({
           onSave={() => onSave()}
           onCancel={async () => setValue(initialValue)}
           childRef={inputRef as RefObject<HTMLInputElement>}
-          type={
-            columnId === 'firma' && row.original.id === '-1'
-              ? EditTableType.select
-              : type
-          }
+          type={row.original.id === '-1' ? EditTableType.select : type}
           editOnDoubleClick={editOnDoubleClick}
         >
-          {columnId === 'firma' && row.original.id === '-1' ? (
-            <div>
-              <input
-                className="w-full bg-transparent focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
-                key={columnId}
-                ref={inputRef}
-                type="text"
-                name={columnId}
-                placeholder={columnId}
-                value={value as string}
-                onChange={(e) => {
-                  setValue(e.target.value);
-                }}
-              />
-              {selectOptions.map((option, index) => (
-                <button
-                  style={{ top: 42 + index * 40 }}
-                  className="shadow-xl absolute text-left w-full bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400 hover:bg-blue-100"
-                  key={option}
-                  // ref={inputRef}
-                  onMouseDown={(e) => {
-                    console.log('select option');
-                    setValue(option);
-                    e.currentTarget.blur();
-                  }}
-                >
-                  {String(option)}
-                </button>
-              ))}
-            </div>
-          ) : (
+          <div className="relative flex w-full bg-white">
             <input
               className="w-full bg-transparent focus:bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400"
               key={columnId}
@@ -175,7 +141,22 @@ export const ProjektCell = ({
                 setValue(e.target.value);
               }}
             />
-          )}
+            {selectOptions.map((option, index) => (
+              <button
+                style={{ top: 42 + index * 40 }}
+                className="shadow-xl absolute text-left w-full bg-white outline-none h-10 p-3 focus:ring-[1.5px] focus:ring-indigo-400 hover:bg-blue-100"
+                key={option}
+                // ref={input Ref}
+                onMouseDown={(e) => {
+                  console.log('select option');
+                  setValue(option);
+                  e.currentTarget.blur();
+                }}
+              >
+                {String(option)}
+              </button>
+            ))}
+          </div>
         </EditTable>
       )}
     </div>
