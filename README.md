@@ -6,7 +6,7 @@ We use **yarn** as package manager and **node** for deploying locally. Please ma
 
 ### Projen
 
-The monorepo is managed using [projen](https://github.com/projen/projen).
+The mono-repo is managed using [projen](https://github.com/projen/projen).
 
 ## Landingpage 
 
