@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import avatar from '../../../assets/avatar.svg';
+// import avatar from '../../../assets/avatar.svg';
 // import { usePresence} from "contexts/Presence"
 // import { config } from "utils/configService"
 
@@ -14,9 +14,9 @@ const Profile = ({ name, role }: { name: string; role: string }) => {
   //   presenceColors[Presence.name?.toLowerCase()] || 'ring-morange-500';
   return (
     <div className="px-4 my-auto">
-      <div className="flex-row gap-4 flex justify-center items-center">
+      <div className="flex flex-row items-center justify-center gap-4">
         <div className="flex-shrink-0">
-          <span className="block relative">
+          <span className="relative block">
             <div
               data-testid="ring"
               className={classNames([
@@ -25,7 +25,7 @@ const Profile = ({ name, role }: { name: string; role: string }) => {
             ></div>
             <img
               alt="User Profile picture"
-              src={avatar}
+              src={`https://i.pravatar.cc/40?u=${name}`}
               className={classNames(
                 'mx-auto rounded-full h-[56px] w-[56px] z-10',
               )}
@@ -35,13 +35,13 @@ const Profile = ({ name, role }: { name: string; role: string }) => {
         </div>
         <div className="flex flex-col text-left">
           <span
-            className="text-white text-lg font-medium"
+            className="text-lg font-medium text-white"
             id="profile-username"
           >
             {name}
           </span>
           <span
-            className="text-white text-xs lowercase first-letter:capitalize"
+            className="text-xs text-white lowercase first-letter:capitalize"
             id="profile-role"
           >
             {role}

@@ -1,4 +1,3 @@
-import { ReactComponent as UphealthLogo } from '../../assets/UpHealth_logo_white.svg';
 import { Role } from '../../lib/api';
 import { useAuth } from '../../providers/AuthProvider';
 import NavLeftLink from './Link';
@@ -46,14 +45,14 @@ const NavLeft = ({ className }: { className: string }) => {
       >
         Log Out
       </NavLeftLink>
-      <div>
+      {/* <div>
         <UphealthLogo className="h-6 py-1 mx-auto" />
         <p className="pb-4 text-center text-bblue-450 text-min">
           Powered by UpHealth
           <br />© UpHealth {new Date().getFullYear()}.<br />
           All Rights Reserved.
         </p>
-      </div>
+      </div> */}
     </nav>
   );
 };
