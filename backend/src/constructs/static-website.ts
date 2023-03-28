@@ -1,5 +1,8 @@
 import * as core from 'aws-cdk-lib';
+import * as certificatemanager from 'aws-cdk-lib/aws-certificatemanager';
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
+import * as route53 from 'aws-cdk-lib/aws-route53';
+import * as targets from 'aws-cdk-lib/aws-route53-targets';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment';
 import * as constructs from 'constructs';
@@ -39,17 +42,17 @@ export interface StaticWebsiteProps {
   /**
    * e.g. dashboard . if '' than root
    */
-  // recordName: string;
+  recordName: string;
 
   /**
    * e.g. senjuns.com
    */
-  // domainName: string;
+  domainName: string;
 
   /**
    * e.g. www.senjuns.com
    */
-  // alternativeRecordName?: string;
+  alternativeRecordName?: string;
 
   /**
    * build folder for static website
@@ -64,7 +67,7 @@ export interface StaticWebsiteProps {
 }
 
 export class StaticWebsite extends constructs.Construct {
-  // recordDomainName: string;
+  recordDomainName: string;
   bucketWebsiteUrl: string;
   distributionDomainName: string;
   alternativeRecordDomainName: string | undefined;
@@ -103,24 +106,24 @@ export class StaticWebsite extends constructs.Construct {
     const cloudFrontOAI = new cloudfront.OriginAccessIdentity(this, 'OAI');
     siteBucket.grantRead(cloudFrontOAI.grantPrincipal);
 
-    // const hostedZone = route53.HostedZone.fromLookup(this, 'Zone', {
-    //   domainName: props.domainName,
-    // });
+    const hostedZone = route53.HostedZone.fromLookup(this, 'Zone', {
+      domainName: props.domainName,
+    });
 
-    // const certificate = new certificatemanager.DnsValidatedCertificate(
-    //   this,
-    //   'certificate',
-    //   {
-    //     domainName: `${props.recordName === '' ? '' : props.recordName + '.'}${
-    //       props.domainName
-    //     }`,
-    //     subjectAlternativeNames: props.alternativeRecordName
-    //       ? [`${props.alternativeRecordName}.${props.domainName}`]
-    //       : undefined,
-    //     hostedZone,
-    //     region: 'us-east-1',
-    //   },
-    // );
+    const certificate = new certificatemanager.DnsValidatedCertificate(
+      this,
+      'certificate',
+      {
+        domainName: `${props.recordName === '' ? '' : props.recordName + '.'}${
+          props.domainName
+        }`,
+        subjectAlternativeNames: props.alternativeRecordName
+          ? [`${props.alternativeRecordName}.${props.domainName}`]
+          : undefined,
+        hostedZone,
+        region: 'us-east-1',
+      },
+    );
 
     const distribution = new cloudfront.CloudFrontWebDistribution(
       this,
@@ -143,49 +146,49 @@ export class StaticWebsite extends constructs.Construct {
             responsePagePath: '/index.html',
           },
         ],
-        // viewerCertificate: cloudfront.ViewerCertificate.fromAcmCertificate(
-        //   certificate,
-        //   {
-        //     aliases: props.alternativeRecordName
-        //       ? [
-        //           `${props.recordName === '' ? '' : props.recordName + '.'}${
-        //             props.domainName
-        //           }`,
-        //           `${props.alternativeRecordName}.${props.domainName}`,
-        //         ]
-        //       : [
-        //           `${props.recordName === '' ? '' : props.recordName + '.'}${
-        //             props.domainName
-        //           }`,
-        //         ],
-        //   },
-        // ),
+        viewerCertificate: cloudfront.ViewerCertificate.fromAcmCertificate(
+          certificate,
+          {
+            aliases: props.alternativeRecordName
+              ? [
+                  `${props.recordName === '' ? '' : props.recordName + '.'}${
+                    props.domainName
+                  }`,
+                  `${props.alternativeRecordName}.${props.domainName}`,
+                ]
+              : [
+                  `${props.recordName === '' ? '' : props.recordName + '.'}${
+                    props.domainName
+                  }`,
+                ],
+          },
+        ),
       },
     );
     distribution.applyRemovalPolicy(core.RemovalPolicy.DESTROY);
 
-    // const record = new route53.ARecord(this, 'record', {
-    //   recordName: props.recordName === '' ? undefined : props.recordName,
-    //   target: route53.RecordTarget.fromAlias(
-    //     new targets.CloudFrontTarget(distribution),
-    //   ),
-    //   deleteExisting: true,
-    //   zone: hostedZone,
-    // });
+    const record = new route53.ARecord(this, 'record', {
+      recordName: props.recordName === '' ? undefined : props.recordName,
+      target: route53.RecordTarget.fromAlias(
+        new targets.CloudFrontTarget(distribution),
+      ),
+      deleteExisting: true,
+      zone: hostedZone,
+    });
 
-    // const alternativeRecord = props.alternativeRecordName
-    //   ? new route53.ARecord(this, 'alternativeRecord', {
-    //       recordName: props.alternativeRecordName,
-    //       target: route53.RecordTarget.fromAlias(
-    //         new targets.CloudFrontTarget(distribution),
-    //       ),
-    //       deleteExisting: true,
-    //       zone: hostedZone,
-    //     })
-    //   : undefined;
+    const alternativeRecord = props.alternativeRecordName
+      ? new route53.ARecord(this, 'alternativeRecord', {
+          recordName: props.alternativeRecordName,
+          target: route53.RecordTarget.fromAlias(
+            new targets.CloudFrontTarget(distribution),
+          ),
+          deleteExisting: true,
+          zone: hostedZone,
+        })
+      : undefined;
 
-    // this.recordDomainName = record.domainName;
-    // this.alternativeRecordDomainName = alternativeRecord?.domainName;
+    this.recordDomainName = record.domainName;
+    this.alternativeRecordDomainName = alternativeRecord?.domainName;
     this.distributionDomainName = distribution.distributionDomainName;
 
     // Deploy site contents to S3 bucket
@@ -213,9 +216,9 @@ export class StaticWebsite extends constructs.Construct {
       value: this.bucketWebsiteUrl,
     });
 
-    // new core.CfnOutput(this, 'CustomDomainWebsiteUrl', {
-    //   value: landingPage.recordDomainName,
-    // });
+    new core.CfnOutput(this, 'CustomDomainWebsiteUrl', {
+      value: this.recordDomainName,
+    });
 
     new core.CfnOutput(scope, id + 'WebsiteCloudfrontDomainName', {
       value: this.distributionDomainName,

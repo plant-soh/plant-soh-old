@@ -24,12 +24,12 @@ export class BackendStack extends core.Stack {
   ) {
     super(scope, id, props);
 
-    new StaticWebsite(this, 'LandingPage', {
-      build: '../landingpage/build',
-      // domainName: props.domainName,
-      // recordName: '',
-      // alternativeRecordName: 'www',
-    });
+    // new StaticWebsite(this, 'LandingPage', {
+    //   build: '../landingpage/build',
+    // domainName: props.domainName,
+    // recordName: '',
+    // alternativeRecordName: 'www',
+    // });
 
     // if (!props.userPoolId) {
     const userPool = new cognito.UserPool(
@@ -340,8 +340,8 @@ export class BackendStack extends core.Stack {
 
     new StaticWebsite(this, 'Stueli', {
       build: '../stueli/build',
-      // recordName: 'stueli',
-      // domainName: props.domainName,
+      recordName: '',
+      domainName: 'stueli.plantsoh.de',
       runtimeOptions: {
         jsonPayload: {
           stage: props.stage,
