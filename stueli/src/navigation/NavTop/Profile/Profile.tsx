@@ -25,7 +25,9 @@ const Profile = ({ name, role }: { name: string; role: string }) => {
             ></div>
             <img
               alt="User Profile picture"
-              src={`https://i.pravatar.cc/40?u=${name}`}
+              src={`https://i.pravatar.cc/40?u=${name}-${Math.floor(
+                Date.now() / 1000 / 60,
+              )}`}
               className={classNames(
                 'mx-auto rounded-full h-[56px] w-[56px] z-10',
               )}
