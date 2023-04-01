@@ -1,8 +1,17 @@
 import cs from 'classnames';
 import { ReactNode, useCallback } from 'react';
+import { FaIndustry } from 'react-icons/fa';
+import {
+  IoHomeOutline,
+  IoLogOutOutline,
+  IoSettingsOutline,
+} from 'react-icons/io5';
+import { IconType } from 'react-icons/lib';
+import { MdOutlineEngineering } from 'react-icons/md';
+import { TbCrown } from 'react-icons/tb';
 import { useLocation } from 'react-router-dom';
 import Link from '../../../components/Link';
-// import './Link.scss';
+import './Link.scss';
 
 const baseLeftNavIconStyles = [
   'rounded-full',
@@ -12,19 +21,32 @@ const baseLeftNavIconStyles = [
   'bg-[#F3F8FA]',
 ];
 
+const reactIcons: { [key: string]: IconType } = {
+  IoHomeOutline,
+  IoSettingsOutline,
+  IoLogOutOutline,
+  MdOutlineEngineering,
+  TbCrown,
+  FaIndustry,
+};
+
 const NavLeftLinkChildren = ({
   to,
+  icon,
   children,
 }: {
   to: string;
   icon: string;
   children: ReactNode;
 }) => {
+  // icon;
+  // const icon = 'IoSettingsOutline';
   const activeRoute = useLocation().pathname.split('/')[1] === to.split('/')[1];
   const textColor = activeRoute ? 'text-bblue-440' : 'text-[#605F5E]';
+  const Icon = reactIcons[icon];
 
   return (
-    <div className="flex flex-col group pt-6 pb-3 items-center justify-center">
+    <div className="flex flex-col items-center justify-center pt-6 pb-3 group">
       <div
         className={cs(
           'flex items-center justify-center',
@@ -33,7 +55,11 @@ const NavLeftLinkChildren = ({
             'left-nav-icon-gradient': activeRoute,
           },
         )}
-      ></div>
+      >
+        <Icon
+          className={`text-2xl ${activeRoute ? 'text-white' : 'text-black'}`}
+        />
+      </div>
       <p
         className={cs(
           'text-center text-sm group-hover:text-bblue-440',

@@ -1,6 +1,7 @@
 import { Role } from '../../lib/api';
 import { useAuth } from '../../providers/AuthProvider';
 import NavLeftLink from './Link';
+// import { ReactComponent as HomeIcon } from "assets/navleft/home.svg";
 
 const NavLeft = ({ className }: { className: string }) => {
   const { signOut, role } = useAuth();
@@ -16,16 +17,20 @@ const NavLeft = ({ className }: { className: string }) => {
         Home
       </NavLeftLink>
 
-      <NavLeftLink name={'projekte'} to="/projekte" icon="IoHomeOutline">
+      <NavLeftLink name={'projekte'} to="/projekte" icon="FaIndustry">
         Projekte
       </NavLeftLink>
 
-      <NavLeftLink name={'kunden'} to="/kunden" icon="IoHomeOutline">
+      <NavLeftLink name={'kunden'} to="/kunden" icon="TbCrown">
         Kunden
       </NavLeftLink>
 
       {role === Role.Admin && (
-        <NavLeftLink name={'kundeuser'} to="/kundeuser" icon="IoHomeOutline">
+        <NavLeftLink
+          name={'kundeuser'}
+          to="/kundeuser"
+          icon="MdOutlineEngineering"
+        >
           Kunden User
         </NavLeftLink>
       )}

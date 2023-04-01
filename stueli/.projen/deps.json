@@ -321,10 +321,6 @@
       "type": "runtime"
     },
     {
-      "name": "react-input-suggestions",
-      "type": "runtime"
-    },
-    {
       "name": "react-konva",
       "type": "runtime"
     },
