@@ -31,7 +31,7 @@ const NavLeft = ({ className }: { className: string }) => {
           to="/kundeuser"
           icon="MdOutlineEngineering"
         >
-          Kunden User
+          Anlagenbauer
         </NavLeftLink>
       )}
 

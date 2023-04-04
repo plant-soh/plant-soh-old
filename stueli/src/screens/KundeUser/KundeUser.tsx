@@ -61,7 +61,7 @@ const KundeUser = () => {
       className="relative flex flex-col w-full h-full gap-6 pb-10 m-6 -mb-6"
       data-testid="kundeuser"
     >
-      <h1 className="flex text-xl font-semibold">Kunde User</h1>
+      <h1 className="flex text-xl font-semibold">Anlagenbauer</h1>
       <table className="mt-4">
         <thead>
           <tr>
